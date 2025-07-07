@@ -50,6 +50,7 @@ class _MainScreenState extends BaseState<MainScreen> {
       setState(() {});
     }
   }
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget baseBuild(BuildContext context) {
@@ -60,6 +61,7 @@ class _MainScreenState extends BaseState<MainScreen> {
         statusBarBrightness: Brightness.dark,
       ),
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           elevation: 0,
@@ -87,7 +89,9 @@ class _MainScreenState extends BaseState<MainScreen> {
                     height: 20,
                     color: ColorSchemes.white,
                   ),
-                  onPressed: () => {},
+                  onPressed: () {
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
                 ),
           actions: _selectedIndex != 0
               ? null

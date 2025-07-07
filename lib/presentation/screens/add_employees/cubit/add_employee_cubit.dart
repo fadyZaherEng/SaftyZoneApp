@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:hatif_mobile/core/resources/data_state.dart';
+import 'package:hatif_mobile/core/utils/upload_image_to_server.dart';
 import 'package:hatif_mobile/data/sources/remote/safty_zone/auth/entity/remote_generate_url.dart';
 import 'package:hatif_mobile/di/data_layer_injector.dart';
 import 'package:hatif_mobile/domain/entities/auth/create_employee.dart';
@@ -51,7 +52,7 @@ class AddEmployeeCubit extends Cubit<AddEmployeeState> {
     debugPrint("\n===== [AddEmployeeCubit] Generate presigned URL =====");
     DataState<List<RemoteGenerateUrl>> result =
         await _generateImageUrlUseCase();
-    bool isSuccess = await _pickAndUploadImage(
+    bool isSuccess = await uploadImageToServer(
       File(photoPath),
       result.data?.first.presignedURL ?? '',
     );
@@ -69,33 +70,6 @@ class AddEmployeeCubit extends Cubit<AddEmployeeState> {
           ),
         ),
       );
-    }
-  }
-
-  Future<bool> _pickAndUploadImage(File pickedFile, String uploadUrl) async {
-    try {
-      final bytes = await pickedFile.readAsBytes();
-
-      debugPrint("📡 Uploading to: $uploadUrl");
-
-      final response = await http.put(
-        Uri.parse(uploadUrl),
-        headers: {
-          'Content-Type': 'image/jpeg', // or image/png based on file type
-        },
-        body: bytes,
-      );
-
-      if (response.statusCode == 200) {
-        debugPrint("✅ Upload success");
-        return true;
-      } else {
-        debugPrint("❌ Upload failed: ${response.statusCode}");
-        return false;
-      }
-    } catch (e) {
-      debugPrint("❌ Error: $e");
-      return false;
     }
   }
 
@@ -132,7 +106,7 @@ class AddEmployeeCubit extends Cubit<AddEmployeeState> {
     required String functionalTitle,
     required List<String> tasks,
     String? notes,
-  }) async{
+  }) async {
     final updated = state.employee.copyWith(
       functionalTitle: functionalTitle,
       tasks: tasks,

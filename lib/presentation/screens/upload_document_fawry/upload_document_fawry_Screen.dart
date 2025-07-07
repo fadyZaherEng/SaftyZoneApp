@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +11,9 @@ import 'package:hatif_mobile/core/resources/image_paths.dart';
 import 'package:hatif_mobile/core/utils/permission_service_handler.dart';
 import 'package:hatif_mobile/core/utils/show_action_dialog_widget.dart';
 import 'package:hatif_mobile/core/utils/show_snack_bar.dart';
+import 'package:hatif_mobile/di/data_layer_injector.dart';
 import 'package:hatif_mobile/domain/entities/main/requests/request.dart';
+import 'package:hatif_mobile/domain/usecase/get_language_use_case.dart';
 import 'package:hatif_mobile/generated/l10n.dart';
 import 'package:hatif_mobile/presentation/blocs/upload_doc/upload_doc_bloc.dart';
 import 'package:hatif_mobile/presentation/widgets/custom_button_widget.dart';
@@ -44,7 +45,7 @@ class _UploadDocumentFawryScreenState
     return BlocConsumer<UploadDocBloc, UploadDocState>(
       listener: (context, state) {
         if (state is UploadDocSuccessState) {
-          _isExpandedUpload = !_isExpandedUpload;
+          _isExpandedUpload = true;
           imageFile = state.url;
           showSnackBar(
             context: context,
@@ -120,122 +121,155 @@ class _UploadDocumentFawryScreenState
                   ),
                 if (_isExpandedUpload) const SizedBox(height: 8),
                 if (_isExpandedUpload)
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: Card(
-                          elevation: 2,
-                          margin: const EdgeInsets.only(bottom: 12),
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 10),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SvgPicture.asset(
-                                  ImagePaths.pdf,
-                                  width: 32.w,
-                                  height: 32.h,
-                                ),
-                                const SizedBox(width: 8),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      S.of(context).instantLicenseForCompany,
-                                      style: TextStyle(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      fileSize ?? '',
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _dotsOpen = !_dotsOpen;
-                                    });
-                                  },
-                                  icon: SvgPicture.asset(
-                                    ImagePaths.dots,
-                                    width: 24.w,
-                                    height: 24.h,
-                                  ),
-                                )
-                              ],
+                  SizedBox(
+                    height: 200.h,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          height: 80.h,
+                          child: Card(
+                            elevation: 2,
+                            margin: const EdgeInsets.only(bottom: 12),
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ),
-                        ),
-                      ),
-                      if (_dotsOpen)
-                        Positioned(
-                          left: 50.w,
-                          top: 40.h,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: ColorSchemes.white,
-                              border: Border.all(color: ColorSchemes.white),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 8,
-                                  offset: const Offset(0, -2),
-                                )
-                              ],
-                              borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
-                                bottomLeft: Radius.circular(10),
-                                topLeft: Radius.circular(10),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 10,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SvgPicture.asset(
+                                    ImagePaths.pdf,
+                                    width: 32.w,
+                                    height: 32.h,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        S.of(context).instantLicenseForCompany,
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        fileSize ?? '',
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _dotsOpen = !_dotsOpen;
+                                      });
+                                    },
+                                    icon: SvgPicture.asset(
+                                      ImagePaths.dots,
+                                      width: 24.w,
+                                      height: 24.h,
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
-                            child: Column(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    _pickPDFFile();
-                                  },
-                                  icon: SvgPicture.asset(
-                                    ImagePaths.edit,
-                                    width: 24.w,
-                                    height: 24.h,
-                                    semanticsLabel: S.of(context).edit,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    uploadDocBloc.add(DeleteDocEvent(
-                                        docPath: imageFile ?? ''));
-                                  },
-                                  icon: SvgPicture.asset(
-                                    ImagePaths.delete,
-                                    width: 24.w,
-                                    height: 24.h,
-                                    semanticsLabel: S.of(context).delete,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ),
-                    ],
+                        if (_dotsOpen)
+                          Positioned(
+                            left: GetLanguageUseCase(injector())() == 'ar'
+                                ? 50.w
+                                : null,
+                            right: GetLanguageUseCase(injector())() == 'en'
+                                ? 50.w
+                                : null,
+                            top: 40.h,
+                            child: Material(
+                              elevation: 5,
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: ColorSchemes.white,
+                                  border: Border.all(color: ColorSchemes.white),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 8,
+                                      offset: const Offset(0, -2),
+                                    )
+                                  ],
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                    topLeft: Radius.circular(10),
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 8),
+                                    SizedBox(
+                                      height: 48.h,
+                                      child: IconButton(
+                                        onPressed: _pickPDFFile,
+                                        icon: SvgPicture.asset(
+                                          ImagePaths.edit,
+                                          width: 24.w,
+                                          height: 24.h,
+                                          semanticsLabel: S.of(context).edit,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    SizedBox(
+                                      height: 48.h,
+                                      child: InkWell(
+                                        onTap: () {
+                                          print("✅ DELETE TAPPED");
+                                          uploadDocBloc.add(DeleteDocEvent(
+                                              docPath: imageFile ?? ''));
+                                          setState(() {
+                                            _dotsOpen = false;
+                                            _isExpandedUpload = false;
+                                            imageFile = null;
+                                          });
+                                        },
+                                        child: Container(
+                                          width: 48.w,
+                                          height: 48.h,
+                                          alignment: Alignment.center,
+                                          child: SvgPicture.asset(
+                                            ImagePaths.delete,
+                                            width: 24.w,
+                                            height: 24.h,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 const Spacer(),
                 SizedBox(
@@ -424,7 +458,7 @@ class _UploadDocumentFawryScreenState
         final String filePath = result.files.single.path!;
         XFile imageFile = XFile(filePath);
         //ToDO: Save File
-        fileSize = "${await getFileSize(imageFile)} mb";
+        fileSize = "${(await getFileSize(imageFile)).toStringAsFixed(2)} mb";
         // ToDO: Upload File in Server
         uploadDocBloc.add(UploadDocumentEvent(docPath: imageFile.path));
       }
