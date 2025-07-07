@@ -343,7 +343,8 @@
   "instantLicenseForCompany": " رخصة فورية للشركة",
   "delete": "حذف",
   "storagePermissionIsRequiredToProceed": "تحتاج الى صلاحية المخزن للمتابعة",
-  "deletedSuccessfully": "تم الحذف بنجاح"
+  "deletedSuccessfully": "تم الحذف بنجاح",
+  "imageUploadError": "حدث خطأ في رفع الصورة"
 
 
 

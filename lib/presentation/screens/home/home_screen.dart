@@ -211,20 +211,24 @@ class _HomeScreenState extends BaseState<HomeScreen> {
               color: isColor ? Color(0XFF133769) : null,
             ),
             const SizedBox(height: 16),
-            Text(
-              item.value,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: ColorSchemes.primary,
+            Center(
+              child: Text(
+                item.value,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: ColorSchemes.primary,
+                ),
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              item.label,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.black,
+            Center(
+              child: Text(
+                item.label,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.black,
+                ),
               ),
             ),
             const SizedBox(height: 16),

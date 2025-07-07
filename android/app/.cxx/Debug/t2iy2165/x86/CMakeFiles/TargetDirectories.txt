@@ -1,0 +1,2 @@
+E:/safty_zone_app/android/app/.cxx/Debug/t2iy2165/x86/CMakeFiles/edit_cache.dir
+E:/safty_zone_app/android/app/.cxx/Debug/t2iy2165/x86/CMakeFiles/rebuild_cache.dir
