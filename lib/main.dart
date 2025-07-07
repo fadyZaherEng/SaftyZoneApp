@@ -29,8 +29,9 @@ import 'package:hatif_mobile/presentation/widgets/restart_widget.dart';
 import 'package:huawei_hmsavailability/huawei_hmsavailability.dart';
 
 void main() async {
+  ChuckerFlutter.showOnRelease = true;
+  ChuckerFlutter.showNotification = true;
   WidgetsFlutterBinding.ensureInitialized();
-
   await initializeDependencies();
   await initFirebaseService();
   SystemChrome.setPreferredOrientations([
@@ -127,23 +128,14 @@ class _MyAppState extends State<MyApp> {
 
   Widget _buildInitialScreen(BuildContext context, Widget? child) {
     return Navigator(
-      observers: [
-        ChuckerFlutter.navigatorObserver,
-        routeObserver,
-      ],
+      observers: [ChuckerFlutter.navigatorObserver, routeObserver],
       key: navigatorKey,
       onUnknownRoute: (RouteSettings settings) {
-        return MaterialPageRoute(
-          builder: (_) => SplashScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => SplashScreen());
       },
       initialRoute: Routes.splash,
       onGenerateInitialRoutes: (navigator, initialRoute) {
-        return [
-          MaterialPageRoute(
-            builder: (_) => SplashScreen(),
-          ),
-        ];
+        return [MaterialPageRoute(builder: (_) => SplashScreen())];
       },
       onGenerateRoute: RoutesManager.getRoute,
     );
@@ -186,8 +178,8 @@ Future<void> initFirebaseService() async {
       if (Platform.isIOS) {
         await _initializeFirebaseServices();
       } else {
-        final int resultCode =
-            await HmsApiAvailability().isHMSAvailableWithApkVersion(28);
+        final int resultCode = await HmsApiAvailability()
+            .isHMSAvailableWithApkVersion(28);
         if (resultCode == 1) {
           await _initializeFirebaseServices();
         } else {
