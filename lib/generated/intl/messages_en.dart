@@ -322,6 +322,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "imagePickError": MessageLookupByLibrary.simpleMessage(
       "Failed to select image. Please try again.",
     ),
+    "imageUploadError": MessageLookupByLibrary.simpleMessage(
+      "Image upload error",
+    ),
     "inValidPhoneNumber": MessageLookupByLibrary.simpleMessage(
       "Invalid phone number",
     ),

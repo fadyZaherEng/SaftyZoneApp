@@ -343,6 +343,7 @@
   "instantLicenseForCompany": "Instant License for Company",
   "delete": "Delete",
   "storagePermissionIsRequiredToProceed": "Storage permission is required to proceed",
-  "deletedSuccessfully": "Deleted successfully"
+  "deletedSuccessfully": "Deleted successfully",
+  "imageUploadError": "Image upload error"
 }
 

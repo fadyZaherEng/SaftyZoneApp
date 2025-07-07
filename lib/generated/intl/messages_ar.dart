@@ -303,6 +303,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "imagePickError": MessageLookupByLibrary.simpleMessage(
       "فشل في تحديد الصورة. حاول مرة اخرى.",
     ),
+    "imageUploadError": MessageLookupByLibrary.simpleMessage(
+      "حدث خطأ في رفع الصورة",
+    ),
     "inValidPhoneNumber": MessageLookupByLibrary.simpleMessage(
       "رقم هاتف غير صالح",
     ),

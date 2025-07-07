@@ -3031,6 +3031,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Image upload error`
+  String get imageUploadError {
+    return Intl.message(
+      'Image upload error',
+      name: 'imageUploadError',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

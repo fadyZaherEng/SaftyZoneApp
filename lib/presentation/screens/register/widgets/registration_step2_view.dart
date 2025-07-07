@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hatif_mobile/config/theme/color_schemes.dart';
+import 'package:hatif_mobile/core/resources/data_state.dart';
 import 'package:hatif_mobile/core/resources/image_paths.dart';
 import 'package:hatif_mobile/core/utils/helpers/helper_functions.dart';
 import 'package:hatif_mobile/core/utils/permission_service_handler.dart';
 import 'package:hatif_mobile/core/utils/show_action_dialog_widget.dart';
 import 'package:hatif_mobile/core/utils/show_bottom_sheet_upload_media.dart';
 import 'package:hatif_mobile/core/utils/show_snack_bar.dart';
+import 'package:hatif_mobile/core/utils/upload_image_to_server.dart';
+import 'package:hatif_mobile/data/sources/remote/safty_zone/auth/entity/remote_generate_url.dart';
+import 'package:hatif_mobile/di/data_layer_injector.dart';
 import 'package:hatif_mobile/domain/entities/vendor_registration_model.dart';
+import 'package:hatif_mobile/domain/usecase/auth/generate_image_use_case.dart';
 import 'package:hatif_mobile/generated/l10n.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
@@ -554,20 +559,52 @@ class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
     }
   }
 
-  void _uploadCommercialRegDoc(File file) {
-    setState(() {
-      _commercialRegDoc = file;
-      _hasCommercialDoc = true;
-      widget.vendorData.commercialRegistrationDocumentPath = file.path;
-    });
+  Future<void> _uploadCommercialRegDoc(File file) async {
+    DataState<List<RemoteGenerateUrl>> result =
+        await GenerateImageUrlUseCase(injector())();
+    bool isSuccess = await uploadImageToServer(
+      file,
+      result.data?.first.presignedURL ?? '',
+    );
+    if (isSuccess) {
+      setState(() {
+        _commercialRegDoc = file;
+        _hasCommercialDoc = true;
+        widget.vendorData.commercialRegistrationDocumentPath =
+            result.data?.first.mediaUrl ?? file.path;
+      });
+    } else {
+      showSnackBar(
+        context: context,
+        message: S.of(context).imageUploadError,
+        color: ColorSchemes.warning,
+        icon: ImagePaths.error,
+      );
+    }
   }
 
-  void _uploadCivilDefenseDoc(File file) {
-    setState(() {
-      _civilDefenseDoc = file;
-      _hasCivilDefenseDoc = true;
-      widget.vendorData.civilDefensePermitDocumentPath = file.path;
-    });
+  Future<void> _uploadCivilDefenseDoc(File file) async {
+    DataState<List<RemoteGenerateUrl>> result =
+        await GenerateImageUrlUseCase(injector())();
+    bool isSuccess = await uploadImageToServer(
+      file,
+      result.data?.first.presignedURL ?? '',
+    );
+    if (isSuccess) {
+      setState(() {
+        _civilDefenseDoc = file;
+        _hasCivilDefenseDoc = true;
+        widget.vendorData.civilDefensePermitDocumentPath =
+            result.data?.first.mediaUrl ?? file.path;
+      });
+    } else {
+      showSnackBar(
+        context: context,
+        message: S.of(context).imageUploadError,
+        color: ColorSchemes.warning,
+        icon: ImagePaths.error,
+      );
+    }
   }
 
   Future<void> _selectDate(BuildContext context, DateTime? initialDate,

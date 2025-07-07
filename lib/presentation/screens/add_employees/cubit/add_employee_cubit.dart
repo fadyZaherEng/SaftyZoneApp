@@ -49,9 +49,7 @@ class AddEmployeeCubit extends Cubit<AddEmployeeState> {
   }
 
   void updatePhoto(String photoPath) async {
-    debugPrint("\n===== [AddEmployeeCubit] Generate presigned URL =====");
-    DataState<List<RemoteGenerateUrl>> result =
-        await _generateImageUrlUseCase();
+    DataState<List<RemoteGenerateUrl>> result = await _generateImageUrlUseCase();
     bool isSuccess = await uploadImageToServer(
       File(photoPath),
       result.data?.first.presignedURL ?? '',
@@ -59,8 +57,6 @@ class AddEmployeeCubit extends Cubit<AddEmployeeState> {
     if (isSuccess) {
       final updated = state.employee
           .copyWith(photoPath: result.data?.first.mediaUrl ?? photoPath);
-      debugPrint("\n===== [AddEmployeeCubit] Updated employee photo =====");
-      debugPrint(updated.photoPath);
       emit(state.copyWith(employee: updated));
     } else {
       emit(
