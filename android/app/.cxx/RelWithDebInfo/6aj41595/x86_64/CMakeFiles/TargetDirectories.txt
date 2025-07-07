@@ -1,0 +1,2 @@
+E:/safty-zone/android/app/.cxx/RelWithDebInfo/6aj41595/x86_64/CMakeFiles/edit_cache.dir
+E:/safty-zone/android/app/.cxx/RelWithDebInfo/6aj41595/x86_64/CMakeFiles/rebuild_cache.dir

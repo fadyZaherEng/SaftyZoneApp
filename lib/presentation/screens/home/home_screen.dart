@@ -1,0 +1,236 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hatif_mobile/config/theme/color_schemes.dart';
+import 'package:hatif_mobile/core/base/widget/base_stateful_widget.dart';
+import 'package:hatif_mobile/core/resources/data_state.dart';
+import 'package:hatif_mobile/core/resources/image_paths.dart';
+import 'package:hatif_mobile/di/data_layer_injector.dart';
+import 'package:hatif_mobile/domain/entities/auth/check_auth.dart';
+import 'package:hatif_mobile/domain/usecase/auth/check_auth_use_case.dart';
+import 'package:hatif_mobile/generated/l10n.dart';
+
+class DashboardItem {
+  final String value;
+  final String label;
+  final String icon;
+
+  DashboardItem(this.value, this.label, this.icon);
+}
+
+class HomeScreen extends BaseStatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  BaseState<HomeScreen> baseCreateState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends BaseState<HomeScreen> {
+  CheckAuth _checkAuth = const CheckAuth();
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    DataState<CheckAuth> dataState = await CheckAuthUseCase(injector())();
+    if (dataState is DataSuccess) {
+      _checkAuth = dataState.data ?? const CheckAuth();
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget baseBuild(BuildContext context) {
+    final s = S.of(context);
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildGreetingSection(s),
+                const SizedBox(height: 16),
+                _buildSearchSection(context),
+                const SizedBox(height: 16),
+                _buildGridDashboard(context, s),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGreetingSection(S s) {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${s.welcome}, ${_checkAuth.employeeDetails.fullName}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.sp,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                s.dailyTasksSubtitle,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.black54,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(width: 12.w),
+        Transform.rotate(
+          angle: 3.14 * 2,
+          child: SvgPicture.asset(
+            ImagePaths.hello,
+            width: 48.w,
+            height: 48.h,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSearchSection(BuildContext context) {
+    final s = S.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 10),
+        SizedBox(
+          height: 42.h,
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: s.searchHint,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.all(12),
+                child: SvgPicture.asset(
+                  ImagePaths.search,
+                  color: Colors.grey,
+                  width: 16.w,
+                  height: 16.h,
+                ),
+              ),
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 16.w,
+                  height: 16.h,
+                  child: SvgPicture.asset(
+                    ImagePaths.filter,
+                    color: ColorSchemes.primary,
+                    width: 16.w,
+                    height: 16.h,
+                  ),
+                ),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+            ),
+          ),
+        ),
+        const SizedBox(height: 32),
+      ],
+    );
+  }
+
+  Widget _buildGridDashboard(BuildContext context, S s) {
+    final items = [
+      DashboardItem('30', s.newRequests, ImagePaths.news),
+      DashboardItem('5', s.maintenanceReports, ImagePaths.technical),
+      DashboardItem('10', s.pendingRequests, ImagePaths.requests),
+      DashboardItem('8', s.priceOffers, ImagePaths.work),
+      DashboardItem('12', s.todayTasks, ImagePaths.groups),
+    ];
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(child: _buildDashboardCard(context, items[0])),
+              const SizedBox(width: 16),
+              Expanded(child: _buildDashboardCard(context, items[1])),
+              const SizedBox(width: 16),
+              Expanded(
+                  child: _buildDashboardCard(context, items[2], isColor: true)),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(child: _buildDashboardCard(context, items[3])),
+              const SizedBox(width: 16),
+              Expanded(child: _buildDashboardCard(context, items[4])),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDashboardCard(
+    BuildContext context,
+    DashboardItem item, {
+    bool isColor = false,
+  }) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 1,
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SvgPicture.asset(
+              item.icon,
+              width: 32.w,
+              height: 32.h,
+              color: isColor ? Color(0XFF133769) : null,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              item.value,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: ColorSchemes.primary,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              item.label,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+}
