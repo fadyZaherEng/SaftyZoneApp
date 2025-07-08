@@ -534,6 +534,9 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
     );
   }
 
+  List<String> technicianList = ['Ali Hassan', 'Mohamed Fathy', 'Sara Ahmed'];
+  String selectedTechnician = 'Ali Hassan';
+
   Widget _buildTermsTab() {
     final s = S.of(context);
 
@@ -582,7 +585,7 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  "${s.technicianResponsibleForInstallingTheEquipment} : ",
+                  "${S.of(context).technicianResponsibleForInstallingTheEquipment} : ",
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 15.sp,
@@ -590,12 +593,27 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
                 ),
               ),
               const SizedBox(width: 8),
-              Text(
-                "ali hassan",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15.sp,
-                ),
+              DropdownButton<String>(
+                value: selectedTechnician,
+                onChanged: (value) {
+                  setState(() {
+                    selectedTechnician = value!;
+                  });
+                },
+                items: technicianList.map((name) {
+                  return DropdownMenuItem(
+                    value: name,
+                    child: Text(
+                      name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.sp,
+                        color: ColorSchemes.black,
+                      ),
+                    ),
+                  );
+                }).toList(),
+                underline: const SizedBox(), // remove default underline
               ),
             ],
           ),
