@@ -9,23 +9,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hatif_mobile/config/routes/routes_manager.dart';
-import 'package:hatif_mobile/config/theme/app_theme.dart';
-import 'package:hatif_mobile/core/utils/bloc_observer.dart';
-import 'package:hatif_mobile/core/utils/network_connectivity.dart';
-import 'package:hatif_mobile/core/utils/notifications/firebase_notification_services.dart';
-import 'package:hatif_mobile/core/utils/show_no_internet_dialog_widget.dart';
-import 'package:hatif_mobile/di/injector.dart';
-import 'package:hatif_mobile/domain/usecase/get_firebase_notification_token_use_case.dart';
-import 'package:hatif_mobile/generated/l10n.dart';
-import 'package:hatif_mobile/presentation/blocs/main/main_cubit.dart';
-import 'package:hatif_mobile/presentation/blocs/requests/requests_bloc.dart';
-import 'package:hatif_mobile/presentation/blocs/term_conditions/term_conditions_bloc.dart';
-import 'package:hatif_mobile/presentation/blocs/theme/theme_cubit.dart';
-import 'package:hatif_mobile/presentation/blocs/upload_doc/upload_doc_bloc.dart';
-import 'package:hatif_mobile/presentation/blocs/working_progress/working_progress_bloc.dart';
-import 'package:hatif_mobile/presentation/screens/splash/splash_screen.dart';
-import 'package:hatif_mobile/presentation/widgets/restart_widget.dart';
+import 'package:safety_zone/src/config/routes/routes_manager.dart';
+import 'package:safety_zone/src/config/theme/app_theme.dart';
+import 'package:safety_zone/src/core/utils/bloc_observer.dart';
+import 'package:safety_zone/src/core/utils/network_connectivity.dart';
+import 'package:safety_zone/src/core/utils/notifications/firebase_notification_services.dart';
+import 'package:safety_zone/src/core/utils/show_no_internet_dialog_widget.dart';
+import 'package:safety_zone/src/di/injector.dart';
+import 'package:safety_zone/src/domain/usecase/get_firebase_notification_token_use_case.dart';
+import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/presentation/blocs/main/main_cubit.dart';
+import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
+import 'package:safety_zone/src/presentation/blocs/term_conditions/term_conditions_bloc.dart';
+import 'package:safety_zone/src/presentation/blocs/theme/theme_cubit.dart';
+import 'package:safety_zone/src/presentation/blocs/upload_doc/upload_doc_bloc.dart';
+import 'package:safety_zone/src/presentation/blocs/working_progress/working_progress_bloc.dart';
+import 'package:safety_zone/src/presentation/screens/splash/splash_screen.dart';
+import 'package:safety_zone/src/presentation/screens/main/main_screen.dart';
+import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
 import 'package:huawei_hmsavailability/huawei_hmsavailability.dart';
 
 void main() async {
@@ -98,7 +99,7 @@ class _MyAppState extends State<MyApp> {
                       ],
                       supportedLocales: S.delegate.supportedLocales,
                       onGenerateRoute: RoutesManager.getRoute,
-                      initialRoute: Routes.splash,
+                      // initialRoute: Routes.splash,
                       localizationsDelegates: const [
                         S.delegate,
                         GlobalMaterialLocalizations.delegate,
@@ -112,9 +113,10 @@ class _MyAppState extends State<MyApp> {
                       themeMode: themeState,
                       locale: locale,
                       // Pass versionCode when navigating to the splash screen
-                      builder: (context, child) {
-                        return _buildInitialScreen(context, child);
-                      },
+                      // builder: (context, child) {
+                      //   return _buildInitialScreen(context, child);
+                      // },
+                      home: MainScreen(),
                     ),
                   );
                 },
@@ -178,8 +180,8 @@ Future<void> initFirebaseService() async {
       if (Platform.isIOS) {
         await _initializeFirebaseServices();
       } else {
-        final int resultCode = await HmsApiAvailability()
-            .isHMSAvailableWithApkVersion(28);
+        final int resultCode =
+            await HmsApiAvailability().isHMSAvailableWithApkVersion(28);
         if (resultCode == 1) {
           await _initializeFirebaseServices();
         } else {
