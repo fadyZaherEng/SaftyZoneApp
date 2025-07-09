@@ -361,7 +361,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-               children: [
+              children: [
                 Expanded(
                   child: InkWell(
                     onTap: () => _openMap(
@@ -428,11 +428,19 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
   }
 
   void _acceptRequest(BuildContext context, Requests request) {
-    Navigator.pushNamed(
-      context,
-      Routes.requestDetailsScreen,
-      arguments: {'requestId': request.Id},
-    );
+    if (request.requestType == RequestType.InstallationCertificate.name) {
+      Navigator.pushNamed(
+        context,
+        Routes.requestDetailsScreen,
+        arguments: {'requestId': request.Id},
+      );
+    } else if (request.requestType == RequestType.MaintenanceContract.name) {
+      //TODO: navigate to Maintenance Contract
+    } else if (request.requestType == RequestType.EngineeringInspection.name) {
+      //TODO: navigate to Engineering Inspection
+    } else if (request.requestType == RequestType.FireExtinguisher.name) {
+      //TODO: navigate to Fire Extinguisher
+    }
   }
 
   void _openMap(double first, double last) async {

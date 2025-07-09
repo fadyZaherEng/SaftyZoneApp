@@ -20,8 +20,8 @@ class SystemType {
 }
 
 enum RequestType {
-  InstallationCertificate,
-  EngineeringInspection,
-  MaintenanceContract,
-  FireExtinguisher
+  InstallationCertificate,//  شهادة تركيب
+  EngineeringInspection,// فحص هندسي
+  MaintenanceContract,// عقد صيانة
+  FireExtinguisher,//طفاية حريق
 }
