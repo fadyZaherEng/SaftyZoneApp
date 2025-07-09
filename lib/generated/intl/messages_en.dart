@@ -527,6 +527,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "progressPercentage": m0,
     "quantitiesTable": MessageLookupByLibrary.simpleMessage("Quantities Table"),
     "quantity": MessageLookupByLibrary.simpleMessage("Quantity"),
+    "quantityPay": MessageLookupByLibrary.simpleMessage("Quantity Pay"),
     "quotationSubmission": MessageLookupByLibrary.simpleMessage(
       "Quotation Submission",
     ),

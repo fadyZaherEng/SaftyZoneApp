@@ -3331,6 +3331,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Quantity Pay`
+  String get quantityPay {
+    return Intl.message(
+      'Quantity Pay',
+      name: 'quantityPay',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

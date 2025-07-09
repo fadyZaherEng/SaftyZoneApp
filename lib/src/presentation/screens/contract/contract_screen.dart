@@ -34,7 +34,7 @@ class _ContractsScreenState extends BaseState<ContractsScreen> {
         children: [
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
               itemCount: 2,
               itemBuilder: (context, index) => ContractCard(index: index),
             ),
@@ -59,14 +59,15 @@ class ContractCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       shadowColor: Color(0xFFD9D7D7),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Image.asset('assets/images/logo.png', height: 40),
-                const SizedBox(width: 8),
+                const SizedBox(width: 4),
+                const Spacer(),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -83,6 +84,14 @@ class ContractCard extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: 14.sp,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: _buildTextField(
+                        S.of(context).quantityPay,
+                        TextEditingController(),
                       ),
                     ),
                   ],
@@ -243,6 +252,56 @@ class ContractCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTextField(String label, TextEditingController controller) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 12.sp,
+            color: ColorSchemes.black,
+          ),
+        ),
+        const SizedBox(width: 8),
+        SizedBox(
+          width: 80,
+          height: 34,
+          child: TextFormField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFDDDDDD)),
+                borderRadius: BorderRadius.all(Radius.circular(0)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFA50000)),
+                borderRadius: BorderRadius.all(Radius.circular(0)),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFA50000)),
+                borderRadius: BorderRadius.all(Radius.circular(0)),
+              ),
+              filled: true,
+              fillColor: ColorSchemes.white,
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFDDDDDD)),
+                borderRadius: BorderRadius.all(Radius.circular(0)),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

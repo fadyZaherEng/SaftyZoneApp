@@ -377,6 +377,7 @@
   "printReport": "Print Report",
   "renewContract": "Renew Contract",
   "chooseNonRenewalReason": "Choose reason for non-renewal",
-  "printContract": "Print Contract"
+  "printContract": "Print Contract",
+  "quantityPay": "Quantity Pay"
 }
 

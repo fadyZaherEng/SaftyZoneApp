@@ -377,5 +377,6 @@
   "printReport": "طباعة التقرير",
   "renewContract": "تجديد العقد",
   "chooseNonRenewalReason": "اختر سبب عدم التجديد",
-  "printContract": "طباعة العقد"
+  "printContract": "طباعة العقد",
+  "quantityPay": "الكمية المدفوعة"
 }

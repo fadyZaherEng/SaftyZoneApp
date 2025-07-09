@@ -495,6 +495,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "progressPercentage": m0,
     "quantitiesTable": MessageLookupByLibrary.simpleMessage("جدول الكميات"),
     "quantity": MessageLookupByLibrary.simpleMessage("الكمية"),
+    "quantityPay": MessageLookupByLibrary.simpleMessage("الكمية المدفوعة"),
     "receiveExtinguishers": MessageLookupByLibrary.simpleMessage(
       "استلام الطفايات",
     ),
