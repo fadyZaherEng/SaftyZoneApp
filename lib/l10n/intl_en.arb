@@ -344,6 +344,7 @@
   "delete": "Delete",
   "storagePermissionIsRequiredToProceed": "Storage permission is required to proceed",
   "deletedSuccessfully": "Deleted successfully",
-  "imageUploadError": "Image upload error"
+  "imageUploadError": "Image upload error",
+  "noRequestsFound": "No requests found"
 }
 

@@ -430,6 +430,9 @@ class MessageLookup extends MessageLookupByLibrary {
           "No internet connection found. Check your connection and try again.",
         ),
     "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
+    "noRequestsFound": MessageLookupByLibrary.simpleMessage(
+      "No requests found",
+    ),
     "notes": MessageLookupByLibrary.simpleMessage("Notes"),
     "notesHint": MessageLookupByLibrary.simpleMessage(
       "Enter your notes here ...",

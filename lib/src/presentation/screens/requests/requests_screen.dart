@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
-import 'package:safety_zone/src/domain/entities/main/requests/request.dart';
+import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/domain/entities/home/requests.dart';
+import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
+import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
+import 'package:safety_zone/src/presentation/widgets/custom_empty_list_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class RequestsScreen extends BaseStatefulWidget {
@@ -18,108 +23,109 @@ class RequestsScreen extends BaseStatefulWidget {
 }
 
 class _RequestsScreenState extends BaseState<RequestsScreen> {
-  final List<Requests> _requestsRecent = [
-    Requests(
-      id: 2458926,
-      companyName: 'محمد قاسم',
-      image: 'assets/images/user1.png',
-      city: 'الرياض',
-      status: 'تحت المراجعة',
-      statusColor: Colors.black,
-      visits: 5,
-    ),
-    Requests(
-      id: 2458927,
-      companyName: 'وائل ياسر',
-      image: 'assets/images/user2.png',
-      city: 'جدة',
-      status: 'عقود قائمة',
-      statusColor: Colors.blue,
-      visits: 3,
-    ),
-    Requests(
-      id: 2458928,
-      companyName: 'علي أحمد',
-      image: 'assets/images/user3.png',
-      city: 'أبها',
-      status: 'تفاصيل الفريق',
-      statusColor: Colors.red,
-      visits: 2,
-    ),
-  ];
+  List<Requests> _requestsRecent = [];
 
-  final List<Requests> _requestsOld = [
-    Requests(
-      id: 2458926,
-      companyName: 'محمد قاسم',
-      image: 'assets/images/user1.png',
-      city: 'الرياض',
-      status: 'تحت المراجعة',
-      statusColor: Colors.black,
-      visits: 5,
-    ),
-    Requests(
-      id: 2458927,
-      companyName: 'وائل ياسر',
-      image: 'assets/images/user2.png',
-      city: 'جدة',
-      status: 'عقود قائمة',
-      statusColor: Colors.blue,
-      visits: 3,
-    ),
-    Requests(
-      id: 2458928,
-      companyName: 'علي أحمد',
-      image: 'assets/images/user3.png',
-      city: 'أبها',
-      status: 'تفاصيل الفريق',
-      statusColor: Colors.red,
-      visits: 2,
-    ),
-  ];
+  List<Requests> _requestsOld = [];
   bool _isOld = false;
   bool _isLoading = true;
 
+  RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
+
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _isLoading = false;
-      });
-    });
+  void initState() {
+    _bloc.add(GetConsumerRequestsEvent());
+    super.initState();
   }
 
   @override
   Widget baseBuild(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Skeletonizer(
-          enabled: _isLoading,
-          child: Column(
-            children: [
-              _buildSearchSection(context),
-              Expanded(
-                child: ListView.builder(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  itemCount:
-                      _isOld ? _requestsOld.length : _requestsRecent.length,
-                  itemBuilder: (context, index) {
-                    final request =
-                        _isOld ? _requestsOld[index] : _requestsRecent[index];
-                    return _buildRequestCard(
-                      context,
-                      request,
-                      Key(request.id.toString()),
-                    );
-                  },
+    return BlocConsumer<RequestsBloc, RequestsState>(
+      listener: (context, state) {
+        if (state is GetConsumerRequestsLoadingState) {
+          _isLoading = true;
+        } else if (state is GetConsumerRequestsSuccessState) {
+          _requestsRecent = List.from(state.requestsRecent);
+          _requestsOld = List.from(state.requestsOld);
+          _isLoading = false;
+        } else if (state is GetConsumerRequestsErrorState) {
+          _showError(state.message);
+          _isLoading = false;
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          body: RefreshIndicator(
+            onRefresh: () async {
+              _bloc.add(GetConsumerRequestsEvent());
+            },
+            child: SafeArea(
+              child: Skeletonizer(
+                enabled: _isLoading,
+                child: Column(
+                  children: [
+                    _buildSearchSection(context),
+                    if (_isOld && _requestsOld.isEmpty)
+                      Center(
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 40),
+                            child: CustomEmptyListWidget(
+                              text: S.of(context).noRequestsFound,
+                              isRefreshable: true,
+                              onRefresh: () =>
+                                  _bloc.add(GetConsumerRequestsEvent()),
+                              imagePath: ImagePaths.emptyProject,
+                            )),
+                      ),
+                    if (!_isOld && _requestsRecent.isEmpty)
+                      Center(
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 40),
+                            child: CustomEmptyListWidget(
+                              text: S.of(context).noRequestsFound,
+                              isRefreshable: true,
+                              onRefresh: () =>
+                                  _bloc.add(GetConsumerRequestsEvent()),
+                              imagePath: ImagePaths.emptyProject,
+                            )),
+                      ),
+                    if (_isOld && _requestsOld.isNotEmpty ||
+                        !_isOld && _requestsRecent.isNotEmpty)
+                      Expanded(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 16),
+                          itemCount: _isOld
+                              ? _requestsOld.length
+                              : _requestsRecent.length,
+                          itemBuilder: (context, index) {
+                            final request = _isOld
+                                ? _requestsOld[index]
+                                : _requestsRecent[index];
+                            // final request = _requestsRecent[index];
+                            return _buildRequestCard(
+                              context,
+                              request,
+                              Key(request.requestNumber.toString()),
+                            );
+                          },
+                        ),
+                      ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
+    );
+  }
+
+  void _showError(String message) {
+    showSnackBar(
+      context: context,
+      message: message,
+      color: ColorSchemes.warning,
+      icon: ImagePaths.error,
     );
   }
 
@@ -171,19 +177,19 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                     height: 16.h,
                     child: _isLoading
                         ? Container(
-                      width: 32.w,
-                      height: 32.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                    )
+                            width: 32.w,
+                            height: 32.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
                         : SvgPicture.asset(
-                      ImagePaths.filter,
-                      color: ColorSchemes.primary,
-                      width: 16.w,
-                      height: 16.h,
-                    ),
+                            ImagePaths.filter,
+                            color: ColorSchemes.primary,
+                            width: 16.w,
+                            height: 16.h,
+                          ),
                   ),
                 ),
                 border: OutlineInputBorder(
@@ -269,12 +275,14 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
               children: [
                 Chip(
                   label: Text(
-                    request.status,
+                    request.requestType,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
                   ),
-                  backgroundColor:_isLoading ? Colors.grey.shade300 : request.statusColor,
+                  backgroundColor: _isLoading
+                      ? Colors.grey.shade300
+                      : ColorSchemes.secondary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -282,7 +290,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  '#${request.id}',
+                  request.requestNumber,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
               ],
@@ -318,7 +326,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                 // ),
                 // const SizedBox(width: 8),
                 Text(
-                  request.companyName,
+                  request.branch.branchName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -336,7 +344,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      "Visit:${request.visits} ",
+                      "Visit:8 ",
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
@@ -351,29 +359,44 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    const Icon(Icons.location_pin, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      request.city,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
-                      ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () => _openMap(
+                        request.branch.location.coordinates.first,
+                        request.branch.location.coordinates.last),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(Icons.location_pin, size: 16),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            request.branch.address,
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
+                const SizedBox(width: 8),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   decoration: BoxDecoration(
-                    color:_isLoading ? Colors.grey.shade300 : ColorSchemes.secondary,
+                    color: _isLoading
+                        ? Colors.grey.shade300
+                        : ColorSchemes.secondary,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.status,
+                    request.providers.first.status,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -405,7 +428,23 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     Navigator.pushNamed(
       context,
       Routes.requestDetailsScreen,
-      arguments: {'request': request},
+      arguments: {'requestId': request.Id},
+    );
+  }
+
+  void _openMap(double first, double last) async {
+    // Handle map navigation
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => MapSearchScreen(
+          initialLatitude: first,
+          initialLongitude: last,
+          onLocationSelected: (lat, lng, address) {
+            setState(() {});
+          },
+        ),
+      ),
     );
   }
 }

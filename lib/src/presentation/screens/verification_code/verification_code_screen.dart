@@ -287,12 +287,11 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
       );
 
       if (response is DataSuccess) {
-        DataState<CheckAuth> authResponse =
-            await CheckAuthUseCase(injector())();
-
         await SetTokenUseCase(injector())(response.data?.token ?? '');
         await SetRememberMeUseCase(injector())(_isRememberMe);
         await SetAuthenticateUseCase(injector())(true);
+        DataState<CheckAuth> authResponse =
+        await CheckAuthUseCase(injector())();
         await SetUserVerificationDataUseCase(injector())(
             response.data ?? const VerifyOtp());
         _showError(S.of(context).verificationSuccessful, false);

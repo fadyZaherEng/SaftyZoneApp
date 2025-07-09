@@ -114,9 +114,9 @@ class RoutesManager {
       case Routes.requestDetailsScreen:
         Map<String, dynamic>? args =
             routeSettings.arguments as Map<String, dynamic>?;
-        final request = args?['request'] as Requests;
+        final requestId = args?['requestId'] as String;
         return _materialRoute(RequestDetailsScreen(
-          request: request,
+          requestId: requestId,
         ));
 
       case Routes.workingProgressScreen:

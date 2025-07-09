@@ -8,16 +8,25 @@ import 'package:safety_zone/src/presentation/blocs/upload_doc/upload_doc_bloc.da
 import 'package:safety_zone/src/presentation/blocs/working_progress/working_progress_bloc.dart';
 
 Future<void> initializeBlocDependencies() async {
-  injector.registerFactory<MainCubit>(() => MainCubit(injector(), injector()));
+  injector.registerFactory<MainCubit>(() => MainCubit(
+        injector(),
+        injector(),
+      ));
   injector.registerFactory<AppConfig>(() => AppConfig());
-  injector.registerFactory<TermConditionsBloc>(
-      () => TermConditionsBloc(injector()));
+  injector.registerFactory<TermConditionsBloc>(() => TermConditionsBloc(
+        injector(),
+      ));
   injector.registerFactory<WorkingProgressBloc>(() => WorkingProgressBloc());
   injector.registerFactory<UploadDocBloc>(() => UploadDocBloc(
         injector(),
         injector(),
       ));
-  injector.registerFactory<RequestsBloc>(() => RequestsBloc());
-  injector
-      .registerFactory<ThemeCubit>(() => ThemeCubit(injector(), injector()));
+  injector.registerFactory<RequestsBloc>(() => RequestsBloc(
+        injector(),
+        injector(),
+      ));
+  injector.registerFactory<ThemeCubit>(() => ThemeCubit(
+        injector(),
+        injector(),
+      ));
 }

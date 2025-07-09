@@ -99,7 +99,7 @@ class _MyAppState extends State<MyApp> {
                       ],
                       supportedLocales: S.delegate.supportedLocales,
                       onGenerateRoute: RoutesManager.getRoute,
-                      // initialRoute: Routes.splash,
+                      initialRoute: Routes.splash,
                       localizationsDelegates: const [
                         S.delegate,
                         GlobalMaterialLocalizations.delegate,
@@ -113,10 +113,10 @@ class _MyAppState extends State<MyApp> {
                       themeMode: themeState,
                       locale: locale,
                       // Pass versionCode when navigating to the splash screen
-                      // builder: (context, child) {
-                      //   return _buildInitialScreen(context, child);
-                      // },
-                      home: MainScreen(),
+                      builder: (context, child) {
+                        return _buildInitialScreen(context, child);
+                      },
+                      // home: MainScreen(),
                     ),
                   );
                 },

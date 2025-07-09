@@ -4,6 +4,7 @@ import 'package:safety_zone/src/core/utils/app_config.dart';
 import 'package:safety_zone/src/core/utils/network/interceptor.dart';
 import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/auth/auth_api_services.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/home_api_services.dart';
 import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,6 +36,6 @@ Future<void> initializeDataDependencies() async {
       await SharedPreferences.getInstance();
 
   injector.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
-  injector.registerLazySingleton<AuthApiServices>(
-      () => AuthApiServices(injector()));
+  injector.registerLazySingleton<AuthApiServices>(() => AuthApiServices(injector()));
+  injector.registerLazySingleton<HomeApiServices>(() => HomeApiServices(injector()));
 }

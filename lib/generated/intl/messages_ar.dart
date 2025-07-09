@@ -400,6 +400,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noItemsFound": MessageLookupByLibrary.simpleMessage(
       "لم يتم العثور على عناصر",
     ),
+    "noRequestsFound": MessageLookupByLibrary.simpleMessage(
+      "لم يتم العثور على طلبات",
+    ),
     "notes": MessageLookupByLibrary.simpleMessage("ملاحظات"),
     "notesHint": MessageLookupByLibrary.simpleMessage("مثال: لا يوجد ملاحظات"),
     "ofs": MessageLookupByLibrary.simpleMessage("من"),

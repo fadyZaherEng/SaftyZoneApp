@@ -344,7 +344,8 @@
   "delete": "حذف",
   "storagePermissionIsRequiredToProceed": "تحتاج الى صلاحية المخزن للمتابعة",
   "deletedSuccessfully": "تم الحذف بنجاح",
-  "imageUploadError": "حدث خطأ في رفع الصورة"
+  "imageUploadError": "حدث خطأ في رفع الصورة",
+  "noRequestsFound": "لم يتم العثور على طلبات"
 
 
 

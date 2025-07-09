@@ -1,8 +1,20 @@
 /// Custom Text-Size Widget
 enum TextSizes { small, medium, large }
+
 enum RegisterStatus { Pending, Complete_Register, Home_Page }
-//
-// enum OrderStatus { processing, shipped, delivered }
-//
-// enum PaymentMethods { paypal, googlePay, applePay, visa, masterCard, creditCard, paystack, razorPay, paytm }
-//
+
+enum RequestStatus { pending, accepted, rejected, cancelled, active }
+
+class SystemType {
+  static bool isAlarmType(String type) {
+    return type == "alarm-item";
+  }
+
+  static bool isFireType(String type) {
+    return type == "fire-system-item";
+  }
+
+  static bool isExtinguisherType(String type) {
+    return type == "fire-extinguisher-item";
+  }
+}
