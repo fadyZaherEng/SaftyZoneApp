@@ -25,7 +25,6 @@ import 'package:safety_zone/src/presentation/blocs/theme/theme_cubit.dart';
 import 'package:safety_zone/src/presentation/blocs/upload_doc/upload_doc_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/working_progress/working_progress_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/splash/splash_screen.dart';
-import 'package:safety_zone/src/presentation/screens/main/main_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
 import 'package:huawei_hmsavailability/huawei_hmsavailability.dart';
 
@@ -116,7 +115,6 @@ class _MyAppState extends State<MyApp> {
                       builder: (context, child) {
                         return _buildInitialScreen(context, child);
                       },
-                      // home: MainScreen(),
                     ),
                   );
                 },
