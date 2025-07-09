@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/main/requests/request.dart';
-import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
-import 'package:safety_zone/src/domain/usecase/getauthenticate_use_case.dart';
 import 'package:safety_zone/src/presentation/screens/complete_info/complete_info_view.dart';
+import 'package:safety_zone/src/presentation/screens/contract/contract_screen.dart';
 import 'package:safety_zone/src/presentation/screens/employess/employees_list_screen.dart';
 import 'package:safety_zone/src/presentation/screens/home/home_screen.dart';
 import 'package:safety_zone/src/presentation/screens/installation_options/installation_options_screen.dart';
@@ -20,6 +18,7 @@ import 'package:safety_zone/src/presentation/screens/splash/splash_screen.dart';
 import 'package:safety_zone/src/presentation/screens/term_conditions/term_conditions_screen.dart';
 import 'package:safety_zone/src/presentation/screens/upload_document_fawry/upload_document_fawry_Screen.dart';
 import 'package:safety_zone/src/presentation/screens/verification_code/verification_code_screen.dart';
+import 'package:safety_zone/src/presentation/screens/wallet/wallet_screen.dart';
 import 'package:safety_zone/src/presentation/screens/welcome/welcome_screen.dart';
 import 'package:safety_zone/src/presentation/screens/whatsapp_verify/whatsapp_screen.dart';
 import 'package:safety_zone/src/presentation/screens/working_progress/working_progress_screen.dart';
@@ -55,6 +54,8 @@ class Routes {
   static const String requestScreen = '/request-screen';
   static const String requestDetailsScreen = '/request-details-screen';
   static const String workingProgressScreen = '/working-progress-screen';
+  static const String walletScreen = '/wallet-screen';
+  static const String contractScreen = '/contract-screen';
 }
 
 class RoutesManager {
@@ -127,6 +128,12 @@ class RoutesManager {
             routeSettings.arguments as Map<String, dynamic>?;
         final request = args?['request'] as Requests;
         return _materialRoute(UploadDocumentFawryScreen(request: request));
+
+      case Routes.walletScreen:
+        return _materialRoute(const WalletScreen());
+
+      case Routes.contractScreen:
+        return _materialRoute(const ContractsScreen());
 
       default:
         return unDefinedRoute(routeSettings.name.toString());

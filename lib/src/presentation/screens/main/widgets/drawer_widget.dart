@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/generated/l10n.dart';
@@ -48,19 +49,66 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           const Divider(),
-          _drawerItem(context, ImagePaths.information, s.basicInformation),
-          _drawerItem(context, ImagePaths.wallet, s.wallet),
-          _drawerItem(context, ImagePaths.contract, s.contractList),
           _drawerItem(
-              context, "assets/images/price-down.svg", s.pricesNeedEscalation,
-              isColor: true),
-          _drawerItem(context, ImagePaths.request, s.installationTasks),
-          _drawerItem(context, ImagePaths.employees, s.employees),
+            context,
+            ImagePaths.information,
+            s.basicInformation,
+            onTap: () {},
+          ),
           _drawerItem(
-              context, ImagePaths.termsAndConditions, s.termsAndConditions,
-              isColor: true),
-          _drawerItem(context, ImagePaths.chat, s.messages),
-          _drawerItem(context, ImagePaths.businessReport, s.reports),
+            context,
+            ImagePaths.wallet,
+            s.wallet,
+            onTap: () {
+              Navigator.pushNamed(context, Routes.walletScreen);
+            },
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.contract,
+            s.contractList,
+            onTap: () {
+              Navigator.pushNamed(context, Routes.contractScreen);
+            },
+          ),
+          _drawerItem(
+            context,
+            "assets/images/price-down.svg",
+            s.pricesNeedEscalation,
+            isColor: true,
+            onTap: () {},
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.request,
+            s.installationTasks,
+            onTap: () {},
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.employees,
+            s.employees,
+            onTap: () {},
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.termsAndConditions,
+            s.termsAndConditions,
+            isColor: true,
+            onTap: () {},
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.chat,
+            s.messages,
+            onTap: () {},
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.businessReport,
+            s.reports,
+            onTap: () {},
+          ),
           const Spacer(),
           ListTile(
             leading: SvgPicture.asset(
@@ -89,6 +137,7 @@ class CustomDrawer extends StatelessWidget {
     String icon,
     String title, {
     bool isColor = false,
+    required VoidCallback onTap,
   }) {
     return ListTile(
       leading: SvgPicture.asset(
@@ -100,7 +149,8 @@ class CustomDrawer extends StatelessWidget {
       title: Text(title, textDirection: TextDirection.rtl),
       onTap: () {
         Navigator.pop(context);
-       },
+        onTap();
+      },
     );
   }
 }

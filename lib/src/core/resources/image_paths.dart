@@ -123,4 +123,10 @@ class ImagePaths {
   static const String priceSending = "assets/images/price_sending.svg";
   static const String dots = "assets/images/dots.svg";
   static const String edit = "assets/images/edit.svg";
+  static const String moneys = "assets/images/moneys.svg";
+  static const String addProgress = "assets/images/add_progress.svg";
+  static const String wallets = "assets/images/wallets.png";
+  static const String printer = "assets/images/printer.svg";
+  static const String price = "assets/images/price.svg";
+  static const String dollar = "assets/images/dollar.svg";
  }

@@ -39,6 +39,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "alarmBell": MessageLookupByLibrary.simpleMessage("صوت التنبيه"),
     "alarmItems": MessageLookupByLibrary.simpleMessage("بنود الإنذار:"),
+    "amount_received": MessageLookupByLibrary.simpleMessage(
+      "المبالغ التي تم استلامها",
+    ),
     "area": MessageLookupByLibrary.simpleMessage("المساحة"),
     "assignJobRole": MessageLookupByLibrary.simpleMessage("تعيين دور العمل"),
     "authorizedSignature": MessageLookupByLibrary.simpleMessage(
@@ -85,6 +88,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "لا يمكنك استقبال الطلبات حتى يتم استكمالها.",
     ),
     "changeDocument": MessageLookupByLibrary.simpleMessage("تغيير"),
+    "chooseNonRenewalReason": MessageLookupByLibrary.simpleMessage(
+      "اختر سبب عدم التجديد",
+    ),
     "civilDefenseDocumentRequired": MessageLookupByLibrary.simpleMessage(
       "وثيقة تصريح الدفاع المدني مطلوبة",
     ),
@@ -136,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "contractList": MessageLookupByLibrary.simpleMessage("قائمة العقود"),
     "contractSignature": MessageLookupByLibrary.simpleMessage("توقيع العقد"),
     "contractTerms": MessageLookupByLibrary.simpleMessage("بنود العقد"),
+    "contractsList": MessageLookupByLibrary.simpleMessage("قائمة العقود"),
     "controlPanel": MessageLookupByLibrary.simpleMessage("لوحة التحكم"),
     "costOfMonitoredSystem": MessageLookupByLibrary.simpleMessage(
       "تكاليف نظام معنون",
@@ -165,6 +172,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "createEmployeeProfile": MessageLookupByLibrary.simpleMessage(
       "أنشئ ملف الموظف",
+    ),
+    "currentBalance": MessageLookupByLibrary.simpleMessage("مبلغ معلق"),
+    "current_wallet_amount": MessageLookupByLibrary.simpleMessage(
+      "مبلغ المحفظة الحالي",
     ),
     "dailyTasksSubtitle": MessageLookupByLibrary.simpleMessage(
       "تابع مهامك اليومية، وكن على اطلاع دائم بالتقارير والإشعارات في مكان واحد.",
@@ -294,6 +305,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "getStarted": MessageLookupByLibrary.simpleMessage("ابدأ الآن"),
     "glassBreaker": MessageLookupByLibrary.simpleMessage("محدد الزجاج"),
     "goToLocation": MessageLookupByLibrary.simpleMessage("اذهب إلى الموقع"),
+    "holdAmount": MessageLookupByLibrary.simpleMessage("المبلغ المحفوظ"),
     "home": MessageLookupByLibrary.simpleMessage("الصفحة الرئيسية"),
     "iAgreeToThe": MessageLookupByLibrary.simpleMessage("أوافق على"),
     "ifTheEmployeeFailsToProvideTheRequirementsForTheJobTheContractWillBeTerminated":
@@ -337,6 +349,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidPhoneNumber": MessageLookupByLibrary.simpleMessage(
       "رقم الجوال غير صحيح",
     ),
+    "invoiceAmount": MessageLookupByLibrary.simpleMessage("مبلغ المطالبة"),
+    "invoiceNote": MessageLookupByLibrary.simpleMessage(
+      "الطلب الذي لا يحتوي على فاتورة صادرة من مزود الخدمة لن يُعتمد، ويجب أن تحتوي الفاتورة على رقم الهوية وشعار",
+    ),
+    "invoice_date": MessageLookupByLibrary.simpleMessage("تاريخ المطالبة"),
     "jopTitle": MessageLookupByLibrary.simpleMessage("الوظيفة"),
     "locateMe": MessageLookupByLibrary.simpleMessage("تحديد الموقع"),
     "locationError": MessageLookupByLibrary.simpleMessage(
@@ -378,6 +395,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "maintenanceReports": MessageLookupByLibrary.simpleMessage(
       "تقارير تحتاج الى صيانة",
     ),
+    "mapLocation": MessageLookupByLibrary.simpleMessage("الموقع على الخريطة"),
     "messages": MessageLookupByLibrary.simpleMessage("الرسائل"),
     "monday": MessageLookupByLibrary.simpleMessage("الاثنين"),
     "newPassword": MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
@@ -411,6 +429,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "openMap": MessageLookupByLibrary.simpleMessage("فتح الخريطة"),
     "opps": MessageLookupByLibrary.simpleMessage("عذراً"),
     "optionalNotes": MessageLookupByLibrary.simpleMessage("ملاحظات اختيارية"),
+    "orderDate": MessageLookupByLibrary.simpleMessage("تاريخ الطلب"),
+    "orderPrice": MessageLookupByLibrary.simpleMessage("سعر الطلب"),
+    "order_status": MessageLookupByLibrary.simpleMessage("حالة الطلب"),
+    "otherTransactionValue": MessageLookupByLibrary.simpleMessage(
+      "قيمة المعاملة الأخرى",
+    ),
     "otpResent": MessageLookupByLibrary.simpleMessage(
       "تم اعادة ارسال الرمز بنجاح",
     ),
@@ -418,6 +442,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordLengthRequirement": MessageLookupByLibrary.simpleMessage(
       "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، وتحتوي على حرف كبير واحد على الأقل، وحرف صغير واحد على الأقل، ورقم واحد، وحرف خاص واحد على الأقل.",
     ),
+    "pending": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
     "pendingApproval": MessageLookupByLibrary.simpleMessage("قيد الموافقة"),
     "pendingRequests": MessageLookupByLibrary.simpleMessage(
       "الطلبات قيد التنفيذ",
@@ -450,12 +475,17 @@ class MessageLookup extends MessageLookupByLibrary {
           "يرجى تحميل صورة صغيرة للموظف. JPG, PNG, max 2MB.",
         ),
     "previous": MessageLookupByLibrary.simpleMessage("السابق"),
+    "price": MessageLookupByLibrary.simpleMessage("السعر"),
+    "priceClosed": MessageLookupByLibrary.simpleMessage("سعر مغلق"),
     "priceOffers": MessageLookupByLibrary.simpleMessage(
       "عروض أسعار تحتاج لتعميد",
     ),
     "pricesNeedEscalation": MessageLookupByLibrary.simpleMessage(
       "عروض أسعار تحتاج إلى تصعيد",
     ),
+    "printContract": MessageLookupByLibrary.simpleMessage("طباعة العقد"),
+    "printReport": MessageLookupByLibrary.simpleMessage("طباعة التقرير"),
+    "print_report": MessageLookupByLibrary.simpleMessage("طباعة التقرير"),
     "professionalSubtitle": MessageLookupByLibrary.simpleMessage(
       "الوصول إلى خدمات الأمن المهنية في أي وقت وأي مكان",
     ),
@@ -482,8 +512,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "registrationSuccessTitle": MessageLookupByLibrary.simpleMessage(
       "تم استكمال تسجيل شركتك بنجاح.",
     ),
+    "rejected": MessageLookupByLibrary.simpleMessage("مرفوض"),
     "rememberMe": MessageLookupByLibrary.simpleMessage("تذكرني"),
     "rememberme": MessageLookupByLibrary.simpleMessage("تذكرني"),
+    "renewContract": MessageLookupByLibrary.simpleMessage("تجديد العقد"),
     "reportWriting": MessageLookupByLibrary.simpleMessage("كتابة التقرير"),
     "reports": MessageLookupByLibrary.simpleMessage("التقارير"),
     "requestServiceSubtitle": MessageLookupByLibrary.simpleMessage(
@@ -572,8 +604,10 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "submitAPriceOfferForInstantPermitIssuance":
         MessageLookupByLibrary.simpleMessage("تقديم عرض سعر إصدار رخصة فورية"),
+    "submitInvoice": MessageLookupByLibrary.simpleMessage("تقديم مطالبة"),
     "submitQuotation": MessageLookupByLibrary.simpleMessage("تقديم عرض سعر"),
     "submitRegistration": MessageLookupByLibrary.simpleMessage("تقديم التسجيل"),
+    "submit_invoice": MessageLookupByLibrary.simpleMessage("تقديم مطالبة"),
     "sunday": MessageLookupByLibrary.simpleMessage("الاحد"),
     "systemAdministrator": MessageLookupByLibrary.simpleMessage("مدير النظام"),
     "systemManager": MessageLookupByLibrary.simpleMessage("مدير النظام"),
@@ -583,6 +617,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "انقر للحدد الموقع",
     ),
     "tasksSelection": MessageLookupByLibrary.simpleMessage("اختيار المهام"),
+    "taxLabel": MessageLookupByLibrary.simpleMessage(
+      "الضريبة (15% من المطالبة)",
+    ),
     "technicianResponsibleForInstallingTheEquipment":
         MessageLookupByLibrary.simpleMessage("الفني المسؤول عن تركيب المعدات"),
     "termsAndConditions": MessageLookupByLibrary.simpleMessage(
@@ -609,6 +646,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "to": MessageLookupByLibrary.simpleMessage("إلى"),
     "todayTasks": MessageLookupByLibrary.simpleMessage("المهام المجدولة اليوم"),
     "training": MessageLookupByLibrary.simpleMessage("تدريب"),
+    "transferred": MessageLookupByLibrary.simpleMessage("تم التحويل"),
     "tryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة اخرى"),
     "tuesday": MessageLookupByLibrary.simpleMessage("الثلاثاء"),
     "typeOfActivity": MessageLookupByLibrary.simpleMessage("نوع النظام"),
@@ -616,12 +654,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "untilCompleted": MessageLookupByLibrary.simpleMessage(
       " حتى يتم استكمالها.",
     ),
+    "untilTheMaintenanceVisitsAreCompleted":
+        MessageLookupByLibrary.simpleMessage(
+          "تحتاج الى صلاحية المخزن للمتابعة",
+        ),
     "update": MessageLookupByLibrary.simpleMessage("تحديث"),
     "upload": MessageLookupByLibrary.simpleMessage("تحميل"),
     "uploadDocument": MessageLookupByLibrary.simpleMessage("تحميل"),
     "uploadDocumentHint": MessageLookupByLibrary.simpleMessage(
       "يرجى تحميل نسخة ممسوحة ضوئيًا من المستند",
     ),
+    "uploadInvoice": MessageLookupByLibrary.simpleMessage("تحميل فاتورة"),
     "uploadLicenseDoc": MessageLookupByLibrary.simpleMessage(
       "رفع مستند الرخصة الفورية",
     ),
@@ -648,11 +691,13 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "verify": MessageLookupByLibrary.simpleMessage("تأكيد"),
     "verifyCode": MessageLookupByLibrary.simpleMessage("تأكيد الرمز"),
+    "viewMap": MessageLookupByLibrary.simpleMessage("فتح الخريطة"),
     "viewMoreInfo": MessageLookupByLibrary.simpleMessage(
       "عرض المزيد من المعلومات (الطلب فوري)",
     ),
     "visitDate": MessageLookupByLibrary.simpleMessage("تاريخ الزيارة"),
     "wallet": MessageLookupByLibrary.simpleMessage("المحفظة"),
+    "wallet_summary": MessageLookupByLibrary.simpleMessage("ملخص المحفظة"),
     "wednesday": MessageLookupByLibrary.simpleMessage("الاربعاء"),
     "welcome": MessageLookupByLibrary.simpleMessage("مرحباً"),
     "welcomeBack": MessageLookupByLibrary.simpleMessage("مرحباً بعودتك"),
@@ -689,5 +734,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "تم ارسال بياناتك للمراجعة",
     ),
     "yourLocation": MessageLookupByLibrary.simpleMessage("موقعك"),
+    "your_rights": MessageLookupByLibrary.simpleMessage(
+      "مبلغ حقوقك (أحد أفراد فريق الأمان التابع لمؤسستنا)",
+    ),
   };
 }
