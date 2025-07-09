@@ -592,6 +592,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "siteInfo": MessageLookupByLibrary.simpleMessage("Site Info"),
     "siteManagement": MessageLookupByLibrary.simpleMessage("Site Management"),
     "skip": MessageLookupByLibrary.simpleMessage("Skip"),
+    "someThingError": MessageLookupByLibrary.simpleMessage("Some Thing Error"),
     "sorryTheNewPasswordAndConfirmPasswordDoNotMatch":
         MessageLookupByLibrary.simpleMessage(
           "Sorry, the new password and confirm password do not match.",

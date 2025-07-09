@@ -545,6 +545,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "siteInfo": MessageLookupByLibrary.simpleMessage("معلومات الموقع"),
     "siteManagement": MessageLookupByLibrary.simpleMessage("ادارة الموقع"),
     "skip": MessageLookupByLibrary.simpleMessage("تخطي"),
+    "someThingError": MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
     "sorryTheNewPasswordAndConfirmPasswordDoNotMatch":
         MessageLookupByLibrary.simpleMessage(
           "عذراً، كلمة المرور الجديدة وتأكيد كلمة المرور لا تتطابق",

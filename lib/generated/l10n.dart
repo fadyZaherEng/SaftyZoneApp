@@ -3051,6 +3051,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Some Thing Error`
+  String get someThingError {
+    return Intl.message(
+      'Some Thing Error',
+      name: 'someThingError',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

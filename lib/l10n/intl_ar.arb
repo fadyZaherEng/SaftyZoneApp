@@ -318,18 +318,18 @@
   "extinguisher12KgPowder": "طفاية حريق 12 كيلو بودره",
   "extinguisherCO2": "طفاية حريق CO2",
   "termsAndConditionsTitle": "الشروط والأحكام",
-   "typeOfActivity": "نوع النظام",
+  "typeOfActivity": "نوع النظام",
   "quantity": "الكمية",
   "authorizedSignature": "التوقيع المعتمد (العميل)",
   "technicianResponsibleForInstallingTheEquipment": "الفني المسؤول عن تركيب المعدات",
-  "submitAPriceOfferForInstantPermitIssuance":  "تقديم عرض سعر إصدار رخصة فورية",
+  "submitAPriceOfferForInstantPermitIssuance": "تقديم عرض سعر إصدار رخصة فورية",
   "instantPermitIssuanceFee": "رسوم اصدار رخصة فورية",
   "send": "ارسال",
   "stayInformed": "ابقَ على اطلاع على زيارات الموقع الحالية، والفنيين المعينين، ومهام الصيانة، والتقارير المعلقة لضمان تنفيذ الخدمة بسلاسة.",
   "maintenanceInProgress": "صيانة قيد التنفيذ",
   "viewMoreInfo": "عرض المزيد من المعلومات (الطلب فوري)",
   "visitDate": "تاريخ الزيارة",
-   "uploadLicenseDoc": "رفع مستند الرخصة الفورية",
+  "uploadLicenseDoc": "رفع مستند الرخصة الفورية",
   "instantLicense": "رخصه فورية",
   "engineeringReport": "كشف هندسي",
   "goToLocation": "اذهب إلى الموقع",
@@ -345,8 +345,6 @@
   "storagePermissionIsRequiredToProceed": "تحتاج الى صلاحية المخزن للمتابعة",
   "deletedSuccessfully": "تم الحذف بنجاح",
   "imageUploadError": "حدث خطأ في رفع الصورة",
-  "noRequestsFound": "لم يتم العثور على طلبات"
-
-
-
+  "noRequestsFound": "لم يتم العثور على طلبات",
+  "someThingError": "حدث خطأ ما"
 }
