@@ -6,6 +6,7 @@ import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
+import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
@@ -334,31 +335,33 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                   ),
                 ),
                 const Spacer(),
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      ImagePaths.visit,
-                      color: ColorSchemes.grey,
-                      width: 24.w,
-                      height: 24.h,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      "Visit:8 ",
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15.sp,
+                if (request.requestType == RequestType.MaintenanceContract.name)
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        ImagePaths.visit,
+                        color: ColorSchemes.grey,
+                        width: 24.w,
+                        height: 24.h,
                       ),
-                    ),
-                  ],
-                )
+                      const SizedBox(width: 4),
+                      Text(
+                        "Visit:8 ",
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15.sp,
+                        ),
+                      ),
+                    ],
+                  )
               ],
             ),
             const SizedBox(height: 8),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
                 Expanded(
                   child: InkWell(
                     onTap: () => _openMap(
@@ -385,7 +388,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                // const SizedBox(width: 8),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -396,7 +399,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.providers.first.status,
+                    request.providers.first.status.toUpperCase(),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,

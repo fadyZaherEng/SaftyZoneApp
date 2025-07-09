@@ -18,3 +18,10 @@ class SystemType {
     return type == "fire-extinguisher-item";
   }
 }
+
+enum RequestType {
+  InstallationCertificate,
+  EngineeringInspection,
+  MaintenanceContract,
+  FireExtinguisher
+}
