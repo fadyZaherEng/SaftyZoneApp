@@ -12,7 +12,7 @@ import 'package:safety_zone/src/presentation/screens/maintainance/maintainance_s
 import 'package:safety_zone/src/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:safety_zone/src/presentation/screens/register/vendor_registration_screen.dart';
 import 'package:safety_zone/src/presentation/screens/requests/requests_screen.dart';
-import 'package:safety_zone/src/presentation/screens/requests_details/request_details_screen.dart';
+import 'package:safety_zone/src/presentation/screens/requests_details_installation/request_details_installation_screen.dart';
 import 'package:safety_zone/src/presentation/screens/revision/revision_screen.dart';
 import 'package:safety_zone/src/presentation/screens/splash/splash_screen.dart';
 import 'package:safety_zone/src/presentation/screens/term_conditions/term_conditions_screen.dart';
@@ -116,7 +116,7 @@ class RoutesManager {
         Map<String, dynamic>? args =
             routeSettings.arguments as Map<String, dynamic>?;
         final requestId = args?['requestId'] as String;
-        return _materialRoute(RequestDetailsScreen(
+        return _materialRoute(RequestDetailsInstallationScreen(
           requestId: requestId,
         ));
 

@@ -16,19 +16,19 @@ import 'package:safety_zone/src/presentation/screens/map_search/map_search_scree
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class RequestDetailsScreen extends StatefulWidget {
+class RequestDetailsInstallationScreen extends StatefulWidget {
   final String requestId;
 
-  const RequestDetailsScreen({
+  const RequestDetailsInstallationScreen({
     super.key,
     required this.requestId,
   });
 
   @override
-  State<RequestDetailsScreen> createState() => _RequestDetailsScreenState();
+  State<RequestDetailsInstallationScreen> createState() => _RequestDetailsInstallationScreenState();
 }
 
-class _RequestDetailsScreenState extends State<RequestDetailsScreen>
+class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstallationScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _priceController = TextEditingController();
