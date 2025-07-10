@@ -9,6 +9,7 @@ import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/src/domain/usecase/auth/check_auth_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/presentation/screens/home/widgets/greeting_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class DashboardItem {
@@ -65,7 +66,11 @@ class _HomeScreenState extends BaseState<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildGreetingSection(s),
+                  GreetingSection(
+                    s: s,
+                    isLoading: _isLoading,
+                    fullName: _checkAuth.employeeDetails.fullName,
+                  ),
                   const SizedBox(height: 16),
                   _buildSearchSection(context),
                   const SizedBox(height: 16),
@@ -79,53 +84,6 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     );
   }
 
-  Widget _buildGreetingSection(S s) {
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${s.welcome}, ${_checkAuth.employeeDetails.fullName}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.sp,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                s.dailyTasksSubtitle,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(width: 12.w),
-        Transform.rotate(
-          angle: 3.14 * 2,
-          child: _isLoading
-              ? Container(
-                  width: 32.w,
-                  height: 32.h,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                )
-              : SvgPicture.asset(
-                  ImagePaths.hello,
-                  width: 48.w,
-                  height: 48.h,
-                ),
-        ),
-      ],
-    );
-  }
 
   Widget _buildSearchSection(BuildContext context) {
     final s = S.of(context);

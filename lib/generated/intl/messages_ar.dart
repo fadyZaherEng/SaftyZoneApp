@@ -205,6 +205,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "easyTitle": MessageLookupByLibrary.simpleMessage("إدارة سهلة"),
     "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
+    "editPriceOffer": MessageLookupByLibrary.simpleMessage("تعديل عرض السعر"),
     "egSiteManager": MessageLookupByLibrary.simpleMessage("مثال: مدير الموقع"),
     "egypt": MessageLookupByLibrary.simpleMessage("مصر"),
     "emailHint": MessageLookupByLibrary.simpleMessage(
@@ -280,6 +281,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fireBox": MessageLookupByLibrary.simpleMessage("صندوق حريق"),
     "fireCabinets": MessageLookupByLibrary.simpleMessage("حقائب الحريق"),
     "fireDetector": MessageLookupByLibrary.simpleMessage("محدد الحريق"),
+    "fireExtinguisher": MessageLookupByLibrary.simpleMessage("طفاية حريق"),
     "fireExtinguisherMaintenance": MessageLookupByLibrary.simpleMessage(
       "صيانة الاستخراجات الحريق",
     ),
@@ -396,6 +398,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "عرض المزيد من المعلومات (نفس القائمة لاستلام الطلب لكن النهاية العقد)",
     ),
     "maintenance": MessageLookupByLibrary.simpleMessage("صيانة"),
+    "maintenanceContracts": MessageLookupByLibrary.simpleMessage(
+      "عقود الصيانة",
+    ),
     "maintenanceInProgress": MessageLookupByLibrary.simpleMessage(
       "صيانة قيد التنفيذ",
     ),
@@ -440,6 +445,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "optionalNotes": MessageLookupByLibrary.simpleMessage("ملاحظات اختيارية"),
     "orderDate": MessageLookupByLibrary.simpleMessage("تاريخ الطلب"),
     "orderPrice": MessageLookupByLibrary.simpleMessage("سعر الطلب"),
+    "orderType": MessageLookupByLibrary.simpleMessage("نوع الطلب"),
     "order_status": MessageLookupByLibrary.simpleMessage("حالة الطلب"),
     "otherTransactionValue": MessageLookupByLibrary.simpleMessage(
       "قيمة المعاملة الأخرى",
@@ -495,6 +501,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "printContract": MessageLookupByLibrary.simpleMessage("طباعة العقد"),
     "printReport": MessageLookupByLibrary.simpleMessage("طباعة التقرير"),
     "print_report": MessageLookupByLibrary.simpleMessage("طباعة التقرير"),
+    "printer": MessageLookupByLibrary.simpleMessage("طابعة"),
     "professionalSubtitle": MessageLookupByLibrary.simpleMessage(
       "الوصول إلى خدمات الأمن المهنية في أي وقت وأي مكان",
     ),

@@ -3445,6 +3445,46 @@ class S {
   String get all {
     return Intl.message('All', name: 'all', desc: '', args: []);
   }
+
+  /// `Order Type`
+  String get orderType {
+    return Intl.message('Order Type', name: 'orderType', desc: '', args: []);
+  }
+
+  /// `Maintenance Contracts`
+  String get maintenanceContracts {
+    return Intl.message(
+      'Maintenance Contracts',
+      name: 'maintenanceContracts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Price Offer`
+  String get editPriceOffer {
+    return Intl.message(
+      'Edit Price Offer',
+      name: 'editPriceOffer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Extinguisher`
+  String get fireExtinguisher {
+    return Intl.message(
+      'Fire Extinguisher',
+      name: 'fireExtinguisher',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Printer`
+  String get printer {
+    return Intl.message('Printer', name: 'printer', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -211,6 +211,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "easyTitle": MessageLookupByLibrary.simpleMessage("Easy Management"),
     "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+    "editPriceOffer": MessageLookupByLibrary.simpleMessage("Edit Price Offer"),
     "egSiteManager": MessageLookupByLibrary.simpleMessage("e.g, Site Manager"),
     "egypt": MessageLookupByLibrary.simpleMessage("Egypt"),
     "emailHint": MessageLookupByLibrary.simpleMessage(
@@ -297,6 +298,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fireBox": MessageLookupByLibrary.simpleMessage("Fire Box"),
     "fireCabinets": MessageLookupByLibrary.simpleMessage("Fire Cabinets"),
     "fireDetector": MessageLookupByLibrary.simpleMessage("Fire Detector"),
+    "fireExtinguisher": MessageLookupByLibrary.simpleMessage(
+      "Fire Extinguisher",
+    ),
     "fireExtinguisherMaintenance": MessageLookupByLibrary.simpleMessage(
       "Fire Extinguisher Maintenance",
     ),
@@ -424,6 +428,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "View more information (Same list for receiving the request but ends with contract)",
     ),
     "maintenance": MessageLookupByLibrary.simpleMessage("Maintenance"),
+    "maintenanceContracts": MessageLookupByLibrary.simpleMessage(
+      "Maintenance Contracts",
+    ),
     "maintenanceInProgress": MessageLookupByLibrary.simpleMessage(
       "Maintenance In Progress",
     ),
@@ -472,6 +479,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "optionalNotes": MessageLookupByLibrary.simpleMessage("Optional notes"),
     "orderDate": MessageLookupByLibrary.simpleMessage("Order Date"),
     "orderPrice": MessageLookupByLibrary.simpleMessage("Order Price"),
+    "orderType": MessageLookupByLibrary.simpleMessage("Order Type"),
     "order_status": MessageLookupByLibrary.simpleMessage("Order Status"),
     "otherTransactionValue": MessageLookupByLibrary.simpleMessage(
       "Other Transaction Value",
@@ -527,6 +535,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "printContract": MessageLookupByLibrary.simpleMessage("Print Contract"),
     "printReport": MessageLookupByLibrary.simpleMessage("Print Report"),
     "print_report": MessageLookupByLibrary.simpleMessage("Print Report"),
+    "printer": MessageLookupByLibrary.simpleMessage("Printer"),
     "professionalSubtitle": MessageLookupByLibrary.simpleMessage(
       "Access professional security services anytime, anywhere",
     ),

@@ -391,5 +391,10 @@
   "scheduledJobs": "الوظائف المجدولة",
   "table": "جدول",
   "completed": "مكتمل",
-  "all": "الكل"
+  "all": "الكل",
+  "orderType": "نوع الطلب",
+  "maintenanceContracts": "عقود الصيانة",
+  "editPriceOffer": "تعديل عرض السعر",
+  "fireExtinguisher": "طفاية حريق",
+  "printer": "طابعة"
 }

@@ -391,6 +391,11 @@
   "stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates": "Stay on top of your service tasks with clear schedules, assigned technicians, and real-time status updates",
   "table": "Table",
   "completed": "Completed",
-  "all": "All"
+  "all": "All",
+  "orderType": "Order Type",
+  "maintenanceContracts": "Maintenance Contracts",
+  "editPriceOffer": "Edit Price Offer",
+  "fireExtinguisher": "Fire Extinguisher",
+  "printer": "Printer"
 }
 

@@ -76,7 +76,9 @@ class CustomDrawer extends StatelessWidget {
             "assets/images/price-down.svg",
             s.pricesNeedEscalation,
             isColor: true,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, Routes.pricesNeedEscalationScreen);
+            },
           ),
           _drawerItem(
             context,
