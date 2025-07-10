@@ -12,7 +12,9 @@ import 'package:safety_zone/src/presentation/screens/maintainance/maintainance_s
 import 'package:safety_zone/src/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:safety_zone/src/presentation/screens/register/vendor_registration_screen.dart';
 import 'package:safety_zone/src/presentation/screens/requests/requests_screen.dart';
+import 'package:safety_zone/src/presentation/screens/requests_details_extinguishers/request_details_extinguishers_screen.dart';
 import 'package:safety_zone/src/presentation/screens/requests_details_installation/request_details_installation_screen.dart';
+import 'package:safety_zone/src/presentation/screens/requests_details_maintainance/request_details_maintainance_screen.dart';
 import 'package:safety_zone/src/presentation/screens/revision/revision_screen.dart';
 import 'package:safety_zone/src/presentation/screens/splash/splash_screen.dart';
 import 'package:safety_zone/src/presentation/screens/term_conditions/term_conditions_screen.dart';
@@ -52,7 +54,9 @@ class Routes {
   static const String homeScreen = '/home-screen';
   static const String maintainanceScreen = '/maintainance-screen';
   static const String requestScreen = '/request-screen';
-  static const String requestDetailsScreen = '/request-details-screen';
+  static const String requestDetailsInstallationScreen = '/request-details-installation-screen';
+  static const String requestDetailsMaintainanceScreen = '/request-details-maintainance-screen';
+  static const String requestDetailsExtinguishersScreen = '/request-details-extinguishers-screen';
   static const String workingProgressScreen = '/working-progress-screen';
   static const String walletScreen = '/wallet-screen';
   static const String contractScreen = '/contract-screen';
@@ -112,7 +116,7 @@ class RoutesManager {
       case Routes.main:
         return _materialRoute(const MainScreen());
 
-      case Routes.requestDetailsScreen:
+      case Routes.requestDetailsInstallationScreen:
         Map<String, dynamic>? args =
             routeSettings.arguments as Map<String, dynamic>?;
         final requestId = args?['requestId'] as String;
@@ -134,6 +138,22 @@ class RoutesManager {
 
       case Routes.contractScreen:
         return _materialRoute(const ContractsScreen());
+
+      case Routes.requestDetailsMaintainanceScreen:
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        final requestId = args?['requestId'] as String;
+        return _materialRoute(RequestDetailsMaintainanceScreen(
+          requestId: requestId,
+        ));
+
+      case Routes.requestDetailsExtinguishersScreen:
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        final requestId = args?['requestId'] as String;
+        return _materialRoute(RequestDetailsExtinguishersScreen(
+          requestId: requestId,
+        ));
 
       default:
         return unDefinedRoute(routeSettings.name.toString());

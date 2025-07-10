@@ -129,4 +129,5 @@ class ImagePaths {
   static const String printer = "assets/images/printer.svg";
   static const String price = "assets/images/price.svg";
   static const String dollar = "assets/images/dollar.svg";
+  static const String time = "assets/images/time.svg";
  }

@@ -3341,6 +3341,73 @@ class S {
       args: [],
     );
   }
+
+  /// `Number of Visits`
+  String get numberOfVisits {
+    return Intl.message(
+      'Number of Visits',
+      name: 'numberOfVisits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contract Time`
+  String get contractTime {
+    return Intl.message(
+      'Contract Time',
+      name: 'contractTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Visits`
+  String get visits {
+    return Intl.message('Visits', name: 'visits', desc: '', args: []);
+  }
+
+  /// `Hours`
+  String get hours {
+    return Intl.message('Hours', name: 'hours', desc: '', args: []);
+  }
+
+  /// `Visit Value`
+  String get visitValue {
+    return Intl.message('Visit Value', name: 'visitValue', desc: '', args: []);
+  }
+
+  /// `Emergency Visit Fee`
+  String get emergencyVisitFee {
+    return Intl.message(
+      'Emergency Visit Fee',
+      name: 'emergencyVisitFee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintenance Price`
+  String get maintenancePrice {
+    return Intl.message(
+      'Maintenance Price',
+      name: 'maintenancePrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The maintenance cost will be determined after receipt and service completion`
+  String
+  get theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion {
+    return Intl.message(
+      'The maintenance cost will be determined after receipt and service completion',
+      name:
+          'theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

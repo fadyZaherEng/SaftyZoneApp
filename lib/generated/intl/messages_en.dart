@@ -146,6 +146,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "contractSigning": MessageLookupByLibrary.simpleMessage("Contract Signing"),
     "contractTerms": MessageLookupByLibrary.simpleMessage("Contract Terms"),
+    "contractTime": MessageLookupByLibrary.simpleMessage("Contract Time"),
     "contractsList": MessageLookupByLibrary.simpleMessage("Contracts List"),
     "controlPanel": MessageLookupByLibrary.simpleMessage("Control Panel"),
     "costOfMonitoredSystem": MessageLookupByLibrary.simpleMessage(
@@ -224,6 +225,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "emergencyExit": MessageLookupByLibrary.simpleMessage("Emergency Exit"),
     "emergencyLighting": MessageLookupByLibrary.simpleMessage(
       "Emergency Lighting",
+    ),
+    "emergencyVisitFee": MessageLookupByLibrary.simpleMessage(
+      "Emergency Visit Fee",
     ),
     "employeeSavedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Employee saved successfully",
@@ -324,6 +328,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "goToLocation": MessageLookupByLibrary.simpleMessage("Go to Location"),
     "holdAmount": MessageLookupByLibrary.simpleMessage("Hold Amount"),
     "home": MessageLookupByLibrary.simpleMessage("Home"),
+    "hours": MessageLookupByLibrary.simpleMessage("Hours"),
     "iAgreeToThe": MessageLookupByLibrary.simpleMessage("I agree to the"),
     "ifTheEmployeeFailsToProvideTheRequirementsForTheJobTheContractWillBeTerminated":
         MessageLookupByLibrary.simpleMessage(
@@ -420,6 +425,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "maintenanceInProgress": MessageLookupByLibrary.simpleMessage(
       "Maintenance In Progress",
     ),
+    "maintenancePrice": MessageLookupByLibrary.simpleMessage(
+      "Maintenance Price",
+    ),
     "maintenanceReports": MessageLookupByLibrary.simpleMessage(
       "Reports need maintenance",
     ),
@@ -453,6 +461,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "notesHint": MessageLookupByLibrary.simpleMessage(
       "Enter your notes here ...",
     ),
+    "numberOfVisits": MessageLookupByLibrary.simpleMessage("Number of Visits"),
     "ofs": MessageLookupByLibrary.simpleMessage("of"),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
     "oldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
@@ -689,6 +698,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "The employee should keep their data secure and not share any sensitive information.",
         ),
+    "theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion":
+        MessageLookupByLibrary.simpleMessage(
+          "The maintenance cost will be determined after receipt and service completion",
+        ),
     "theNewPasswordMustBeDifferentFromThePreviousPassword":
         MessageLookupByLibrary.simpleMessage(
           "The new password must be different from the previous password",
@@ -752,6 +765,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "View more information (Urgent request)",
     ),
     "visitDate": MessageLookupByLibrary.simpleMessage("Visit Date"),
+    "visitValue": MessageLookupByLibrary.simpleMessage("Visit Value"),
+    "visits": MessageLookupByLibrary.simpleMessage("Visits"),
     "wallet": MessageLookupByLibrary.simpleMessage("Wallet"),
     "wallet_summary": MessageLookupByLibrary.simpleMessage("Wallet Summary"),
     "wednesday": MessageLookupByLibrary.simpleMessage("Wednesday"),

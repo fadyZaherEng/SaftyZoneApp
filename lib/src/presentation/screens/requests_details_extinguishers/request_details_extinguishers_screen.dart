@@ -16,36 +16,37 @@ import 'package:safety_zone/src/presentation/screens/map_search/map_search_scree
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class RequestDetailsInstallationScreen extends StatefulWidget {
+class RequestDetailsExtinguishersScreen extends StatefulWidget {
   final String requestId;
 
-  const RequestDetailsInstallationScreen({
+  const RequestDetailsExtinguishersScreen({
     super.key,
     required this.requestId,
   });
 
   @override
-  State<RequestDetailsInstallationScreen> createState() => _RequestDetailsInstallationScreenState();
+  State<RequestDetailsExtinguishersScreen> createState() =>
+      _RequestDetailsExtinguishersScreenState();
 }
 
-class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstallationScreen>
+class _RequestDetailsExtinguishersScreenState
+    extends State<RequestDetailsExtinguishersScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _priceController = TextEditingController();
   int _currentIndex = 0;
   RequestDetails model = RequestDetails();
   bool _isPriceSending = false;
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
-  final List<Items> _itemsAlarm = [];
-  final List<Items> _itemsFire = [];
+  final List<Items> _itemsExtinguishers = [];
   List<Employee> _employees = [];
   Employee? _selectedEmployee = Employee();
 
   @override
   void initState() {
-    _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
+    // _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
     _bloc.add(GetEmployeesEvent());
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
@@ -133,9 +134,8 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
                       color: Colors.white,
                     ),
                   ),
-                  backgroundColor: _isLoading
-                      ? Colors.grey.shade300
-                      : ColorSchemes.black,
+                  backgroundColor:
+                      _isLoading ? Colors.grey.shade300 : ColorSchemes.primary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -401,46 +401,6 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Row(
-                children: [
-                  _isLoading
-                      ? Container(
-                          width: 32.w,
-                          height: 32.h,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        )
-                      : SvgPicture.asset(
-                          ImagePaths.area,
-                          color: ColorSchemes.secondary,
-                          width: 16,
-                          height: 16,
-                        ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '${s.area}:',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Text(
-                model.result.space.toString(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
           const SizedBox(height: 64),
           SizedBox(
             width: double.infinity,
@@ -482,12 +442,9 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             _buildQuantitySection(
-              title: s.alarmItems,
-              items: _itemsAlarm,
+              title: s.fireExtinguishers,
+              items: _itemsExtinguishers,
             ),
-            const SizedBox(height: 16),
-            _buildQuantitySection(
-                title: s.extinguishingItems, items: _itemsFire),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
@@ -619,50 +576,6 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              SvgPicture.asset(
-                ImagePaths.technical,
-                color: ColorSchemes.secondary,
-                width: 16,
-                height: 16,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  "${S.of(context).technicianResponsibleForInstallingTheEquipment} : ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15.sp,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              DropdownButton<Employee>(
-                value: _selectedEmployee,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedEmployee = value;
-                  });
-                },
-                items: _employees.map((emp) {
-                  return DropdownMenuItem(
-                    value: emp,
-                    child: Text(
-                      emp.fullName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15.sp,
-                        color: ColorSchemes.black,
-                      ),
-                    ),
-                  );
-                }).toList(),
-                underline: const SizedBox(),
-              ),
-            ],
-          ),
           const SizedBox(height: 64),
           CustomButtonWidget(
             backgroundColor: ColorSchemes.primary,
@@ -697,7 +610,7 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
               SizedBox(width: 8.w),
               Expanded(
                 child: Text(
-                  S.of(context).submitAPriceOfferForInstantPermitIssuance,
+                  S.of(context).sendPriceOffer,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
@@ -711,7 +624,7 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
           Row(
             children: [
               SvgPicture.asset(
-                ImagePaths.priceTag,
+                ImagePaths.price,
                 width: 24.w,
                 height: 24.w,
                 color: ColorSchemes.black,
@@ -719,7 +632,7 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
               SizedBox(width: 16.h),
               Expanded(
                 child: Text(
-                  S.of(context).instantPermitIssuanceFee,
+                  S.of(context).maintenancePrice,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
@@ -737,9 +650,11 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               decoration: InputDecoration(
-                hintText: 'ex. 50 R.S',
+                hintText: S
+                    .of(context)
+                    .theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion,
                 hintStyle: TextStyle(
-                  fontSize: 14.sp,
+                  fontSize: 12.sp,
                   color: const Color(0xFFCCCCCC),
                 ),
                 border: OutlineInputBorder(
@@ -783,13 +698,10 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
   }
 
   void _filterItems(List<Items> items) {
-    _itemsAlarm.clear();
-    _itemsFire.clear();
+    _itemsExtinguishers.clear();
     for (var item in items) {
-      if (SystemType.isAlarmType(item.itemId.type)) {
-        _itemsAlarm.add(item);
-      } else if (SystemType.isFireType(item.itemId.type)) {
-        _itemsFire.add(item);
+      if (SystemType.isExtinguisherType(item.itemId.type)) {
+        _itemsExtinguishers.add(item);
       }
     }
     setState(() {});

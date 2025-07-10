@@ -16,36 +16,41 @@ import 'package:safety_zone/src/presentation/screens/map_search/map_search_scree
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class RequestDetailsInstallationScreen extends StatefulWidget {
+class RequestDetailsMaintainanceScreen extends StatefulWidget {
   final String requestId;
 
-  const RequestDetailsInstallationScreen({
+  const RequestDetailsMaintainanceScreen({
     super.key,
     required this.requestId,
   });
 
   @override
-  State<RequestDetailsInstallationScreen> createState() => _RequestDetailsInstallationScreenState();
+  State<RequestDetailsMaintainanceScreen> createState() =>
+      _RequestDetailsMaintainanceScreenState();
 }
 
-class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstallationScreen>
+class _RequestDetailsMaintainanceScreenState
+    extends State<RequestDetailsMaintainanceScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _visitValueController = TextEditingController();
+  final TextEditingController _emergencyVisitFeeController =
+      TextEditingController();
   int _currentIndex = 0;
   RequestDetails model = RequestDetails();
   bool _isPriceSending = false;
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
   final List<Items> _itemsAlarm = [];
   final List<Items> _itemsFire = [];
+  final List<Items> _itemsExtinguishers = [];
   List<Employee> _employees = [];
   Employee? _selectedEmployee = Employee();
 
   @override
   void initState() {
-    _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
+    // _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
     _bloc.add(GetEmployeesEvent());
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
@@ -135,7 +140,7 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
                   ),
                   backgroundColor: _isLoading
                       ? Colors.grey.shade300
-                      : ColorSchemes.black,
+                      : ColorSchemes.secondary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -357,117 +362,199 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
   Widget _buildSiteInfoTab(S s) {
     return Padding(
       padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Row(
-                children: [
-                  _isLoading
-                      ? Container(
-                          width: 32.w,
-                          height: 32.h,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(6),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Row(
+                  children: [
+                    _isLoading
+                        ? Container(
+                            width: 32.w,
+                            height: 32.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
+                        : SvgPicture.asset(
+                            ImagePaths.priceTag,
+                            color: ColorSchemes.secondary,
+                            width: 16,
+                            height: 16,
                           ),
-                        )
-                      : SvgPicture.asset(
-                          ImagePaths.priceTag,
-                          color: ColorSchemes.secondary,
-                          width: 16,
-                          height: 16,
-                        ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '${s.systemType}:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15.sp,
-                      color: Colors.black,
+                    const SizedBox(width: 8),
+                    Text(
+                      '${s.systemType}:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.sp,
+                        color: Colors.black,
+                      ),
                     ),
+                  ],
+                ),
+                const Spacer(),
+                Text(
+                  model.result.systemType,
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15.sp,
                   ),
-                ],
-              ),
-              const Spacer(),
-              Text(
-                model.result.systemType,
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 15.sp,
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Row(
-                children: [
-                  _isLoading
-                      ? Container(
-                          width: 32.w,
-                          height: 32.h,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        )
-                      : SvgPicture.asset(
-                          ImagePaths.area,
-                          color: ColorSchemes.secondary,
-                          width: 16,
-                          height: 16,
-                        ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '${s.area}:',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Text(
-                model.result.space.toString(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 64),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorSchemes.red,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-              ),
-              onPressed: () {
-                debugPrint('Saved Model: $model');
-                if (_currentIndex < 3 && _currentIndex >= 0) {
-                  if (_currentIndex == 2) {
-                    _currentIndex = 0;
-                  } else {
-                    _currentIndex++;
-                  }
-                  _tabController.animateTo(_currentIndex);
-                }
-              },
-              child: Text(s.next),
+              ],
             ),
-          ),
-          const SizedBox(height: 64),
-        ],
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Row(
+                  children: [
+                    _isLoading
+                        ? Container(
+                            width: 32.w,
+                            height: 32.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
+                        : SvgPicture.asset(
+                            ImagePaths.area,
+                            color: ColorSchemes.secondary,
+                            width: 16,
+                            height: 16,
+                          ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${s.area}:',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Text(
+                  model.result.space.toString(),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Row(
+                  children: [
+                    _isLoading
+                        ? Container(
+                            width: 32.w,
+                            height: 32.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
+                        : SvgPicture.asset(
+                            ImagePaths.visit,
+                            color: ColorSchemes.secondary,
+                            width: 32,
+                            height: 32,
+                          ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${s.numberOfVisits}:',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Text(
+                  "5 ${s.visits}",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Row(
+                  children: [
+                    _isLoading
+                        ? Container(
+                            width: 32.w,
+                            height: 32.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
+                        : SvgPicture.asset(
+                            ImagePaths.time,
+                            color: ColorSchemes.secondary,
+                            width: 16,
+                            height: 16,
+                          ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${s.contractTime}:',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Text(
+                  "5 ${s.hours}",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 64),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorSchemes.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                onPressed: () {
+                  debugPrint('Saved Model: $model');
+                  if (_currentIndex < 3 && _currentIndex >= 0) {
+                    if (_currentIndex == 2) {
+                      _currentIndex = 0;
+                    } else {
+                      _currentIndex++;
+                    }
+                    _tabController.animateTo(_currentIndex);
+                  }
+                },
+                child: Text(s.next),
+              ),
+            ),
+            const SizedBox(height: 64),
+          ],
+        ),
       ),
     );
   }
@@ -487,7 +574,14 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
             ),
             const SizedBox(height: 16),
             _buildQuantitySection(
-                title: s.extinguishingItems, items: _itemsFire),
+              title: s.extinguishingItems,
+              items: _itemsFire,
+            ),
+            const SizedBox(height: 24),
+            _buildQuantitySection(
+              title: s.fireExtinguishers,
+              items: _itemsExtinguishers,
+            ),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
@@ -697,12 +791,52 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
               SizedBox(width: 8.w),
               Expanded(
                 child: Text(
-                  S.of(context).submitAPriceOfferForInstantPermitIssuance,
+                  S.of(context).sendPriceOffer,
                   style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
                     color: ColorSchemes.black,
                   ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    '${s.numberOfVisits}:',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  _isLoading
+                      ? Container(
+                          width: 32.w,
+                          height: 32.h,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        )
+                      : SvgPicture.asset(
+                          ImagePaths.visit,
+                          color: ColorSchemes.black,
+                          width: 32,
+                          height: 32,
+                        ),
+                ],
+              ),
+              const Spacer(),
+              Text(
+                "5 ${s.visits}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16,
                 ),
               ),
             ],
@@ -710,53 +844,138 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
           SizedBox(height: 8.h),
           Row(
             children: [
-              SvgPicture.asset(
-                ImagePaths.priceTag,
-                width: 24.w,
-                height: 24.w,
-                color: ColorSchemes.black,
-              ),
-              SizedBox(width: 16.h),
               Expanded(
-                child: Text(
-                  S.of(context).instantPermitIssuanceFee,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: ColorSchemes.black,
-                  ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          ImagePaths.price,
+                          width: 24.w,
+                          height: 24.w,
+                          color: ColorSchemes.black,
+                        ),
+                        SizedBox(width: 16.h),
+                        Expanded(
+                          child: Text(
+                            S.of(context).visitValue,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                              color: ColorSchemes.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16.h),
+                    SizedBox(
+                      height: 38.h,
+                      child: TextField(
+                        controller: _visitValueController,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
+                        decoration: InputDecoration(
+                          hintText: 'ex. 50 R.S',
+                          filled: true,
+                          fillColor: ColorSchemes.white,
+                          hintStyle: TextStyle(
+                            fontSize: 14.sp,
+                            color: const Color(0xFFCCCCCC),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(2.r),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFE0E0E0)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(2.r),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFE0E0E0)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(2.r),
+                            borderSide:
+                                const BorderSide(color: Color(0xFF8B0000)),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12.w, vertical: 12.h),
+                        ),
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          ImagePaths.price,
+                          width: 24.w,
+                          height: 24.w,
+                          color: ColorSchemes.black,
+                        ),
+                        SizedBox(width: 16.h),
+                        Expanded(
+                          child: Text(
+                            S.of(context).emergencyVisitFee,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                              color: ColorSchemes.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16.h),
+                    SizedBox(
+                      height: 38.h,
+                      child: TextField(
+                        controller: _emergencyVisitFeeController,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
+                        decoration: InputDecoration(
+                          hintText: 'ex. 50 R.S',
+                          filled: true,
+                          fillColor: ColorSchemes.white,
+                          hintStyle: TextStyle(
+                            fontSize: 14.sp,
+                            color: const Color(0xFFCCCCCC),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(2.r),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFE0E0E0)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(2.r),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFE0E0E0)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(2.r),
+                            borderSide:
+                                const BorderSide(color: Color(0xFF8B0000)),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12.w, vertical: 12.h),
+                        ),
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
-          ),
-          SizedBox(height: 16.h),
-          SizedBox(
-            height: 38.h,
-            child: TextField(
-              controller: _priceController,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(
-                hintText: 'ex. 50 R.S',
-                hintStyle: TextStyle(
-                  fontSize: 14.sp,
-                  color: const Color(0xFFCCCCCC),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: const BorderSide(color: Color(0xFF8B0000)),
-                ),
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-              ),
-              onChanged: (value) {
-                setState(() {});
-              },
-            ),
           ),
           SizedBox(height: 32.h),
           CustomButtonWidget(
@@ -785,11 +1004,14 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
   void _filterItems(List<Items> items) {
     _itemsAlarm.clear();
     _itemsFire.clear();
+    _itemsExtinguishers.clear();
     for (var item in items) {
       if (SystemType.isAlarmType(item.itemId.type)) {
         _itemsAlarm.add(item);
       } else if (SystemType.isFireType(item.itemId.type)) {
         _itemsFire.add(item);
+      }else if (SystemType.isExtinguisherType(item.itemId.type)) {
+        _itemsExtinguishers.add(item);
       }
     }
     setState(() {});

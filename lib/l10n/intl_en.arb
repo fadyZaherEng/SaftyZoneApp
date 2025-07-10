@@ -378,6 +378,14 @@
   "renewContract": "Renew Contract",
   "chooseNonRenewalReason": "Choose reason for non-renewal",
   "printContract": "Print Contract",
-  "quantityPay": "Quantity Pay"
-}
+  "quantityPay": "Quantity Pay",
+  "numberOfVisits": "Number of Visits",
+  "contractTime": "Contract Time",
+  "visits": "Visits",
+  "hours": "Hours",
+  "visitValue": "Visit Value",
+  "emergencyVisitFee": "Emergency Visit Fee",
+  "maintenancePrice": "Maintenance Price",
+  "theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion": "The maintenance cost will be determined after receipt and service completion"
+ }
 

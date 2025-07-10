@@ -142,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "contractList": MessageLookupByLibrary.simpleMessage("قائمة العقود"),
     "contractSignature": MessageLookupByLibrary.simpleMessage("توقيع العقد"),
     "contractTerms": MessageLookupByLibrary.simpleMessage("بنود العقد"),
+    "contractTime": MessageLookupByLibrary.simpleMessage("وقت العقد"),
     "contractsList": MessageLookupByLibrary.simpleMessage("قائمة العقود"),
     "controlPanel": MessageLookupByLibrary.simpleMessage("لوحة التحكم"),
     "costOfMonitoredSystem": MessageLookupByLibrary.simpleMessage(
@@ -219,6 +220,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "emergencyExit": MessageLookupByLibrary.simpleMessage("خروج الطوارئ"),
     "emergencyLighting": MessageLookupByLibrary.simpleMessage("اضاءة الطوارئ"),
+    "emergencyVisitFee": MessageLookupByLibrary.simpleMessage(
+      "قيمة  زيارة الطواري",
+    ),
     "employeeSavedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "تم حفظ الموظف بنجاح",
     ),
@@ -307,6 +311,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "goToLocation": MessageLookupByLibrary.simpleMessage("اذهب إلى الموقع"),
     "holdAmount": MessageLookupByLibrary.simpleMessage("المبلغ المحفوظ"),
     "home": MessageLookupByLibrary.simpleMessage("الصفحة الرئيسية"),
+    "hours": MessageLookupByLibrary.simpleMessage("ساعات"),
     "iAgreeToThe": MessageLookupByLibrary.simpleMessage("أوافق على"),
     "ifTheEmployeeFailsToProvideTheRequirementsForTheJobTheContractWillBeTerminated":
         MessageLookupByLibrary.simpleMessage(
@@ -392,6 +397,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "maintenanceInProgress": MessageLookupByLibrary.simpleMessage(
       "صيانة قيد التنفيذ",
     ),
+    "maintenancePrice": MessageLookupByLibrary.simpleMessage("قيمة الصيانة"),
     "maintenanceReports": MessageLookupByLibrary.simpleMessage(
       "تقارير تحتاج الى صيانة",
     ),
@@ -423,6 +429,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "notes": MessageLookupByLibrary.simpleMessage("ملاحظات"),
     "notesHint": MessageLookupByLibrary.simpleMessage("مثال: لا يوجد ملاحظات"),
+    "numberOfVisits": MessageLookupByLibrary.simpleMessage("عدد الزيارات"),
     "ofs": MessageLookupByLibrary.simpleMessage("من"),
     "ok": MessageLookupByLibrary.simpleMessage("موافق"),
     "oldPassword": MessageLookupByLibrary.simpleMessage("كلمة المرور القديمة"),
@@ -636,6 +643,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "يجب على الموظف الحفاظ على البيانات الخاصة بك ولا تشارك اي معلومات حساسة.",
         ),
+    "theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion":
+        MessageLookupByLibrary.simpleMessage(
+          "سيتم تحديد قيمة الصيانة بعد استلام الطلب واكمال الخدمة",
+        ),
     "theNewPasswordMustBeDifferentFromThePreviousPassword":
         MessageLookupByLibrary.simpleMessage(
           "كلمة المرور الجديدة يجب ان تختلف عن كلمة المرور السابقة",
@@ -697,6 +708,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "عرض المزيد من المعلومات (الطلب فوري)",
     ),
     "visitDate": MessageLookupByLibrary.simpleMessage("تاريخ الزيارة"),
+    "visitValue": MessageLookupByLibrary.simpleMessage("قيمة الزيارة الواحده"),
+    "visits": MessageLookupByLibrary.simpleMessage(" زيارات"),
     "wallet": MessageLookupByLibrary.simpleMessage("المحفظة"),
     "wallet_summary": MessageLookupByLibrary.simpleMessage("ملخص المحفظة"),
     "wednesday": MessageLookupByLibrary.simpleMessage("الاربعاء"),

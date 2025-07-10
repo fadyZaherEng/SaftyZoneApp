@@ -378,5 +378,13 @@
   "renewContract": "تجديد العقد",
   "chooseNonRenewalReason": "اختر سبب عدم التجديد",
   "printContract": "طباعة العقد",
-  "quantityPay": "الكمية المدفوعة"
+  "quantityPay": "الكمية المدفوعة",
+  "numberOfVisits": "عدد الزيارات",
+  "contractTime": "وقت العقد",
+  "visits": " زيارات",
+  "hours": "ساعات",
+  "visitValue": "قيمة الزيارة الواحده",
+  "emergencyVisitFee": "قيمة  زيارة الطواري",
+  "maintenancePrice": "قيمة الصيانة",
+  "theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion": "سيتم تحديد قيمة الصيانة بعد استلام الطلب واكمال الخدمة"
 }

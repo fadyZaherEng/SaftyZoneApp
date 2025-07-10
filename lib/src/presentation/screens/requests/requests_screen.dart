@@ -431,15 +431,23 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     if (request.requestType == RequestType.InstallationCertificate.name) {
       Navigator.pushNamed(
         context,
-        Routes.requestDetailsScreen,
+        Routes.requestDetailsInstallationScreen,
         arguments: {'requestId': request.Id},
       );
     } else if (request.requestType == RequestType.MaintenanceContract.name) {
-      //TODO: navigate to Maintenance Contract
+      Navigator.pushNamed(
+        context,
+        Routes.requestDetailsMaintainanceScreen,
+        arguments: {'requestId': request.Id},
+      );
     } else if (request.requestType == RequestType.EngineeringInspection.name) {
       //TODO: navigate to Engineering Inspection
     } else if (request.requestType == RequestType.FireExtinguisher.name) {
-      //TODO: navigate to Fire Extinguisher
+      Navigator.pushNamed(
+        context,
+        Routes.requestDetailsExtinguishersScreen,
+        arguments: {'requestId': request.Id},
+      );
     }
   }
 
