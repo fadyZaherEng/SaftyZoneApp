@@ -12,7 +12,7 @@ import 'package:safety_zone/src/domain/usecase/auth/check_auth_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/screens/home/home_screen.dart';
 import 'package:safety_zone/src/presentation/screens/main/widgets/drawer_widget.dart';
-import 'package:safety_zone/src/presentation/screens/maintainance/maintainance_screen.dart';
+ import 'package:safety_zone/src/presentation/screens/maintainance_work/maintainance_work_screen.dart';
 import 'package:safety_zone/src/presentation/screens/requests/requests_screen.dart';
 import 'package:safety_zone/src/presentation/screens/working_progress/working_progress_screen.dart';
 
@@ -29,7 +29,7 @@ class _MainScreenState extends BaseState<MainScreen> {
   final List<Widget> _widgetOptions = [
     const HomeScreen(),
     const RequestsScreen(),
-    const MaintainanceScreen(),
+    const MaintainanceWorkScreen(),
     const WorkingProgressScreen(),
   ];
   List<String> _widgetTitles = [];
@@ -41,7 +41,7 @@ class _MainScreenState extends BaseState<MainScreen> {
     _widgetTitles = [
       S.of(context).home,
       S.of(context).requests,
-      S.of(context).maintainance,
+      S.of(context).table,
       S.of(context).workingInProgress,
     ];
     DataState<CheckAuth> dataState = await CheckAuthUseCase(injector())();

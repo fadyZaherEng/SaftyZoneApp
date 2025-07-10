@@ -3408,6 +3408,43 @@ class S {
       args: [],
     );
   }
+
+  /// `Scheduled Jobs`
+  String get scheduledJobs {
+    return Intl.message(
+      'Scheduled Jobs',
+      name: 'scheduledJobs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stay on top of your service tasks with clear schedules, assigned technicians, and real-time status updates`
+  String
+  get stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates {
+    return Intl.message(
+      'Stay on top of your service tasks with clear schedules, assigned technicians, and real-time status updates',
+      name:
+          'stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Table`
+  String get table {
+    return Intl.message('Table', name: 'table', desc: '', args: []);
+  }
+
+  /// `Completed`
+  String get completed {
+    return Intl.message('Completed', name: 'completed', desc: '', args: []);
+  }
+
+  /// `All`
+  String get all {
+    return Intl.message('All', name: 'all', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "alarmBell": MessageLookupByLibrary.simpleMessage("Alarm Bell"),
     "alarmItems": MessageLookupByLibrary.simpleMessage("Alarm Items:"),
+    "all": MessageLookupByLibrary.simpleMessage("All"),
     "amount_received": MessageLookupByLibrary.simpleMessage("Amounts Received"),
     "area": MessageLookupByLibrary.simpleMessage("Area"),
     "assignJobRole": MessageLookupByLibrary.simpleMessage("Assign Job Role"),
@@ -126,6 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "completeInformation": MessageLookupByLibrary.simpleMessage(
       "Complete My Information",
     ),
+    "completed": MessageLookupByLibrary.simpleMessage("Completed"),
     "componentDetails": MessageLookupByLibrary.simpleMessage(
       "Component details",
     ),
@@ -588,6 +590,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "saveEmployee": MessageLookupByLibrary.simpleMessage("Save Employee"),
     "saving": MessageLookupByLibrary.simpleMessage("Saving"),
+    "scheduledJobs": MessageLookupByLibrary.simpleMessage("Scheduled Jobs"),
     "search": MessageLookupByLibrary.simpleMessage("Search"),
     "searchAboutYourLocation": MessageLookupByLibrary.simpleMessage(
       "Search about your location",
@@ -653,6 +656,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "stayInformed": MessageLookupByLibrary.simpleMessage(
       "Stay informed about current site visits, assigned technicians, maintenance tasks, and pending reports to ensure smooth service execution",
     ),
+    "stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates":
+        MessageLookupByLibrary.simpleMessage(
+          "Stay on top of your service tasks with clear schedules, assigned technicians, and real-time status updates",
+        ),
     "storagePermissionIsRequiredToProceed":
         MessageLookupByLibrary.simpleMessage(
           "Storage permission is required to proceed",
@@ -673,6 +680,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "systemManager": MessageLookupByLibrary.simpleMessage("System Manager"),
     "systemType": MessageLookupByLibrary.simpleMessage("System Type"),
+    "table": MessageLookupByLibrary.simpleMessage("Table"),
     "takePhoto": MessageLookupByLibrary.simpleMessage("Take photo"),
     "tapToSelectLocation": MessageLookupByLibrary.simpleMessage(
       "Tap to select location",

@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "alarmBell": MessageLookupByLibrary.simpleMessage("صوت التنبيه"),
     "alarmItems": MessageLookupByLibrary.simpleMessage("بنود الإنذار:"),
+    "all": MessageLookupByLibrary.simpleMessage("الكل"),
     "amount_received": MessageLookupByLibrary.simpleMessage(
       "المبالغ التي تم استلامها",
     ),
@@ -125,6 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "completeInformation": MessageLookupByLibrary.simpleMessage(
       "استكمال معلوماتي",
     ),
+    "completed": MessageLookupByLibrary.simpleMessage("مكتمل"),
     "componentDetails": MessageLookupByLibrary.simpleMessage("تفاصيل المكون"),
     "conditionsOfTheContract": MessageLookupByLibrary.simpleMessage(
       "الشروط الخاصة بالعقد",
@@ -549,6 +551,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "save": MessageLookupByLibrary.simpleMessage("حفظ"),
     "saveEmployee": MessageLookupByLibrary.simpleMessage("حفظ الموظف"),
     "saving": MessageLookupByLibrary.simpleMessage("جاري الحفظ"),
+    "scheduledJobs": MessageLookupByLibrary.simpleMessage("الوظائف المجدولة"),
     "search": MessageLookupByLibrary.simpleMessage("البحث"),
     "searchAboutYourLocation": MessageLookupByLibrary.simpleMessage(
       "ابحث عن موقعك",
@@ -606,6 +609,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "stayInformed": MessageLookupByLibrary.simpleMessage(
       "ابقَ على اطلاع على زيارات الموقع الحالية، والفنيين المعينين، ومهام الصيانة، والتقارير المعلقة لضمان تنفيذ الخدمة بسلاسة.",
     ),
+    "stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates":
+        MessageLookupByLibrary.simpleMessage(
+          "استمر في متابعة المهام الخدمية الخاصة بك مع جداول موقرة وموظفين تمتيز وتحديثات حالة الخدمة في الوقت الحالي",
+        ),
     "storagePermissionIsRequiredToProceed":
         MessageLookupByLibrary.simpleMessage(
           "تحتاج الى صلاحية المخزن للمتابعة",
@@ -620,6 +627,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "systemAdministrator": MessageLookupByLibrary.simpleMessage("مدير النظام"),
     "systemManager": MessageLookupByLibrary.simpleMessage("مدير النظام"),
     "systemType": MessageLookupByLibrary.simpleMessage("نوع النظام"),
+    "table": MessageLookupByLibrary.simpleMessage("جدول"),
     "takePhoto": MessageLookupByLibrary.simpleMessage("استخراج صورة"),
     "tapToSelectLocation": MessageLookupByLibrary.simpleMessage(
       "انقر للحدد الموقع",

@@ -368,7 +368,7 @@
   "invoiceAmount": "Invoice Amount",
   "taxLabel": "Tax (15% of the invoice)",
   "uploadInvoice": "Upload Invoice",
-   "invoiceNote": "Requests without an official invoice from the service provider will not be accepted. The invoice must include the ID number and logo.",
+  "invoiceNote": "Requests without an official invoice from the service provider will not be accepted. The invoice must include the ID number and logo.",
   "currentBalance": "Pending Amount",
   "otherTransactionValue": "Other Transaction Value",
   "contractsList": "Contracts List",
@@ -386,6 +386,11 @@
   "visitValue": "Visit Value",
   "emergencyVisitFee": "Emergency Visit Fee",
   "maintenancePrice": "Maintenance Price",
-  "theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion": "The maintenance cost will be determined after receipt and service completion"
- }
+  "theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion": "The maintenance cost will be determined after receipt and service completion",
+  "scheduledJobs": "Scheduled Jobs",
+  "stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates": "Stay on top of your service tasks with clear schedules, assigned technicians, and real-time status updates",
+  "table": "Table",
+  "completed": "Completed",
+  "all": "All"
+}
 

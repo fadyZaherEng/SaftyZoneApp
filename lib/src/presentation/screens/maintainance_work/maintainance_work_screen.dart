@@ -11,15 +11,15 @@ import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class WorkingProgressScreen extends BaseStatefulWidget {
-  const WorkingProgressScreen({super.key});
+class MaintainanceWorkScreen extends BaseStatefulWidget {
+  const MaintainanceWorkScreen({super.key});
 
   @override
-  BaseState<WorkingProgressScreen> baseCreateState() =>
-      _WorkingProgressScreenState();
+  BaseState<MaintainanceWorkScreen> baseCreateState() =>
+      _MaintainanceWorkScreenState();
 }
 
-class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
+class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
   final List<Requests> _workingProgress = [
     Requests(
       id: 2458926,
@@ -53,6 +53,9 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
     ),
   ];
   bool _isLoading = true;
+  bool _isComplete = false;
+  bool _isAll = true;
+  bool _isProgress = false;
 
   @override
   void didChangeDependencies() {
@@ -122,7 +125,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            s.maintenanceInProgress,
+            s.scheduledJobs,
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,
@@ -130,7 +133,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            s.stayInformed,
+            s.stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates,
             style: TextStyle(
               color: Colors.grey[700],
               fontSize: 14.sp,
@@ -190,7 +193,86 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               ),
             ),
           ),
+          const SizedBox(height: 16),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _statusTab(
+                  context,
+                  s.all,
+                  isActive: _isAll,
+                  onTap: () {
+                    setState(() {
+                      _isAll = true;
+                      _isProgress = false;
+                      _isComplete = false;
+                    });
+                  },
+                ),
+                _statusTab(
+                  context,
+                  s.progress,
+                  isActive: _isProgress,
+                  onTap: () {
+                    setState(() {
+                      _isAll = false;
+                      _isProgress = true;
+                      _isComplete = false;
+                    });
+                  },
+                ),
+                _statusTab(
+                  context,
+                  s.completed,
+                  isActive: _isComplete,
+                  onTap: () {
+                    setState(() {
+                      _isAll = false;
+                      _isProgress = false;
+                      _isComplete = true;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
         ],
+      ),
+    );
+  }
+
+  Widget _statusTab(
+    BuildContext context,
+    String label, {
+    bool isActive = false,
+    required void Function() onTap,
+  }) {
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+          decoration: BoxDecoration(
+            color: isActive ? ColorSchemes.white : Colors.grey[300],
+            borderRadius: BorderRadius.circular(10),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isActive ? ColorSchemes.primary : Colors.grey,
+              fontWeight: FontWeight.w600,
+              fontSize: 15.sp,
+            ),
+          ),
+        ),
       ),
     );
   }
