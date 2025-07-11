@@ -130,4 +130,8 @@ class ImagePaths {
   static const String price = "assets/images/price.svg";
   static const String dollar = "assets/images/dollar.svg";
   static const String time = "assets/images/time.svg";
+  static const String fire = "assets/images/fire.svg";
+  static const String firePng1 = "assets/images/fire_png.png";
+  static const String firePng2 = "assets/images/fire_png2.png";
+  static const String firePng3 = "assets/images/fire_png3.png";
  }

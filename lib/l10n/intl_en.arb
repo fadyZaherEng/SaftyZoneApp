@@ -400,6 +400,15 @@
   "stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention": "Stay informed with all critical alerts and actions that require your attention",
   "unRead": "Unread",
   "mentionedInIt": "Mentioned in it",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "submitOfferTitle": "Submit Price Offer (by Kilo)",
+  "fireExtinguisher6kg": "6kg Powder Fire Extinguisher",
+  "fireExtinguisher12kg": "12kg Powder Fire Extinguisher",
+  "fireExtinguisherCO2": "CO2 Fire Extinguisher",
+  "maintenancePricePerKilo": "Maintenance Price (per Kilo)",
+  "example3": "Example: 3 SAR",
+  "example350": "Example: 350 SAR",
+  "noteText": "Note: Price includes pickup and delivery to the branch",
+  "finalPrice": "Final Price (after pickup and maintenance)"
 }
 

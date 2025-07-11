@@ -274,6 +274,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterYourNotes": MessageLookupByLibrary.simpleMessage("Enter your notes"),
     "error": MessageLookupByLibrary.simpleMessage("Error"),
     "errorTitle": MessageLookupByLibrary.simpleMessage("Error"),
+    "example3": MessageLookupByLibrary.simpleMessage("Example: 3 SAR"),
+    "example350": MessageLookupByLibrary.simpleMessage("Example: 350 SAR"),
     "extinguisher12KgPowder": MessageLookupByLibrary.simpleMessage(
       "Fire Extinguisher 12kg Powder",
     ),
@@ -294,12 +296,24 @@ class MessageLookup extends MessageLookupByLibrary {
     "feeDescriptionText": MessageLookupByLibrary.simpleMessage(
       "Please enter the specific fees for each system to accurately calculate the service cost.",
     ),
+    "finalPrice": MessageLookupByLibrary.simpleMessage(
+      "Final Price (after pickup and maintenance)",
+    ),
     "finish": MessageLookupByLibrary.simpleMessage("Finish"),
     "fireBox": MessageLookupByLibrary.simpleMessage("Fire Box"),
     "fireCabinets": MessageLookupByLibrary.simpleMessage("Fire Cabinets"),
     "fireDetector": MessageLookupByLibrary.simpleMessage("Fire Detector"),
     "fireExtinguisher": MessageLookupByLibrary.simpleMessage(
       "Fire Extinguisher",
+    ),
+    "fireExtinguisher12kg": MessageLookupByLibrary.simpleMessage(
+      "12kg Powder Fire Extinguisher",
+    ),
+    "fireExtinguisher6kg": MessageLookupByLibrary.simpleMessage(
+      "6kg Powder Fire Extinguisher",
+    ),
+    "fireExtinguisherCO2": MessageLookupByLibrary.simpleMessage(
+      "CO2 Fire Extinguisher",
     ),
     "fireExtinguisherMaintenance": MessageLookupByLibrary.simpleMessage(
       "Fire Extinguisher Maintenance",
@@ -437,6 +451,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "maintenancePrice": MessageLookupByLibrary.simpleMessage(
       "Maintenance Price",
     ),
+    "maintenancePricePerKilo": MessageLookupByLibrary.simpleMessage(
+      "Maintenance Price (per Kilo)",
+    ),
     "maintenanceReports": MessageLookupByLibrary.simpleMessage(
       "Reports need maintenance",
     ),
@@ -466,6 +483,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
     "noRequestsFound": MessageLookupByLibrary.simpleMessage(
       "No requests found",
+    ),
+    "noteText": MessageLookupByLibrary.simpleMessage(
+      "Note: Price includes pickup and delivery to the branch",
     ),
     "notes": MessageLookupByLibrary.simpleMessage("Notes"),
     "notesHint": MessageLookupByLibrary.simpleMessage(
@@ -684,6 +704,9 @@ class MessageLookup extends MessageLookupByLibrary {
           "Submit a Price Offer for Instant Permit Issuance",
         ),
     "submitInvoice": MessageLookupByLibrary.simpleMessage("Submit Invoice"),
+    "submitOfferTitle": MessageLookupByLibrary.simpleMessage(
+      "Submit Price Offer (by Kilo)",
+    ),
     "submitQuotation": MessageLookupByLibrary.simpleMessage("Submit Quotation"),
     "submitRegistration": MessageLookupByLibrary.simpleMessage(
       "Submit Registration",

@@ -87,7 +87,7 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
     }, builder: (context, state) {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: ColorSchemes.red,
+          backgroundColor: ColorSchemes.primary,
           elevation: 0,
           centerTitle: true,
           title: Text(s.requests, style: const TextStyle(color: Colors.white)),

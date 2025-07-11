@@ -400,5 +400,14 @@
   "stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention": "استمر في الاطلاع على كل التنبيهات الحرجة والاجراءات التي تتطلب تنبيهك",
   "unRead": "غير مقروء",
   "mentionedInIt": "مذكوره فيه",
-  "notifications": "الاشعارات"
+  "notifications": "الاشعارات",
+  "submitOfferTitle": "إرسال عرض السعر (بالكيلو)",
+  "fireExtinguisher6kg": "طفاية حريق 6 كيلو بودره",
+  "fireExtinguisher12kg": "طفاية حريق 12 كيلو بودره",
+  "fireExtinguisherCO2": "طفاية حريق CO2",
+  "maintenancePricePerKilo": "سعر الصيانة (بالكيلو)",
+  "example3": "مثال 3 رس",
+  "example350": "مثال 350 رس",
+  "noteText": "ملاحظة: السعر يشمل الاستلام و التوصيل للفرع",
+  "finalPrice": "السعر النهائي (بعد الاستلام و الصيانة)"
 }

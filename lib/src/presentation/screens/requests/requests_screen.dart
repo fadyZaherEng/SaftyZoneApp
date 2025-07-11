@@ -317,34 +317,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
             const SizedBox(height: 4),
             Row(
               children: [
-                // ClipRRect(
-                //   borderRadius: BorderRadius.circular(50),
-                //   child: SizedBox(
-                //     width: 32.w,
-                //     height: 32.h,
-                //     child: Image.network(
-                //       request.image,
-                //       width: 32.w,
-                //       height: 32.h,
-                //       fit: BoxFit.cover,
-                //       errorBuilder: (context, error, stackTrace) => Center(
-                //         child: CircularProgressIndicator(
-                //           color: ColorSchemes.primary,
-                //         ),
-                //       ),
-                //       loadingBuilder: (context, child, loadingProgress) =>
-                //           loadingProgress == null
-                //               ? child
-                //               : Center(
-                //                   child: CircularProgressIndicator(
-                //                     color: ColorSchemes.primary,
-                //                   ),
-                //                 ),
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(width: 8),
-                Text(
+                 Text(
                   request.branch.branchName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
@@ -460,6 +433,11 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
       );
     } else if (request.requestType == RequestType.EngineeringInspection.name) {
       //TODO: navigate to Engineering Inspection
+      Navigator.pushNamed(
+        context,
+        Routes.fireExtinguishersScreen,
+        arguments: {'requestId': request.Id},
+      );
     } else if (request.requestType == RequestType.FireExtinguisher.name) {
       Navigator.pushNamed(
         context,

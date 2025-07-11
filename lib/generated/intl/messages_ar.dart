@@ -264,6 +264,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterYourNotes": MessageLookupByLibrary.simpleMessage("ادخل ملاحظاتك"),
     "error": MessageLookupByLibrary.simpleMessage("خطأ"),
     "errorTitle": MessageLookupByLibrary.simpleMessage("خطأ"),
+    "example3": MessageLookupByLibrary.simpleMessage("مثال 3 رس"),
+    "example350": MessageLookupByLibrary.simpleMessage("مثال 350 رس"),
     "extinguisher12KgPowder": MessageLookupByLibrary.simpleMessage(
       "طفاية حريق 12 كيلو بودره",
     ),
@@ -277,11 +279,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "feeDescriptionText": MessageLookupByLibrary.simpleMessage(
       "الرجاء إدخال الرسوم المحددة لكل نظام لحساب تكلفة الخدمة بدقة.",
     ),
+    "finalPrice": MessageLookupByLibrary.simpleMessage(
+      "السعر النهائي (بعد الاستلام و الصيانة)",
+    ),
     "finish": MessageLookupByLibrary.simpleMessage("انهاء"),
     "fireBox": MessageLookupByLibrary.simpleMessage("صندوق حريق"),
     "fireCabinets": MessageLookupByLibrary.simpleMessage("حقائب الحريق"),
     "fireDetector": MessageLookupByLibrary.simpleMessage("محدد الحريق"),
     "fireExtinguisher": MessageLookupByLibrary.simpleMessage("طفاية حريق"),
+    "fireExtinguisher12kg": MessageLookupByLibrary.simpleMessage(
+      "طفاية حريق 12 كيلو بودره",
+    ),
+    "fireExtinguisher6kg": MessageLookupByLibrary.simpleMessage(
+      "طفاية حريق 6 كيلو بودره",
+    ),
+    "fireExtinguisherCO2": MessageLookupByLibrary.simpleMessage(
+      "طفاية حريق CO2",
+    ),
     "fireExtinguisherMaintenance": MessageLookupByLibrary.simpleMessage(
       "صيانة الاستخراجات الحريق",
     ),
@@ -405,6 +419,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "صيانة قيد التنفيذ",
     ),
     "maintenancePrice": MessageLookupByLibrary.simpleMessage("قيمة الصيانة"),
+    "maintenancePricePerKilo": MessageLookupByLibrary.simpleMessage(
+      "سعر الصيانة (بالكيلو)",
+    ),
     "maintenanceReports": MessageLookupByLibrary.simpleMessage(
       "تقارير تحتاج الى صيانة",
     ),
@@ -434,6 +451,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noRequestsFound": MessageLookupByLibrary.simpleMessage(
       "لم يتم العثور على طلبات",
+    ),
+    "noteText": MessageLookupByLibrary.simpleMessage(
+      "ملاحظة: السعر يشمل الاستلام و التوصيل للفرع",
     ),
     "notes": MessageLookupByLibrary.simpleMessage("ملاحظات"),
     "notesHint": MessageLookupByLibrary.simpleMessage("مثال: لا يوجد ملاحظات"),
@@ -633,6 +653,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "submitAPriceOfferForInstantPermitIssuance":
         MessageLookupByLibrary.simpleMessage("تقديم عرض سعر إصدار رخصة فورية"),
     "submitInvoice": MessageLookupByLibrary.simpleMessage("تقديم مطالبة"),
+    "submitOfferTitle": MessageLookupByLibrary.simpleMessage(
+      "إرسال عرض السعر (بالكيلو)",
+    ),
     "submitQuotation": MessageLookupByLibrary.simpleMessage("تقديم عرض سعر"),
     "submitRegistration": MessageLookupByLibrary.simpleMessage("تقديم التسجيل"),
     "submit_invoice": MessageLookupByLibrary.simpleMessage("تقديم مطالبة"),

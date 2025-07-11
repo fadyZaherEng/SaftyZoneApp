@@ -3522,6 +3522,91 @@ class S {
       args: [],
     );
   }
+
+  /// `Submit Price Offer (by Kilo)`
+  String get submitOfferTitle {
+    return Intl.message(
+      'Submit Price Offer (by Kilo)',
+      name: 'submitOfferTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `6kg Powder Fire Extinguisher`
+  String get fireExtinguisher6kg {
+    return Intl.message(
+      '6kg Powder Fire Extinguisher',
+      name: 'fireExtinguisher6kg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `12kg Powder Fire Extinguisher`
+  String get fireExtinguisher12kg {
+    return Intl.message(
+      '12kg Powder Fire Extinguisher',
+      name: 'fireExtinguisher12kg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CO2 Fire Extinguisher`
+  String get fireExtinguisherCO2 {
+    return Intl.message(
+      'CO2 Fire Extinguisher',
+      name: 'fireExtinguisherCO2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintenance Price (per Kilo)`
+  String get maintenancePricePerKilo {
+    return Intl.message(
+      'Maintenance Price (per Kilo)',
+      name: 'maintenancePricePerKilo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Example: 3 SAR`
+  String get example3 {
+    return Intl.message('Example: 3 SAR', name: 'example3', desc: '', args: []);
+  }
+
+  /// `Example: 350 SAR`
+  String get example350 {
+    return Intl.message(
+      'Example: 350 SAR',
+      name: 'example350',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note: Price includes pickup and delivery to the branch`
+  String get noteText {
+    return Intl.message(
+      'Note: Price includes pickup and delivery to the branch',
+      name: 'noteText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Final Price (after pickup and maintenance)`
+  String get finalPrice {
+    return Intl.message(
+      'Final Price (after pickup and maintenance)',
+      name: 'finalPrice',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
