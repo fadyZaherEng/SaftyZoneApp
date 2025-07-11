@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
@@ -17,7 +18,7 @@ import 'package:safety_zone/src/presentation/screens/map_search/map_search_scree
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class RequestDetailsInstallationScreen extends StatefulWidget {
+class RequestDetailsInstallationScreen extends BaseStatefulWidget {
   final String requestId;
 
   const RequestDetailsInstallationScreen({
@@ -26,12 +27,12 @@ class RequestDetailsInstallationScreen extends StatefulWidget {
   });
 
   @override
-  State<RequestDetailsInstallationScreen> createState() =>
+  BaseState<RequestDetailsInstallationScreen> baseCreateState() =>
       _RequestDetailsInstallationScreenState();
 }
 
 class _RequestDetailsInstallationScreenState
-    extends State<RequestDetailsInstallationScreen>
+    extends BaseState<RequestDetailsInstallationScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _priceController = TextEditingController();
@@ -66,7 +67,7 @@ class _RequestDetailsInstallationScreenState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget baseBuild(BuildContext context) {
     final s = S.of(context);
     return BlocConsumer<RequestsBloc, RequestsState>(
         listener: (context, state) {
@@ -88,9 +89,13 @@ class _RequestDetailsInstallationScreenState
         _showValidationError(state.message, false);
       } else if (state is SendPriceOfferSuccessState) {
         _showValidationError(S.of(context).sendPriceOfferSuccess, false);
+        hideLoading();
         Navigator.pop(context);
       } else if (state is SendPriceOfferErrorState) {
         _showValidationError(state.message, false);
+        hideLoading();
+      } else if (state is SendPriceOfferLoadingState) {
+        showLoading();
       }
     }, builder: (context, state) {
       return Scaffold(
