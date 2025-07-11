@@ -396,5 +396,9 @@
   "maintenanceContracts": "عقود الصيانة",
   "editPriceOffer": "تعديل عرض السعر",
   "fireExtinguisher": "طفاية حريق",
-  "printer": "طابعة"
+  "printer": "طابعة",
+  "stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention": "استمر في الاطلاع على كل التنبيهات الحرجة والاجراءات التي تتطلب تنبيهك",
+  "unRead": "غير مقروء",
+  "mentionedInIt": "مذكوره فيه",
+  "notifications": "الاشعارات"
 }

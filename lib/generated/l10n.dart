@@ -3485,6 +3485,43 @@ class S {
   String get printer {
     return Intl.message('Printer', name: 'printer', desc: '', args: []);
   }
+
+  /// `Stay informed with all critical alerts and actions that require your attention`
+  String
+  get stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention {
+    return Intl.message(
+      'Stay informed with all critical alerts and actions that require your attention',
+      name:
+          'stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unread`
+  String get unRead {
+    return Intl.message('Unread', name: 'unRead', desc: '', args: []);
+  }
+
+  /// `Mentioned in it`
+  String get mentionedInIt {
+    return Intl.message(
+      'Mentioned in it',
+      name: 'mentionedInIt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

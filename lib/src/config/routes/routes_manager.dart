@@ -9,6 +9,7 @@ import 'package:safety_zone/src/presentation/screens/language/language_screen.da
 import 'package:safety_zone/src/presentation/screens/login/login_screen.dart';
 import 'package:safety_zone/src/presentation/screens/main/main_screen.dart';
 import 'package:safety_zone/src/presentation/screens/maintainance/maintainance_screen.dart';
+import 'package:safety_zone/src/presentation/screens/notifications/notifications_screen.dart';
 import 'package:safety_zone/src/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:safety_zone/src/presentation/screens/price_offer/prices_need_escalation_screen.dart';
 import 'package:safety_zone/src/presentation/screens/register/vendor_registration_screen.dart';
@@ -61,7 +62,8 @@ class Routes {
   static const String workingProgressScreen = '/working-progress-screen';
   static const String walletScreen = '/wallet-screen';
   static const String contractScreen = '/contract-screen';
-  static const String pricesNeedEscalationScreen = '/Prices-need-escalation-screen';
+  static const String pricesNeedEscalationScreen = '/prices-need-escalation-screen';
+  static const String notificationsScreen = '/notifications-screen';
 }
 
 class RoutesManager {
@@ -159,6 +161,9 @@ class RoutesManager {
 
       case Routes.pricesNeedEscalationScreen:
         return _materialRoute(const PricesNeedEscalationScreen());
+
+      case Routes.notificationsScreen:
+        return _materialRoute(const NotificationsScreen());
       default:
         return unDefinedRoute(routeSettings.name.toString());
     }

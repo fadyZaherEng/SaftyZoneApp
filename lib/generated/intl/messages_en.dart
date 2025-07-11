@@ -441,6 +441,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Reports need maintenance",
     ),
     "mapLocation": MessageLookupByLibrary.simpleMessage("Location on the map"),
+    "mentionedInIt": MessageLookupByLibrary.simpleMessage("Mentioned in it"),
     "messages": MessageLookupByLibrary.simpleMessage("Messages"),
     "monday": MessageLookupByLibrary.simpleMessage("Monday"),
     "newPassword": MessageLookupByLibrary.simpleMessage("New Password"),
@@ -470,6 +471,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "notesHint": MessageLookupByLibrary.simpleMessage(
       "Enter your notes here ...",
     ),
+    "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
     "numberOfVisits": MessageLookupByLibrary.simpleMessage("Number of Visits"),
     "ofs": MessageLookupByLibrary.simpleMessage("of"),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
@@ -665,6 +667,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "stayInformed": MessageLookupByLibrary.simpleMessage(
       "Stay informed about current site visits, assigned technicians, maintenance tasks, and pending reports to ensure smooth service execution",
     ),
+    "stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention":
+        MessageLookupByLibrary.simpleMessage(
+          "Stay informed with all critical alerts and actions that require your attention",
+        ),
     "stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates":
         MessageLookupByLibrary.simpleMessage(
           "Stay on top of your service tasks with clear schedules, assigned technicians, and real-time status updates",
@@ -737,6 +743,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tuesday": MessageLookupByLibrary.simpleMessage("Tuesday"),
     "typeOfActivity": MessageLookupByLibrary.simpleMessage("Type of Activity"),
     "uae": MessageLookupByLibrary.simpleMessage("UAE"),
+    "unRead": MessageLookupByLibrary.simpleMessage("Unread"),
     "untilCompleted": MessageLookupByLibrary.simpleMessage(
       " until they are completed.",
     ),

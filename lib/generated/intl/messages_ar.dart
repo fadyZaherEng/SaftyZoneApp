@@ -409,6 +409,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "تقارير تحتاج الى صيانة",
     ),
     "mapLocation": MessageLookupByLibrary.simpleMessage("الموقع على الخريطة"),
+    "mentionedInIt": MessageLookupByLibrary.simpleMessage("مذكوره فيه"),
     "messages": MessageLookupByLibrary.simpleMessage("الرسائل"),
     "monday": MessageLookupByLibrary.simpleMessage("الاثنين"),
     "newPassword": MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
@@ -436,6 +437,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "notes": MessageLookupByLibrary.simpleMessage("ملاحظات"),
     "notesHint": MessageLookupByLibrary.simpleMessage("مثال: لا يوجد ملاحظات"),
+    "notifications": MessageLookupByLibrary.simpleMessage("الاشعارات"),
     "numberOfVisits": MessageLookupByLibrary.simpleMessage("عدد الزيارات"),
     "ofs": MessageLookupByLibrary.simpleMessage("من"),
     "ok": MessageLookupByLibrary.simpleMessage("موافق"),
@@ -616,6 +618,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "stayInformed": MessageLookupByLibrary.simpleMessage(
       "ابقَ على اطلاع على زيارات الموقع الحالية، والفنيين المعينين، ومهام الصيانة، والتقارير المعلقة لضمان تنفيذ الخدمة بسلاسة.",
     ),
+    "stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention":
+        MessageLookupByLibrary.simpleMessage(
+          "استمر في الاطلاع على كل التنبيهات الحرجة والاجراءات التي تتطلب تنبيهك",
+        ),
     "stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates":
         MessageLookupByLibrary.simpleMessage(
           "استمر في متابعة المهام الخدمية الخاصة بك مع جداول موقرة وموظفين تمتيز وتحديثات حالة الخدمة في الوقت الحالي",
@@ -678,6 +684,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tuesday": MessageLookupByLibrary.simpleMessage("الثلاثاء"),
     "typeOfActivity": MessageLookupByLibrary.simpleMessage("نوع النظام"),
     "uae": MessageLookupByLibrary.simpleMessage("الامارات"),
+    "unRead": MessageLookupByLibrary.simpleMessage("غير مقروء"),
     "untilCompleted": MessageLookupByLibrary.simpleMessage(
       " حتى يتم استكمالها.",
     ),

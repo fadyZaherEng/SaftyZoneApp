@@ -396,6 +396,10 @@
   "maintenanceContracts": "Maintenance Contracts",
   "editPriceOffer": "Edit Price Offer",
   "fireExtinguisher": "Fire Extinguisher",
-  "printer": "Printer"
+  "printer": "Printer",
+  "stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention": "Stay informed with all critical alerts and actions that require your attention",
+  "unRead": "Unread",
+  "mentionedInIt": "Mentioned in it",
+  "notifications": "Notifications"
 }
 
