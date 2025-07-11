@@ -12,3 +12,8 @@ final class GetConsumerRequestsDetailsEvent extends RequestsEvent {
 }
 
 final class GetEmployeesEvent extends RequestsEvent {}
+final class SendPriceOfferEvent extends RequestsEvent {
+  final SendPriceRequest request;
+
+  SendPriceOfferEvent({required this.request});
+}

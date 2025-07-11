@@ -47,3 +47,17 @@ final class GetEmployeesErrorState extends RequestsState {
 
   GetEmployeesErrorState(this.message);
 }
+
+final class SendPriceOfferLoadingState extends RequestsState {}
+
+final class SendPriceOfferSuccessState extends RequestsState {
+  final RemoteSendPrice sendPrice;
+
+  SendPriceOfferSuccessState(this.sendPrice);
+}
+
+final class SendPriceOfferErrorState extends RequestsState {
+  final String message;
+
+  SendPriceOfferErrorState(this.message);
+}

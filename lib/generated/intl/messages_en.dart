@@ -658,6 +658,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "send": MessageLookupByLibrary.simpleMessage("Send"),
     "sendPriceOffer": MessageLookupByLibrary.simpleMessage("Send Price Offer"),
+    "sendPriceOfferSuccess": MessageLookupByLibrary.simpleMessage(
+      "Price offer sent successfully",
+    ),
     "serviceProvider": MessageLookupByLibrary.simpleMessage("service provider"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "signin": MessageLookupByLibrary.simpleMessage("Sign in"),
@@ -755,6 +758,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "thisFieldIsRequired": MessageLookupByLibrary.simpleMessage(
       "This field is required",
     ),
+    "thisProviderHasAlreadyMadeAnOfferForThisRequest":
+        MessageLookupByLibrary.simpleMessage(
+          "This provider has already made an offer for this request",
+        ),
     "thursday": MessageLookupByLibrary.simpleMessage("Thursday"),
     "to": MessageLookupByLibrary.simpleMessage("To"),
     "todayTasks": MessageLookupByLibrary.simpleMessage(

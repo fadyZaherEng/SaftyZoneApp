@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart';
 import 'package:safety_zone/src/domain/entities/home/request_details.dart';
@@ -25,10 +26,12 @@ class RequestDetailsInstallationScreen extends StatefulWidget {
   });
 
   @override
-  State<RequestDetailsInstallationScreen> createState() => _RequestDetailsInstallationScreenState();
+  State<RequestDetailsInstallationScreen> createState() =>
+      _RequestDetailsInstallationScreenState();
 }
 
-class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstallationScreen>
+class _RequestDetailsInstallationScreenState
+    extends State<RequestDetailsInstallationScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _priceController = TextEditingController();
@@ -83,6 +86,11 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
         _selectedEmployee = _employees.first;
       } else if (state is GetEmployeesErrorState) {
         _showValidationError(state.message, false);
+      } else if (state is SendPriceOfferSuccessState) {
+        _showValidationError(S.of(context).sendPriceOfferSuccess, false);
+        Navigator.pop(context);
+      } else if (state is SendPriceOfferErrorState) {
+        _showValidationError(state.message, false);
       }
     }, builder: (context, state) {
       return Scaffold(
@@ -96,17 +104,33 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: Skeletonizer(
             enabled: _isLoading,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildCardHeader(s),
-                const SizedBox(height: 12),
-                if (!_isPriceSending) _buildTabBar(s),
-                if (!_isPriceSending) const SizedBox(height: 16),
-                if (!_isPriceSending) Expanded(child: _buildTabContent(s)),
-                if (_isPriceSending) _buildPriceSending(s),
-              ],
-            ),
+            child: _isPriceSending
+                ? SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildCardHeader(s),
+                        const SizedBox(height: 12),
+                        if (!_isPriceSending) _buildTabBar(s),
+                        if (!_isPriceSending) const SizedBox(height: 16),
+                        if (!_isPriceSending)
+                          Expanded(child: _buildTabContent(s)),
+                        if (_isPriceSending) _buildPriceSending(s),
+                      ],
+                    ),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildCardHeader(s),
+                      const SizedBox(height: 12),
+                      if (!_isPriceSending) _buildTabBar(s),
+                      if (!_isPriceSending) const SizedBox(height: 16),
+                      if (!_isPriceSending)
+                        Expanded(child: _buildTabContent(s)),
+                      if (_isPriceSending) _buildPriceSending(s),
+                    ],
+                  ),
           ),
         ),
       );
@@ -133,9 +157,8 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
                       color: Colors.white,
                     ),
                   ),
-                  backgroundColor: _isLoading
-                      ? Colors.grey.shade300
-                      : ColorSchemes.black,
+                  backgroundColor:
+                      _isLoading ? Colors.grey.shade300 : ColorSchemes.black,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -155,7 +178,7 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
               children: [
                 Expanded(
                   child: Text(
-                    model.termsAndConditions.company,
+                    model.result.branch.branchName,
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
@@ -169,7 +192,7 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
                     const Icon(Icons.location_pin, size: 16),
                     const SizedBox(width: 4),
                     Text(
-                      model.result.branch.address.split(" ").last,
+                      model.result.branch.address.split(",").last,
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
@@ -765,6 +788,15 @@ class _RequestDetailsInstallationScreenState extends State<RequestDetailsInstall
             text: S.of(context).send,
             onTap: () {
               debugPrint('Saved Model: $model');
+              _bloc.add(
+                SendPriceOfferEvent(
+                  request: SendPriceRequest(
+                    consumerRequest: model.result.consumer,
+                    responsibleEmployee: model.termsAndConditions.employee.Id,
+                    price: int.parse(_priceController.text),
+                  ),
+                ),
+              );
             },
           ),
           const SizedBox(height: 32),

@@ -3607,6 +3607,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Price offer sent successfully`
+  String get sendPriceOfferSuccess {
+    return Intl.message(
+      'Price offer sent successfully',
+      name: 'sendPriceOfferSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This provider has already made an offer for this request`
+  String get thisProviderHasAlreadyMadeAnOfferForThisRequest {
+    return Intl.message(
+      'This provider has already made an offer for this request',
+      name: 'thisProviderHasAlreadyMadeAnOfferForThisRequest',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

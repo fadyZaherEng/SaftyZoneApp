@@ -111,7 +111,6 @@ class _MyAppState extends State<MyApp> {
                       theme: AppTheme(locale.languageCode).light,
                       themeMode: themeState,
                       locale: locale,
-                      // Pass versionCode when navigating to the splash screen
                       builder: (context, child) {
                         return _buildInitialScreen(context, child);
                       },
@@ -128,7 +127,10 @@ class _MyAppState extends State<MyApp> {
 
   Widget _buildInitialScreen(BuildContext context, Widget? child) {
     return Navigator(
-      observers: [ChuckerFlutter.navigatorObserver, routeObserver],
+      observers: [
+        ChuckerFlutter.navigatorObserver,
+        routeObserver,
+      ],
       key: navigatorKey,
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(builder: (_) => SplashScreen());

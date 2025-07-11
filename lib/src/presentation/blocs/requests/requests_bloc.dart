@@ -6,6 +6,8 @@ import 'package:meta/meta.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/data/sources/remote/api_key.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_send_price.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/request_details.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
@@ -15,6 +17,7 @@ import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_use_ca
 import 'package:http/http.dart' as http;
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart'
     as employee;
+import 'package:safety_zone/src/domain/usecase/home/send_offer_price_use_case.dart';
 
 part 'requests_event.dart';
 
@@ -23,14 +26,17 @@ part 'requests_state.dart';
 class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
   final GetConsumerRequestDetailsUseCase _getConsumerRequestDetailsUseCase;
   final GetConsumerRequestsUseCase _getConsumerRequestsUseCase;
+  final SendOfferPriceUseCase _sendOfferPriceUseCase;
 
   RequestsBloc(
     this._getConsumerRequestDetailsUseCase,
     this._getConsumerRequestsUseCase,
+    this._sendOfferPriceUseCase,
   ) : super(RequestsInitial()) {
     on<GetConsumerRequestsEvent>(_onGetConsumerRequestsEvent);
     on<GetConsumerRequestsDetailsEvent>(_onGetConsumerRequestsDetailsEvent);
     on<GetEmployeesEvent>(_onGetEmployeesEvent);
+    on<SendPriceOfferEvent>(_onSendPriceOfferEvent);
   }
 
   FutureOr<void> _onGetConsumerRequestsEvent(
@@ -91,6 +97,19 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
       }
     } catch (e) {
       emit(GetEmployeesErrorState(e.toString()));
+    }
+  }
+
+  FutureOr<void> _onSendPriceOfferEvent(
+      SendPriceOfferEvent event, Emitter<RequestsState> emit) async {
+    emit(SendPriceOfferLoadingState());
+    final result = await _sendOfferPriceUseCase(
+      request: event.request,
+    );
+    if (result is DataSuccess<RemoteSendPrice>) {
+      emit(SendPriceOfferSuccessState(result.data ?? RemoteSendPrice()));
+    } else {
+      emit(SendPriceOfferErrorState(result.message ?? ''));
     }
   }
 }

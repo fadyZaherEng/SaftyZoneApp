@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
+import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/domain/usecase/clear_local_data_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
 
 class CustomDrawer extends StatelessWidget {
   final EmployeeDetails employeeDetails;
@@ -115,7 +119,7 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             leading: SvgPicture.asset(
               ImagePaths.logouts,
-              color: Colors.red,
+              color: ColorSchemes.red,
               width: 24,
               height: 24,
             ),
@@ -123,8 +127,15 @@ class CustomDrawer extends StatelessWidget {
               s.logout,
               style: const TextStyle(color: Colors.red),
             ),
-            onTap: () {
+            onTap: () async {
               // Handle logout
+              await ClearLocalDataUseCase(injector())();
+              await SetRememberMeUseCase(injector())(false);
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.languageSelection,
+                (route) => false,
+              );
             },
           ),
           const Spacer(),

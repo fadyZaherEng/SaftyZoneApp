@@ -609,6 +609,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectedLocation": MessageLookupByLibrary.simpleMessage("الموقع المحدد"),
     "send": MessageLookupByLibrary.simpleMessage("ارسال"),
     "sendPriceOffer": MessageLookupByLibrary.simpleMessage("إرسال عرض أسعار"),
+    "sendPriceOfferSuccess": MessageLookupByLibrary.simpleMessage(
+      "تم ارسال العرض بنجاح",
+    ),
     "serviceProvider": MessageLookupByLibrary.simpleMessage("مزود خدمة"),
     "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
     "signin": MessageLookupByLibrary.simpleMessage("تسجيل دخول"),
@@ -698,6 +701,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "thisFieldIsRequired": MessageLookupByLibrary.simpleMessage(
       "هذا الحقل مطلوب",
     ),
+    "thisProviderHasAlreadyMadeAnOfferForThisRequest":
+        MessageLookupByLibrary.simpleMessage(
+          "هذا المزود قام بتقديم عرض سعر لهذا الطلب",
+        ),
     "thursday": MessageLookupByLibrary.simpleMessage("الخميس"),
     "to": MessageLookupByLibrary.simpleMessage("إلى"),
     "todayTasks": MessageLookupByLibrary.simpleMessage("المهام المجدولة اليوم"),

@@ -19,6 +19,7 @@ import 'package:safety_zone/src/domain/usecase/get_user_verification_data_use_ca
 import 'package:safety_zone/src/domain/usecase/getauthenticate_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_details_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/send_offer_price_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/remove_remember_me_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/save_firebase_notification_token_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_authenticate_use_case.dart';
@@ -81,4 +82,5 @@ Future<void> initializeUseCaseDependencies() async {
   injector.registerFactory<GenerateFileUrlUseCase>(() => GenerateFileUrlUseCase(injector()));
   injector.registerFactory<GetConsumerRequestDetailsUseCase>(() => GetConsumerRequestDetailsUseCase(injector()));
   injector.registerFactory<GetConsumerRequestsUseCase>(() => GetConsumerRequestsUseCase(injector()));
+  injector.registerFactory<SendOfferPriceUseCase>(() => SendOfferPriceUseCase(injector()));
 }

@@ -409,5 +409,7 @@
   "example3": "مثال 3 رس",
   "example350": "مثال 350 رس",
   "noteText": "ملاحظة: السعر يشمل الاستلام و التوصيل للفرع",
-  "finalPrice": "السعر النهائي (بعد الاستلام و الصيانة)"
+  "finalPrice": "السعر النهائي (بعد الاستلام و الصيانة)",
+  "sendPriceOfferSuccess": "تم ارسال العرض بنجاح",
+  "thisProviderHasAlreadyMadeAnOfferForThisRequest": "هذا المزود قام بتقديم عرض سعر لهذا الطلب"
 }

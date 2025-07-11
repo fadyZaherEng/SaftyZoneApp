@@ -24,6 +24,7 @@ Future<void> initializeBlocDependencies() async {
   injector.registerFactory<RequestsBloc>(() => RequestsBloc(
         injector(),
         injector(),
+        injector(),
       ));
   injector.registerFactory<ThemeCubit>(() => ThemeCubit(
         injector(),

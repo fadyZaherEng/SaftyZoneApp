@@ -409,6 +409,8 @@
   "example3": "Example: 3 SAR",
   "example350": "Example: 350 SAR",
   "noteText": "Note: Price includes pickup and delivery to the branch",
-  "finalPrice": "Final Price (after pickup and maintenance)"
+  "finalPrice": "Final Price (after pickup and maintenance)",
+  "sendPriceOfferSuccess": "Price offer sent successfully",
+  "thisProviderHasAlreadyMadeAnOfferForThisRequest": "This provider has already made an offer for this request"
 }
 

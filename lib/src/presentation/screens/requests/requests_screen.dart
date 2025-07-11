@@ -317,7 +317,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
             const SizedBox(height: 4),
             Row(
               children: [
-                 Text(
+                Text(
                   request.branch.branchName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
@@ -432,7 +432,6 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
         arguments: {'requestId': request.Id},
       );
     } else if (request.requestType == RequestType.EngineeringInspection.name) {
-      //TODO: navigate to Engineering Inspection
       Navigator.pushNamed(
         context,
         Routes.fireExtinguishersScreen,
@@ -448,7 +447,6 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
   }
 
   void _openMap(double first, double last) async {
-    // Handle map navigation
     await Navigator.push(
       context,
       MaterialPageRoute(
