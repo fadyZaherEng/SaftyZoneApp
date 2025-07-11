@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
@@ -84,7 +85,6 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     );
   }
 
-
   Widget _buildSearchSection(BuildContext context) {
     final s = S.of(context);
 
@@ -165,12 +165,45 @@ class _HomeScreenState extends BaseState<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(child: _buildDashboardCard(context, items[0])),
-              const SizedBox(width: 16),
-              Expanded(child: _buildDashboardCard(context, items[1])),
+              Expanded(
+                  child: _buildDashboardCard(
+                context,
+                items[0],
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.requestScreen,
+                    arguments: {"isAppBar": true},
+                  );
+                },
+              )),
               const SizedBox(width: 16),
               Expanded(
-                  child: _buildDashboardCard(context, items[2], isColor: true)),
+                  child: _buildDashboardCard(
+                context,
+                items[1],
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.maintainanceScreen,
+                    arguments: {"isAppBar": true},
+                  );
+                },
+              )),
+              const SizedBox(width: 16),
+              Expanded(
+                  child: _buildDashboardCard(
+                context,
+                items[2],
+                isColor: true,
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.workingProgressScreen,
+                    arguments: {"isAppBar": true},
+                  );
+                },
+              )),
             ],
           ),
         ),
@@ -180,9 +213,24 @@ class _HomeScreenState extends BaseState<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(child: _buildDashboardCard(context, items[3])),
+              Expanded(
+                  child: _buildDashboardCard(
+                context,
+                items[3],
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.pricesNeedEscalationScreen,
+                   );
+                },
+              )),
               const SizedBox(width: 16),
-              Expanded(child: _buildDashboardCard(context, items[4])),
+              Expanded(
+                  child: _buildDashboardCard(
+                context,
+                items[4],
+                onTap: () {},
+              )),
             ],
           ),
         ),
@@ -194,55 +242,59 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     BuildContext context,
     DashboardItem item, {
     bool isColor = false,
+    VoidCallback? onTap,
   }) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 1,
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _isLoading
-                ? Container(
-                    width: 32.w,
-                    height: 32.h,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(6),
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 1,
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _isLoading
+                  ? Container(
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    )
+                  : SvgPicture.asset(
+                      item.icon,
+                      width: 32.w,
+                      height: 32.h,
+                      color: isColor ? Color(0XFF133769) : null,
                     ),
-                  )
-                : SvgPicture.asset(
-                    item.icon,
-                    width: 32.w,
-                    height: 32.h,
-                    color: isColor ? Color(0XFF133769) : null,
+              const SizedBox(height: 16),
+              Center(
+                child: Text(
+                  item.value,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: ColorSchemes.primary,
                   ),
-            const SizedBox(height: 16),
-            Center(
-              child: Text(
-                item.value,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: ColorSchemes.primary,
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Center(
-              child: Text(
-                item.label,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
+              const SizedBox(height: 16),
+              Center(
+                child: Text(
+                  item.label,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-          ],
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );

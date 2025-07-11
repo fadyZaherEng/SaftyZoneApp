@@ -12,7 +12,12 @@ import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class MaintainanceWorkScreen extends BaseStatefulWidget {
-  const MaintainanceWorkScreen({super.key});
+  final bool isAppBar;
+
+  const MaintainanceWorkScreen({
+    super.key,
+    this.isAppBar = false,
+  });
 
   @override
   BaseState<MaintainanceWorkScreen> baseCreateState() =>
@@ -70,6 +75,19 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
   @override
   Widget baseBuild(BuildContext context) {
     return Scaffold(
+      appBar: widget.isAppBar
+          ? AppBar(
+              backgroundColor: ColorSchemes.primary,
+              title: Text(
+                S.of(context).maintenanceInProgress,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          : null,
       body: SafeArea(
         child: Skeletonizer(
           enabled: _isLoading,

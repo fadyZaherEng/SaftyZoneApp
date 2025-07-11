@@ -12,7 +12,12 @@ import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class WorkingProgressScreen extends BaseStatefulWidget {
-  const WorkingProgressScreen({super.key});
+  final bool isAppBar;
+
+  const WorkingProgressScreen({
+    super.key,
+    this.isAppBar = false,
+  });
 
   @override
   BaseState<WorkingProgressScreen> baseCreateState() =>
@@ -67,6 +72,19 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
   @override
   Widget baseBuild(BuildContext context) {
     return Scaffold(
+      appBar: widget.isAppBar
+          ? AppBar(
+              backgroundColor: ColorSchemes.primary,
+              title: Text(
+                S.of(context).workingInProgress,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          : null,
       body: SafeArea(
         child: Skeletonizer(
           enabled: _isLoading,

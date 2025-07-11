@@ -8,7 +8,7 @@ import 'package:safety_zone/src/presentation/screens/installation_options/instal
 import 'package:safety_zone/src/presentation/screens/language/language_screen.dart';
 import 'package:safety_zone/src/presentation/screens/login/login_screen.dart';
 import 'package:safety_zone/src/presentation/screens/main/main_screen.dart';
-import 'package:safety_zone/src/presentation/screens/maintainance/maintainance_screen.dart';
+import 'package:safety_zone/src/presentation/screens/maintainance_work/maintainance_work_screen.dart';
 import 'package:safety_zone/src/presentation/screens/notifications/notifications_screen.dart';
 import 'package:safety_zone/src/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:safety_zone/src/presentation/screens/price_offer/prices_need_escalation_screen.dart';
@@ -56,13 +56,17 @@ class Routes {
   static const String homeScreen = '/home-screen';
   static const String maintainanceScreen = '/maintainance-screen';
   static const String requestScreen = '/request-screen';
-  static const String requestDetailsInstallationScreen = '/request-details-installation-screen';
-  static const String requestDetailsMaintainanceScreen = '/request-details-maintainance-screen';
-  static const String requestDetailsExtinguishersScreen = '/request-details-extinguishers-screen';
+  static const String requestDetailsInstallationScreen =
+      '/request-details-installation-screen';
+  static const String requestDetailsMaintainanceScreen =
+      '/request-details-maintainance-screen';
+  static const String requestDetailsExtinguishersScreen =
+      '/request-details-extinguishers-screen';
   static const String workingProgressScreen = '/working-progress-screen';
   static const String walletScreen = '/wallet-screen';
   static const String contractScreen = '/contract-screen';
-  static const String pricesNeedEscalationScreen = '/prices-need-escalation-screen';
+  static const String pricesNeedEscalationScreen =
+      '/prices-need-escalation-screen';
   static const String notificationsScreen = '/notifications-screen';
 }
 
@@ -112,10 +116,18 @@ class RoutesManager {
         return _materialRoute(const HomeScreen());
 
       case Routes.maintainanceScreen:
-        return _materialRoute(const MaintainanceScreen());
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        return _materialRoute(MaintainanceWorkScreen(
+          isAppBar: args?['isAppBar'] as bool,
+        ));
 
       case Routes.requestScreen:
-        return _materialRoute(const RequestsScreen());
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        return _materialRoute(RequestsScreen(
+          isAppBar: args?['isAppBar'] as bool,
+        ));
 
       case Routes.main:
         return _materialRoute(const MainScreen());
@@ -129,7 +141,11 @@ class RoutesManager {
         ));
 
       case Routes.workingProgressScreen:
-        return _materialRoute(const WorkingProgressScreen());
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        return _materialRoute(WorkingProgressScreen(
+          isAppBar: args?['isAppBar'] as bool,
+        ));
 
       case Routes.uploadDocumentFawryScreen:
         Map<String, dynamic>? args =

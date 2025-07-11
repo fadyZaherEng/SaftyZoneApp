@@ -17,7 +17,12 @@ import 'package:safety_zone/src/presentation/widgets/custom_empty_list_widget.da
 import 'package:skeletonizer/skeletonizer.dart';
 
 class RequestsScreen extends BaseStatefulWidget {
-  const RequestsScreen({super.key});
+  final bool isAppBar;
+
+  const RequestsScreen({
+    super.key,
+    this.isAppBar = false,
+  });
 
   @override
   BaseState<RequestsScreen> baseCreateState() => _RequestsScreenState();
@@ -55,6 +60,19 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
       },
       builder: (context, state) {
         return Scaffold(
+          appBar: widget.isAppBar
+              ? AppBar(
+                  backgroundColor: ColorSchemes.primary,
+                  title: Text(
+                    S.of(context).requests,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              : null,
           body: RefreshIndicator(
             onRefresh: () async {
               _bloc.add(GetConsumerRequestsEvent());
