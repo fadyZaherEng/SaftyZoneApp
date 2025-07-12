@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
@@ -9,6 +11,8 @@ import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/src/domain/usecase/auth/check_auth_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/presentation/blocs/home/home_bloc.dart';
+import 'package:safety_zone/src/presentation/screens/home/widgets/greeting_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class DashboardItem {
@@ -29,6 +33,22 @@ class HomeScreen extends BaseStatefulWidget {
 class _HomeScreenState extends BaseState<HomeScreen> {
   CheckAuth _checkAuth = const CheckAuth();
   bool _isLoading = true;
+  List<DashboardItem> _dashboardItems = [];
+
+  HomeBloc get _bloc => BlocProvider.of<HomeBloc>(context);
+
+  @override
+  void initState() {
+    _bloc.add(GetHomeDashboardEvent());
+    super.initState();
+    _dashboardItems = [
+      DashboardItem('30', S.current.newRequests, ImagePaths.news),
+      DashboardItem('5', S.current.maintenanceReports, ImagePaths.technical),
+      DashboardItem('10', S.current.pendingRequests, ImagePaths.requests),
+      DashboardItem('8', S.current.priceOffers, ImagePaths.work),
+      DashboardItem('12', S.current.todayTasks, ImagePaths.groups),
+    ];
+  }
 
   @override
   void didChangeDependencies() {
@@ -54,77 +74,45 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   Widget baseBuild(BuildContext context) {
     final s = S.of(context);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Skeletonizer(
-          enabled: _isLoading,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildGreetingSection(s),
-                  const SizedBox(height: 16),
-                  _buildSearchSection(context),
-                  const SizedBox(height: 16),
-                  _buildGridDashboard(context, s),
-                ],
+    return BlocConsumer<HomeBloc, HomeState>(listener: (context, state) {
+      if (state is GetHomeDashboardLoadingState) {
+        _isLoading = true;
+      } else if (state is GetHomeDashboardSuccessState) {
+        _dashboardItems = state.dashboardItems;
+        _isLoading = false;
+      } else if (state is GetHomeDashboardErrorState) {
+        _isLoading = false;
+      }
+    }, builder: (context, state) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Skeletonizer(
+            enabled: _isLoading || state is GetHomeDashboardLoadingState,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GreetingSection(
+                      s: s,
+                      isLoading: _isLoading,
+                      fullName: _checkAuth.employeeDetails.fullName,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildSearchSection(context),
+                    const SizedBox(height: 16),
+                    _buildGridDashboard(context, s),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildGreetingSection(S s) {
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${s.welcome}, ${_checkAuth.employeeDetails.fullName}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.sp,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                s.dailyTasksSubtitle,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(width: 12.w),
-        Transform.rotate(
-          angle: 3.14 * 2,
-          child: _isLoading
-              ? Container(
-                  width: 32.w,
-                  height: 32.h,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                )
-              : SvgPicture.asset(
-                  ImagePaths.hello,
-                  width: 48.w,
-                  height: 48.h,
-                ),
-        ),
-      ],
-    );
+      );
+    });
   }
 
   Widget _buildSearchSection(BuildContext context) {
@@ -192,13 +180,6 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   }
 
   Widget _buildGridDashboard(BuildContext context, S s) {
-    final items = [
-      DashboardItem('30', s.newRequests, ImagePaths.news),
-      DashboardItem('5', s.maintenanceReports, ImagePaths.technical),
-      DashboardItem('10', s.pendingRequests, ImagePaths.requests),
-      DashboardItem('8', s.priceOffers, ImagePaths.work),
-      DashboardItem('12', s.todayTasks, ImagePaths.groups),
-    ];
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -207,12 +188,45 @@ class _HomeScreenState extends BaseState<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(child: _buildDashboardCard(context, items[0])),
-              const SizedBox(width: 16),
-              Expanded(child: _buildDashboardCard(context, items[1])),
+              Expanded(
+                  child: _buildDashboardCard(
+                context,
+                _dashboardItems[0],
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.requestScreen,
+                    arguments: {"isAppBar": true},
+                  );
+                },
+              )),
               const SizedBox(width: 16),
               Expanded(
-                  child: _buildDashboardCard(context, items[2], isColor: true)),
+                  child: _buildDashboardCard(
+                context,
+                _dashboardItems[1],
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.maintainanceScreen,
+                    arguments: {"isAppBar": true},
+                  );
+                },
+              )),
+              const SizedBox(width: 16),
+              Expanded(
+                  child: _buildDashboardCard(
+                context,
+                _dashboardItems[2],
+                isColor: true,
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.workingProgressScreen,
+                    arguments: {"isAppBar": true},
+                  );
+                },
+              )),
             ],
           ),
         ),
@@ -222,9 +236,24 @@ class _HomeScreenState extends BaseState<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(child: _buildDashboardCard(context, items[3])),
+              Expanded(
+                  child: _buildDashboardCard(
+                context,
+                _dashboardItems[3],
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.pricesNeedEscalationScreen,
+                  );
+                },
+              )),
               const SizedBox(width: 16),
-              Expanded(child: _buildDashboardCard(context, items[4])),
+              Expanded(
+                  child: _buildDashboardCard(
+                context,
+                _dashboardItems[4],
+                onTap: () {},
+              )),
             ],
           ),
         ),
@@ -236,55 +265,61 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     BuildContext context,
     DashboardItem item, {
     bool isColor = false,
+    VoidCallback? onTap,
   }) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 1,
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _isLoading
-                ? Container(
-                    width: 32.w,
-                    height: 32.h,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(6),
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 1,
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _isLoading
+                  ? Container(
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    )
+                  : SvgPicture.asset(
+                      item.icon,
+                      width: 32.w,
+                      height: 32.h,
+                      color: isColor ? Color(0XFF133769) : null,
                     ),
-                  )
-                : SvgPicture.asset(
-                    item.icon,
-                    width: 32.w,
-                    height: 32.h,
-                    color: isColor ? Color(0XFF133769) : null,
+              const SizedBox(height: 16),
+              Center(
+                child: Text(
+                  item.label,
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                    color: ColorSchemes.primary,
                   ),
-            const SizedBox(height: 16),
-            Center(
-              child: Text(
-                item.value,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: ColorSchemes.primary,
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Center(
-              child: Text(
-                item.label,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
+              const SizedBox(height: 16),
+              Center(
+                child: Text(
+                  item.value,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: ColorSchemes.black,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-          ],
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );

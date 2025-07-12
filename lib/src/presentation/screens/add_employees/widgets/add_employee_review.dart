@@ -111,7 +111,7 @@ class AddEmployeeReview extends StatelessWidget {
                                 } else {
                                   showSnackBar(
                                     context: context,
-                                    message: "Missing Data",
+                                    message: S.of(context).missingData,
                                     color: ColorSchemes.warning,
                                     icon: ImagePaths.error,
                                   );

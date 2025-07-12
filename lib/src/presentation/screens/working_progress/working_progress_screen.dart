@@ -5,20 +5,19 @@ import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
+import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/domain/entities/main/requests/request.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-enum WorkingProgressType {
-  fawryService,
-  maintenance,
-  engineeringReport,
-  extinguishers,
-}
-
 class WorkingProgressScreen extends BaseStatefulWidget {
-  const WorkingProgressScreen({super.key});
+  final bool isAppBar;
+
+  const WorkingProgressScreen({
+    super.key,
+    this.isAppBar = false,
+  });
 
   @override
   BaseState<WorkingProgressScreen> baseCreateState() =>
@@ -35,7 +34,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
       status: 'تحت المراجعة',
       statusColor: Colors.black,
       visits: 5,
-      type: WorkingProgressType.fawryService.name,
+      type: RequestType.InstallationCertificate.name,
     ),
     Requests(
       id: 2458927,
@@ -45,7 +44,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
       status: 'عقود قائمة',
       statusColor: Colors.blue,
       visits: 3,
-      type: WorkingProgressType.maintenance.name,
+      type: RequestType.MaintenanceContract.name,
     ),
     Requests(
       id: 2458928,
@@ -55,7 +54,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
       status: 'تفاصيل الفريق',
       statusColor: Colors.red,
       visits: 2,
-      type: WorkingProgressType.extinguishers.name,
+      type: RequestType.FireExtinguisher.name,
     ),
   ];
   bool _isLoading = true;
@@ -73,6 +72,19 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
   @override
   Widget baseBuild(BuildContext context) {
     return Scaffold(
+      appBar: widget.isAppBar
+          ? AppBar(
+              backgroundColor: ColorSchemes.primary,
+              title: Text(
+                S.of(context).workingInProgress,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          : null,
       body: SafeArea(
         child: Skeletonizer(
           enabled: _isLoading,
@@ -87,14 +99,15 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   itemBuilder: (context, index) {
                     final request = _workingProgress[index];
 
-                    if (request.type == WorkingProgressType.fawryService.name) {
+                    if (request.type ==
+                        RequestType.InstallationCertificate.name) {
                       return _buildFawryRequestCard(
                         context,
                         request,
                         Key(request.id.toString()),
                       );
                     } else if (request.type ==
-                        WorkingProgressType.maintenance.name) {
+                        RequestType.MaintenanceContract.name) {
                       return _buildMaintenanceRequestCard(
                         context,
                         request,
@@ -281,18 +294,17 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   children: [
                     _isLoading
                         ? Container(
-                      width: 16.w,
-                      height: 16.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                    )
-                        :
-                    const Icon(
-                      Icons.calendar_month_outlined,
-                      size: 16,
-                    ),
+                            width: 16.w,
+                            height: 16.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
+                        : const Icon(
+                            Icons.calendar_month_outlined,
+                            size: 16,
+                          ),
                     const SizedBox(width: 4),
                     Text(
                       "${S.of(context).visitDate}:\n${"12/12/2022"}",
@@ -308,7 +320,9 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   decoration: BoxDecoration(
-                    color:_isLoading ? Colors.grey.shade300 : ColorSchemes.secondary,
+                    color: _isLoading
+                        ? Colors.grey.shade300
+                        : ColorSchemes.secondary,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -469,15 +483,14 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   children: [
                     _isLoading
                         ? Container(
-                      width: 16.w,
-                      height: 16.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                    )
-                        :
-                    const Icon(Icons.location_pin, size: 16),
+                            width: 16.w,
+                            height: 16.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
+                        : const Icon(Icons.location_pin, size: 16),
                     const SizedBox(width: 4),
                     Text(
                       request.city,
@@ -509,18 +522,17 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   children: [
                     _isLoading
                         ? Container(
-                      width: 16.w,
-                      height: 16.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                    )
-                        :
-                    const Icon(
-                      Icons.calendar_month_outlined,
-                      size: 16,
-                    ),
+                            width: 16.w,
+                            height: 16.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
+                        : const Icon(
+                            Icons.calendar_month_outlined,
+                            size: 16,
+                          ),
                     const SizedBox(width: 4),
                     Text(
                       "${S.of(context).visitDate}:\n${"12/12/2022"}",
@@ -536,7 +548,9 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   decoration: BoxDecoration(
-                    color:_isLoading ? Colors.grey.shade300 : ColorSchemes.secondary,
+                    color: _isLoading
+                        ? Colors.grey.shade300
+                        : ColorSchemes.secondary,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -555,19 +569,18 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               children: [
                 _isLoading
                     ? Container(
-                  width: 16.w,
-                  height: 16.h,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                )
-                    :
-                SvgPicture.asset(
-                  ImagePaths.technical,
-                  height: 16.h,
-                  width: 16.w,
-                ),
+                        width: 16.w,
+                        height: 16.h,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      )
+                    : SvgPicture.asset(
+                        ImagePaths.technical,
+                        height: 16.h,
+                        width: 16.w,
+                      ),
                 const SizedBox(width: 4),
                 Text(
                   S.of(context).responsibleEmployee,
@@ -737,19 +750,18 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               children: [
                 _isLoading
                     ? Container(
-                  width: 16.w,
-                  height: 16.h,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                )
-                    :
-                SvgPicture.asset(
-                  ImagePaths.technical,
-                  height: 16.h,
-                  width: 16.w,
-                ),
+                        width: 16.w,
+                        height: 16.h,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      )
+                    : SvgPicture.asset(
+                        ImagePaths.technical,
+                        height: 16.h,
+                        width: 16.w,
+                      ),
                 const SizedBox(width: 4),
                 Text(
                   S.of(context).responsibleEmployee,

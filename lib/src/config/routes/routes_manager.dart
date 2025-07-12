@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/main/requests/request.dart';
-import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
-import 'package:safety_zone/src/domain/usecase/getauthenticate_use_case.dart';
 import 'package:safety_zone/src/presentation/screens/complete_info/complete_info_view.dart';
+import 'package:safety_zone/src/presentation/screens/contract/contract_screen.dart';
 import 'package:safety_zone/src/presentation/screens/employess/employees_list_screen.dart';
+import 'package:safety_zone/src/presentation/screens/fire_extinguishers/fire_extinguishers_screen.dart';
 import 'package:safety_zone/src/presentation/screens/home/home_screen.dart';
 import 'package:safety_zone/src/presentation/screens/installation_options/installation_options_screen.dart';
 import 'package:safety_zone/src/presentation/screens/language/language_screen.dart';
 import 'package:safety_zone/src/presentation/screens/login/login_screen.dart';
 import 'package:safety_zone/src/presentation/screens/main/main_screen.dart';
-import 'package:safety_zone/src/presentation/screens/maintainance/maintainance_screen.dart';
+import 'package:safety_zone/src/presentation/screens/maintainance_work/maintainance_work_screen.dart';
+import 'package:safety_zone/src/presentation/screens/notifications/notifications_screen.dart';
 import 'package:safety_zone/src/presentation/screens/onboarding/onboarding_screen.dart';
+import 'package:safety_zone/src/presentation/screens/price_offer/prices_need_escalation_screen.dart';
 import 'package:safety_zone/src/presentation/screens/register/vendor_registration_screen.dart';
 import 'package:safety_zone/src/presentation/screens/requests/requests_screen.dart';
-import 'package:safety_zone/src/presentation/screens/requests_details/request_details_screen.dart';
+import 'package:safety_zone/src/presentation/screens/requests_details_extinguishers/request_details_extinguishers_screen.dart';
+import 'package:safety_zone/src/presentation/screens/requests_details_installation/request_details_installation_screen.dart';
+import 'package:safety_zone/src/presentation/screens/requests_details_maintainance/request_details_maintainance_screen.dart';
 import 'package:safety_zone/src/presentation/screens/revision/revision_screen.dart';
 import 'package:safety_zone/src/presentation/screens/splash/splash_screen.dart';
 import 'package:safety_zone/src/presentation/screens/term_conditions/term_conditions_screen.dart';
 import 'package:safety_zone/src/presentation/screens/upload_document_fawry/upload_document_fawry_Screen.dart';
 import 'package:safety_zone/src/presentation/screens/verification_code/verification_code_screen.dart';
+import 'package:safety_zone/src/presentation/screens/wallet/wallet_screen.dart';
 import 'package:safety_zone/src/presentation/screens/welcome/welcome_screen.dart';
 import 'package:safety_zone/src/presentation/screens/whatsapp_verify/whatsapp_screen.dart';
 import 'package:safety_zone/src/presentation/screens/working_progress/working_progress_screen.dart';
@@ -53,8 +57,19 @@ class Routes {
   static const String homeScreen = '/home-screen';
   static const String maintainanceScreen = '/maintainance-screen';
   static const String requestScreen = '/request-screen';
-  static const String requestDetailsScreen = '/request-details-screen';
+  static const String requestDetailsInstallationScreen =
+      '/request-details-installation-screen';
+  static const String requestDetailsMaintainanceScreen =
+      '/request-details-maintainance-screen';
+  static const String requestDetailsExtinguishersScreen =
+      '/request-details-extinguishers-screen';
   static const String workingProgressScreen = '/working-progress-screen';
+  static const String walletScreen = '/wallet-screen';
+  static const String contractScreen = '/contract-screen';
+  static const String pricesNeedEscalationScreen =
+      '/prices-need-escalation-screen';
+  static const String notificationsScreen = '/notifications-screen';
+  static const String fireExtinguishersScreen = '/fire-extinguishers-screen';
 }
 
 class RoutesManager {
@@ -103,24 +118,36 @@ class RoutesManager {
         return _materialRoute(const HomeScreen());
 
       case Routes.maintainanceScreen:
-        return _materialRoute(const MaintainanceScreen());
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        return _materialRoute(MaintainanceWorkScreen(
+          isAppBar: args?['isAppBar'] as bool,
+        ));
 
       case Routes.requestScreen:
-        return _materialRoute(const RequestsScreen());
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        return _materialRoute(RequestsScreen(
+          isAppBar: args?['isAppBar'] as bool,
+        ));
 
       case Routes.main:
         return _materialRoute(const MainScreen());
 
-      case Routes.requestDetailsScreen:
+      case Routes.requestDetailsInstallationScreen:
         Map<String, dynamic>? args =
             routeSettings.arguments as Map<String, dynamic>?;
-        final request = args?['request'] as Requests;
-        return _materialRoute(RequestDetailsScreen(
-          request: request,
+        final requestId = args?['requestId'] as String;
+        return _materialRoute(RequestDetailsInstallationScreen(
+          requestId: requestId,
         ));
 
       case Routes.workingProgressScreen:
-        return _materialRoute(const WorkingProgressScreen());
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        return _materialRoute(WorkingProgressScreen(
+          isAppBar: args?['isAppBar'] as bool,
+        ));
 
       case Routes.uploadDocumentFawryScreen:
         Map<String, dynamic>? args =
@@ -128,6 +155,40 @@ class RoutesManager {
         final request = args?['request'] as Requests;
         return _materialRoute(UploadDocumentFawryScreen(request: request));
 
+      case Routes.walletScreen:
+        return _materialRoute(const WalletScreen());
+
+      case Routes.contractScreen:
+        return _materialRoute(const ContractsScreen());
+
+      case Routes.requestDetailsMaintainanceScreen:
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        final requestId = args?['requestId'] as String;
+        return _materialRoute(RequestDetailsMaintainanceScreen(
+          requestId: requestId,
+        ));
+
+      case Routes.requestDetailsExtinguishersScreen:
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        final requestId = args?['requestId'] as String;
+        return _materialRoute(RequestDetailsExtinguishersScreen(
+          requestId: requestId,
+        ));
+
+      case Routes.pricesNeedEscalationScreen:
+        return _materialRoute(const PricesNeedEscalationScreen());
+
+      case Routes.notificationsScreen:
+        return _materialRoute(const NotificationsScreen());
+
+      case Routes.fireExtinguishersScreen:
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        return _materialRoute(FireExtinguishersScreen(
+          requestId: args?['requestId'] as String,
+        ));
       default:
         return unDefinedRoute(routeSettings.name.toString());
     }

@@ -287,12 +287,11 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
       );
 
       if (response is DataSuccess) {
-        DataState<CheckAuth> authResponse =
-            await CheckAuthUseCase(injector())();
-
         await SetTokenUseCase(injector())(response.data?.token ?? '');
         await SetRememberMeUseCase(injector())(_isRememberMe);
         await SetAuthenticateUseCase(injector())(true);
+        DataState<CheckAuth> authResponse =
+            await CheckAuthUseCase(injector())();
         await SetUserVerificationDataUseCase(injector())(
             response.data ?? const VerifyOtp());
         _showError(S.of(context).verificationSuccessful, false);
@@ -304,11 +303,15 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
           );
         } else if (authResponse.data?.status == RegisterStatus.Pending.name) {
           Navigator.pushNamed(context, Routes.revisionScreen);
-        } else {
+        } else if (authResponse.data?.status ==
+            RegisterStatus.Complete_Register.name) {
           Navigator.pushNamed(
             context,
             Routes.completeInfo,
           );
+        } else {
+          _showError(S.of(context).someThingError, true);
+          Navigator.pushNamed(context, Routes.languageSelection);
         }
       } else {
         _showError(response.message ?? '', true);

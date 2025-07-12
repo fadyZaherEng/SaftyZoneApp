@@ -3041,6 +3041,637 @@ class S {
       args: [],
     );
   }
+
+  /// `No requests found`
+  String get noRequestsFound {
+    return Intl.message(
+      'No requests found',
+      name: 'noRequestsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Some Thing Error`
+  String get someThingError {
+    return Intl.message(
+      'Some Thing Error',
+      name: 'someThingError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet Summary`
+  String get wallet_summary {
+    return Intl.message(
+      'Wallet Summary',
+      name: 'wallet_summary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current Wallet Amount`
+  String get current_wallet_amount {
+    return Intl.message(
+      'Current Wallet Amount',
+      name: 'current_wallet_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your rights (One of our safety team members)`
+  String get your_rights {
+    return Intl.message(
+      'Your rights (One of our safety team members)',
+      name: 'your_rights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit Invoice`
+  String get submit_invoice {
+    return Intl.message(
+      'Submit Invoice',
+      name: 'submit_invoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amounts Received`
+  String get amount_received {
+    return Intl.message(
+      'Amounts Received',
+      name: 'amount_received',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Print Report`
+  String get print_report {
+    return Intl.message(
+      'Print Report',
+      name: 'print_report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order Status`
+  String get order_status {
+    return Intl.message(
+      'Order Status',
+      name: 'order_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price`
+  String get price {
+    return Intl.message('Price', name: 'price', desc: '', args: []);
+  }
+
+  /// `Invoice Date`
+  String get invoice_date {
+    return Intl.message(
+      'Invoice Date',
+      name: 'invoice_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get pending {
+    return Intl.message('Pending', name: 'pending', desc: '', args: []);
+  }
+
+  /// `Transferred`
+  String get transferred {
+    return Intl.message('Transferred', name: 'transferred', desc: '', args: []);
+  }
+
+  /// `Rejected`
+  String get rejected {
+    return Intl.message('Rejected', name: 'rejected', desc: '', args: []);
+  }
+
+  /// `Hold Amount`
+  String get holdAmount {
+    return Intl.message('Hold Amount', name: 'holdAmount', desc: '', args: []);
+  }
+
+  /// `Order Date`
+  String get orderDate {
+    return Intl.message('Order Date', name: 'orderDate', desc: '', args: []);
+  }
+
+  /// `Order Price`
+  String get orderPrice {
+    return Intl.message('Order Price', name: 'orderPrice', desc: '', args: []);
+  }
+
+  /// `Price Closed`
+  String get priceClosed {
+    return Intl.message(
+      'Price Closed',
+      name: 'priceClosed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Until the maintenance visits are completed`
+  String get untilTheMaintenanceVisitsAreCompleted {
+    return Intl.message(
+      'Until the maintenance visits are completed',
+      name: 'untilTheMaintenanceVisitsAreCompleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit Invoice`
+  String get submitInvoice {
+    return Intl.message(
+      'Submit Invoice',
+      name: 'submitInvoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invoice Amount`
+  String get invoiceAmount {
+    return Intl.message(
+      'Invoice Amount',
+      name: 'invoiceAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tax (15% of the invoice)`
+  String get taxLabel {
+    return Intl.message(
+      'Tax (15% of the invoice)',
+      name: 'taxLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload Invoice`
+  String get uploadInvoice {
+    return Intl.message(
+      'Upload Invoice',
+      name: 'uploadInvoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Requests without an official invoice from the service provider will not be accepted. The invoice must include the ID number and logo.`
+  String get invoiceNote {
+    return Intl.message(
+      'Requests without an official invoice from the service provider will not be accepted. The invoice must include the ID number and logo.',
+      name: 'invoiceNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending Amount`
+  String get currentBalance {
+    return Intl.message(
+      'Pending Amount',
+      name: 'currentBalance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other Transaction Value`
+  String get otherTransactionValue {
+    return Intl.message(
+      'Other Transaction Value',
+      name: 'otherTransactionValue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contracts List`
+  String get contractsList {
+    return Intl.message(
+      'Contracts List',
+      name: 'contractsList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location on the map`
+  String get mapLocation {
+    return Intl.message(
+      'Location on the map',
+      name: 'mapLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View Map`
+  String get viewMap {
+    return Intl.message('View Map', name: 'viewMap', desc: '', args: []);
+  }
+
+  /// `Print Report`
+  String get printReport {
+    return Intl.message(
+      'Print Report',
+      name: 'printReport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Renew Contract`
+  String get renewContract {
+    return Intl.message(
+      'Renew Contract',
+      name: 'renewContract',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose reason for non-renewal`
+  String get chooseNonRenewalReason {
+    return Intl.message(
+      'Choose reason for non-renewal',
+      name: 'chooseNonRenewalReason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Print Contract`
+  String get printContract {
+    return Intl.message(
+      'Print Contract',
+      name: 'printContract',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quantity Pay`
+  String get quantityPay {
+    return Intl.message(
+      'Quantity Pay',
+      name: 'quantityPay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number of Visits`
+  String get numberOfVisits {
+    return Intl.message(
+      'Number of Visits',
+      name: 'numberOfVisits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contract Time`
+  String get contractTime {
+    return Intl.message(
+      'Contract Time',
+      name: 'contractTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Visits`
+  String get visits {
+    return Intl.message('Visits', name: 'visits', desc: '', args: []);
+  }
+
+  /// `Hours`
+  String get hours {
+    return Intl.message('Hours', name: 'hours', desc: '', args: []);
+  }
+
+  /// `Visit Value`
+  String get visitValue {
+    return Intl.message('Visit Value', name: 'visitValue', desc: '', args: []);
+  }
+
+  /// `Emergency Visit Fee`
+  String get emergencyVisitFee {
+    return Intl.message(
+      'Emergency Visit Fee',
+      name: 'emergencyVisitFee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintenance Price`
+  String get maintenancePrice {
+    return Intl.message(
+      'Maintenance Price',
+      name: 'maintenancePrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The maintenance cost will be determined after receipt and service completion`
+  String
+  get theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion {
+    return Intl.message(
+      'The maintenance cost will be determined after receipt and service completion',
+      name:
+          'theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scheduled Jobs`
+  String get scheduledJobs {
+    return Intl.message(
+      'Scheduled Jobs',
+      name: 'scheduledJobs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stay on top of your service tasks with clear schedules, assigned technicians, and real-time status updates`
+  String
+  get stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates {
+    return Intl.message(
+      'Stay on top of your service tasks with clear schedules, assigned technicians, and real-time status updates',
+      name:
+          'stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Table`
+  String get table {
+    return Intl.message('Table', name: 'table', desc: '', args: []);
+  }
+
+  /// `Completed`
+  String get completed {
+    return Intl.message('Completed', name: 'completed', desc: '', args: []);
+  }
+
+  /// `All`
+  String get all {
+    return Intl.message('All', name: 'all', desc: '', args: []);
+  }
+
+  /// `Order Type`
+  String get orderType {
+    return Intl.message('Order Type', name: 'orderType', desc: '', args: []);
+  }
+
+  /// `Maintenance Contracts`
+  String get maintenanceContracts {
+    return Intl.message(
+      'Maintenance Contracts',
+      name: 'maintenanceContracts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Price Offer`
+  String get editPriceOffer {
+    return Intl.message(
+      'Edit Price Offer',
+      name: 'editPriceOffer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Extinguisher`
+  String get fireExtinguisher {
+    return Intl.message(
+      'Fire Extinguisher',
+      name: 'fireExtinguisher',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Printer`
+  String get printer {
+    return Intl.message('Printer', name: 'printer', desc: '', args: []);
+  }
+
+  /// `Stay informed with all critical alerts and actions that require your attention`
+  String
+  get stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention {
+    return Intl.message(
+      'Stay informed with all critical alerts and actions that require your attention',
+      name:
+          'stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unread`
+  String get unRead {
+    return Intl.message('Unread', name: 'unRead', desc: '', args: []);
+  }
+
+  /// `Mentioned in it`
+  String get mentionedInIt {
+    return Intl.message(
+      'Mentioned in it',
+      name: 'mentionedInIt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit Price Offer (by Kilo)`
+  String get submitOfferTitle {
+    return Intl.message(
+      'Submit Price Offer (by Kilo)',
+      name: 'submitOfferTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `6kg Powder Fire Extinguisher`
+  String get fireExtinguisher6kg {
+    return Intl.message(
+      '6kg Powder Fire Extinguisher',
+      name: 'fireExtinguisher6kg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `12kg Powder Fire Extinguisher`
+  String get fireExtinguisher12kg {
+    return Intl.message(
+      '12kg Powder Fire Extinguisher',
+      name: 'fireExtinguisher12kg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CO2 Fire Extinguisher`
+  String get fireExtinguisherCO2 {
+    return Intl.message(
+      'CO2 Fire Extinguisher',
+      name: 'fireExtinguisherCO2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintenance Price (per Kilo)`
+  String get maintenancePricePerKilo {
+    return Intl.message(
+      'Maintenance Price (per Kilo)',
+      name: 'maintenancePricePerKilo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Example: 3 SAR`
+  String get example3 {
+    return Intl.message('Example: 3 SAR', name: 'example3', desc: '', args: []);
+  }
+
+  /// `Example: 350 SAR`
+  String get example350 {
+    return Intl.message(
+      'Example: 350 SAR',
+      name: 'example350',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note: Price includes pickup and delivery to the branch`
+  String get noteText {
+    return Intl.message(
+      'Note: Price includes pickup and delivery to the branch',
+      name: 'noteText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Final Price (after pickup and maintenance)`
+  String get finalPrice {
+    return Intl.message(
+      'Final Price (after pickup and maintenance)',
+      name: 'finalPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price offer sent successfully`
+  String get sendPriceOfferSuccess {
+    return Intl.message(
+      'Price offer sent successfully',
+      name: 'sendPriceOfferSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This provider has already made an offer for this request`
+  String get thisProviderHasAlreadyMadeAnOfferForThisRequest {
+    return Intl.message(
+      'This provider has already made an offer for this request',
+      name: 'thisProviderHasAlreadyMadeAnOfferForThisRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mission`
+  String get mission {
+    return Intl.message('Mission', name: 'mission', desc: '', args: []);
+  }
+
+  /// `Edit Employee Information`
+  String get editEmployeeInformation {
+    return Intl.message(
+      'Edit Employee Information',
+      name: 'editEmployeeInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Employee`
+  String get deleteEmployee {
+    return Intl.message(
+      'Delete Employee',
+      name: 'deleteEmployee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are some missing data`
+  String get missingData {
+    return Intl.message(
+      'There are some missing data',
+      name: 'missingData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Employee`
+  String get editEmployee {
+    return Intl.message(
+      'Edit Employee',
+      name: 'editEmployee',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

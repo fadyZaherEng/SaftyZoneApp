@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
@@ -12,7 +13,7 @@ import 'package:safety_zone/src/domain/usecase/auth/check_auth_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/screens/home/home_screen.dart';
 import 'package:safety_zone/src/presentation/screens/main/widgets/drawer_widget.dart';
-import 'package:safety_zone/src/presentation/screens/maintainance/maintainance_screen.dart';
+import 'package:safety_zone/src/presentation/screens/maintainance_work/maintainance_work_screen.dart';
 import 'package:safety_zone/src/presentation/screens/requests/requests_screen.dart';
 import 'package:safety_zone/src/presentation/screens/working_progress/working_progress_screen.dart';
 
@@ -29,7 +30,7 @@ class _MainScreenState extends BaseState<MainScreen> {
   final List<Widget> _widgetOptions = [
     const HomeScreen(),
     const RequestsScreen(),
-    const MaintainanceScreen(),
+    const MaintainanceWorkScreen(),
     const WorkingProgressScreen(),
   ];
   List<String> _widgetTitles = [];
@@ -41,7 +42,7 @@ class _MainScreenState extends BaseState<MainScreen> {
     _widgetTitles = [
       S.of(context).home,
       S.of(context).requests,
-      S.of(context).maintainance,
+      S.of(context).table,
       S.of(context).workingInProgress,
     ];
     DataState<CheckAuth> dataState = await CheckAuthUseCase(injector())();
@@ -50,6 +51,7 @@ class _MainScreenState extends BaseState<MainScreen> {
       setState(() {});
     }
   }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -96,11 +98,16 @@ class _MainScreenState extends BaseState<MainScreen> {
           actions: _selectedIndex != 0
               ? null
               : [
-                  SvgPicture.asset(
-                    ImagePaths.ringing,
-                    width: 20,
-                    height: 20,
-                    color: ColorSchemes.white,
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.notificationsScreen);
+                    },
+                    child: SvgPicture.asset(
+                      ImagePaths.ringing,
+                      width: 20,
+                      height: 20,
+                      color: ColorSchemes.white,
+                    ),
                   ),
                   const SizedBox(width: 16),
                 ],

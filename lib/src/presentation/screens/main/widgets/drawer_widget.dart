@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:safety_zone/src/config/routes/routes_manager.dart';
+import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/domain/usecase/clear_local_data_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
 
 class CustomDrawer extends StatelessWidget {
   final EmployeeDetails employeeDetails;
@@ -48,24 +53,91 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           const Divider(),
-          _drawerItem(context, ImagePaths.information, s.basicInformation),
-          _drawerItem(context, ImagePaths.wallet, s.wallet),
-          _drawerItem(context, ImagePaths.contract, s.contractList),
           _drawerItem(
-              context, "assets/images/price-down.svg", s.pricesNeedEscalation,
-              isColor: true),
-          _drawerItem(context, ImagePaths.request, s.installationTasks),
-          _drawerItem(context, ImagePaths.employees, s.employees),
+            context,
+            ImagePaths.information,
+            s.basicInformation,
+            onTap: () {},
+          ),
           _drawerItem(
-              context, ImagePaths.termsAndConditions, s.termsAndConditions,
-              isColor: true),
-          _drawerItem(context, ImagePaths.chat, s.messages),
-          _drawerItem(context, ImagePaths.businessReport, s.reports),
+            context,
+            ImagePaths.wallet,
+            s.wallet,
+            onTap: () async {
+              await Navigator.pushNamed(context, Routes.walletScreen);
+            },
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.contract,
+            s.contractList,
+            onTap: () async {
+              await Navigator.pushNamed(context, Routes.contractScreen);
+            },
+          ),
+          _drawerItem(
+            context,
+            "assets/images/price-down.svg",
+            s.pricesNeedEscalation,
+            isColor: true,
+            onTap: () async {
+              await Navigator.pushNamed(
+                context,
+                Routes.pricesNeedEscalationScreen,
+              );
+            },
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.request,
+            s.installationTasks,
+            onTap: () async {
+              await Navigator.pushNamed(
+                context,
+                Routes.installationFees,
+              ).then((value) {});
+            },
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.employees,
+            s.employees,
+            onTap: () async {
+              await Navigator.pushNamed(
+                context,
+                Routes.employeesList,
+              );
+            },
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.termsAndConditions,
+            s.termsAndConditions,
+            isColor: true,
+            onTap: () async {
+              await Navigator.pushNamed(
+                context,
+                Routes.termConditionsScreen,
+              ).then((value) {});
+            },
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.chat,
+            s.messages,
+            onTap: () {},
+          ),
+          _drawerItem(
+            context,
+            ImagePaths.businessReport,
+            s.reports,
+            onTap: () {},
+          ),
           const Spacer(),
           ListTile(
             leading: SvgPicture.asset(
               ImagePaths.logouts,
-              color: Colors.red,
+              color: ColorSchemes.red,
               width: 24,
               height: 24,
             ),
@@ -73,8 +145,15 @@ class CustomDrawer extends StatelessWidget {
               s.logout,
               style: const TextStyle(color: Colors.red),
             ),
-            onTap: () {
+            onTap: () async {
               // Handle logout
+              await ClearLocalDataUseCase(injector())();
+              await SetRememberMeUseCase(injector())(false);
+              await Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.languageSelection,
+                (route) => false,
+              );
             },
           ),
           const Spacer(),
@@ -89,6 +168,7 @@ class CustomDrawer extends StatelessWidget {
     String icon,
     String title, {
     bool isColor = false,
+    required VoidCallback onTap,
   }) {
     return ListTile(
       leading: SvgPicture.asset(
@@ -100,7 +180,8 @@ class CustomDrawer extends StatelessWidget {
       title: Text(title, textDirection: TextDirection.rtl),
       onTap: () {
         Navigator.pop(context);
-       },
+        onTap();
+      },
     );
   }
 }

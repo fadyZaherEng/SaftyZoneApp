@@ -18,6 +18,7 @@ import 'package:safety_zone/src/core/utils/show_no_internet_dialog_widget.dart';
 import 'package:safety_zone/src/di/injector.dart';
 import 'package:safety_zone/src/domain/usecase/get_firebase_notification_token_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/presentation/blocs/home/home_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/main/main_cubit.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/term_conditions/term_conditions_bloc.dart';
@@ -25,13 +26,12 @@ import 'package:safety_zone/src/presentation/blocs/theme/theme_cubit.dart';
 import 'package:safety_zone/src/presentation/blocs/upload_doc/upload_doc_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/working_progress/working_progress_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/splash/splash_screen.dart';
-import 'package:safety_zone/src/presentation/screens/main/main_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
 import 'package:huawei_hmsavailability/huawei_hmsavailability.dart';
 
 void main() async {
-  ChuckerFlutter.showOnRelease = true;
-  ChuckerFlutter.showNotification = true;
+  ChuckerFlutter.showOnRelease = false;
+  ChuckerFlutter.showNotification = false;
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDependencies();
   await initFirebaseService();
@@ -112,11 +112,10 @@ class _MyAppState extends State<MyApp> {
                       theme: AppTheme(locale.languageCode).light,
                       themeMode: themeState,
                       locale: locale,
-                      // Pass versionCode when navigating to the splash screen
                       builder: (context, child) {
                         return _buildInitialScreen(context, child);
                       },
-                     ),
+                    ),
                   );
                 },
               );
@@ -129,7 +128,10 @@ class _MyAppState extends State<MyApp> {
 
   Widget _buildInitialScreen(BuildContext context, Widget? child) {
     return Navigator(
-      observers: [ChuckerFlutter.navigatorObserver, routeObserver],
+      observers: [
+        ChuckerFlutter.navigatorObserver,
+        routeObserver,
+      ],
       key: navigatorKey,
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(builder: (_) => SplashScreen());
@@ -169,6 +171,7 @@ class _MyAppState extends State<MyApp> {
       BlocProvider<WorkingProgressBloc>(create: (context) => injector()),
       BlocProvider<UploadDocBloc>(create: (context) => injector()),
       BlocProvider<RequestsBloc>(create: (context) => injector()),
+      BlocProvider<HomeBloc>(create: (context) => injector()),
     ];
   }
 }
@@ -180,7 +183,7 @@ Future<void> initFirebaseService() async {
         await _initializeFirebaseServices();
       } else {
         final int resultCode =
-            await HmsApiAvailability().isHMSAvailableWithApkVersion(28);
+        await HmsApiAvailability().isHMSAvailableWithApkVersion(28);
         if (resultCode == 1) {
           await _initializeFirebaseServices();
         } else {

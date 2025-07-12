@@ -60,15 +60,17 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateToLogin() async {
-    DataState<CheckAuth> result = (await CheckAuthUseCase(injector())());
+    DataState<CheckAuth>? result;
+    if (_isAuthenticated()) {
+      result = (await CheckAuthUseCase(injector())());
+    }
     Future.delayed(const Duration(seconds: 3), () {
       final isAuthenticated = GetIsAuthenticationUseCase(injector())();
       final isRememberMe = GetRememberMeUseCase(injector())();
       final isShowOnboarding = GetIsBoardingUseCase(injector())();
 
       if (isAuthenticated &&
-          isRememberMe &&
-          result.data?.status == RegisterStatus.Home_Page.name) {
+           result?.data?.status == RegisterStatus.Home_Page.name) {
         Navigator.pushReplacementNamed(context, Routes.main);
       } else if (_isAuthenticated()) {
         Navigator.pushReplacementNamed(context, Routes.completeInfo);

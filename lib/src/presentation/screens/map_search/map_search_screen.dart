@@ -38,8 +38,7 @@ class _MapSearchScreenState extends State<MapSearchScreen> {
   Set<Marker> markers = {};
   List<dynamic> _predictions = [];
   String address = '';
-  late String _mapTheme;
-  bool _isSearch = true;
+   bool _isSearch = true;
 
   @override
   void initState() {
@@ -259,8 +258,7 @@ class _MapSearchScreenState extends State<MapSearchScreen> {
     gmCompleter.complete(controller);
     gmCompleter.future.then((gmController) {
       _currentMapController = gmController;
-      _currentMapController.setMapStyle(_mapTheme);
-    });
+     });
   }
 
   void _setCurrentLocation(LatLng currentPosition) {

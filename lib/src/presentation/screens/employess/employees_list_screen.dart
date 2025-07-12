@@ -7,6 +7,7 @@ import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/screens/add_employees/add_employee_screen.dart';
+import 'package:safety_zone/src/presentation/screens/edit_employee/edit_employee_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -172,92 +173,100 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
   }
 
   Widget _buildEmployeeCard(dynamic emp) {
-    return Container(
-      width: 343.w,
-      height: 72.h,
-      margin: EdgeInsets.only(bottom: 12.h),
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          bottom: BorderSide(color: const Color(0xFFE0E0E0)),
-        ),
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(25.r),
-            child: Image.network(
-              emp['profileImage'] ?? '',
-              width: 48.w,
-              height: 48.h,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Icon(
-                Icons.person,
-                color: Colors.white,
-                size: 48.sp,
-              ),
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Center(child: CircularProgressIndicator());
-              },
-            ),
+    return InkWell(
+      onTap: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => EditEmployeeScreen(employee: emp)),
+        );
+      },
+      child: Container(
+        width: 343.w,
+        height: 72.h,
+        margin: EdgeInsets.only(bottom: 12.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            bottom: BorderSide(color: const Color(0xFFE0E0E0)),
           ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  emp['fullName'] ?? '',
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF333333),
-                    fontFamily: 'SF Pro',
-                  ),
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(25.r),
+              child: Image.network(
+                emp['profileImage'] ?? '',
+                width: 48.w,
+                height: 48.h,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Icon(
+                  Icons.person,
+                  color: Colors.white,
+                  size: 48.sp,
                 ),
-                SizedBox(height: 4.h),
-                Row(
-                  children: [
-                    Icon(Icons.phone, color: Colors.black54, size: 16.sp),
-                    SizedBox(width: 4.w),
-                    Expanded(
-                      child: Text(
-                        emp['phoneNumber'] ?? '',
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          color: const Color(0xFF888888),
-                          fontFamily: 'SF Pro',
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(child: CircularProgressIndicator());
+                },
+              ),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    emp['fullName'] ?? '',
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xFF333333),
+                      fontFamily: 'SF Pro',
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Row(
+                    children: [
+                      Icon(Icons.phone, color: Colors.black54, size: 16.sp),
+                      SizedBox(width: 4.w),
+                      Expanded(
+                        child: Text(
+                          emp['phoneNumber'] ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF888888),
+                            fontFamily: 'SF Pro',
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(width: 8.w),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16.r),
-            ),
-            child: Text(
-              emp['permission'] ?? '',
-              style: TextStyle(
-                color: Color(0xFF8C0000),
-                fontWeight: FontWeight.bold,
-                fontSize: 13.sp,
-                fontFamily: 'SF Pro',
+                    ],
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+            SizedBox(width: 8.w),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              child: Text(
+                emp['permission'] ?? '',
+                style: TextStyle(
+                  color: Color(0xFF8C0000),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13.sp,
+                  fontFamily: 'SF Pro',
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

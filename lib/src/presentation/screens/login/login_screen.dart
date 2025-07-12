@@ -273,7 +273,10 @@ class _LoginScreenState extends State<LoginScreen> {
       final fullNumber = '${_selectedCountry.dialCode}${_phoneController.text}';
 
       DataState<String> response = await SendOtpUseCase(injector())(
-          request: RequestSendOtp(phoneNumber: fullNumber));
+        request: RequestSendOtp(
+          phoneNumber: fullNumber,
+        ),
+      );
 
       if (response is DataSuccess) {
         Navigator.pushNamed(

@@ -1,62 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
+import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
-import 'package:safety_zone/src/domain/entities/main/requests/request.dart';
+import 'package:safety_zone/src/domain/entities/auth/create_employee.dart';
+import 'package:safety_zone/src/domain/entities/home/request_details.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
+import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class _QuantityItem {
-  final String name;
-  final String count;
+class RequestDetailsInstallationScreen extends BaseStatefulWidget {
+  final String requestId;
 
-  _QuantityItem(this.name, this.count);
-}
-
-class RequestDetailsScreen extends StatefulWidget {
-  final Requests request;
-
-  const RequestDetailsScreen({
+  const RequestDetailsInstallationScreen({
     super.key,
-    required this.request,
+    required this.requestId,
   });
 
   @override
-  State<RequestDetailsScreen> createState() => _RequestDetailsScreenState();
+  BaseState<RequestDetailsInstallationScreen> baseCreateState() =>
+      _RequestDetailsInstallationScreenState();
 }
 
-class _RequestDetailsScreenState extends State<RequestDetailsScreen>
+class _RequestDetailsInstallationScreenState
+    extends BaseState<RequestDetailsInstallationScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _priceController = TextEditingController();
   int _currentIndex = 0;
-  RequestDetailsModel model = RequestDetailsModel();
+  RequestDetails model = RequestDetails();
   bool _isPriceSending = false;
   bool _isLoading = true;
 
+  RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
+  final List<Items> _itemsAlarm = [];
+  final List<Items> _itemsFire = [];
+  List<Employee> _employees = [];
+  Employee? _selectedEmployee = Employee();
+
   @override
   void initState() {
+    _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
+    _bloc.add(GetEmployeesEvent());
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {
       setState(() {
         _currentIndex = _tabController.index;
-      });
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _isLoading = false;
       });
     });
   }
@@ -68,34 +67,79 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget baseBuild(BuildContext context) {
     final s = S.of(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorSchemes.red,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(s.requests, style: const TextStyle(color: Colors.white)),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Skeletonizer(
-          enabled: _isLoading,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildCardHeader(s),
-              const SizedBox(height: 12),
-              if (!_isPriceSending) _buildTabBar(s),
-              if (!_isPriceSending) const SizedBox(height: 16),
-              if (!_isPriceSending) Expanded(child: _buildTabContent(s)),
-              if (_isPriceSending) _buildPriceSending(s),
-            ],
+    return BlocConsumer<RequestsBloc, RequestsState>(
+        listener: (context, state) {
+      if (state is GetConsumerRequestDetailsLoadingState) {
+        _isLoading = true;
+      } else if (state is GetConsumerRequestDetailsSuccessState) {
+        setState(() {
+          model = state.requestDetails;
+        });
+        _isLoading = false;
+        _filterItems(model.result.items);
+      } else if (state is GetConsumerRequestDetailsErrorState) {
+        _showValidationError(state.message, false);
+        _isLoading = false;
+      } else if (state is GetEmployeesSuccessState) {
+        _employees = List.from(state.employees);
+        _selectedEmployee = _employees.first;
+      } else if (state is GetEmployeesErrorState) {
+        _showValidationError(state.message, false);
+      } else if (state is SendPriceOfferSuccessState) {
+        _showValidationError(S.of(context).sendPriceOfferSuccess, true);
+        hideLoading();
+        Navigator.pop(context);
+      } else if (state is SendPriceOfferErrorState) {
+        _showValidationError(state.message, false);
+        hideLoading();
+      } else if (state is SendPriceOfferLoadingState) {
+        showLoading();
+      }
+    }, builder: (context, state) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: ColorSchemes.primary,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(s.requests, style: const TextStyle(color: Colors.white)),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Skeletonizer(
+            enabled: _isLoading,
+            child: _isPriceSending
+                ? SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildCardHeader(s),
+                        const SizedBox(height: 12),
+                        if (!_isPriceSending) _buildTabBar(s),
+                        if (!_isPriceSending) const SizedBox(height: 16),
+                        if (!_isPriceSending)
+                          Expanded(child: _buildTabContent(s)),
+                        if (_isPriceSending) _buildPriceSending(s),
+                      ],
+                    ),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildCardHeader(s),
+                      const SizedBox(height: 12),
+                      if (!_isPriceSending) _buildTabBar(s),
+                      if (!_isPriceSending) const SizedBox(height: 16),
+                      if (!_isPriceSending)
+                        Expanded(child: _buildTabContent(s)),
+                      if (_isPriceSending) _buildPriceSending(s),
+                    ],
+                  ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildCardHeader(S s) {
@@ -113,14 +157,13 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
               children: [
                 Chip(
                   label: Text(
-                    widget.request.status,
+                    model.result.requestType,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
                   ),
-                  backgroundColor: _isLoading
-                      ? Colors.grey.shade300
-                      : widget.request.statusColor,
+                  backgroundColor:
+                      _isLoading ? Colors.grey.shade300 : ColorSchemes.black,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -128,30 +171,33 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
                 ),
                 const Spacer(),
                 Text(
-                  '#${widget.request.id}',
+                  model.result.requestNumber,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
               ],
             ),
             const SizedBox(height: 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(width: 16),
-                Text(
-                  widget.request.companyName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: Colors.black,
+                Expanded(
+                  child: Text(
+                    model.result.branch.branchName,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(width: 16),
                 Row(
                   children: [
                     const Icon(Icons.location_pin, size: 16),
                     const SizedBox(width: 4),
                     Text(
-                      widget.request.city,
+                      model.result.branch.address.split(",").last,
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
@@ -204,7 +250,7 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    widget.request.status,
+                    model.result.systemType,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -225,7 +271,7 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
             ),
             const SizedBox(height: 8),
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
               decoration: BoxDecoration(
                 color: ColorSchemes.white,
                 borderRadius: BorderRadius.circular(8),
@@ -243,6 +289,8 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
                 ],
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     flex: 2,
@@ -257,8 +305,10 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
                           context,
                           MaterialPageRoute(
                             builder: (_) => MapSearchScreen(
-                              initialLatitude: 24.774265,
-                              initialLongitude: 46.738586,
+                              initialLatitude: model
+                                  .result.branch.location.coordinates.first,
+                              initialLongitude:
+                                  model.result.branch.location.coordinates.last,
                               onLocationSelected: (lat, lng, address) {
                                 setState(() {});
                                 _showValidationError(
@@ -272,18 +322,20 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
                       },
                     ),
                   ),
-                  const SizedBox(width: 6),
+                  const SizedBox(width: 8),
                   Expanded(
                     flex: 3,
                     child: Text(
-                      'فرع طريق الحلقة الشمالية، العقيق، الرياض 13511، المملكة العربية السعودية',
+                      model.result.branch.address,
+                      textAlign: TextAlign.start,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
                 ],
               ),
             ),
@@ -360,7 +412,7 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
                   Text(
                     '${s.systemType}:',
                     style: TextStyle(
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
                       color: Colors.black,
                     ),
@@ -369,9 +421,9 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
               ),
               const Spacer(),
               Text(
-                widget.request.status,
+                model.result.systemType,
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                   fontSize: 15.sp,
                 ),
               ),
@@ -401,7 +453,7 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
                   Text(
                     '${s.area}:',
                     style: const TextStyle(
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: Colors.black,
                     ),
@@ -410,9 +462,9 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
               ),
               const Spacer(),
               Text(
-                "100",
+                model.result.space.toString(),
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ],
@@ -459,32 +511,11 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
           children: [
             _buildQuantitySection(
               title: s.alarmItems,
-              items: [
-                _QuantityItem(s.controlPanel, '1'),
-                _QuantityItem(s.fireDetector, '5'),
-                _QuantityItem(s.glassBreaker, '3'),
-                _QuantityItem(s.alarmBell, '3'),
-                _QuantityItem(s.backupLighting, '3'),
-              ],
+              items: _itemsAlarm,
             ),
             const SizedBox(height: 16),
             _buildQuantitySection(
-              title: s.extinguishingItems,
-              items: [
-                _QuantityItem(s.autoSprinkler, '1'),
-                _QuantityItem(s.autoSprinkler, '200'),
-                _QuantityItem(s.fireBox, '1'),
-              ],
-            ),
-            // const SizedBox(height: 16),
-            // _buildQuantitySection(
-            //   title: s.fireExtinguishers,
-            //   items: [
-            //     _QuantityItem(s.extinguisher6KgPowder, '1'),
-            //     _QuantityItem(s.extinguisher12KgPowder, '5'),
-            //     _QuantityItem(s.extinguisherCO2, '3'),
-            //   ],
-            // ),
+                title: s.extinguishingItems, items: _itemsFire),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
@@ -519,7 +550,7 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
 
   Widget _buildQuantitySection({
     required String title,
-    required List<_QuantityItem> items,
+    required List<Items> items,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -552,8 +583,8 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
         const SizedBox(height: 8),
         ...items.asMap().entries.map(
               (item) => _buildQuantityRow(
-                item.value.name,
-                item.value.count,
+                item.value.itemId.itemName,
+                item.value.quantity.toString(),
                 item.key == items.length - 1,
               ),
             ),
@@ -579,9 +610,6 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
       ),
     );
   }
-
-  List<String> technicianList = ['Ali Hassan', 'Mohamed Fathy', 'Sara Ahmed'];
-  String selectedTechnician = 'Ali Hassan';
 
   Widget _buildTermsTab() {
     final s = S.of(context);
@@ -611,7 +639,7 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
               ),
               const SizedBox(width: 8),
               Text(
-                "ali hassan",
+                model.termsAndConditions.employee.fullName,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15.sp,
@@ -639,18 +667,18 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
                 ),
               ),
               const SizedBox(width: 8),
-              DropdownButton<String>(
-                value: selectedTechnician,
+              DropdownButton<Employee>(
+                value: _selectedEmployee,
                 onChanged: (value) {
                   setState(() {
-                    selectedTechnician = value!;
+                    _selectedEmployee = value;
                   });
                 },
-                items: technicianList.map((name) {
+                items: _employees.map((emp) {
                   return DropdownMenuItem(
-                    value: name,
+                    value: emp,
                     child: Text(
-                      name,
+                      emp.fullName,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15.sp,
@@ -659,7 +687,7 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
                     ),
                   );
                 }).toList(),
-                underline: const SizedBox(), // remove default underline
+                underline: const SizedBox(),
               ),
             ],
           ),
@@ -765,6 +793,15 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
             text: S.of(context).send,
             onTap: () {
               debugPrint('Saved Model: $model');
+              _bloc.add(
+                SendPriceOfferEvent(
+                  request: SendPriceRequest(
+                    consumerRequest: model.result.consumer,
+                    responsibleEmployee: model.termsAndConditions.employee.Id,
+                    price: int.parse(_priceController.text),
+                  ),
+                ),
+              );
             },
           ),
           const SizedBox(height: 32),
@@ -780,5 +817,18 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen>
       color: !bool ? ColorSchemes.warning : ColorSchemes.success,
       icon: !bool ? ImagePaths.error : ImagePaths.success,
     );
+  }
+
+  void _filterItems(List<Items> items) {
+    _itemsAlarm.clear();
+    _itemsFire.clear();
+    for (var item in items) {
+      if (SystemType.isAlarmType(item.itemId.type)) {
+        _itemsAlarm.add(item);
+      } else if (SystemType.isFireType(item.itemId.type)) {
+        _itemsFire.add(item);
+      }
+    }
+    setState(() {});
   }
 }

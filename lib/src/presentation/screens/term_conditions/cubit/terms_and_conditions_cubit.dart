@@ -37,7 +37,6 @@ class TermsAndConditionsState {
   });
 
   bool get isValid {
-    // Debug print for all fields
     final hasEmployee = selectedEmployee != null;
     final hasTerms = terms.isNotEmpty;
     final hasDays = selectedDays.isNotEmpty;
@@ -50,21 +49,6 @@ class TermsAndConditionsState {
     final timeOrder = (startMinutes != null && endMinutes != null)
         ? (startMinutes < endMinutes)
         : false;
-    print('--- isValid Debug ---');
-    print('hasEmployee: $hasEmployee');
-    print('hasTerms: $hasTerms');
-    print('hasDays: $hasDays');
-    print('hasStart: $hasStart');
-    print('hasEnd: $hasEnd');
-    print('startMinutes: $startMinutes');
-    print('endMinutes: $endMinutes');
-    print('timeOrder: $timeOrder');
-    print('selectedEmployee: $selectedEmployee');
-    print('terms: $terms');
-    print('selectedDays: $selectedDays');
-    print('startTime: $startTime');
-    print('endTime: $endTime');
-    print('----------------------');
     return hasEmployee &&
         hasTerms &&
         hasDays &&
@@ -219,10 +203,11 @@ class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
       );
       print('Fetching employees from: ${response.body}');
       print('response.statusCode: ${response.statusCode}');
-      if (response.statusCode == 200|| response.statusCode == 201) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final data = json.decode(response.body);
-        final List<Employee> employees =
-            (data['result'] as List).map((e) => Employee.fromJsonTerms(e)).toList();
+        final List<Employee> employees = (data['result'] as List)
+            .map((e) => Employee.fromJsonTerms(e))
+            .toList();
         emit(state.copyWith(employees: employees, employeesLoading: false));
       } else {
         emit(state.copyWith(
