@@ -99,7 +99,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                                 text: S.of(context).noRequestsFound,
                                 isRefreshable: true,
                                 onRefresh: () =>
-                                    _bloc.add(GetConsumerRequestsEvent()),
+                                    _bloc.add(GetScheduleJobEvent(status: "")),
                                 imagePath: ImagePaths.emptyProject,
                               )),
                   ),
