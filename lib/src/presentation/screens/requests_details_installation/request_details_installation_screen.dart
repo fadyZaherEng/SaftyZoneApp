@@ -669,12 +669,13 @@ class _RequestDetailsInstallationScreenState
               const SizedBox(width: 8),
               DropdownButton<Employee>(
                 value: _selectedEmployee,
-                onChanged: (value) {
+                onChanged: ( value) {
                   setState(() {
                     _selectedEmployee = value;
                   });
                 },
                 items: _employees.map((emp) {
+                  _selectedEmployee=emp;
                   return DropdownMenuItem(
                     value: emp,
                     child: Text(
@@ -796,8 +797,8 @@ class _RequestDetailsInstallationScreenState
               _bloc.add(
                 SendPriceOfferEvent(
                   request: SendPriceRequest(
-                    consumerRequest: model.result.consumer,
-                    responsibleEmployee: model.termsAndConditions.employee.Id,
+                    consumerRequest: model.result.Id,
+                    responsibleEmployee: _selectedEmployee?.Id??"",
                     price: int.parse(_priceController.text),
                   ),
                 ),

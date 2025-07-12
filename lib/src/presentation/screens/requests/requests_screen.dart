@@ -62,16 +62,18 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
         return Scaffold(
           appBar: widget.isAppBar
               ? AppBar(
-                  backgroundColor: ColorSchemes.primary,
-                  title: Text(
-                    S.of(context).requests,
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
+            backgroundColor: ColorSchemes.primary,
+            title: Text(
+              S
+                  .of(context)
+                  .requests,
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          )
               : null,
           body: RefreshIndicator(
             onRefresh: () async {
@@ -88,7 +90,9 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                         child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 40),
                             child: CustomEmptyListWidget(
-                              text: S.of(context).noRequestsFound,
+                              text: S
+                                  .of(context)
+                                  .noRequestsFound,
                               isRefreshable: true,
                               onRefresh: () =>
                                   _bloc.add(GetConsumerRequestsEvent()),
@@ -101,20 +105,22 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 40),
                           child: _isLoading
                               ? Container(
-                                  height: 200,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    color: ColorSchemes.border,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                )
+                            height: 200,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              color: ColorSchemes.border,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          )
                               : CustomEmptyListWidget(
-                                  text: S.of(context).noRequestsFound,
-                                  isRefreshable: true,
-                                  onRefresh: () =>
-                                      _bloc.add(GetConsumerRequestsEvent()),
-                                  imagePath: ImagePaths.emptyProject,
-                                ),
+                            text: S
+                                .of(context)
+                                .noRequestsFound,
+                            isRefreshable: true,
+                            onRefresh: () =>
+                                _bloc.add(GetConsumerRequestsEvent()),
+                            imagePath: ImagePaths.emptyProject,
+                          ),
                         ),
                       ),
                     if (_isOld && _requestsOld.isNotEmpty ||
@@ -206,19 +212,19 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                     height: 16.h,
                     child: _isLoading
                         ? Container(
-                            width: 32.w,
-                            height: 32.h,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          )
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    )
                         : SvgPicture.asset(
-                            ImagePaths.filter,
-                            color: ColorSchemes.primary,
-                            width: 16.w,
-                            height: 16.h,
-                          ),
+                      ImagePaths.filter,
+                      color: ColorSchemes.primary,
+                      width: 16.w,
+                      height: 16.h,
+                    ),
                   ),
                 ),
                 border: OutlineInputBorder(
@@ -258,12 +264,11 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     );
   }
 
-  Widget _statusTab(
-    BuildContext context,
-    String label, {
-    bool isActive = false,
-    required void Function() onTap,
-  }) {
+  Widget _statusTab(BuildContext context,
+      String label, {
+        bool isActive = false,
+        required void Function() onTap,
+      }) {
     return Expanded(
       child: InkWell(
         onTap: onTap,
@@ -365,9 +370,10 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () => _openMap(
-                        request.branch.location.coordinates.first,
-                        request.branch.location.coordinates.last),
+                    onTap: () =>
+                        _openMap(
+                            request.branch.location.coordinates.first,
+                            request.branch.location.coordinates.last),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -392,7 +398,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                 // const SizedBox(width: 8),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   decoration: BoxDecoration(
                     color: _isLoading
                         ? Colors.grey.shade300
@@ -417,7 +423,9 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
               child: CustomButtonWidget(
                 backgroundColor: ColorSchemes.primary,
                 borderColor: ColorSchemes.primary,
-                text: S.of(context).sendPriceOffer,
+                text: S
+                    .of(context)
+                    .sendPriceOffer,
                 textColor: Colors.white,
                 onTap: () => _acceptRequest(context, request),
               ),
@@ -444,7 +452,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     } else if (request.requestType == RequestType.EngineeringInspection.name) {
       Navigator.pushNamed(
         context,
-        Routes.fireExtinguishersScreen,
+        Routes.requestDetailsInstallationScreen,
         arguments: {'requestId': request.Id},
       );
     } else if (request.requestType == RequestType.FireExtinguisher.name) {
@@ -460,13 +468,14 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => MapSearchScreen(
-          initialLatitude: first,
-          initialLongitude: last,
-          onLocationSelected: (lat, lng, address) {
-            setState(() {});
-          },
-        ),
+        builder: (_) =>
+            MapSearchScreen(
+              initialLatitude: first,
+              initialLongitude: last,
+              onLocationSelected: (lat, lng, address) {
+                setState(() {});
+              },
+            ),
       ),
     );
   }

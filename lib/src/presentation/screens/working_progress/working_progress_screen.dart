@@ -103,7 +103,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                                     text: S.of(context).noRequestsFound,
                                     isRefreshable: true,
                                     onRefresh: () =>
-                                        _bloc.add(GetConsumerRequestsEvent()),
+                                        _bloc.add(GetScheduleJobInProgressEvent(
+                                            status: ScheduleJobStatusEnum.pending.name)),
                                     imagePath: ImagePaths.emptyProject,
                                   )),
                       ),
