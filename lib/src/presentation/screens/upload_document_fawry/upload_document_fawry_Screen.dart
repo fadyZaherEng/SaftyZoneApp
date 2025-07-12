@@ -73,218 +73,262 @@ class _UploadDocumentFawryScreenState
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0,
-            centerTitle: true,
-            systemOverlayStyle: const SystemUiOverlayStyle(
-              statusBarColor: ColorSchemes.primary,
-              statusBarIconBrightness: Brightness.light,
-              statusBarBrightness: Brightness.dark,
-            ),
-            backgroundColor: ColorSchemes.primary,
-            title: Text(
-              S.of(context).workingInProgress,
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-                color: ColorSchemes.white,
+        return GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+            _dotsOpen = false;
+            setState(() {});
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              elevation: 0,
+              centerTitle: true,
+              systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarColor: ColorSchemes.primary,
+                statusBarIconBrightness: Brightness.light,
+                statusBarBrightness: Brightness.dark,
               ),
-            ),
-            leading: IconButton(
-              icon: SvgPicture.asset(
-                ImagePaths.backArrow,
-                color: ColorSchemes.white,
-              ),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _buildRequestCard(context, widget.request),
+              backgroundColor: ColorSchemes.primary,
+              title: Text(
+                S.of(context).workingInProgress,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: ColorSchemes.white,
                 ),
-                SizedBox(height: 16.h),
-                if (_isExpandedUpload)
-                  Text(
-                    S.of(context).instantLicense,
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+              ),
+              leading: IconButton(
+                icon: SvgPicture.asset(
+                  ImagePaths.backArrow,
+                  color: ColorSchemes.white,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _buildRequestCard(context, widget.request),
                   ),
-                if (_isExpandedUpload) const SizedBox(height: 8),
-                if (_isExpandedUpload)
-                  SizedBox(
-                    height: 200.h,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          height: 80.h,
-                          child: Card(
-                            elevation: 2,
-                            margin: const EdgeInsets.only(bottom: 12),
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 10,
+                  SizedBox(height: 16.h),
+                  if (_isExpandedUpload)
+                    Text(
+                      S.of(context).instantLicense,
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  if (_isExpandedUpload) const SizedBox(height: 8),
+                  if (_isExpandedUpload)
+                    SizedBox(
+                      height: 200.h,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            height: 80.h,
+                            child: Card(
+                              elevation: 2,
+                              margin: const EdgeInsets.only(bottom: 12),
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset(
-                                    ImagePaths.pdf,
-                                    width: 32.w,
-                                    height: 32.h,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        S.of(context).instantLicenseForCompany,
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        fileSize ?? '',
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _dotsOpen = !_dotsOpen;
-                                      });
-                                    },
-                                    icon: SvgPicture.asset(
-                                      ImagePaths.dots,
-                                      width: 24.w,
-                                      height: 24.h,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 10,
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SvgPicture.asset(
+                                      ImagePaths.pdf,
+                                      width: 32.w,
+                                      height: 32.h,
                                     ),
-                                  )
-                                ],
+                                    const SizedBox(width: 8),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          S
+                                              .of(context)
+                                              .instantLicenseForCompany,
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          fileSize ?? '',
+                                          style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _dotsOpen = !_dotsOpen;
+                                        });
+                                      },
+                                      icon: SvgPicture.asset(
+                                        ImagePaths.dots,
+                                        width: 24.w,
+                                        height: 24.h,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        if (_dotsOpen)
-                          Positioned(
-                            left: GetLanguageUseCase(injector())() == 'ar'
-                                ? 50.w
-                                : null,
-                            right: GetLanguageUseCase(injector())() == 'en'
-                                ? 50.w
-                                : null,
-                            top: 40.h,
-                            child: Material(
-                              elevation: 5,
-                              borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: ColorSchemes.white,
-                                  border: Border.all(color: ColorSchemes.white),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      blurRadius: 8,
-                                      offset: const Offset(0, -2),
-                                    )
-                                  ],
-                                  borderRadius: const BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                    topLeft: Radius.circular(10),
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    const SizedBox(height: 8),
-                                    SizedBox(
-                                      height: 48.h,
-                                      child: IconButton(
-                                        onPressed: _pickPDFFile,
-                                        icon: SvgPicture.asset(
-                                          ImagePaths.edit,
-                                          width: 24.w,
-                                          height: 24.h,
-                                          semanticsLabel: S.of(context).edit,
-                                        ),
-                                      ),
+                          if (_dotsOpen)
+                            Positioned(
+                              left: GetLanguageUseCase(injector())() == 'ar'
+                                  ? 50.w
+                                  : null,
+                              right: GetLanguageUseCase(injector())() == 'en'
+                                  ? 50.w
+                                  : null,
+                              top: 40.h,
+                              child: Material(
+                                elevation: 5,
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: ColorSchemes.white,
+                                    border:
+                                        Border.all(color: ColorSchemes.white),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black12,
+                                        blurRadius: 8,
+                                        offset: const Offset(0, -2),
+                                      )
+                                    ],
+                                    borderRadius: const BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                      topLeft: Radius.circular(10),
                                     ),
-                                    const SizedBox(height: 16),
-                                    SizedBox(
-                                      height: 48.h,
-                                      child: InkWell(
-                                        onTap: () {
-                                          print("✅ DELETE TAPPED");
-                                          uploadDocBloc.add(DeleteDocEvent(
-                                              docPath: imageFile ?? ''));
-                                          setState(() {
-                                            _dotsOpen = false;
-                                            _isExpandedUpload = false;
-                                            imageFile = null;
-                                          });
-                                        },
-                                        child: Container(
-                                          width: 48.w,
-                                          height: 48.h,
-                                          alignment: Alignment.center,
-                                          child: SvgPicture.asset(
-                                            ImagePaths.delete,
-                                            width: 24.w,
-                                            height: 24.h,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          const SizedBox(width: 4),
+                                          SizedBox(
+                                            height: 48.h,
+                                            child: IconButton(
+                                              onPressed: _pickPDFFile,
+                                              icon: SvgPicture.asset(
+                                                ImagePaths.edit,
+                                                width: 24.w,
+                                                height: 24.h,
+                                                color: ColorSchemes.secondary,
+                                                semanticsLabel:
+                                                    S.of(context).edit,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            S.of(context).edit,
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.normal,
+                                              color: ColorSchemes.secondary,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 16),
+                                      SizedBox(
+                                        height: 48.h,
+                                        child: InkWell(
+                                          onTap: () {
+                                            print("✅ DELETE TAPPED");
+                                            uploadDocBloc.add(DeleteDocEvent(
+                                                docPath: imageFile ?? ''));
+                                            setState(() {
+                                              _dotsOpen = false;
+                                              _isExpandedUpload = false;
+                                              imageFile = null;
+                                            });
+                                          },
+                                          child: Row(
+                                            children: [
+                                              const SizedBox(width: 4),
+                                              Container(
+                                                width: 48.w,
+                                                height: 48.h,
+                                                alignment: Alignment.center,
+                                                child: SvgPicture.asset(
+                                                  ImagePaths.delete,
+                                                  width: 24.w,
+                                                  height: 24.h,
+                                                  color: ColorSchemes.red,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Text(
+                                                S.of(context).delete,
+                                                style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: ColorSchemes.red,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 8),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                  ],
+                                      const SizedBox(height: 8),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
+                    ),
+                  const Spacer(),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 44.h,
+                    child: CustomButtonWidget(
+                      backgroundColor: ColorSchemes.primary,
+                      borderColor: ColorSchemes.primary,
+                      text: S.of(context).uploadLicenseDoc,
+                      textColor: ColorSchemes.white,
+                      onTap: () => _uploadLicenseDoc(context, widget.request),
                     ),
                   ),
-                const Spacer(),
-                SizedBox(
-                  width: double.infinity,
-                  height: 44.h,
-                  child: CustomButtonWidget(
-                    backgroundColor: ColorSchemes.primary,
-                    borderColor: ColorSchemes.primary,
-                    text: S.of(context).uploadLicenseDoc,
-                    textColor: ColorSchemes.white,
-                    onTap: () => _uploadLicenseDoc(context, widget.request),
-                  ),
-                ),
-                SizedBox(height: 88.h),
-              ],
+                  SizedBox(height: 88.h),
+                ],
+              ),
             ),
           ),
         );
@@ -444,12 +488,12 @@ class _UploadDocumentFawryScreenState
   }
 
   Future<void> _pickPDFFile() async {
+    showLoading();
     if (await PermissionServiceHandler().handleServicePermission(
         setting: PermissionServiceHandler.getStorageFilesPermission(
       androidDeviceInfo:
           Platform.isAndroid ? await DeviceInfoPlugin().androidInfo : null,
     ))) {
-      showLoading();
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['pdf'],
@@ -464,6 +508,7 @@ class _UploadDocumentFawryScreenState
       }
       hideLoading();
     } else {
+      hideLoading();
       _dialogMessage(
         icon: ImagePaths.warning,
         message: S.of(context).storagePermissionIsRequiredToProceed,

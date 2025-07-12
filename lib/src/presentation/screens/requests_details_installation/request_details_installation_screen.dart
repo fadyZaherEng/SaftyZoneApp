@@ -88,7 +88,7 @@ class _RequestDetailsInstallationScreenState
       } else if (state is GetEmployeesErrorState) {
         _showValidationError(state.message, false);
       } else if (state is SendPriceOfferSuccessState) {
-        _showValidationError(S.of(context).sendPriceOfferSuccess, false);
+        _showValidationError(S.of(context).sendPriceOfferSuccess, true);
         hideLoading();
         Navigator.pop(context);
       } else if (state is SendPriceOfferErrorState) {
