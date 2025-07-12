@@ -435,7 +435,7 @@ class _RegistrationStep1ViewState extends State<RegistrationStep1View> {
       widget.vendorData.companyName = _companyNameController.text;
       widget.vendorData.commercialRegistrationNo = _crNumberController.text;
       widget.vendorData.whatsappNumber =
-          "+${_selectedCountry.dialCode}${_whatsappController.text}";
+          "${_selectedCountry.dialCode}${_whatsappController.text}";
       widget.vendorData.email = _emailController.text;
 
       // For debugging
