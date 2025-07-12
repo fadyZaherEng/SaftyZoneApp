@@ -184,77 +184,83 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                  child: _buildDashboardCard(
-                context,
-                _dashboardItems[0],
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.requestScreen,
-                    arguments: {"isAppBar": true},
-                  );
-                },
-              )),
-              const SizedBox(width: 16),
-              Expanded(
-                  child: _buildDashboardCard(
-                context,
-                _dashboardItems[1],
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.maintainanceScreen,
-                    arguments: {"isAppBar": true},
-                  );
-                },
-              )),
-              const SizedBox(width: 16),
-              Expanded(
-                  child: _buildDashboardCard(
-                context,
-                _dashboardItems[2],
-                isColor: true,
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.workingProgressScreen,
-                    arguments: {"isAppBar": true},
-                  );
-                },
-              )),
-            ],
+          child: SizedBox(
+            height: 170.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: _buildDashboardCard(
+                  context,
+                  _dashboardItems[0],
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.requestScreen,
+                      arguments: {"isAppBar": true},
+                    );
+                  },
+                )),
+                const SizedBox(width: 16),
+                Expanded(
+                    child: _buildDashboardCard(
+                  context,
+                  _dashboardItems[1],
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.maintainanceScreen,
+                      arguments: {"isAppBar": true},
+                    );
+                  },
+                )),
+                const SizedBox(width: 16),
+                Expanded(
+                    child: _buildDashboardCard(
+                  context,
+                  _dashboardItems[2],
+                  isColor: true,
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.workingProgressScreen,
+                      arguments: {"isAppBar": true},
+                    );
+                  },
+                )),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 16),
         Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                  child: _buildDashboardCard(
-                context,
-                _dashboardItems[3],
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.pricesNeedEscalationScreen,
-                  );
-                },
-              )),
-              const SizedBox(width: 16),
-              Expanded(
-                  child: _buildDashboardCard(
-                context,
-                _dashboardItems[4],
-                onTap: () {},
-              )),
-            ],
+          child: SizedBox(
+            height: 170.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: _buildDashboardCard(
+                  context,
+                  _dashboardItems[3],
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.pricesNeedEscalationScreen,
+                    );
+                  },
+                )),
+                const SizedBox(width: 16),
+                Expanded(
+                    child: _buildDashboardCard(
+                  context,
+                  _dashboardItems[4],
+                  onTap: () {},
+                )),
+              ],
+            ),
           ),
         ),
       ],
@@ -274,7 +280,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
         elevation: 1,
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -294,7 +300,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                       height: 32.h,
                       color: isColor ? Color(0XFF133769) : null,
                     ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Center(
                 child: Text(
                   item.label,
@@ -305,7 +311,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Center(
                 child: Text(
                   item.value,
@@ -317,7 +323,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
             ],
           ),
         ),
