@@ -415,6 +415,7 @@
   "mission": "Mission",
   "editEmployeeInformation": "Edit Employee Information",
   "deleteEmployee": "Delete Employee",
-  "missingData": "There are some missing data"
+  "missingData": "There are some missing data",
+  "editEmployee": "Edit Employee"
 }
 

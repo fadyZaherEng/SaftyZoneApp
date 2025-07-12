@@ -206,6 +206,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "easyTitle": MessageLookupByLibrary.simpleMessage("إدارة سهلة"),
     "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
+    "editEmployee": MessageLookupByLibrary.simpleMessage("تعديل الموظف"),
     "editEmployeeInformation": MessageLookupByLibrary.simpleMessage(
       "تعديل معلومات الموظف",
     ),

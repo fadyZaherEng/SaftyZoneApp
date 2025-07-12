@@ -212,6 +212,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "easyTitle": MessageLookupByLibrary.simpleMessage("Easy Management"),
     "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+    "editEmployee": MessageLookupByLibrary.simpleMessage("Edit Employee"),
     "editEmployeeInformation": MessageLookupByLibrary.simpleMessage(
       "Edit Employee Information",
     ),

@@ -415,5 +415,6 @@
   "mission": "المهمة",
   "editEmployeeInformation": "تعديل معلومات الموظف",
   "deleteEmployee": "حذف الموظف",
-  "missingData": "هناك بعض البيانات المفقودة"
+  "missingData": "هناك بعض البيانات المفقودة",
+  "editEmployee": "تعديل الموظف"
 }

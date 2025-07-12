@@ -23,7 +23,14 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorSchemes.primary,
-        title: Text('Edit Employee'),
+        title: Text(
+          S.of(context).editEmployee,
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: _buildEmployeeCard(widget.employee),
     );

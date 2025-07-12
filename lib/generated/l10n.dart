@@ -3662,6 +3662,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Edit Employee`
+  String get editEmployee {
+    return Intl.message(
+      'Edit Employee',
+      name: 'editEmployee',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
