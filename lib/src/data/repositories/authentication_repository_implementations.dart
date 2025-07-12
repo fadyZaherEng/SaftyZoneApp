@@ -27,7 +27,7 @@ import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 
 class AuthenticationRepositoryImplementations extends AuthenticationRepository {
-  AuthApiServices _authApiServices;
+  final AuthApiServices _authApiServices;
 
   AuthenticationRepositoryImplementations(this._authApiServices);
 

@@ -66,8 +66,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
-    if (GetFirebaseNotificationTokenUseCase(injector())() == null ||
-        GetFirebaseNotificationTokenUseCase(injector())() == "") {
+    if (GetFirebaseNotificationTokenUseCase(injector())().isEmpty) {
       await initFirebaseService();
     }
   }
