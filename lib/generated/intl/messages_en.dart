@@ -464,6 +464,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "mapLocation": MessageLookupByLibrary.simpleMessage("Location on the map"),
     "mentionedInIt": MessageLookupByLibrary.simpleMessage("Mentioned in it"),
     "messages": MessageLookupByLibrary.simpleMessage("Messages"),
+    "missingData": MessageLookupByLibrary.simpleMessage(
+      "There are some missing data",
+    ),
     "mission": MessageLookupByLibrary.simpleMessage("Mission"),
     "monday": MessageLookupByLibrary.simpleMessage("Monday"),
     "newPassword": MessageLookupByLibrary.simpleMessage("New Password"),

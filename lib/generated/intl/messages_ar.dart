@@ -432,6 +432,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "mapLocation": MessageLookupByLibrary.simpleMessage("الموقع على الخريطة"),
     "mentionedInIt": MessageLookupByLibrary.simpleMessage("مذكوره فيه"),
     "messages": MessageLookupByLibrary.simpleMessage("الرسائل"),
+    "missingData": MessageLookupByLibrary.simpleMessage(
+      "هناك بعض البيانات المفقودة",
+    ),
     "mission": MessageLookupByLibrary.simpleMessage("المهمة"),
     "monday": MessageLookupByLibrary.simpleMessage("الاثنين"),
     "newPassword": MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),

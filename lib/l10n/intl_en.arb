@@ -414,6 +414,7 @@
   "thisProviderHasAlreadyMadeAnOfferForThisRequest": "This provider has already made an offer for this request",
   "mission": "Mission",
   "editEmployeeInformation": "Edit Employee Information",
-  "deleteEmployee": "Delete Employee"
+  "deleteEmployee": "Delete Employee",
+  "missingData": "There are some missing data"
 }
 

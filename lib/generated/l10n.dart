@@ -3652,6 +3652,16 @@ class S {
       args: [],
     );
   }
+
+  /// `There are some missing data`
+  String get missingData {
+    return Intl.message(
+      'There are some missing data',
+      name: 'missingData',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

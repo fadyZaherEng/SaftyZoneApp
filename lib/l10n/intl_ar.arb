@@ -414,5 +414,6 @@
   "thisProviderHasAlreadyMadeAnOfferForThisRequest": "هذا المزود قام بتقديم عرض سعر لهذا الطلب",
   "mission": "المهمة",
   "editEmployeeInformation": "تعديل معلومات الموظف",
-  "deleteEmployee": "حذف الموظف"
+  "deleteEmployee": "حذف الموظف",
+  "missingData": "هناك بعض البيانات المفقودة"
 }
