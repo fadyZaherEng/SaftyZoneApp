@@ -268,9 +268,11 @@ class _UploadDocumentFawryScreenState
                                         height: 48.h,
                                         child: InkWell(
                                           onTap: () {
-                                            print("✅ DELETE TAPPED");
-                                            uploadDocBloc.add(DeleteDocEvent(
-                                                docPath: imageFile ?? ''));
+                                            uploadDocBloc.add(
+                                              DeleteDocEvent(
+                                                docPath: imageFile ?? '',
+                                              ),
+                                            );
                                             setState(() {
                                               _dotsOpen = false;
                                               _isExpandedUpload = false;
@@ -532,12 +534,8 @@ class _UploadDocumentFawryScreenState
       icon: icon,
       primaryText: S.of(context).ok,
       secondaryText: S.of(context).cancel,
-      primaryAction: () async {
-        primaryAction();
-      },
-      secondaryAction: () {
-        secondaryAction ?? Navigator.pop(context);
-      },
+      primaryAction: primaryAction,
+      secondaryAction: () => secondaryAction ?? Navigator.pop(context),
     );
   }
 
