@@ -190,6 +190,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Track your daily tasks and stay updated with reports and notifications in one place.",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "deleteEmployee": MessageLookupByLibrary.simpleMessage("Delete Employee"),
     "deletedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Deleted successfully",
     ),
@@ -211,6 +212,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "easyTitle": MessageLookupByLibrary.simpleMessage("Easy Management"),
     "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+    "editEmployeeInformation": MessageLookupByLibrary.simpleMessage(
+      "Edit Employee Information",
+    ),
     "editPriceOffer": MessageLookupByLibrary.simpleMessage("Edit Price Offer"),
     "egSiteManager": MessageLookupByLibrary.simpleMessage("e.g, Site Manager"),
     "egypt": MessageLookupByLibrary.simpleMessage("Egypt"),
@@ -460,6 +464,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mapLocation": MessageLookupByLibrary.simpleMessage("Location on the map"),
     "mentionedInIt": MessageLookupByLibrary.simpleMessage("Mentioned in it"),
     "messages": MessageLookupByLibrary.simpleMessage("Messages"),
+    "mission": MessageLookupByLibrary.simpleMessage("Mission"),
     "monday": MessageLookupByLibrary.simpleMessage("Monday"),
     "newPassword": MessageLookupByLibrary.simpleMessage("New Password"),
     "newProviderRegistration": MessageLookupByLibrary.simpleMessage(

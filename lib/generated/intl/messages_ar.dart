@@ -184,6 +184,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "تابع مهامك اليومية، وكن على اطلاع دائم بالتقارير والإشعارات في مكان واحد.",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("حذف"),
+    "deleteEmployee": MessageLookupByLibrary.simpleMessage("حذف الموظف"),
     "deletedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "تم الحذف بنجاح",
     ),
@@ -205,6 +206,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "easyTitle": MessageLookupByLibrary.simpleMessage("إدارة سهلة"),
     "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
+    "editEmployeeInformation": MessageLookupByLibrary.simpleMessage(
+      "تعديل معلومات الموظف",
+    ),
     "editPriceOffer": MessageLookupByLibrary.simpleMessage("تعديل عرض السعر"),
     "egSiteManager": MessageLookupByLibrary.simpleMessage("مثال: مدير الموقع"),
     "egypt": MessageLookupByLibrary.simpleMessage("مصر"),
@@ -428,6 +432,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mapLocation": MessageLookupByLibrary.simpleMessage("الموقع على الخريطة"),
     "mentionedInIt": MessageLookupByLibrary.simpleMessage("مذكوره فيه"),
     "messages": MessageLookupByLibrary.simpleMessage("الرسائل"),
+    "mission": MessageLookupByLibrary.simpleMessage("المهمة"),
     "monday": MessageLookupByLibrary.simpleMessage("الاثنين"),
     "newPassword": MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
     "newProviderRegistration": MessageLookupByLibrary.simpleMessage(

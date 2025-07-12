@@ -3627,6 +3627,31 @@ class S {
       args: [],
     );
   }
+
+  /// `Mission`
+  String get mission {
+    return Intl.message('Mission', name: 'mission', desc: '', args: []);
+  }
+
+  /// `Edit Employee Information`
+  String get editEmployeeInformation {
+    return Intl.message(
+      'Edit Employee Information',
+      name: 'editEmployeeInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Employee`
+  String get deleteEmployee {
+    return Intl.message(
+      'Delete Employee',
+      name: 'deleteEmployee',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

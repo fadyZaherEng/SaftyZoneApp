@@ -8,7 +8,6 @@ import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/domain/usecase/clear_local_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
-import 'package:safety_zone/src/presentation/screens/add_employees/add_employee_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   final EmployeeDetails employeeDetails;
@@ -64,16 +63,16 @@ class CustomDrawer extends StatelessWidget {
             context,
             ImagePaths.wallet,
             s.wallet,
-            onTap: () {
-              Navigator.pushNamed(context, Routes.walletScreen);
+            onTap: () async {
+              await Navigator.pushNamed(context, Routes.walletScreen);
             },
           ),
           _drawerItem(
             context,
             ImagePaths.contract,
             s.contractList,
-            onTap: () {
-              Navigator.pushNamed(context, Routes.contractScreen);
+            onTap: () async {
+              await Navigator.pushNamed(context, Routes.contractScreen);
             },
           ),
           _drawerItem(
@@ -81,16 +80,19 @@ class CustomDrawer extends StatelessWidget {
             "assets/images/price-down.svg",
             s.pricesNeedEscalation,
             isColor: true,
-            onTap: () {
-              Navigator.pushNamed(context, Routes.pricesNeedEscalationScreen);
+            onTap: () async {
+              await Navigator.pushNamed(
+                context,
+                Routes.pricesNeedEscalationScreen,
+              );
             },
           ),
           _drawerItem(
             context,
             ImagePaths.request,
             s.installationTasks,
-            onTap: () {
-              Navigator.pushNamed(
+            onTap: () async {
+              await Navigator.pushNamed(
                 context,
                 Routes.installationFees,
               ).then((value) {});
@@ -100,11 +102,11 @@ class CustomDrawer extends StatelessWidget {
             context,
             ImagePaths.employees,
             s.employees,
-            onTap: () {
-              Navigator.push(
+            onTap: () async {
+              await Navigator.pushNamed(
                 context,
-                MaterialPageRoute(builder: (_) => const AddEmployeeScreen()),
-              ).then((value) {});
+                Routes.employeesList,
+              );
             },
           ),
           _drawerItem(
@@ -112,9 +114,11 @@ class CustomDrawer extends StatelessWidget {
             ImagePaths.termsAndConditions,
             s.termsAndConditions,
             isColor: true,
-            onTap: () {
-              Navigator.pushNamed(context, Routes.termConditionsScreen)
-                  .then((value) {});
+            onTap: () async {
+              await Navigator.pushNamed(
+                context,
+                Routes.termConditionsScreen,
+              ).then((value) {});
             },
           ),
           _drawerItem(
@@ -145,7 +149,7 @@ class CustomDrawer extends StatelessWidget {
               // Handle logout
               await ClearLocalDataUseCase(injector())();
               await SetRememberMeUseCase(injector())(false);
-              Navigator.pushNamedAndRemoveUntil(
+              await Navigator.pushNamedAndRemoveUntil(
                 context,
                 Routes.languageSelection,
                 (route) => false,

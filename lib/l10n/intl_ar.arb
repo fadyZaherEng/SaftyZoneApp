@@ -411,5 +411,8 @@
   "noteText": "ملاحظة: السعر يشمل الاستلام و التوصيل للفرع",
   "finalPrice": "السعر النهائي (بعد الاستلام و الصيانة)",
   "sendPriceOfferSuccess": "تم ارسال العرض بنجاح",
-  "thisProviderHasAlreadyMadeAnOfferForThisRequest": "هذا المزود قام بتقديم عرض سعر لهذا الطلب"
+  "thisProviderHasAlreadyMadeAnOfferForThisRequest": "هذا المزود قام بتقديم عرض سعر لهذا الطلب",
+  "mission": "المهمة",
+  "editEmployeeInformation": "تعديل معلومات الموظف",
+  "deleteEmployee": "حذف الموظف"
 }

@@ -411,6 +411,9 @@
   "noteText": "Note: Price includes pickup and delivery to the branch",
   "finalPrice": "Final Price (after pickup and maintenance)",
   "sendPriceOfferSuccess": "Price offer sent successfully",
-  "thisProviderHasAlreadyMadeAnOfferForThisRequest": "This provider has already made an offer for this request"
+  "thisProviderHasAlreadyMadeAnOfferForThisRequest": "This provider has already made an offer for this request",
+  "mission": "Mission",
+  "editEmployeeInformation": "Edit Employee Information",
+  "deleteEmployee": "Delete Employee"
 }
 
