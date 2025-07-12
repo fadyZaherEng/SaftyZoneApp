@@ -14,7 +14,10 @@ Future<void> initializeBlocDependencies() async {
         injector(),
       ));
   injector.registerFactory<AppConfig>(() => AppConfig());
-  injector.registerFactory<HomeBloc>(() => HomeBloc(injector()));
+  injector.registerFactory<HomeBloc>(() => HomeBloc(
+        injector(),
+        injector(),
+      ));
   injector.registerFactory<TermConditionsBloc>(() => TermConditionsBloc(
         injector(),
       ));

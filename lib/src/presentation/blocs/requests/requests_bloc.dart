@@ -34,7 +34,6 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
   final SendOfferPriceUseCase _sendOfferPriceUseCase;
   final ScheduleJopUseCase _scheduleJopUseCase;
   final GetUserLoginDataUseCase _getUserLoginDataUseCase;
-
   final ScheduleJobAllUseCase _scheduleJobAllUseCase;
 
   RequestsBloc(
@@ -59,7 +58,7 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
     final resultRecent = await _getConsumerRequestsUseCase(
         providerStatus: RequestStatus.active.name);
     final resultAccept = await _getConsumerRequestsUseCase(
-        providerStatus: RequestStatus.accepted.name);
+        providerStatus: RequestStatus.pending.name);
 
     if (resultRecent is DataSuccess<List<Requests>> ||
         resultAccept is DataSuccess<List<Requests>>) {

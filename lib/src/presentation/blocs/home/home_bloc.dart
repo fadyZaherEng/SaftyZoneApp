@@ -6,8 +6,12 @@ import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/schedule_jop_request.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
+import 'package:safety_zone/src/domain/usecase/get_user_login_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/schedule_all_jop_use_case.dart';
 import 'package:safety_zone/src/presentation/screens/home/home_screen.dart';
 
 part 'home_event.dart';
@@ -16,6 +20,7 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetConsumerRequestsUseCase _getConsumerRequestsUseCase;
+  final ScheduleJobAllUseCase _scheduleJobAllUseCase;
 
   List<DashboardItem> dashboardItems = [
     DashboardItem('30', S.current.newRequests, ImagePaths.news),
@@ -27,6 +32,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc(
     this._getConsumerRequestsUseCase,
+    this._scheduleJobAllUseCase,
   ) : super(HomeInitial()) {
     on<GetHomeDashboardEvent>(_onGetHomeDashboardEvent);
   }
@@ -36,6 +42,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(GetHomeDashboardLoadingState());
     final result = await _getConsumerRequestsUseCase(
         providerStatus: RequestStatus.active.name);
+    final result2 = await _scheduleJobAllUseCase(
+        request: ScheduleJopRequest(
+      phoneNumber: (await GetUserLoginDataUseCase(injector())())?.phone ?? '',
+      code: (await GetUserLoginDataUseCase(injector())())?.code ?? '',
+    ));
     if (result is DataSuccess<List<Requests>>) {
       dashboardItems = [
         DashboardItem(S.current.newRequests,
@@ -43,7 +54,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         DashboardItem(S.current.maintenanceReports, '5', ImagePaths.technical),
         DashboardItem(S.current.pendingRequests, '10', ImagePaths.requests),
         DashboardItem(S.current.priceOffers, '8', ImagePaths.work),
-        DashboardItem(S.current.todayTasks, '12', ImagePaths.groups),
+        DashboardItem(S.current.todayTasks,
+            result2.data?.length.toString() ?? '0', ImagePaths.groups),
       ];
       emit(GetHomeDashboardSuccessState(dashboardItems));
     } else {
