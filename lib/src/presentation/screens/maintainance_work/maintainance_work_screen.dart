@@ -112,7 +112,8 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       final request = _workingProgress[index];
 
                       if (request.type ==
-                          RequestType.InstallationCertificate.name) {
+                          RequestType.InstallationCertificate.name||request.type ==
+                          RequestType.EngineeringInspection.name) {
                         return _buildFawryRequestCard(
                           context,
                           request,
