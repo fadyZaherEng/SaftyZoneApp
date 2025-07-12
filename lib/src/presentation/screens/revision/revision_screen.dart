@@ -68,7 +68,7 @@ class _RevisionScreenState extends State<RevisionScreen> {
               ),
               Spacer(),
               CustomButtonWidget(
-                backgroundColor: ColorSchemes.red,
+                backgroundColor: ColorSchemes.primary,
                 textColor: ColorSchemes.white,
                 text: S.of(context).login,
                 onTap: () {

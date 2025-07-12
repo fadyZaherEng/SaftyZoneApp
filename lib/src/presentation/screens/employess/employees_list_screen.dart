@@ -218,13 +218,15 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    emp['fullName'] ?? '',
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF333333),
-                      fontFamily: 'SF Pro',
+                  Expanded(
+                    child: Text(
+                      emp['fullName'] ?? '',
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF333333),
+                        fontFamily: 'SF Pro',
+                      ),
                     ),
                   ),
                   SizedBox(height: 4.h),

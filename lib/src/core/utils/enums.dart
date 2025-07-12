@@ -20,8 +20,10 @@ class SystemType {
 }
 
 enum RequestType {
-  InstallationCertificate,//  شهادة تركيب
-  EngineeringInspection,// فحص هندسي
-  MaintenanceContract,// عقد صيانة
-  FireExtinguisher,//طفاية حريق
+  InstallationCertificate, //  شهادة تركيب
+  EngineeringInspection, // فحص هندسي
+  MaintenanceContract, // عقد صيانة
+  FireExtinguisher, //طفاية حريق
 }
+
+enum ScheduleJobStatusEnum { pending, completed, inProgress }

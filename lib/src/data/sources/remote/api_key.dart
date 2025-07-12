@@ -17,4 +17,5 @@ class APIKeys {
   static const String consumerRequests = "/api/provider/consumer-requests";
   static const String getConsumerRequestDetails = "/api/provider/consumer-requests/{id}";
   static const String sendPriceOffer = "/api/provider/offer";
+  static const String scheduleJob = "/api/provider/schedule-job";
 }

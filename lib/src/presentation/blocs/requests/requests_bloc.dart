@@ -7,16 +7,21 @@ import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_send_price.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/schedule_jop_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/request_details.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
+import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/get_user_login_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_details_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_use_case.dart';
 import 'package:http/http.dart' as http;
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart'
     as employee;
+import 'package:safety_zone/src/domain/usecase/home/schedule_all_jop_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/schedule_jop_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/send_offer_price_use_case.dart';
 
 part 'requests_event.dart';
@@ -27,16 +32,25 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
   final GetConsumerRequestDetailsUseCase _getConsumerRequestDetailsUseCase;
   final GetConsumerRequestsUseCase _getConsumerRequestsUseCase;
   final SendOfferPriceUseCase _sendOfferPriceUseCase;
+  final ScheduleJopUseCase _scheduleJopUseCase;
+  final GetUserLoginDataUseCase _getUserLoginDataUseCase;
+
+  final ScheduleJobAllUseCase _scheduleJobAllUseCase;
 
   RequestsBloc(
     this._getConsumerRequestDetailsUseCase,
     this._getConsumerRequestsUseCase,
     this._sendOfferPriceUseCase,
+    this._scheduleJopUseCase,
+    this._getUserLoginDataUseCase,
+    this._scheduleJobAllUseCase,
   ) : super(RequestsInitial()) {
     on<GetConsumerRequestsEvent>(_onGetConsumerRequestsEvent);
     on<GetConsumerRequestsDetailsEvent>(_onGetConsumerRequestsDetailsEvent);
     on<GetEmployeesEvent>(_onGetEmployeesEvent);
     on<SendPriceOfferEvent>(_onSendPriceOfferEvent);
+    on<GetScheduleJobEvent>(_onScheduleJopEvent);
+    on<GetScheduleJobInProgressEvent>(_onScheduleJopInProgressEvent);
   }
 
   FutureOr<void> _onGetConsumerRequestsEvent(
@@ -110,6 +124,54 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
       emit(SendPriceOfferSuccessState(result.data ?? RemoteSendPrice()));
     } else {
       emit(SendPriceOfferErrorState(result.message ?? ''));
+    }
+  }
+
+  FutureOr<void> _onScheduleJopEvent(
+      GetScheduleJobEvent event, Emitter<RequestsState> emit) async {
+    emit(ScheduleJobLoadingState());
+    if (event.status.isEmpty) {
+      final result = await _scheduleJobAllUseCase(
+        request: ScheduleJopRequest(
+          code: (await _getUserLoginDataUseCase())?.code ?? '',
+          phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
+        ),
+      );
+      if (result is DataSuccess<List<ScheduleJop>>) {
+        emit(ScheduleJobSuccessState(result.data ?? []));
+      } else {
+        emit(ScheduleJobErrorState(result.message ?? ''));
+      }
+    } else {
+      final result = await _scheduleJopUseCase(
+        request: ScheduleJopRequest(
+          code: (await _getUserLoginDataUseCase())?.code ?? '',
+          phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
+        ),
+        status: event.status,
+      );
+      if (result is DataSuccess<List<ScheduleJop>>) {
+        emit(ScheduleJobSuccessState(result.data ?? []));
+      } else {
+        emit(ScheduleJobErrorState(result.message ?? ''));
+      }
+    }
+  }
+
+  FutureOr<void> _onScheduleJopInProgressEvent(
+      GetScheduleJobInProgressEvent event, Emitter<RequestsState> emit) async {
+    emit(ScheduleJobInProgressLoadingState());
+    final result = await _scheduleJopUseCase(
+      request: ScheduleJopRequest(
+        code: (await _getUserLoginDataUseCase())?.code ?? '',
+        phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
+      ),
+      status: event.status,
+    );
+    if (result is DataSuccess<List<ScheduleJop>>) {
+      emit(ScheduleJobInProgressSuccessState(result.data ?? []));
+    } else {
+      emit(ScheduleJobInProgressErrorState(result.message ?? ''));
     }
   }
 }

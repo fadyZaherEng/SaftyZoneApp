@@ -38,4 +38,5 @@ class SharedPreferenceKeys {
   static const String isOnboardingComplete = 'isOnboardingComplete';
   static const String isDark = 'isDark';
   static const String userData = 'userData';
+  static const String userLogin = 'userLogin';
 }

@@ -185,7 +185,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       children: [
         Center(
           child: SizedBox(
-            height: 170.h,
+            height: 190.h,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -202,7 +202,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                     );
                   },
                 )),
-                const SizedBox(width: 16),
+                const SizedBox(width: 8),
                 Expanded(
                     child: _buildDashboardCard(
                   context,
@@ -215,7 +215,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                     );
                   },
                 )),
-                const SizedBox(width: 16),
+                const SizedBox(width: 8),
                 Expanded(
                     child: _buildDashboardCard(
                   context,
@@ -236,7 +236,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
         const SizedBox(height: 16),
         Center(
           child: SizedBox(
-            height: 170.h,
+            height: 180.h,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -278,17 +278,17 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 1,
-        color: Colors.white,
+        color: ColorSchemes.white,
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _isLoading
                   ? Container(
-                      width: 32.w,
-                      height: 32.h,
+                      width: 24.w,
+                      height: 24.h,
                       decoration: BoxDecoration(
                         color: Colors.grey.shade300,
                         borderRadius: BorderRadius.circular(6),
@@ -311,13 +311,15 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               Center(
                 child: Text(
                   item.value,
                   textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                     color: ColorSchemes.black,
                   ),

@@ -37,14 +37,9 @@ class _CompleteInfoViewState extends State<CompleteInfoView> {
   }
 
   Future<void> _fetchAuthStatus() async {
-    final bearerToken = GetTokenUseCase(injector())();
-
-    if (bearerToken == null) {
-      setState(() {
-        _isLoading = false;
-      });
-      return;
-    }
+    setState(() {
+      _isLoading = false;
+    });
 
     final authResponse = await CheckAuthUseCase(injector())();
 
@@ -296,40 +291,23 @@ class _CompleteInfoViewState extends State<CompleteInfoView> {
   }
 
   void _navigateToInstallationFees() async {
-    final result = await Navigator.pushNamed(context, Routes.installationFees);
-
-    // If the user completed installation fees setup, mark as completed
-    if (result == true) {
-      setState(() {
-        _installationFeesCompleted = true;
-      });
-    }
+    Navigator.pushNamed(context, Routes.installationFees).then((value) {
+      _fetchAuthStatus();
+    });
   }
 
   void _handleEmployees() async {
     // Navigate to Add Employee screen (MVVM + Cubit)
-    final result = await Navigator.push(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const AddEmployeeScreen()),
-    );
-    // If the user completed adding employees, mark as completed
-    if (result == true) {
-      setState(() {
-        _employeesCompleted = true;
-      });
-    }
+    ).then((value) => _fetchAuthStatus());
   }
 
   void _handleTermsAndConditions() async {
     // Use AppRouter route for Terms and Conditions
-    final result =
-        await Navigator.pushNamed(context, Routes.termConditionsScreen);
-    // If the user completed terms and conditions, mark as completed
-    if (result == true) {
-      setState(() {
-        _termsCompleted = true;
-      });
-    }
+    Navigator.pushNamed(context, Routes.termConditionsScreen)
+        .then((result) => _fetchAuthStatus());
   }
 
   bool _areAllTasksCompleted() {

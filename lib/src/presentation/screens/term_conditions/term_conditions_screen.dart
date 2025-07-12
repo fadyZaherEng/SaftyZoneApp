@@ -22,7 +22,7 @@ class _TermConditionsScreenState extends State<TermConditionsScreen> {
     return BlocProvider(
       create: (_) => TermsAndConditionsCubit()..fetchEmployees(),
       child: BlocBuilder<TermsAndConditionsCubit, TermsAndConditionsState>(
-         builder: (context, state) {
+        builder: (context, state) {
           final cubit = context.read<TermsAndConditionsCubit>();
 
           return Scaffold(
@@ -296,10 +296,8 @@ class _TermConditionsScreenState extends State<TermConditionsScreen> {
                       child: ElevatedButton(
                         onPressed: state.isValid && !state.loading
                             ? () async {
-                                final ok = await cubit.submit();
-                                if (ok && context.mounted) {
-                                  Navigator.pop(context, true);
-                                }
+                                await cubit.submit();
+                                Navigator.pop(context, true);
                               }
                             : null,
                         style: ElevatedButton.styleFrom(

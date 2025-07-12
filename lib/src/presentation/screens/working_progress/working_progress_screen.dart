@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
-import 'package:safety_zone/src/domain/entities/main/requests/request.dart';
+import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
+import 'package:safety_zone/src/presentation/widgets/custom_empty_list_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class WorkingProgressScreen extends BaseStatefulWidget {
@@ -25,108 +28,125 @@ class WorkingProgressScreen extends BaseStatefulWidget {
 }
 
 class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
-  final List<Requests> _workingProgress = [
-    Requests(
-      id: 2458926,
-      companyName: 'محمد قاسم',
-      image: 'assets/images/user1.png',
-      city: 'الرياض',
-      status: 'تحت المراجعة',
-      statusColor: Colors.black,
-      visits: 5,
-      type: RequestType.InstallationCertificate.name,
-    ),
-    Requests(
-      id: 2458927,
-      companyName: 'وائل ياسر',
-      image: 'assets/images/user2.png',
-      city: 'جدة',
-      status: 'عقود قائمة',
-      statusColor: Colors.blue,
-      visits: 3,
-      type: RequestType.MaintenanceContract.name,
-    ),
-    Requests(
-      id: 2458928,
-      companyName: 'علي أحمد',
-      image: 'assets/images/user3.png',
-      city: 'أبها',
-      status: 'تفاصيل الفريق',
-      statusColor: Colors.red,
-      visits: 2,
-      type: RequestType.FireExtinguisher.name,
-    ),
-  ];
+  RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
+
+  List<ScheduleJop> _workingProgress = [];
+
+  @override
+  void initState() {
+    _bloc.add(GetScheduleJobInProgressEvent(
+        status: ScheduleJobStatusEnum.inProgress.name));
+    super.initState();
+  }
+
   bool _isLoading = true;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        _isLoading = false;
-      });
-    });
-  }
-
-  @override
   Widget baseBuild(BuildContext context) {
-    return Scaffold(
-      appBar: widget.isAppBar
-          ? AppBar(
-              backgroundColor: ColorSchemes.primary,
-              title: Text(
-                S.of(context).workingInProgress,
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            )
-          : null,
-      body: SafeArea(
-        child: Skeletonizer(
-          enabled: _isLoading,
-          child: Column(
-            children: [
-              _buildSearchSection(context),
-              Expanded(
-                child: ListView.builder(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  itemCount: _workingProgress.length,
-                  itemBuilder: (context, index) {
-                    final request = _workingProgress[index];
+    return BlocConsumer<RequestsBloc, RequestsState>(
+      listener: (context, state) {
+        if (state is ScheduleJobInProgressLoadingState) {
+          _isLoading = true;
+        } else if (state is ScheduleJobInProgressSuccessState) {
+          _workingProgress = List.from(state.scheduleJob);
+          _isLoading = false;
+        } else if (state is ScheduleJobInProgressErrorState) {
+          _isLoading = false;
+          showSnackBar(
+            context: context,
+            message: state.message,
+            color: ColorSchemes.warning,
+            icon: ImagePaths.error,
+          );
+        }
+      },
+      builder: (context, state) {
+        return RefreshIndicator(
+          onRefresh: () async {
+            _bloc.add(GetScheduleJobInProgressEvent(
+                status: ScheduleJobStatusEnum.inProgress.name));
+          },
+          child: Scaffold(
+            appBar: widget.isAppBar
+                ? AppBar(
+                    backgroundColor: ColorSchemes.primary,
+                    title: Text(
+                      S.of(context).workingInProgress,
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                : null,
+            body: SafeArea(
+              child: Skeletonizer(
+                enabled: _isLoading,
+                child: Column(
+                  children: [
+                    _buildSearchSection(context),
+                    if (_workingProgress.isEmpty)
+                      Center(
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 40),
+                            child: _isLoading
+                                ? Container(
+                                    height: 200.h,
+                                    width: 200.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                  )
+                                : CustomEmptyListWidget(
+                                    text: S.of(context).noRequestsFound,
+                                    isRefreshable: true,
+                                    onRefresh: () =>
+                                        _bloc.add(GetConsumerRequestsEvent()),
+                                    imagePath: ImagePaths.emptyProject,
+                                  )),
+                      ),
+                    if (_workingProgress.isNotEmpty)
+                      Expanded(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 16),
+                          itemCount: _workingProgress.length,
+                          itemBuilder: (context, index) {
+                            final request = _workingProgress[index];
 
-                    if (request.type ==
-                        RequestType.InstallationCertificate.name) {
-                      return _buildFawryRequestCard(
-                        context,
-                        request,
-                        Key(request.id.toString()),
-                      );
-                    } else if (request.type ==
-                        RequestType.MaintenanceContract.name) {
-                      return _buildMaintenanceRequestCard(
-                        context,
-                        request,
-                        Key(request.id.toString()),
-                      );
-                    } else {
-                      return _buildRequestCard(
-                        context,
-                        request,
-                        Key(request.id.toString()),
-                      );
-                    }
-                  },
+                            if (request.type ==
+                                RequestType.InstallationCertificate.name) {
+                              return _buildFawryRequestCard(
+                                context,
+                                request,
+                                Key(request.Id.toString()),
+                              );
+                            } else if (request.type ==
+                                RequestType.MaintenanceContract.name) {
+                              return _buildMaintenanceRequestCard(
+                                context,
+                                request,
+                                Key(request.Id.toString()),
+                              );
+                            } else {
+                              return _buildRequestCard(
+                                context,
+                                request,
+                                Key(request.Id.toString()),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -213,7 +233,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
     );
   }
 
-  Widget _buildRequestCard(BuildContext context, Requests request, Key key) {
+  Widget _buildRequestCard(BuildContext context, ScheduleJop request, Key key) {
     return Card(
       key: key,
       elevation: 2,
@@ -228,7 +248,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             Row(
               children: [
                 Text(
-                  '#${request.id}',
+                  request.requestNumber,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 const Spacer(),
@@ -239,8 +259,9 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  backgroundColor:
-                      _isLoading ? Colors.grey.shade300 : request.statusColor,
+                  backgroundColor: _isLoading
+                      ? Colors.grey.shade300
+                      : ColorSchemes.secondary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -252,7 +273,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             Row(
               children: [
                 Text(
-                  request.companyName,
+                  request.branch.branchName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -265,7 +286,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     const Icon(Icons.location_pin, size: 16),
                     const SizedBox(width: 4),
                     Text(
-                      request.city,
+                      request.branch.address.split(',').last,
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
@@ -290,32 +311,33 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    _isLoading
-                        ? Container(
-                            width: 16.w,
-                            height: 16.h,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(6),
+                if (SystemType.isExtinguisherType(request.type))
+                  Row(
+                    children: [
+                      _isLoading
+                          ? Container(
+                              width: 16.w,
+                              height: 16.h,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            )
+                          : const Icon(
+                              Icons.calendar_month_outlined,
+                              size: 16,
                             ),
-                          )
-                        : const Icon(
-                            Icons.calendar_month_outlined,
-                            size: 16,
-                          ),
-                    const SizedBox(width: 4),
-                    Text(
-                      "${S.of(context).visitDate}:\n${"12/12/2022"}",
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
+                      const SizedBox(width: 4),
+                      Text(
+                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -364,7 +386,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  "ali mohamed",
+                  request.responseEmployee.fullName,
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontWeight: FontWeight.w500,
@@ -430,7 +452,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
 
   Widget _buildFawryRequestCard(
     BuildContext context,
-    Requests request,
+    ScheduleJop request,
     Key key,
   ) {
     return Card(
@@ -447,7 +469,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             Row(
               children: [
                 Text(
-                  '#${request.id}',
+                  request.requestNumber,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 const Spacer(),
@@ -458,8 +480,9 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  backgroundColor:
-                      _isLoading ? Colors.grey.shade300 : request.statusColor,
+                  backgroundColor: _isLoading
+                      ? Colors.grey.shade300
+                      : ColorSchemes.secondary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -471,7 +494,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             Row(
               children: [
                 Text(
-                  request.companyName,
+                  request.branch.branchName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -493,7 +516,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                         : const Icon(Icons.location_pin, size: 16),
                     const SizedBox(width: 4),
                     Text(
-                      request.city,
+                      request.branch.address.split(",").first,
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
@@ -518,32 +541,33 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    _isLoading
-                        ? Container(
-                            width: 16.w,
-                            height: 16.h,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(6),
+                if (SystemType.isExtinguisherType(request.type))
+                  Row(
+                    children: [
+                      _isLoading
+                          ? Container(
+                              width: 16.w,
+                              height: 16.h,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            )
+                          : const Icon(
+                              Icons.calendar_month_outlined,
+                              size: 16,
                             ),
-                          )
-                        : const Icon(
-                            Icons.calendar_month_outlined,
-                            size: 16,
-                          ),
-                    const SizedBox(width: 4),
-                    Text(
-                      "${S.of(context).visitDate}:\n${"12/12/2022"}",
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
+                      const SizedBox(width: 4),
+                      Text(
+                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -592,7 +616,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  "ali mohamed",
+                  request.responseEmployee.fullName,
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontWeight: FontWeight.w500,
@@ -633,7 +657,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
   }
 
   Widget _buildMaintenanceRequestCard(
-      BuildContext context, Requests request, Key key) {
+      BuildContext context, ScheduleJop request, Key key) {
     return Card(
       key: key,
       elevation: 2,
@@ -648,7 +672,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             Row(
               children: [
                 Text(
-                  '#${request.id}',
+                  request.requestNumber,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 const Spacer(),
@@ -659,8 +683,9 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  backgroundColor:
-                      _isLoading ? Colors.grey.shade300 : request.statusColor,
+                  backgroundColor: _isLoading
+                      ? Colors.grey.shade300
+                      : ColorSchemes.secondary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -672,7 +697,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             Row(
               children: [
                 Text(
-                  request.companyName,
+                  request.branch.branchName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -685,7 +710,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     const Icon(Icons.location_pin, size: 16),
                     const SizedBox(width: 4),
                     Text(
-                      request.city,
+                      request.branch.address.split(',').first,
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
@@ -710,23 +735,24 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.calendar_month_outlined,
-                      size: 16,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      "${S.of(context).visitDate}:\n${"12/12/2022"}",
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
+                if (SystemType.isExtinguisherType(request.type))
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.calendar_month_outlined,
+                        size: 16,
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(width: 4),
+                      Text(
+                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -773,7 +799,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  "ali mohamed",
+                  request.responseEmployee.fullName,
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontWeight: FontWeight.w500,
@@ -813,13 +839,13 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
     );
   }
 
-  void _uploadLicenseDoc(BuildContext context, Requests request) {
-    Navigator.pushNamed(
-      context,
-      Routes.uploadDocumentFawryScreen,
-      arguments: {'request': request},
-    );
+  void _uploadLicenseDoc(BuildContext context, ScheduleJop request) {
+    // Navigator.pushNamed(
+    //   context,
+    //   Routes.uploadDocumentFawryScreen,
+    //   arguments: {'request': request},
+    // );
   }
 
-  void _goToLocation(BuildContext context, Requests request) {}
+  void _goToLocation(BuildContext context, ScheduleJop request) {}
 }

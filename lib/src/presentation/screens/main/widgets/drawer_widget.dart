@@ -7,15 +7,25 @@ import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/domain/usecase/clear_local_data_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/set_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
+import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   final EmployeeDetails employeeDetails;
 
   const CustomDrawer({
     super.key,
     required this.employeeDetails,
   });
+
+  @override
+  State<CustomDrawer> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  bool _isEnglish = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +39,7 @@ class CustomDrawer extends StatelessWidget {
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: Image.network(
-                employeeDetails.image,
+                widget.employeeDetails.image,
                 width: 50,
                 height: 50,
                 errorBuilder: (context, error, stackTrace) => const Icon(
@@ -43,12 +53,12 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
             title: Text(
-              employeeDetails.fullName,
+              widget.employeeDetails.fullName,
               style: Theme.of(context).textTheme.titleMedium,
               textDirection: TextDirection.rtl,
             ),
             subtitle: Text(
-              employeeDetails.jobTitle,
+              widget.employeeDetails.jobTitle,
               textDirection: TextDirection.rtl,
             ),
           ),
@@ -132,6 +142,38 @@ class CustomDrawer extends StatelessWidget {
             ImagePaths.businessReport,
             s.reports,
             onTap: () {},
+          ),
+          //change language
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  s.changeLanguage,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                Checkbox(
+                  value: GetLanguageUseCase(injector())()=='en',
+                  onChanged: (value) {
+                    setState(() => _isEnglish = value!);
+                    SetLanguageUseCase(injector())(_isEnglish ? 'en' : 'ar');
+                    RestartWidget.restartApp(context);
+                  },
+                ),
+                Text(
+                  s.english,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
           ),
           const Spacer(),
           ListTile(

@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "amount_received": MessageLookupByLibrary.simpleMessage(
       "المبالغ التي تم استلامها",
     ),
+    "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
     "area": MessageLookupByLibrary.simpleMessage("المساحة"),
     "assignJobRole": MessageLookupByLibrary.simpleMessage("تعيين دور العمل"),
     "authorizedSignature": MessageLookupByLibrary.simpleMessage(
@@ -89,6 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "لا يمكنك استقبال الطلبات حتى يتم استكمالها.",
     ),
     "changeDocument": MessageLookupByLibrary.simpleMessage("تغيير"),
+    "changeLanguage": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
     "chooseNonRenewalReason": MessageLookupByLibrary.simpleMessage(
       "اختر سبب عدم التجديد",
     ),
@@ -236,6 +238,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "employees": MessageLookupByLibrary.simpleMessage("الموظفين"),
     "engineeringReport": MessageLookupByLibrary.simpleMessage("كشف هندسي"),
+    "english": MessageLookupByLibrary.simpleMessage("الانجليزية"),
     "enterAmount": MessageLookupByLibrary.simpleMessage("ادخل المبلغ"),
     "enterComponentFee": MessageLookupByLibrary.simpleMessage(
       "ادخل تكاليف المكون",

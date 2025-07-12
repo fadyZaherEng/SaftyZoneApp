@@ -416,5 +416,8 @@
   "editEmployeeInformation": "تعديل معلومات الموظف",
   "deleteEmployee": "حذف الموظف",
   "missingData": "هناك بعض البيانات المفقودة",
-  "editEmployee": "تعديل الموظف"
+  "editEmployee": "تعديل الموظف",
+  "english": "الانجليزية",
+  "arabic": "العربية",
+  "changeLanguage": "تغيير اللغة"
 }

@@ -41,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "alarmItems": MessageLookupByLibrary.simpleMessage("Alarm Items:"),
     "all": MessageLookupByLibrary.simpleMessage("All"),
     "amount_received": MessageLookupByLibrary.simpleMessage("Amounts Received"),
+    "arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
     "area": MessageLookupByLibrary.simpleMessage("Area"),
     "assignJobRole": MessageLookupByLibrary.simpleMessage("Assign Job Role"),
     "authorizedSignature": MessageLookupByLibrary.simpleMessage(
@@ -88,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "You cannot receive requests until they are completed.",
     ),
     "changeDocument": MessageLookupByLibrary.simpleMessage("Change"),
+    "changeLanguage": MessageLookupByLibrary.simpleMessage("Change Language"),
     "chooseNonRenewalReason": MessageLookupByLibrary.simpleMessage(
       "Choose reason for non-renewal",
     ),
@@ -244,6 +246,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "engineeringReport": MessageLookupByLibrary.simpleMessage(
       "Engineering Report",
     ),
+    "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterAmount": MessageLookupByLibrary.simpleMessage("Enter amount"),
     "enterComponentFee": MessageLookupByLibrary.simpleMessage(
       "Enter component fee",
