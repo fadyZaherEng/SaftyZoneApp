@@ -55,8 +55,6 @@ Future<void> initializeUseCaseDependencies() async {
       .registerFactory<CheckAuthUseCase>(() => CheckAuthUseCase(injector()));
   injector.registerFactory<GetFirstEmployeeUseCase>(
       () => GetFirstEmployeeUseCase(injector()));
-  // injector.registerFactory<GetInstallationsFeesUseCase>(
-  //     () => GetInstallationsFeesUseCase(injector()));
   injector.registerFactory<GetInstallationsStatusUseCase>(
       () => GetInstallationsStatusUseCase(injector()));
   injector.registerFactory<GetBySubCategoryUseCase>(
@@ -79,8 +77,12 @@ Future<void> initializeUseCaseDependencies() async {
       () => GetFirebaseNotificationTokenUseCase(injector()));
   injector.registerFactory<GenerateImageUrlUseCase>(
       () => GenerateImageUrlUseCase(injector()));
-  injector.registerFactory<GenerateFileUrlUseCase>(() => GenerateFileUrlUseCase(injector()));
-  injector.registerFactory<GetConsumerRequestDetailsUseCase>(() => GetConsumerRequestDetailsUseCase(injector()));
-  injector.registerFactory<GetConsumerRequestsUseCase>(() => GetConsumerRequestsUseCase(injector()));
-  injector.registerFactory<SendOfferPriceUseCase>(() => SendOfferPriceUseCase(injector()));
+  injector.registerFactory<GenerateFileUrlUseCase>(
+      () => GenerateFileUrlUseCase(injector()));
+  injector.registerFactory<GetConsumerRequestDetailsUseCase>(
+      () => GetConsumerRequestDetailsUseCase(injector()));
+  injector.registerFactory<GetConsumerRequestsUseCase>(
+      () => GetConsumerRequestsUseCase(injector()));
+  injector.registerFactory<SendOfferPriceUseCase>(
+      () => SendOfferPriceUseCase(injector()));
 }
