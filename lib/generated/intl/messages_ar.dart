@@ -360,7 +360,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "installationMaterialsPrice": MessageLookupByLibrary.simpleMessage(
       "تكاليف المواد التثبيتية",
     ),
-    "installationTasks": MessageLookupByLibrary.simpleMessage("أدوار التركيب"),
+    "installationTasks": MessageLookupByLibrary.simpleMessage("أجور التركيب"),
     "instantLicense": MessageLookupByLibrary.simpleMessage("رخصه فورية"),
     "instantLicenseForCompany": MessageLookupByLibrary.simpleMessage(
       " رخصة فورية للشركة",

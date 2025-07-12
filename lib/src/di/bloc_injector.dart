@@ -1,5 +1,6 @@
 import 'package:safety_zone/src/core/utils/app_config.dart';
 import 'package:safety_zone/src/di/injector.dart';
+import 'package:safety_zone/src/presentation/blocs/home/home_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/main/main_cubit.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/term_conditions/term_conditions_bloc.dart';
@@ -13,6 +14,7 @@ Future<void> initializeBlocDependencies() async {
         injector(),
       ));
   injector.registerFactory<AppConfig>(() => AppConfig());
+  injector.registerFactory<HomeBloc>(() => HomeBloc(injector()));
   injector.registerFactory<TermConditionsBloc>(() => TermConditionsBloc(
         injector(),
       ));

@@ -8,6 +8,7 @@ import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/domain/usecase/clear_local_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
+import 'package:safety_zone/src/presentation/screens/add_employees/add_employee_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   final EmployeeDetails employeeDetails;
@@ -88,20 +89,33 @@ class CustomDrawer extends StatelessWidget {
             context,
             ImagePaths.request,
             s.installationTasks,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                Routes.installationFees,
+              ).then((value) {});
+            },
           ),
           _drawerItem(
             context,
             ImagePaths.employees,
             s.employees,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const AddEmployeeScreen()),
+              ).then((value) {});
+            },
           ),
           _drawerItem(
             context,
             ImagePaths.termsAndConditions,
             s.termsAndConditions,
             isColor: true,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, Routes.termConditionsScreen)
+                  .then((value) {});
+            },
           ),
           _drawerItem(
             context,

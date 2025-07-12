@@ -98,14 +98,24 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                     if (!_isOld && _requestsRecent.isEmpty)
                       Center(
                         child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 40),
-                            child: CustomEmptyListWidget(
-                              text: S.of(context).noRequestsFound,
-                              isRefreshable: true,
-                              onRefresh: () =>
-                                  _bloc.add(GetConsumerRequestsEvent()),
-                              imagePath: ImagePaths.emptyProject,
-                            )),
+                          padding: const EdgeInsets.symmetric(vertical: 40),
+                          child: _isLoading
+                              ? Container(
+                                  height: 200,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    color: ColorSchemes.border,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                )
+                              : CustomEmptyListWidget(
+                                  text: S.of(context).noRequestsFound,
+                                  isRefreshable: true,
+                                  onRefresh: () =>
+                                      _bloc.add(GetConsumerRequestsEvent()),
+                                  imagePath: ImagePaths.emptyProject,
+                                ),
+                        ),
                       ),
                     if (_isOld && _requestsOld.isNotEmpty ||
                         !_isOld && _requestsRecent.isNotEmpty)

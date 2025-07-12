@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
@@ -10,6 +11,7 @@ import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/src/domain/usecase/auth/check_auth_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/presentation/blocs/home/home_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/home/widgets/greeting_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -31,6 +33,22 @@ class HomeScreen extends BaseStatefulWidget {
 class _HomeScreenState extends BaseState<HomeScreen> {
   CheckAuth _checkAuth = const CheckAuth();
   bool _isLoading = true;
+  List<DashboardItem> _dashboardItems = [];
+
+  HomeBloc get _bloc => BlocProvider.of<HomeBloc>(context);
+
+  @override
+  void initState() {
+    _bloc.add(GetHomeDashboardEvent());
+    super.initState();
+    _dashboardItems = [
+      DashboardItem('30', S.current.newRequests, ImagePaths.news),
+      DashboardItem('5', S.current.maintenanceReports, ImagePaths.technical),
+      DashboardItem('10', S.current.pendingRequests, ImagePaths.requests),
+      DashboardItem('8', S.current.priceOffers, ImagePaths.work),
+      DashboardItem('12', S.current.todayTasks, ImagePaths.groups),
+    ];
+  }
 
   @override
   void didChangeDependencies() {
@@ -56,33 +74,45 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   Widget baseBuild(BuildContext context) {
     final s = S.of(context);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Skeletonizer(
-          enabled: _isLoading,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GreetingSection(
-                    s: s,
-                    isLoading: _isLoading,
-                    fullName: _checkAuth.employeeDetails.fullName,
-                  ),
-                  const SizedBox(height: 16),
-                  _buildSearchSection(context),
-                  const SizedBox(height: 16),
-                  _buildGridDashboard(context, s),
-                ],
+    return BlocConsumer<HomeBloc, HomeState>(listener: (context, state) {
+      if (state is GetHomeDashboardLoadingState) {
+        _isLoading = true;
+      } else if (state is GetHomeDashboardSuccessState) {
+        _dashboardItems = state.dashboardItems;
+        _isLoading = false;
+      } else if (state is GetHomeDashboardErrorState) {
+        _isLoading = false;
+      }
+    }, builder: (context, state) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Skeletonizer(
+            enabled: _isLoading || state is GetHomeDashboardLoadingState,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GreetingSection(
+                      s: s,
+                      isLoading: _isLoading,
+                      fullName: _checkAuth.employeeDetails.fullName,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildSearchSection(context),
+                    const SizedBox(height: 16),
+                    _buildGridDashboard(context, s),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildSearchSection(BuildContext context) {
@@ -150,13 +180,6 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   }
 
   Widget _buildGridDashboard(BuildContext context, S s) {
-    final items = [
-      DashboardItem('30', s.newRequests, ImagePaths.news),
-      DashboardItem('5', s.maintenanceReports, ImagePaths.technical),
-      DashboardItem('10', s.pendingRequests, ImagePaths.requests),
-      DashboardItem('8', s.priceOffers, ImagePaths.work),
-      DashboardItem('12', s.todayTasks, ImagePaths.groups),
-    ];
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -168,7 +191,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
               Expanded(
                   child: _buildDashboardCard(
                 context,
-                items[0],
+                _dashboardItems[0],
                 onTap: () {
                   Navigator.pushNamed(
                     context,
@@ -181,7 +204,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
               Expanded(
                   child: _buildDashboardCard(
                 context,
-                items[1],
+                _dashboardItems[1],
                 onTap: () {
                   Navigator.pushNamed(
                     context,
@@ -194,7 +217,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
               Expanded(
                   child: _buildDashboardCard(
                 context,
-                items[2],
+                _dashboardItems[2],
                 isColor: true,
                 onTap: () {
                   Navigator.pushNamed(
@@ -216,19 +239,19 @@ class _HomeScreenState extends BaseState<HomeScreen> {
               Expanded(
                   child: _buildDashboardCard(
                 context,
-                items[3],
+                _dashboardItems[3],
                 onTap: () {
                   Navigator.pushNamed(
                     context,
                     Routes.pricesNeedEscalationScreen,
-                   );
+                  );
                 },
               )),
               const SizedBox(width: 16),
               Expanded(
                   child: _buildDashboardCard(
                 context,
-                items[4],
+                _dashboardItems[4],
                 onTap: () {},
               )),
             ],
@@ -274,9 +297,9 @@ class _HomeScreenState extends BaseState<HomeScreen> {
               const SizedBox(height: 16),
               Center(
                 child: Text(
-                  item.value,
-                  style: const TextStyle(
-                    fontSize: 20,
+                  item.label,
+                  style: TextStyle(
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                     color: ColorSchemes.primary,
                   ),
@@ -285,10 +308,12 @@ class _HomeScreenState extends BaseState<HomeScreen> {
               const SizedBox(height: 16),
               Center(
                 child: Text(
-                  item.label,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.black,
+                  item.value,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: ColorSchemes.black,
                   ),
                 ),
               ),
