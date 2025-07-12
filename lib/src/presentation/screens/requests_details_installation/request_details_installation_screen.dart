@@ -45,7 +45,7 @@ class _RequestDetailsInstallationScreenState
   final List<Items> _itemsAlarm = [];
   final List<Items> _itemsFire = [];
   List<Employee> _employees = [];
-  Employee? _selectedEmployee = Employee();
+  Employee _selectedEmployee = Employee();
 
   @override
   void initState() {
@@ -669,13 +669,13 @@ class _RequestDetailsInstallationScreenState
               const SizedBox(width: 8),
               DropdownButton<Employee>(
                 value: _selectedEmployee,
-                onChanged: ( value) {
+                onChanged: (Employee? value) {
+                  debugPrint('Selected Employee: ${value?.Id}');
                   setState(() {
-                    _selectedEmployee = value;
+                    _selectedEmployee = value ?? _selectedEmployee;
                   });
                 },
                 items: _employees.map((emp) {
-                  _selectedEmployee=emp;
                   return DropdownMenuItem(
                     value: emp,
                     child: Text(
@@ -798,7 +798,7 @@ class _RequestDetailsInstallationScreenState
                 SendPriceOfferEvent(
                   request: SendPriceRequest(
                     consumerRequest: model.result.Id,
-                    responsibleEmployee: _selectedEmployee?.Id??"",
+                    responsibleEmployee: _selectedEmployee.Id,
                     price: int.parse(_priceController.text),
                   ),
                 ),

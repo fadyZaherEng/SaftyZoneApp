@@ -20,12 +20,15 @@ class _HomeApiServices implements HomeApiServices {
 
   @override
   Future<HttpResponse<List<RemoteRequests>>> getConsumerRequests(
-      String providerStatus) async {
+    String token,
+    String providerStatus,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'provider_status': providerStatus
     };
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
         _setStreamType<HttpResponse<List<RemoteRequests>>>(Options(

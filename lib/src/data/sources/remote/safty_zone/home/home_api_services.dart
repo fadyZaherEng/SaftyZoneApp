@@ -16,7 +16,8 @@ abstract class HomeApiServices {
 
   @GET(APIKeys.consumerRequests)
   Future<HttpResponse<List<RemoteRequests>>> getConsumerRequests(
-    @Query("provider_status") String providerStatus,
+      @Header("Authorization") String token,
+      @Query("provider_status") String providerStatus,
   );
 
   @GET(APIKeys.getConsumerRequestDetails)

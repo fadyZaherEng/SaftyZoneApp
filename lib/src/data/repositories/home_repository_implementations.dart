@@ -8,10 +8,12 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remot
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/home_api_services.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/schedule_jop_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/request_details.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/src/domain/repositories/home_repository.dart';
+import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 
 class HomeRepositoryImplementations extends HomeRepository {
   final HomeApiServices _homeApiServices;
@@ -45,8 +47,10 @@ class HomeRepositoryImplementations extends HomeRepository {
     required String providerStatus,
   }) async {
     try {
-      final httpResponse =
-          await _homeApiServices.getConsumerRequests(providerStatus);
+      final httpResponse = await _homeApiServices.getConsumerRequests(
+        GetTokenUseCase(injector())(),
+        providerStatus,
+      );
       if (((httpResponse.response.statusCode ?? 400) == 201) ||
           (httpResponse.response.statusCode ?? 400) == 200) {
         return DataSuccess(
