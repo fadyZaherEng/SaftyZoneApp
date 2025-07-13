@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,6 +37,9 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
   bool _isLoading = true;
 
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
+  TextEditingController _price6KiloController = TextEditingController();
+  TextEditingController _price12KiloController = TextEditingController();
+  TextEditingController _priceCo2Controller = TextEditingController();
 
   @override
   void initState() {
@@ -62,18 +66,16 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
         return Scaffold(
           appBar: widget.isAppBar
               ? AppBar(
-            backgroundColor: ColorSchemes.primary,
-            title: Text(
-              S
-                  .of(context)
-                  .requests,
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          )
+                  backgroundColor: ColorSchemes.primary,
+                  title: Text(
+                    S.of(context).requests,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
               : null,
           body: RefreshIndicator(
             onRefresh: () async {
@@ -90,9 +92,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                         child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 40),
                             child: CustomEmptyListWidget(
-                              text: S
-                                  .of(context)
-                                  .noRequestsFound,
+                              text: S.of(context).noRequestsFound,
                               isRefreshable: true,
                               onRefresh: () =>
                                   _bloc.add(GetConsumerRequestsEvent()),
@@ -105,22 +105,20 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 40),
                           child: _isLoading
                               ? Container(
-                            height: 200,
-                            width: 200,
-                            decoration: BoxDecoration(
-                              color: ColorSchemes.border,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          )
+                                  height: 200,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    color: ColorSchemes.border,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                )
                               : CustomEmptyListWidget(
-                            text: S
-                                .of(context)
-                                .noRequestsFound,
-                            isRefreshable: true,
-                            onRefresh: () =>
-                                _bloc.add(GetConsumerRequestsEvent()),
-                            imagePath: ImagePaths.emptyProject,
-                          ),
+                                  text: S.of(context).noRequestsFound,
+                                  isRefreshable: true,
+                                  onRefresh: () =>
+                                      _bloc.add(GetConsumerRequestsEvent()),
+                                  imagePath: ImagePaths.emptyProject,
+                                ),
                         ),
                       ),
                     if (_isOld && _requestsOld.isNotEmpty ||
@@ -128,7 +126,9 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                       Expanded(
                         child: ListView.builder(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
+                            vertical: 8,
+                            horizontal: 16,
+                          ),
                           itemCount: _isOld
                               ? _requestsOld.length
                               : _requestsRecent.length,
@@ -136,7 +136,13 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                             final request = _isOld
                                 ? _requestsOld[index]
                                 : _requestsRecent[index];
-                            // final request = _requestsRecent[index];
+                            if (SystemType.isExtinguisherType(
+                                request.requestType)) {
+                              return _buildFireExtinguisherCard(
+                                  context,
+                                  request,
+                                  Key(request.requestNumber.toString()));
+                            }
                             return _buildRequestCard(
                               context,
                               request,
@@ -212,19 +218,19 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                     height: 16.h,
                     child: _isLoading
                         ? Container(
-                      width: 32.w,
-                      height: 32.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                    )
+                            width: 32.w,
+                            height: 32.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
                         : SvgPicture.asset(
-                      ImagePaths.filter,
-                      color: ColorSchemes.primary,
-                      width: 16.w,
-                      height: 16.h,
-                    ),
+                            ImagePaths.filter,
+                            color: ColorSchemes.primary,
+                            width: 16.w,
+                            height: 16.h,
+                          ),
                   ),
                 ),
                 border: OutlineInputBorder(
@@ -264,11 +270,12 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     );
   }
 
-  Widget _statusTab(BuildContext context,
-      String label, {
-        bool isActive = false,
-        required void Function() onTap,
-      }) {
+  Widget _statusTab(
+    BuildContext context,
+    String label, {
+    bool isActive = false,
+    required void Function() onTap,
+  }) {
     return Expanded(
       child: InkWell(
         onTap: onTap,
@@ -370,10 +377,9 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () =>
-                        _openMap(
-                            request.branch.location.coordinates.first,
-                            request.branch.location.coordinates.last),
+                    onTap: () => _openMap(
+                        request.branch.location.coordinates.first,
+                        request.branch.location.coordinates.last),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -398,7 +404,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                 // const SizedBox(width: 8),
                 Container(
                   padding:
-                  const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   decoration: BoxDecoration(
                     color: _isLoading
                         ? Colors.grey.shade300
@@ -423,9 +429,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
               child: CustomButtonWidget(
                 backgroundColor: ColorSchemes.primary,
                 borderColor: ColorSchemes.primary,
-                text: S
-                    .of(context)
-                    .sendPriceOffer,
+                text: S.of(context).sendPriceOffer,
                 textColor: Colors.white,
                 onTap: () => _acceptRequest(context, request),
               ),
@@ -437,7 +441,8 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
   }
 
   void _acceptRequest(BuildContext context, Requests request) {
-    if (request.requestType == RequestType.InstallationCertificate.name) {
+    if (request.requestType == RequestType.InstallationCertificate.name ||
+        request.requestType == RequestType.EngineeringInspection.name) {
       Navigator.pushNamed(
         context,
         Routes.requestDetailsInstallationScreen,
@@ -447,12 +452,6 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
       Navigator.pushNamed(
         context,
         Routes.requestDetailsMaintainanceScreen,
-        arguments: {'requestId': request.Id},
-      );
-    } else if (request.requestType == RequestType.EngineeringInspection.name) {
-      Navigator.pushNamed(
-        context,
-        Routes.requestDetailsInstallationScreen,
         arguments: {'requestId': request.Id},
       );
     } else if (request.requestType == RequestType.FireExtinguisher.name) {
@@ -468,15 +467,439 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) =>
-            MapSearchScreen(
-              initialLatitude: first,
-              initialLongitude: last,
-              onLocationSelected: (lat, lng, address) {
-                setState(() {});
-              },
-            ),
+        builder: (_) => MapSearchScreen(
+          initialLatitude: first,
+          initialLongitude: last,
+          onLocationSelected: (lat, lng, address) {
+            setState(() {});
+          },
+        ),
       ),
+    );
+  }
+
+  Widget _buildFireExtinguisherCard(
+      BuildContext context, Requests request, Key key) {
+    final s = S.of(context);
+    return Card(
+      key: key,
+      elevation: 2,
+      margin: const EdgeInsets.only(bottom: 12),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildCardHeader(s, request),
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      ImagePaths.priceSending,
+                      height: 24.h,
+                      width: 24.w,
+                      color: ColorSchemes.primary,
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      S.of(context).submitOfferTitle,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.sp,
+                        color: ColorSchemes.black,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                _buildFireItem(
+                  title: S.of(context).fireExtinguisher6kg,
+                  hint: S.of(context).example3,
+                  controller: _price6KiloController,
+                  iconDescription: ImagePaths.price,
+                  color: ColorSchemes.black,
+                  iconTitle: ImagePaths.fire,
+                ),
+                const SizedBox(height: 12),
+                Divider(),
+                const SizedBox(height: 12),
+                _buildFireItem(
+                  title: S.of(context).fireExtinguisher12kg,
+                  hint: S.of(context).example350,
+                  controller: _price12KiloController,
+                  iconDescription: ImagePaths.price,
+                  color: ColorSchemes.black,
+                  iconTitle: ImagePaths.fire,
+                ),
+                const SizedBox(height: 12),
+                Divider(),
+                const SizedBox(height: 12),
+                _buildFireItem(
+                  title: S.of(context).fireExtinguisherCO2,
+                  hint: S.of(context).example350,
+                  controller: _priceCo2Controller,
+                  iconDescription: ImagePaths.price,
+                  color: ColorSchemes.black,
+                  iconTitle: ImagePaths.fire,
+                ),
+                const SizedBox(height: 12),
+                Divider(),
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    S.of(context).noteText,
+                    style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                  ),
+                ),
+                Text(
+                  S.of(context).finalPrice,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.sp,
+                    color: ColorSchemes.black,
+                  ),
+                ),
+                const SizedBox(height: 8),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: CustomButtonWidget(
+              text: S.of(context).sendPriceOffer,
+              backgroundColor: ColorSchemes.primary,
+              textColor: Colors.white,
+              onTap: () {},
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFireItem({
+    required String title,
+    required String hint,
+    required String iconTitle,
+    required String iconDescription,
+    required TextEditingController controller,
+    Color? color,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SvgPicture.asset(
+                iconTitle,
+                width: 24,
+                height: 24,
+                color: color ?? ColorSchemes.black,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SvgPicture.asset(
+                iconDescription,
+                width: 24,
+                height: 24,
+                color: color ?? ColorSchemes.black,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                S.of(context).maintenancePricePerKilo,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            style: const TextStyle(
+              fontSize: 14,
+              color: ColorSchemes.black,
+              fontWeight: FontWeight.normal,
+            ),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+            ],
+            decoration: InputDecoration(
+              hintText: hint,
+              fillColor: Colors.white,
+              filled: true,
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(2.r),
+                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(2.r),
+                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+              hintStyle: const TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(2.r),
+                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(2.r),
+                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(2.r),
+                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCardHeader(S s, Requests model) {
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Chip(
+                label: Text(
+                  model.requestType,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                backgroundColor:
+                    _isLoading ? Colors.grey.shade300 : ColorSchemes.black,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                model.requestNumber,
+                style: TextStyle(color: Colors.grey[700]),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Text(
+                  model.branch.branchName,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Row(
+                children: [
+                  const Icon(Icons.location_pin, size: 16),
+                  const SizedBox(width: 4),
+                  Text(
+                    model.branch.address.split(" ").last,
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  _isLoading
+                      ? Container(
+                          width: 16.w,
+                          height: 16.h,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        )
+                      : SvgPicture.asset(
+                          ImagePaths.activity,
+                          width: 16,
+                          height: 16,
+                          color: Colors.grey[700],
+                        ),
+                  const SizedBox(width: 4),
+                  Text(
+                    S.of(context).typeOfActivity,
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                decoration: BoxDecoration(
+                  color: _isLoading
+                      ? Colors.grey.shade300
+                      : ColorSchemes.secondary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  model.branch.location.type,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            s.locationOnMap,
+            style: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.normal,
+              fontSize: 15.sp,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+            decoration: BoxDecoration(
+              color: ColorSchemes.white,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: ColorSchemes.white,
+                width: 1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: CustomButtonWidget(
+                    height: 42,
+                    backgroundColor: ColorSchemes.red,
+                    textColor: Colors.white,
+                    text: s.openMap,
+                    onTap: () async {
+                      // Handle map navigation
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => MapSearchScreen(
+                            initialLatitude:
+                                model.branch.location.coordinates.first,
+                            initialLongitude:
+                                model.branch.location.coordinates.last,
+                            onLocationSelected: (lat, lng, address) {
+                              setState(() {});
+                              _showValidationError(
+                                S.of(context).locationSelected,
+                                false,
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 3,
+                  child: Center(
+                    child: Text(
+                      model.branch.address,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showValidationError(String locationSelected, bool bool) {
+    showSnackBar(
+      context: context,
+      message: locationSelected,
+      color: !bool ? ColorSchemes.warning : ColorSchemes.success,
+      icon: !bool ? ImagePaths.error : ImagePaths.success,
     );
   }
 }

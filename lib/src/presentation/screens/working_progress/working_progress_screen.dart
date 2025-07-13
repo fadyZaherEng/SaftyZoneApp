@@ -9,7 +9,7 @@ import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
- import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
+import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
@@ -66,8 +66,11 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
       builder: (context, state) {
         return RefreshIndicator(
           onRefresh: () async {
-            _bloc.add(GetScheduleJobInProgressEvent(
-                status: ScheduleJobStatusEnum.inProgress.name));
+            _bloc.add(
+              GetScheduleJobInProgressEvent(
+                status: ScheduleJobStatusEnum.inProgress.name,
+              ),
+            );
           },
           child: Scaffold(
             appBar: widget.isAppBar
@@ -106,9 +109,11 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                                     text: S.of(context).noRequestsFound,
                                     isRefreshable: true,
                                     onRefresh: () => _bloc.add(
-                                        GetScheduleJobInProgressEvent(
-                                            status: ScheduleJobStatusEnum
-                                                .pending.name)),
+                                      GetScheduleJobInProgressEvent(
+                                        status:
+                                            ScheduleJobStatusEnum.inProgress.name,
+                                      ),
+                                    ),
                                     imagePath: ImagePaths.emptyProject,
                                   )),
                       ),
