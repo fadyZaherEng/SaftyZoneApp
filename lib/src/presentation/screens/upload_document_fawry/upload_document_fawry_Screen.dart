@@ -8,11 +8,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
+import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/permission_service_handler.dart';
 import 'package:safety_zone/src/core/utils/show_action_dialog_widget.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
-import 'package:safety_zone/src/domain/entities/main/requests/request.dart';
+ import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/blocs/upload_doc/upload_doc_bloc.dart';
@@ -22,7 +23,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
 class UploadDocumentFawryScreen extends BaseStatefulWidget {
-  final Requests request;
+  final ScheduleJop request;
 
   const UploadDocumentFawryScreen({super.key, required this.request});
 
@@ -338,7 +339,7 @@ class _UploadDocumentFawryScreenState
     );
   }
 
-  Widget _buildRequestCard(BuildContext context, Requests request) {
+  Widget _buildRequestCard(BuildContext context, ScheduleJop request) {
     return Card(
       elevation: 2,
       margin: const EdgeInsets.only(bottom: 12),
@@ -352,7 +353,7 @@ class _UploadDocumentFawryScreenState
             Row(
               children: [
                 Text(
-                  '#${request.id}',
+                  request.Id,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 const Spacer(),
@@ -363,7 +364,7 @@ class _UploadDocumentFawryScreenState
                       color: Colors.white,
                     ),
                   ),
-                  backgroundColor: request.statusColor,
+                  backgroundColor: ColorSchemes.secondary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -375,7 +376,7 @@ class _UploadDocumentFawryScreenState
             Row(
               children: [
                 Text(
-                  request.companyName,
+                  request.branch.branchName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -388,7 +389,7 @@ class _UploadDocumentFawryScreenState
                     const Icon(Icons.location_pin, size: 16),
                     const SizedBox(width: 4),
                     Text(
-                      request.city,
+                      request.branch.address.split(",").last,
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
@@ -413,23 +414,25 @@ class _UploadDocumentFawryScreenState
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.calendar_month_outlined,
-                      size: 16,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      "${S.of(context).visitDate}:\n${"12/12/2022"}",
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
+                if (SystemType.isExtinguisherType(request.type))
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.calendar_month_outlined,
+                        size: 16,
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(width: 4),
+                      Text(
+                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                if (!SystemType.isExtinguisherType(request.type)) Spacer(),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -438,7 +441,7 @@ class _UploadDocumentFawryScreenState
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.status,
+                    request.type,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -469,7 +472,7 @@ class _UploadDocumentFawryScreenState
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  "ali mohamed",
+                  request.responseEmployee.fullName,
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontWeight: FontWeight.w500,

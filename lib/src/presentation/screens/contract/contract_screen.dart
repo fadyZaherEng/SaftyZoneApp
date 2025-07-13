@@ -1,4 +1,3 @@
-// lib/screens/contracts_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safety_zone/generated/l10n.dart';

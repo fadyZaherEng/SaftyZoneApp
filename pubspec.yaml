@@ -59,6 +59,7 @@ dev_dependencies:
   loading_animation_widget: ^1.2.0+1
   build_runner: ^2.3.3
   device_info_plus:
+  intl_utils:  ^2.8.8
 
 
 dependency_overrides:

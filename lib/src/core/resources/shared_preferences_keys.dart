@@ -19,10 +19,8 @@ class SharedPreferenceKeys {
   static const String accessToken = 'accessToken';
   static const String isRemember = 'rememberMe';
   static const String isAuthenticated = 'isAuthenticated';
-
   static const String userId = 'userId';
   static const String userRole = 'userRole';
-
   static const String sipExtension = 'sipExtension';
   static const String sipPassword = 'sipPassword';
   static const String socketUrl = 'socketUrl';
@@ -31,9 +29,7 @@ class SharedPreferenceKeys {
   static const String myDomain = 'myDomain';
   static const String currentStatus = 'currentStatus';
   static const String lastCall = 'lastCall';
-
   static const String firstName = 'firstName';
-
   static const String lastName = 'lastName';
   static const String email = 'email';
   static const String showCid = 'showCid';
@@ -42,4 +38,5 @@ class SharedPreferenceKeys {
   static const String isOnboardingComplete = 'isOnboardingComplete';
   static const String isDark = 'isDark';
   static const String userData = 'userData';
+  static const String userLogin = 'userLogin';
 }

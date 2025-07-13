@@ -678,43 +678,13 @@ class _RequestDetailsMaintainanceScreenState
   }
 
   Widget _buildTermsTab() {
-    final s = S.of(context);
 
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                ImagePaths.person,
-                color: ColorSchemes.secondary,
-                width: 16,
-                height: 16,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  "${s.authorizedSignature} : ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15.sp,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                model.termsAndConditions.employee.fullName,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15.sp,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
+           Row(
             children: [
               SvgPicture.asset(
                 ImagePaths.technical,
@@ -725,7 +695,7 @@ class _RequestDetailsMaintainanceScreenState
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  "${S.of(context).technicianResponsibleForInstallingTheEquipment} : ",
+                  "${S.of(context).theEmployeeResponsibleForExecutingTheRequest} : ",
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 15.sp,

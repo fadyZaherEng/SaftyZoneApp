@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "all": MessageLookupByLibrary.simpleMessage("All"),
         "amount_received":
             MessageLookupByLibrary.simpleMessage("Amounts Received"),
+        "arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
         "area": MessageLookupByLibrary.simpleMessage("Area"),
         "assignJobRole":
             MessageLookupByLibrary.simpleMessage("Assign Job Role"),
@@ -49,6 +50,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "autoSprinkler": MessageLookupByLibrary.simpleMessage("Auto Sprinkler"),
         "automaticSprinklers":
             MessageLookupByLibrary.simpleMessage("Automatic Sprinklers"),
+        "availableAtClient":
+            MessageLookupByLibrary.simpleMessage("Quantity at Client"),
         "backToHome": MessageLookupByLibrary.simpleMessage("Back to Home"),
         "backupLighting":
             MessageLookupByLibrary.simpleMessage("Backup Lighting"),
@@ -75,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "cannotReceiveRequestsMessage": MessageLookupByLibrary.simpleMessage(
             "You cannot receive requests until they are completed."),
         "changeDocument": MessageLookupByLibrary.simpleMessage("Change"),
+        "changeLanguage":
+            MessageLookupByLibrary.simpleMessage("Change Language"),
         "chooseNonRenewalReason": MessageLookupByLibrary.simpleMessage(
             "Choose reason for non-renewal"),
         "civilDefenseDocumentRequired": MessageLookupByLibrary.simpleMessage(
@@ -83,7 +88,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Civil Defense Permit Expiry Date"),
         "civilDefenseExpiryDateRequired": MessageLookupByLibrary.simpleMessage(
             "Civil Defense permit expiry date is required"),
+        "clientInfo": MessageLookupByLibrary.simpleMessage(
+            "Client Information (First Party)"),
+        "clientName": MessageLookupByLibrary.simpleMessage("Client Name"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
+        "co2Extinguisher":
+            MessageLookupByLibrary.simpleMessage("CO₂ Fire Extinguisher"),
         "codeSentTo": MessageLookupByLibrary.simpleMessage("Code sent to"),
         "companyActivityHint": MessageLookupByLibrary.simpleMessage(
             "Describe the type of business you operate or the services/products you offer"),
@@ -153,6 +163,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Current Wallet Amount"),
         "dailyTasksSubtitle": MessageLookupByLibrary.simpleMessage(
             "Track your daily tasks and stay updated with reports and notifications in one place."),
+        "date": MessageLookupByLibrary.simpleMessage("Date"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteEmployee":
             MessageLookupByLibrary.simpleMessage("Delete Employee"),
@@ -200,6 +211,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "employees": MessageLookupByLibrary.simpleMessage("Employees"),
         "engineeringReport":
             MessageLookupByLibrary.simpleMessage("Engineering Report"),
+        "english": MessageLookupByLibrary.simpleMessage("English"),
         "enterAmount": MessageLookupByLibrary.simpleMessage("Enter amount"),
         "enterComponentFee":
             MessageLookupByLibrary.simpleMessage("Enter component fee"),
@@ -231,12 +243,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorTitle": MessageLookupByLibrary.simpleMessage("Error"),
         "example3": MessageLookupByLibrary.simpleMessage("Example: 3 SAR"),
         "example350": MessageLookupByLibrary.simpleMessage("Example: 350 SAR"),
+        "expiryDate": MessageLookupByLibrary.simpleMessage("Expiry Date"),
         "extinguisher12KgPowder": MessageLookupByLibrary.simpleMessage(
             "Fire Extinguisher 12kg Powder"),
         "extinguisher6KgPowder": MessageLookupByLibrary.simpleMessage(
             "Fire Extinguisher 6kg Powder"),
         "extinguisherCO2":
             MessageLookupByLibrary.simpleMessage("CO2 Fire Extinguisher"),
+        "extinguishersDetails": MessageLookupByLibrary.simpleMessage(
+            "Details of Fire Extinguishers to be Repaired"),
         "extinguishingItems":
             MessageLookupByLibrary.simpleMessage("Extinguishing Items:"),
         "failedToSave": MessageLookupByLibrary.simpleMessage(
@@ -261,14 +276,21 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("CO2 Fire Extinguisher"),
         "fireExtinguisherMaintenance": MessageLookupByLibrary.simpleMessage(
             "Fire Extinguisher Maintenance"),
+        "fireExtinguisherReportTitle": MessageLookupByLibrary.simpleMessage(
+            "Fire Extinguisher Receiving Report"),
         "fireExtinguishers":
             MessageLookupByLibrary.simpleMessage("Fire Extinguishers:"),
+        "fireExtinguishersDelivery":
+            MessageLookupByLibrary.simpleMessage("Fire Extinguishers Delivery"),
+        "fireExtinguishersRepairOffer": MessageLookupByLibrary.simpleMessage(
+            "Fire Extinguishers Repair Offer"),
         "firePumps": MessageLookupByLibrary.simpleMessage("Fire Pumps"),
         "fireSuppressionSystemFees": MessageLookupByLibrary.simpleMessage(
             "Fire Suppression System Fees"),
         "fireTitle": MessageLookupByLibrary.simpleMessage(
             "View more information (but without contract)"),
         "firstAid": MessageLookupByLibrary.simpleMessage("First Aid"),
+        "firstParty": MessageLookupByLibrary.simpleMessage("First Party"),
         "firstSafety": MessageLookupByLibrary.simpleMessage("First Safety"),
         "forgotpassword":
             MessageLookupByLibrary.simpleMessage("Forgot Password?"),
@@ -379,6 +401,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("There are some missing data"),
         "mission": MessageLookupByLibrary.simpleMessage("Mission"),
         "monday": MessageLookupByLibrary.simpleMessage("Monday"),
+        "name": MessageLookupByLibrary.simpleMessage("Name"),
         "newPassword": MessageLookupByLibrary.simpleMessage("New Password"),
         "newProviderRegistration": MessageLookupByLibrary.simpleMessage(
             "New registration as a service provider"),
@@ -396,8 +419,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noRequestsFound":
             MessageLookupByLibrary.simpleMessage("No requests found"),
+        "notYet": MessageLookupByLibrary.simpleMessage("Not Yet"),
+        "note": MessageLookupByLibrary.simpleMessage("Note"),
         "noteText": MessageLookupByLibrary.simpleMessage(
             "Note: Price includes pickup and delivery to the branch"),
+        "noteTexts": MessageLookupByLibrary.simpleMessage(
+            "If approved, please visit the site to confirm the request so the electronic contract can be issued."),
         "notes": MessageLookupByLibrary.simpleMessage("Notes"),
         "notesHint":
             MessageLookupByLibrary.simpleMessage("Enter your notes here ..."),
@@ -435,6 +462,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneRequired":
             MessageLookupByLibrary.simpleMessage("Phone number is required"),
         "pinOnMap": MessageLookupByLibrary.simpleMessage("Pin on Map"),
+        "platformDesc": MessageLookupByLibrary.simpleMessage(
+            "Instant Permits - Maintenance Contracts - Fire Extinguishers"),
+        "platformName":
+            MessageLookupByLibrary.simpleMessage("Safety Zone Platform"),
         "pleaseAgreeToTerms": MessageLookupByLibrary.simpleMessage(
             "Please agree to the terms and conditions"),
         "pleaseConfirmInformation": MessageLookupByLibrary.simpleMessage(
@@ -447,11 +478,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseUploadAClearPhotoOfTheEmployeeASJPGPNGMax2MB":
             MessageLookupByLibrary.simpleMessage(
                 "Please upload a clear photo of the employee. JPG, PNG, max 2MB."),
+        "powder12Kg": MessageLookupByLibrary.simpleMessage(
+            "12kg Powder Fire Extinguisher"),
+        "powder6Kg": MessageLookupByLibrary.simpleMessage(
+            "6kg Powder Fire Extinguisher"),
         "previous": MessageLookupByLibrary.simpleMessage("Previous"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "priceClosed": MessageLookupByLibrary.simpleMessage("Price Closed"),
         "priceOffers": MessageLookupByLibrary.simpleMessage(
             "Price Offers Awaiting Approval"),
+        "prices": MessageLookupByLibrary.simpleMessage("Price (Each)"),
         "pricesNeedEscalation":
             MessageLookupByLibrary.simpleMessage("Prices Need Escalation"),
         "printContract": MessageLookupByLibrary.simpleMessage("Print Contract"),
@@ -465,6 +501,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "progress": MessageLookupByLibrary.simpleMessage("Progress"),
         "progressPercentage": m0,
+        "providerInfo": MessageLookupByLibrary.simpleMessage(
+            "Service Provider Information (Second Party)"),
+        "providerName":
+            MessageLookupByLibrary.simpleMessage("Provider/Technician Name"),
+        "providerRating":
+            MessageLookupByLibrary.simpleMessage("Provider Rating"),
         "quantitiesTable":
             MessageLookupByLibrary.simpleMessage("Quantities Table"),
         "quantity": MessageLookupByLibrary.simpleMessage("Quantity"),
@@ -477,6 +519,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Receive Requests"),
         "receiveRequestsHighlight":
             MessageLookupByLibrary.simpleMessage("cannot receive requests"),
+        "received": MessageLookupByLibrary.simpleMessage("Received"),
+        "receivedCount":
+            MessageLookupByLibrary.simpleMessage("Received Quantity"),
         "recently": MessageLookupByLibrary.simpleMessage("Recently"),
         "registerAsNewVendor":
             MessageLookupByLibrary.simpleMessage("Register as New Vendor"),
@@ -490,10 +535,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "renewContract": MessageLookupByLibrary.simpleMessage("Renew Contract"),
         "reportWriting": MessageLookupByLibrary.simpleMessage("Report Writing"),
         "reports": MessageLookupByLibrary.simpleMessage("Reports"),
+        "requestNumber": MessageLookupByLibrary.simpleMessage("Request No."),
         "requestServiceSubtitle": MessageLookupByLibrary.simpleMessage(
             "Manage and track all service requests easily from customer partners."),
         "requestServiceTitle":
             MessageLookupByLibrary.simpleMessage("Your Requests Service"),
+        "requestType": MessageLookupByLibrary.simpleMessage(
+            "Request Type: Fire Extinguisher Repair Quotation"),
         "requests": MessageLookupByLibrary.simpleMessage("Requests"),
         "resendCode": MessageLookupByLibrary.simpleMessage("Resend Code"),
         "resendCodeIn": MessageLookupByLibrary.simpleMessage("Resend code in"),
@@ -517,6 +565,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Search about your location"),
         "searchHint": MessageLookupByLibrary.simpleMessage(
             "Enter what you want to search for..."),
+        "secondParty": MessageLookupByLibrary.simpleMessage("Second Party"),
         "security": MessageLookupByLibrary.simpleMessage("Security"),
         "selectComponents":
             MessageLookupByLibrary.simpleMessage("Select components"),
@@ -545,9 +594,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Send Price Offer"),
         "sendPriceOfferSuccess": MessageLookupByLibrary.simpleMessage(
             "Price offer sent successfully"),
+        "serviceLocation":
+            MessageLookupByLibrary.simpleMessage("Service Location"),
         "serviceProvider":
             MessageLookupByLibrary.simpleMessage("service provider"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "signature": MessageLookupByLibrary.simpleMessage("Signature"),
         "signin": MessageLookupByLibrary.simpleMessage("Sign in"),
         "signinqr": MessageLookupByLibrary.simpleMessage("Sign in with QR"),
         "signup": MessageLookupByLibrary.simpleMessage("Sign Up"),
@@ -569,6 +621,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "startAddingNewEmployeeByCompletingTheRequiredDetails":
             MessageLookupByLibrary.simpleMessage(
                 "Start adding a new employee by completing the required details"),
+        "startMission": MessageLookupByLibrary.simpleMessage("Start Mission"),
+        "startNow": MessageLookupByLibrary.simpleMessage("Start Now"),
+        "startTaskSubtitle": MessageLookupByLibrary.simpleMessage(
+            "Once confirmed, the client will be notified of your arrival, and the task will officially begin."),
+        "startTaskTitle": MessageLookupByLibrary.simpleMessage(
+            "Are you ready to start the task?"),
         "stayInformed": MessageLookupByLibrary.simpleMessage(
             "Stay informed about current site visits, assigned technicians, maintenance tasks, and pending reports to ensure smooth service execution"),
         "stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention":
@@ -614,6 +672,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "By registering as a vendor:\n\n• You agree to provide accurate business details.\n• You confirm that your company is legally registered.\n• You agree not to misuse the platform or engage in fraudulent activities.\n• Your data will be used for verification and communication purposes only.\n• You accept that the platform may contact you regarding vendor-related matters."),
         "termsAndConditionsTitle":
             MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
+        "theEmployeeResponsibleForExecutingTheRequest":
+            MessageLookupByLibrary.simpleMessage(
+                "The employee responsible for executing the request"),
         "theEmployeeShouldKeepTheirDataSecureAndNotShareAnySensitiveInformation":
             MessageLookupByLibrary.simpleMessage(
                 "The employee should keep their data secure and not share any sensitive information."),
@@ -630,12 +691,14 @@ class MessageLookup extends MessageLookupByLibrary {
                 "This provider has already made an offer for this request"),
         "thursday": MessageLookupByLibrary.simpleMessage("Thursday"),
         "to": MessageLookupByLibrary.simpleMessage("To"),
+        "toRepair": MessageLookupByLibrary.simpleMessage("To Be Repaired"),
         "todayTasks":
             MessageLookupByLibrary.simpleMessage("Today’s Scheduled Tasks"),
         "training": MessageLookupByLibrary.simpleMessage("Training"),
         "transferred": MessageLookupByLibrary.simpleMessage("Transferred"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
         "tuesday": MessageLookupByLibrary.simpleMessage("Tuesday"),
+        "type": MessageLookupByLibrary.simpleMessage("Type"),
         "typeOfActivity":
             MessageLookupByLibrary.simpleMessage("Type of Activity"),
         "uae": MessageLookupByLibrary.simpleMessage("UAE"),

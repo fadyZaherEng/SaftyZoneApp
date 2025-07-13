@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
@@ -231,13 +232,18 @@ class _WalletScreenState extends BaseState<WalletScreen> {
                     ),
                   ),
                   TableCell(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: SvgPicture.asset(
-                        ImagePaths.printer,
-                        width: 32,
-                        height: 32,
-                        color: ColorSchemes.primary,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.invoiceScreen);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: SvgPicture.asset(
+                          ImagePaths.printer,
+                          width: 32,
+                          height: 32,
+                          color: ColorSchemes.primary,
+                        ),
                       ),
                     ),
                   ),

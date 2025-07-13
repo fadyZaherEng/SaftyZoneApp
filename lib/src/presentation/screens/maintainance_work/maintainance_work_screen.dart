@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
@@ -6,9 +7,13 @@ import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
-import 'package:safety_zone/src/domain/entities/main/requests/request.dart';
+import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
+import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
+import 'package:safety_zone/src/presentation/widgets/custom_empty_list_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class MaintainanceWorkScreen extends BaseStatefulWidget {
@@ -25,112 +30,121 @@ class MaintainanceWorkScreen extends BaseStatefulWidget {
 }
 
 class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
-  final List<Requests> _workingProgress = [
-    Requests(
-      id: 2458926,
-      companyName: 'محمد قاسم',
-      image: 'assets/images/user1.png',
-      city: 'الرياض',
-      status: 'تحت المراجعة',
-      statusColor: Colors.black,
-      visits: 5,
-      type: RequestType.InstallationCertificate.name,
-    ),
-    Requests(
-      id: 2458927,
-      companyName: 'وائل ياسر',
-      image: 'assets/images/user2.png',
-      city: 'جدة',
-      status: 'عقود قائمة',
-      statusColor: Colors.blue,
-      visits: 3,
-      type: RequestType.MaintenanceContract.name,
-    ),
-    Requests(
-      id: 2458928,
-      companyName: 'علي أحمد',
-      image: 'assets/images/user3.png',
-      city: 'أبها',
-      status: 'تفاصيل الفريق',
-      statusColor: Colors.red,
-      visits: 2,
-      type: RequestType.FireExtinguisher.name,
-    ),
-  ];
+  final List<ScheduleJop> _workingProgress = [];
   bool _isLoading = true;
   bool _isComplete = false;
   bool _isAll = true;
   bool _isProgress = false;
 
+  RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
+
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        _isLoading = false;
-      });
-    });
+  void initState() {
+    _bloc.add(GetScheduleJobEvent(status: ""));
+    super.initState();
   }
 
   @override
   Widget baseBuild(BuildContext context) {
-    return Scaffold(
-      appBar: widget.isAppBar
-          ? AppBar(
-              backgroundColor: ColorSchemes.primary,
-              title: Text(
-                S.of(context).maintenanceInProgress,
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+    return BlocConsumer<RequestsBloc, RequestsState>(
+        listener: (context, state) {
+      if (state is ScheduleJobLoadingState) {
+        _isLoading = true;
+      } else if (state is ScheduleJobSuccessState) {
+        _workingProgress.clear();
+        _workingProgress.addAll(state.scheduleJob);
+        _isLoading = false;
+      } else if (state is ScheduleJobErrorState) {
+        _isLoading = false;
+        showSnackBar(
+          context: context,
+          message: state.message,
+          color: ColorSchemes.warning,
+          icon: ImagePaths.error,
+        );
+      }
+    }, builder: (context, state) {
+      return Scaffold(
+        appBar: widget.isAppBar
+            ? AppBar(
+                backgroundColor: ColorSchemes.primary,
+                title: Text(
+                  S.of(context).maintenanceInProgress,
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-            )
-          : null,
-      body: SafeArea(
-        child: Skeletonizer(
-          enabled: _isLoading,
-          child: Column(
-            children: [
-              _buildSearchSection(context),
-              Expanded(
-                child: ListView.builder(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  itemCount: _workingProgress.length,
-                  itemBuilder: (context, index) {
-                    final request = _workingProgress[index];
+              )
+            : null,
+        body: SafeArea(
+          child: Skeletonizer(
+            enabled: _isLoading,
+            child: Column(
+              children: [
+                _buildSearchSection(context),
+                if (_workingProgress.isEmpty)
+                  Center(
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        child: _isLoading
+                            ? Container(
+                                height: 200.h,
+                                width: 200.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              )
+                            : CustomEmptyListWidget(
+                                text: S.of(context).noRequestsFound,
+                                isRefreshable: true,
+                                onRefresh: () =>
+                                    _bloc.add(GetScheduleJobEvent(status: "")),
+                                imagePath: ImagePaths.emptyProject,
+                              )),
+                  ),
+                Expanded(
+                  child: ListView.builder(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    itemCount: _workingProgress.length,
+                    itemBuilder: (context, index) {
+                      final request = _workingProgress[index];
 
-                    if (request.type ==
-                        RequestType.InstallationCertificate.name) {
-                      return _buildFawryRequestCard(
-                        context,
-                        request,
-                        Key(request.id.toString()),
-                      );
-                    } else if (request.type ==
-                        RequestType.MaintenanceContract.name) {
-                      return _buildMaintenanceRequestCard(
-                        context,
-                        request,
-                        Key(request.id.toString()),
-                      );
-                    } else {
-                      return _buildRequestCard(
-                        context,
-                        request,
-                        Key(request.id.toString()),
-                      );
-                    }
-                  },
+                      if (request.type ==
+                              RequestType.InstallationCertificate.name ||
+                          request.type ==
+                              RequestType.EngineeringInspection.name) {
+                        return _buildFawryRequestCard(
+                          context,
+                          request,
+                          Key(request.Id.toString()),
+                        );
+                      } else if (request.type ==
+                          RequestType.MaintenanceContract.name) {
+                        return _buildMaintenanceRequestCard(
+                          context,
+                          request,
+                          Key(request.Id.toString()),
+                        );
+                      } else {
+                        return _buildRequestCard(
+                          context,
+                          request,
+                          Key(request.Id.toString()),
+                        );
+                      }
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildSearchSection(BuildContext context) {
@@ -230,6 +244,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       _isProgress = false;
                       _isComplete = false;
                     });
+                    _bloc.add(GetScheduleJobEvent(status: ""));
                   },
                 ),
                 _statusTab(
@@ -242,6 +257,11 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       _isProgress = true;
                       _isComplete = false;
                     });
+                    _bloc.add(
+                      GetScheduleJobEvent(
+                        status: ScheduleJobStatusEnum.inProgress.name,
+                      ),
+                    );
                   },
                 ),
                 _statusTab(
@@ -254,6 +274,11 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       _isProgress = false;
                       _isComplete = true;
                     });
+                    _bloc.add(
+                      GetScheduleJobEvent(
+                        status: ScheduleJobStatusEnum.completed.name,
+                      ),
+                    );
                   },
                 ),
               ],
@@ -295,7 +320,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
     );
   }
 
-  Widget _buildRequestCard(BuildContext context, Requests request, Key key) {
+  Widget _buildRequestCard(BuildContext context, ScheduleJop request, Key key) {
     return Card(
       key: key,
       elevation: 2,
@@ -310,7 +335,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
             Row(
               children: [
                 Text(
-                  '#${request.id}',
+                  request.requestNumber,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 const Spacer(),
@@ -321,8 +346,9 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  backgroundColor:
-                      _isLoading ? Colors.grey.shade300 : request.statusColor,
+                  backgroundColor: _isLoading
+                      ? Colors.grey.shade300
+                      : ColorSchemes.secondary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -334,7 +360,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
             Row(
               children: [
                 Text(
-                  request.companyName,
+                  request.branch.branchName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -347,7 +373,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                     const Icon(Icons.location_pin, size: 16),
                     const SizedBox(width: 4),
                     Text(
-                      request.city,
+                      request.branch.address.split(",").first,
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
@@ -372,32 +398,33 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    _isLoading
-                        ? Container(
-                            width: 16.w,
-                            height: 16.h,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(6),
+                if (SystemType.isExtinguisherType(request.type))
+                  Row(
+                    children: [
+                      _isLoading
+                          ? Container(
+                              width: 16.w,
+                              height: 16.h,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            )
+                          : const Icon(
+                              Icons.calendar_month_outlined,
+                              size: 16,
                             ),
-                          )
-                        : const Icon(
-                            Icons.calendar_month_outlined,
-                            size: 16,
-                          ),
-                    const SizedBox(width: 4),
-                    Text(
-                      "${S.of(context).visitDate}:\n${"12/12/2022"}",
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
+                      const SizedBox(width: 4),
+                      Text(
+                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -446,7 +473,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  "ali mohamed",
+                  request.responseEmployee.fullName,
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontWeight: FontWeight.w500,
@@ -512,7 +539,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
 
   Widget _buildFawryRequestCard(
     BuildContext context,
-    Requests request,
+    ScheduleJop request,
     Key key,
   ) {
     return Card(
@@ -529,7 +556,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
             Row(
               children: [
                 Text(
-                  '#${request.id}',
+                  request.requestNumber,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 const Spacer(),
@@ -540,8 +567,9 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  backgroundColor:
-                      _isLoading ? Colors.grey.shade300 : request.statusColor,
+                  backgroundColor: _isLoading
+                      ? Colors.grey.shade300
+                      : ColorSchemes.secondary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -553,7 +581,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
             Row(
               children: [
                 Text(
-                  request.companyName,
+                  request.branch.branchName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -575,7 +603,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                         : const Icon(Icons.location_pin, size: 16),
                     const SizedBox(width: 4),
                     Text(
-                      request.city,
+                      request.branch.address.split(",").first,
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
@@ -600,32 +628,33 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    _isLoading
-                        ? Container(
-                            width: 16.w,
-                            height: 16.h,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(6),
+                if (SystemType.isExtinguisherType(request.type))
+                  Row(
+                    children: [
+                      _isLoading
+                          ? Container(
+                              width: 16.w,
+                              height: 16.h,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            )
+                          : const Icon(
+                              Icons.calendar_month_outlined,
+                              size: 16,
                             ),
-                          )
-                        : const Icon(
-                            Icons.calendar_month_outlined,
-                            size: 16,
-                          ),
-                    const SizedBox(width: 4),
-                    Text(
-                      "${S.of(context).visitDate}:\n${"12/12/2022"}",
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
+                      const SizedBox(width: 4),
+                      Text(
+                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -674,7 +703,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  "ali mohamed",
+                  request.responseEmployee.fullName,
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontWeight: FontWeight.w500,
@@ -715,7 +744,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
   }
 
   Widget _buildMaintenanceRequestCard(
-      BuildContext context, Requests request, Key key) {
+      BuildContext context, ScheduleJop request, Key key) {
     return Card(
       key: key,
       elevation: 2,
@@ -730,7 +759,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
             Row(
               children: [
                 Text(
-                  '#${request.id}',
+                  request.requestNumber,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 const Spacer(),
@@ -741,8 +770,9 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  backgroundColor:
-                      _isLoading ? Colors.grey.shade300 : request.statusColor,
+                  backgroundColor: _isLoading
+                      ? Colors.grey.shade300
+                      : ColorSchemes.secondary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -754,7 +784,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
             Row(
               children: [
                 Text(
-                  request.companyName,
+                  request.branch.branchName,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -767,7 +797,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                     const Icon(Icons.location_pin, size: 16),
                     const SizedBox(width: 4),
                     Text(
-                      request.city,
+                      request.branch.address.split(",").first,
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
@@ -792,23 +822,24 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.calendar_month_outlined,
-                      size: 16,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      "${S.of(context).visitDate}:\n${"12/12/2022"}",
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
+                if (SystemType.isExtinguisherType(request.type))
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.calendar_month_outlined,
+                        size: 16,
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(width: 4),
+                      Text(
+                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -855,7 +886,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  "ali mohamed",
+                  request.responseEmployee.fullName,
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontWeight: FontWeight.w500,
@@ -895,7 +926,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
     );
   }
 
-  void _uploadLicenseDoc(BuildContext context, Requests request) {
+  void _uploadLicenseDoc(BuildContext context, ScheduleJop request) {
     Navigator.pushNamed(
       context,
       Routes.uploadDocumentFawryScreen,
@@ -903,5 +934,19 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
     );
   }
 
-  void _goToLocation(BuildContext context, Requests request) {}
+  void _goToLocation(BuildContext context, ScheduleJop request) async {
+    // Handle map navigation
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => MapSearchScreen(
+          initialLatitude: request.branch.location.coordinates.first,
+          initialLongitude: request.branch.location.coordinates.last,
+          onLocationSelected: (lat, lng, address) {
+            setState(() {});
+          },
+        ),
+      ),
+    );
+  }
 }

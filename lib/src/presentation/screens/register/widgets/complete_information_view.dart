@@ -214,9 +214,10 @@ class _CompleteInformationViewState extends State<CompleteInformationView> {
             svgIconPath: ImagePaths.installationFees,
             iconBackground: Colors.blue.shade50,
             iconColor: Colors.red,
-            onTap: () {
+            onTap: ()async {
               // Navigate to installation fees page
-              Navigator.pushNamed(
+              print('Navigating to installation fees page');
+             await Navigator.pushNamed(
                 context,
                 Routes.installationFees,
               ).then((value) {

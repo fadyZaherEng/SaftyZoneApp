@@ -45,7 +45,7 @@ class _RequestDetailsInstallationScreenState
   final List<Items> _itemsAlarm = [];
   final List<Items> _itemsFire = [];
   List<Employee> _employees = [];
-  Employee? _selectedEmployee = Employee();
+  Employee _selectedEmployee = Employee();
 
   @override
   void initState() {
@@ -515,7 +515,9 @@ class _RequestDetailsInstallationScreenState
             ),
             const SizedBox(height: 16),
             _buildQuantitySection(
-                title: s.extinguishingItems, items: _itemsFire),
+              title: s.extinguishingItems,
+              items: _itemsFire,
+            ),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
@@ -612,42 +614,12 @@ class _RequestDetailsInstallationScreenState
   }
 
   Widget _buildTermsTab() {
-    final s = S.of(context);
 
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                ImagePaths.person,
-                color: ColorSchemes.secondary,
-                width: 16,
-                height: 16,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  "${s.authorizedSignature} : ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15.sp,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                model.termsAndConditions.employee.fullName,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15.sp,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
           Row(
             children: [
               SvgPicture.asset(
@@ -659,7 +631,7 @@ class _RequestDetailsInstallationScreenState
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  "${S.of(context).technicianResponsibleForInstallingTheEquipment} : ",
+                  "${S.of(context).theEmployeeResponsibleForExecutingTheRequest} : ",
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 15.sp,
@@ -669,9 +641,10 @@ class _RequestDetailsInstallationScreenState
               const SizedBox(width: 8),
               DropdownButton<Employee>(
                 value: _selectedEmployee,
-                onChanged: (value) {
+                onChanged: (Employee? value) {
+                  debugPrint('Selected Employee: ${value?.Id}');
                   setState(() {
-                    _selectedEmployee = value;
+                    _selectedEmployee = value ?? _selectedEmployee;
                   });
                 },
                 items: _employees.map((emp) {
@@ -796,8 +769,8 @@ class _RequestDetailsInstallationScreenState
               _bloc.add(
                 SendPriceOfferEvent(
                   request: SendPriceRequest(
-                    consumerRequest: model.result.consumer,
-                    responsibleEmployee: model.termsAndConditions.employee.Id,
+                    consumerRequest: model.result.Id,
+                    responsibleEmployee: _selectedEmployee.Id,
                     price: int.parse(_priceController.text),
                   ),
                 ),

@@ -13,12 +13,14 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/auth/request/requ
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/src/domain/entities/auth/verify_otp.dart';
+import 'package:safety_zone/src/domain/entities/login.dart';
 import 'package:safety_zone/src/domain/usecase/auth/check_auth_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/auth/re_send_otp_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/auth/verify_send_otp_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_authenticate_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_token_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/set_user_login_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_user_verification_data_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -294,7 +296,10 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
             await CheckAuthUseCase(injector())();
         await SetUserVerificationDataUseCase(injector())(
             response.data ?? const VerifyOtp());
-        _showError(S.of(context).verificationSuccessful, false);
+        await SetUserLoginDataUseCase(injector())(
+          Login(phone: "+966$phoneNumber", code: code),
+        );
+        // _showError(S.of(context).verificationSuccessful, false);
         if (authResponse.data?.status == RegisterStatus.Home_Page.name) {
           Navigator.pushNamedAndRemoveUntil(
             context,

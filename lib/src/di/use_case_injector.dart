@@ -15,10 +15,13 @@ import 'package:safety_zone/src/domain/usecase/get_isboarding_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_remember_me_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_theme_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/get_user_login_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_user_verification_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/getauthenticate_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_details_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/schedule_all_jop_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/schedule_jop_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/send_offer_price_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/remove_remember_me_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/save_firebase_notification_token_use_case.dart';
@@ -27,6 +30,7 @@ import 'package:safety_zone/src/domain/usecase/set_isboarding_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_theme_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/set_user_login_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_user_verification_data_use_case.dart';
 
 Future<void> initializeUseCaseDependencies() async {
@@ -55,8 +59,6 @@ Future<void> initializeUseCaseDependencies() async {
       .registerFactory<CheckAuthUseCase>(() => CheckAuthUseCase(injector()));
   injector.registerFactory<GetFirstEmployeeUseCase>(
       () => GetFirstEmployeeUseCase(injector()));
-  // injector.registerFactory<GetInstallationsFeesUseCase>(
-  //     () => GetInstallationsFeesUseCase(injector()));
   injector.registerFactory<GetInstallationsStatusUseCase>(
       () => GetInstallationsStatusUseCase(injector()));
   injector.registerFactory<GetBySubCategoryUseCase>(
@@ -79,8 +81,20 @@ Future<void> initializeUseCaseDependencies() async {
       () => GetFirebaseNotificationTokenUseCase(injector()));
   injector.registerFactory<GenerateImageUrlUseCase>(
       () => GenerateImageUrlUseCase(injector()));
-  injector.registerFactory<GenerateFileUrlUseCase>(() => GenerateFileUrlUseCase(injector()));
-  injector.registerFactory<GetConsumerRequestDetailsUseCase>(() => GetConsumerRequestDetailsUseCase(injector()));
-  injector.registerFactory<GetConsumerRequestsUseCase>(() => GetConsumerRequestsUseCase(injector()));
-  injector.registerFactory<SendOfferPriceUseCase>(() => SendOfferPriceUseCase(injector()));
+  injector.registerFactory<GenerateFileUrlUseCase>(
+      () => GenerateFileUrlUseCase(injector()));
+  injector.registerFactory<GetConsumerRequestDetailsUseCase>(
+      () => GetConsumerRequestDetailsUseCase(injector()));
+  injector.registerFactory<GetConsumerRequestsUseCase>(
+      () => GetConsumerRequestsUseCase(injector()));
+  injector.registerFactory<SendOfferPriceUseCase>(
+      () => SendOfferPriceUseCase(injector()));
+  injector.registerFactory<ScheduleJopUseCase>(
+      () => ScheduleJopUseCase(injector()));
+  injector.registerFactory<GetUserLoginDataUseCase>(
+      () => GetUserLoginDataUseCase(injector()));
+  injector.registerFactory<SetUserLoginDataUseCase>(
+      () => SetUserLoginDataUseCase(injector()));
+  injector.registerFactory<ScheduleJobAllUseCase>(
+      () => ScheduleJobAllUseCase(injector()));
 }
