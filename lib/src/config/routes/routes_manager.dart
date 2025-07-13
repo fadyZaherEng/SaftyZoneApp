@@ -4,6 +4,7 @@ import 'package:safety_zone/src/domain/entities/main/requests/request.dart';
 import 'package:safety_zone/src/presentation/screens/complete_info/complete_info_view.dart';
 import 'package:safety_zone/src/presentation/screens/contract/contract_screen.dart';
 import 'package:safety_zone/src/presentation/screens/employess/employees_list_screen.dart';
+import 'package:safety_zone/src/presentation/screens/fatora/inovoice_screen.dart';
 import 'package:safety_zone/src/presentation/screens/fire_extinguishers/fire_extinguishers_screen.dart';
 import 'package:safety_zone/src/presentation/screens/home/home_screen.dart';
 import 'package:safety_zone/src/presentation/screens/installation_options/installation_options_screen.dart';
@@ -71,6 +72,7 @@ class Routes {
       '/prices-need-escalation-screen';
   static const String notificationsScreen = '/notifications-screen';
   static const String fireExtinguishersScreen = '/fire-extinguishers-screen';
+  static const String invoiceScreen = '/invoiceScreen';
 }
 
 class RoutesManager {
@@ -188,8 +190,11 @@ class RoutesManager {
         Map<String, dynamic>? args =
             routeSettings.arguments as Map<String, dynamic>?;
         return _materialRoute(FireExtinguishersScreen(
-          requestId: args?['requestId'] as String,
+          scheduleJop: args?['scheduleJop'] as ScheduleJop,
         ));
+
+      case Routes.invoiceScreen:
+        return _materialRoute(InvoiceScreen());
       default:
         return unDefinedRoute(routeSettings.name.toString());
     }

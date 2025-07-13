@@ -84,6 +84,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "تاريخ انتهاء تصريح الدفاع المدني"),
         "civilDefenseExpiryDateRequired": MessageLookupByLibrary.simpleMessage(
             "تاريخ انتهاء تصريح الدفاع المدني مطلوب"),
+        "clientInfo":
+            MessageLookupByLibrary.simpleMessage("بيانات العميل (الطرف الأول)"),
+        "clientName": MessageLookupByLibrary.simpleMessage("اسم العميل"),
         "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
         "codeSentTo":
             MessageLookupByLibrary.simpleMessage("تم ارسال الرمز الى"),
@@ -151,6 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مبلغ المحفظة الحالي"),
         "dailyTasksSubtitle": MessageLookupByLibrary.simpleMessage(
             "تابع مهامك اليومية، وكن على اطلاع دائم بالتقارير والإشعارات في مكان واحد."),
+        "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
         "delete": MessageLookupByLibrary.simpleMessage("حذف"),
         "deleteEmployee": MessageLookupByLibrary.simpleMessage("حذف الموظف"),
         "deletedSuccessfully":
@@ -232,6 +236,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("طفاية حريق 6 كيلو بودره"),
         "extinguisherCO2":
             MessageLookupByLibrary.simpleMessage("طفاية حريق CO2"),
+        "extinguishersDetails": MessageLookupByLibrary.simpleMessage(
+            "تفاصيل الطفايات المراد إصلاحها"),
         "extinguishingItems":
             MessageLookupByLibrary.simpleMessage("بنود الإطفاء:"),
         "fawryService": MessageLookupByLibrary.simpleMessage("خدمة فورية"),
@@ -261,6 +267,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "fireTitle": MessageLookupByLibrary.simpleMessage(
             "عرض المزيد من المعلومات (لكن بدون عقد)"),
         "firstAid": MessageLookupByLibrary.simpleMessage("المساعدة الأولى"),
+        "firstParty": MessageLookupByLibrary.simpleMessage("الطرف الأول"),
         "firstSafety": MessageLookupByLibrary.simpleMessage("الأمان الأولى"),
         "forgotpassword":
             MessageLookupByLibrary.simpleMessage("نسيت كلمة السر؟"),
@@ -365,6 +372,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("هناك بعض البيانات المفقودة"),
         "mission": MessageLookupByLibrary.simpleMessage("المهمة"),
         "monday": MessageLookupByLibrary.simpleMessage("الاثنين"),
+        "name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "newPassword":
             MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
         "newProviderRegistration":
@@ -384,8 +392,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("لم يتم العثور على عناصر"),
         "noRequestsFound":
             MessageLookupByLibrary.simpleMessage("لم يتم العثور على طلبات"),
+        "note": MessageLookupByLibrary.simpleMessage("ملاحظة"),
         "noteText": MessageLookupByLibrary.simpleMessage(
             "ملاحظة: السعر يشمل الاستلام و التوصيل للفرع"),
+        "noteTexts": MessageLookupByLibrary.simpleMessage(
+            "في حال تم اعتمادكم، نأمل زيارة الموقع لتأكيد الطلب حتى يتم إصدار العقد الإلكتروني."),
         "notes": MessageLookupByLibrary.simpleMessage("ملاحظات"),
         "notesHint":
             MessageLookupByLibrary.simpleMessage("مثال: لا يوجد ملاحظات"),
@@ -423,6 +434,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneRequired":
             MessageLookupByLibrary.simpleMessage("رقم الهاتف مطلوب"),
         "pinOnMap": MessageLookupByLibrary.simpleMessage("تحديد على الخريطة"),
+        "platformDesc": MessageLookupByLibrary.simpleMessage(
+            "تصاريح فورية - عقود صيانة - طفايات حريق"),
+        "platformName": MessageLookupByLibrary.simpleMessage("منصة سيفتي زون"),
         "pleaseAgreeToTerms": MessageLookupByLibrary.simpleMessage(
             "يرجى الموافقة على الشروط والأحكام"),
         "pleaseConfirmInformation": MessageLookupByLibrary.simpleMessage(
@@ -440,6 +454,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "priceClosed": MessageLookupByLibrary.simpleMessage("سعر مغلق"),
         "priceOffers":
             MessageLookupByLibrary.simpleMessage("عروض أسعار تحتاج لتعميد"),
+        "prices": MessageLookupByLibrary.simpleMessage("السعر (لكل طفاية)"),
         "pricesNeedEscalation":
             MessageLookupByLibrary.simpleMessage("عروض أسعار تحتاج إلى تصعيد"),
         "printContract": MessageLookupByLibrary.simpleMessage("طباعة العقد"),
@@ -453,6 +468,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
         "progress": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
         "progressPercentage": m0,
+        "providerInfo": MessageLookupByLibrary.simpleMessage(
+            "بيانات مزود الخدمة (الطرف الثاني)"),
+        "providerName":
+            MessageLookupByLibrary.simpleMessage("اسم مزود الخدمة / الفني"),
+        "providerRating":
+            MessageLookupByLibrary.simpleMessage("تقييم مزود الخدمة"),
         "quantitiesTable": MessageLookupByLibrary.simpleMessage("جدول الكميات"),
         "quantity": MessageLookupByLibrary.simpleMessage("الكمية"),
         "quantityPay": MessageLookupByLibrary.simpleMessage("الكمية المدفوعة"),
@@ -462,6 +483,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("استقبال الطلبات"),
         "receiveRequestsHighlight":
             MessageLookupByLibrary.simpleMessage("يمكنك استقبال الطلبات"),
+        "received": MessageLookupByLibrary.simpleMessage("العدد المستلم"),
         "recently": MessageLookupByLibrary.simpleMessage("الاحدث"),
         "registerAsNewVendor":
             MessageLookupByLibrary.simpleMessage("تسجيل كمزود خدمة جديد"),
@@ -475,10 +497,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "renewContract": MessageLookupByLibrary.simpleMessage("تجديد العقد"),
         "reportWriting": MessageLookupByLibrary.simpleMessage("كتابة التقرير"),
         "reports": MessageLookupByLibrary.simpleMessage("التقارير"),
+        "requestNumber": MessageLookupByLibrary.simpleMessage("رقم الطلب"),
         "requestServiceSubtitle": MessageLookupByLibrary.simpleMessage(
             "إدارة وتتبع جميع طلبات الخدمة الواردة بسهولة من شركاء العملاء."),
         "requestServiceTitle":
             MessageLookupByLibrary.simpleMessage("خدمة طلباتك"),
+        "requestType": MessageLookupByLibrary.simpleMessage(
+            "نوع الطلب: عرض سعر إصلاح طفايات الحريق"),
         "requests": MessageLookupByLibrary.simpleMessage("الطلبات"),
         "resendCode": MessageLookupByLibrary.simpleMessage("اعادة ارسال الرمز"),
         "resendCodeIn":
@@ -504,6 +529,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ابحث عن موقعك"),
         "searchHint":
             MessageLookupByLibrary.simpleMessage("ادخل ما تريد البحث عنه ..."),
+        "secondParty": MessageLookupByLibrary.simpleMessage("الطرف الثاني"),
         "security": MessageLookupByLibrary.simpleMessage("الأمان"),
         "selectComponents":
             MessageLookupByLibrary.simpleMessage("اختر المكونات"),
@@ -530,8 +556,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("إرسال عرض أسعار"),
         "sendPriceOfferSuccess":
             MessageLookupByLibrary.simpleMessage("تم ارسال العرض بنجاح"),
+        "serviceLocation": MessageLookupByLibrary.simpleMessage("موقع الخدمة"),
         "serviceProvider": MessageLookupByLibrary.simpleMessage("مزود خدمة"),
         "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+        "signature": MessageLookupByLibrary.simpleMessage("التوقيع"),
         "signin": MessageLookupByLibrary.simpleMessage("تسجيل دخول"),
         "signinqr": MessageLookupByLibrary.simpleMessage("تسجيل دخول بالرمز"),
         "signup": MessageLookupByLibrary.simpleMessage("تسجيل"),
@@ -551,6 +579,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "startAddingNewEmployeeByCompletingTheRequiredDetails":
             MessageLookupByLibrary.simpleMessage(
                 "ابدأ في اضافة موظف جديد من خلال تكميل التفاصيل المطلوبة"),
+        "startMission": MessageLookupByLibrary.simpleMessage("بدء المهمة"),
         "stayInformed": MessageLookupByLibrary.simpleMessage(
             "ابقَ على اطلاع على زيارات الموقع الحالية، والفنيين المعينين، ومهام الصيانة، والتقارير المعلقة لضمان تنفيذ الخدمة بسلاسة."),
         "stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention":
@@ -613,12 +642,15 @@ class MessageLookup extends MessageLookupByLibrary {
                 "هذا المزود قام بتقديم عرض سعر لهذا الطلب"),
         "thursday": MessageLookupByLibrary.simpleMessage("الخميس"),
         "to": MessageLookupByLibrary.simpleMessage("إلى"),
+        "toRepair":
+            MessageLookupByLibrary.simpleMessage("العدد المطلوب إصلاحه"),
         "todayTasks":
             MessageLookupByLibrary.simpleMessage("المهام المجدولة اليوم"),
         "training": MessageLookupByLibrary.simpleMessage("تدريب"),
         "transferred": MessageLookupByLibrary.simpleMessage("تم التحويل"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة اخرى"),
         "tuesday": MessageLookupByLibrary.simpleMessage("الثلاثاء"),
+        "type": MessageLookupByLibrary.simpleMessage("نوع الطفاية"),
         "typeOfActivity": MessageLookupByLibrary.simpleMessage("نوع النظام"),
         "uae": MessageLookupByLibrary.simpleMessage("الامارات"),
         "unRead": MessageLookupByLibrary.simpleMessage("غير مقروء"),

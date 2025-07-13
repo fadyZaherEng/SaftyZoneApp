@@ -420,6 +420,30 @@
   "english": "English",
   "arabic": "Arabic",
   "changeLanguage": "Change Language",
-  "theEmployeeResponsibleForExecutingTheRequest": "The employee responsible for executing the request"
+  "theEmployeeResponsibleForExecutingTheRequest": "The employee responsible for executing the request",
+  "startMission": "Start Mission",
+  "platformName": "Safety Zone Platform",
+  "platformDesc": "Instant Permits - Maintenance Contracts - Fire Extinguishers",
+  "requestType": "Request Type: Fire Extinguisher Repair Quotation",
+  "date": "Date",
+  "requestNumber": "Request No.",
+  "clientInfo": "Client Information (First Party)",
+  "clientName": "Client Name",
+  "serviceLocation": "Service Location",
+  "providerInfo": "Service Provider Information (Second Party)",
+  "providerName": "Provider/Technician Name",
+  "providerRating": "Provider Rating",
+  "extinguishersDetails": "Details of Fire Extinguishers to be Repaired",
+  "type": "Type",
+  "toRepair": "To Be Repaired",
+  "received": "Received",
+  "prices": "Price (Each)",
+  "firstParty": "First Party",
+  "secondParty": "Second Party",
+  "name": "Name",
+  "signature": "Signature",
+  "note": "Note",
+  "noteTexts": "If approved, please visit the site to confirm the request so the electronic contract can be issued."
+
 }
 

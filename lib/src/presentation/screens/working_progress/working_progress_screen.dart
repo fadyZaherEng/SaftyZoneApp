@@ -95,39 +95,43 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     if (_workingProgress.isEmpty)
                       Center(
                         child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 40),
-                            child: _isLoading
-                                ? Container(
-                                    height: 200.h,
-                                    width: 200.w,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade300,
-                                      borderRadius: BorderRadius.circular(6),
+                          padding: const EdgeInsets.symmetric(vertical: 40),
+                          child: _isLoading
+                              ? Container(
+                                  height: 200.h,
+                                  width: 200.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade300,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                )
+                              : CustomEmptyListWidget(
+                                  text: S.of(context).noRequestsFound,
+                                  isRefreshable: true,
+                                  onRefresh: () => _bloc.add(
+                                    GetScheduleJobInProgressEvent(
+                                      status:
+                                          ScheduleJobStatusEnum.inProgress.name,
                                     ),
-                                  )
-                                : CustomEmptyListWidget(
-                                    text: S.of(context).noRequestsFound,
-                                    isRefreshable: true,
-                                    onRefresh: () => _bloc.add(
-                                      GetScheduleJobInProgressEvent(
-                                        status:
-                                            ScheduleJobStatusEnum.inProgress.name,
-                                      ),
-                                    ),
-                                    imagePath: ImagePaths.emptyProject,
-                                  )),
+                                  ),
+                                  imagePath: ImagePaths.emptyProject,
+                                ),
+                        ),
                       ),
                     if (_workingProgress.isNotEmpty)
                       Expanded(
                         child: ListView.builder(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
+                            vertical: 8,
+                            horizontal: 16,
+                          ),
                           itemCount: _workingProgress.length,
                           itemBuilder: (context, index) {
                             final request = _workingProgress[index];
-
                             if (request.type ==
-                                RequestType.InstallationCertificate.name) {
+                                    RequestType.InstallationCertificate.name ||
+                                request.type ==
+                                    RequestType.EngineeringInspection.name) {
                               return _buildFawryRequestCard(
                                 context,
                                 request,
@@ -136,6 +140,13 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                             } else if (request.type ==
                                 RequestType.MaintenanceContract.name) {
                               return _buildMaintenanceRequestCard(
+                                context,
+                                request,
+                                Key(request.Id.toString()),
+                              );
+                            } else if (request.type ==
+                                RequestType.FireExtinguisher.name) {
+                              return _buildFireExtinguisherRequestCard(
                                 context,
                                 request,
                                 Key(request.Id.toString()),
@@ -438,6 +449,11 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 borderColor: ColorSchemes.grey,
                 text: S.of(context).submitQuotation,
                 textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: ColorSchemes.primary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
                 onTap: () => _goToLocation(context, request),
               ),
             ),
@@ -450,6 +466,11 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 borderColor: ColorSchemes.grey,
                 text: S.of(context).deliverExtinguishers,
                 textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: ColorSchemes.primary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
                 onTap: () => _goToLocation(context, request),
               ),
             ),
@@ -644,6 +665,11 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 borderColor: ColorSchemes.primary,
                 text: S.of(context).uploadLicenseDoc,
                 textColor: Colors.white,
+                textStyle: TextStyle(
+                  color: ColorSchemes.primary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
                 onTap: () => _uploadLicenseDoc(context, request),
               ),
             ),
@@ -656,6 +682,11 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 borderColor: ColorSchemes.grey,
                 text: S.of(context).goToLocation,
                 textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: ColorSchemes.primary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
                 onTap: () => _goToLocation(context, request),
               ),
             ),
@@ -827,6 +858,11 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 borderColor: ColorSchemes.primary,
                 text: S.of(context).goToLocation,
                 textColor: ColorSchemes.white,
+                textStyle: TextStyle(
+                  color: ColorSchemes.primary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
                 onTap: () => _goToLocation(context, request),
               ),
             ),
@@ -839,6 +875,11 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 borderColor: ColorSchemes.grey,
                 text: S.of(context).generateReport,
                 textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: ColorSchemes.primary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
                 onTap: () => _uploadLicenseDoc(context, request),
               ),
             ),
@@ -870,6 +911,209 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildFireExtinguisherRequestCard(
+    BuildContext context,
+    ScheduleJop request,
+    Key key,
+  ) {
+    return Card(
+      key: key,
+      elevation: 2,
+      margin: const EdgeInsets.only(bottom: 12),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              request.requestNumber,
+              style: TextStyle(color: Colors.grey[700]),
+            ),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Text(
+                  request.branch.branchName,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                ),
+                const Spacer(),
+                Row(
+                  children: [
+                    _isLoading
+                        ? Container(
+                            width: 16.w,
+                            height: 16.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
+                        : const Icon(Icons.location_pin, size: 16),
+                    const SizedBox(width: 4),
+                    Text(
+                      request.branch.address.split(",").first,
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              S.of(context).viewMoreInfo,
+              style: TextStyle(
+                color: ColorSchemes.red,
+                fontWeight: FontWeight.bold,
+                fontSize: 14.sp,
+              ),
+            ),
+            Divider(),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    _isLoading
+                        ? Container(
+                            width: 16.w,
+                            height: 16.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
+                        : const Icon(
+                            Icons.calendar_month_outlined,
+                            size: 16,
+                          ),
+                    const SizedBox(width: 4),
+                    Text(
+                      "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: _isLoading
+                        ? Colors.grey.shade300
+                        : ColorSchemes.secondary,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    request.type,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                _isLoading
+                    ? Container(
+                        width: 16.w,
+                        height: 16.h,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      )
+                    : SvgPicture.asset(
+                        ImagePaths.technical,
+                        height: 16.h,
+                        width: 16.w,
+                      ),
+                const SizedBox(width: 4),
+                Text(
+                  S.of(context).responsibleEmployee,
+                  style: TextStyle(
+                    color: Colors.grey[700],
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14.sp,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  request.responseEmployee.fullName,
+                  style: TextStyle(
+                    color: Colors.grey[700],
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15.sp,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              height: 36.h,
+              child: CustomButtonWidget(
+                backgroundColor: ColorSchemes.white,
+                borderColor: ColorSchemes.grey,
+                text: S.of(context).goToLocation,
+                textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: ColorSchemes.primary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
+                onTap: () => _goToLocation(context, request),
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              height: 36.h,
+              child: CustomButtonWidget(
+                backgroundColor: ColorSchemes.primary,
+                borderColor: ColorSchemes.primary,
+                text: S.of(context).startMission,
+                textColor: Colors.white,
+                textStyle: TextStyle(
+                  color: ColorSchemes.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
+                onTap: () => _startMission(context, request),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _startMission(BuildContext context, ScheduleJop request) {
+    Navigator.pushNamed(
+      context,
+      Routes.fireExtinguishersScreen,
+      arguments: {'scheduleJop': request},
     );
   }
 }

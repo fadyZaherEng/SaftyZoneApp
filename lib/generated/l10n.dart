@@ -4283,6 +4283,236 @@ class S {
       args: [],
     );
   }
+
+  /// `Start Mission`
+  String get startMission {
+    return Intl.message(
+      'Start Mission',
+      name: 'startMission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Safety Zone Platform`
+  String get platformName {
+    return Intl.message(
+      'Safety Zone Platform',
+      name: 'platformName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instant Permits - Maintenance Contracts - Fire Extinguishers`
+  String get platformDesc {
+    return Intl.message(
+      'Instant Permits - Maintenance Contracts - Fire Extinguishers',
+      name: 'platformDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request Type: Fire Extinguisher Repair Quotation`
+  String get requestType {
+    return Intl.message(
+      'Request Type: Fire Extinguisher Repair Quotation',
+      name: 'requestType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get date {
+    return Intl.message(
+      'Date',
+      name: 'date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request No.`
+  String get requestNumber {
+    return Intl.message(
+      'Request No.',
+      name: 'requestNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Client Information (First Party)`
+  String get clientInfo {
+    return Intl.message(
+      'Client Information (First Party)',
+      name: 'clientInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Client Name`
+  String get clientName {
+    return Intl.message(
+      'Client Name',
+      name: 'clientName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service Location`
+  String get serviceLocation {
+    return Intl.message(
+      'Service Location',
+      name: 'serviceLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service Provider Information (Second Party)`
+  String get providerInfo {
+    return Intl.message(
+      'Service Provider Information (Second Party)',
+      name: 'providerInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Provider/Technician Name`
+  String get providerName {
+    return Intl.message(
+      'Provider/Technician Name',
+      name: 'providerName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Provider Rating`
+  String get providerRating {
+    return Intl.message(
+      'Provider Rating',
+      name: 'providerRating',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Details of Fire Extinguishers to be Repaired`
+  String get extinguishersDetails {
+    return Intl.message(
+      'Details of Fire Extinguishers to be Repaired',
+      name: 'extinguishersDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type`
+  String get type {
+    return Intl.message(
+      'Type',
+      name: 'type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To Be Repaired`
+  String get toRepair {
+    return Intl.message(
+      'To Be Repaired',
+      name: 'toRepair',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Received`
+  String get received {
+    return Intl.message(
+      'Received',
+      name: 'received',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price (Each)`
+  String get prices {
+    return Intl.message(
+      'Price (Each)',
+      name: 'prices',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First Party`
+  String get firstParty {
+    return Intl.message(
+      'First Party',
+      name: 'firstParty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Second Party`
+  String get secondParty {
+    return Intl.message(
+      'Second Party',
+      name: 'secondParty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get name {
+    return Intl.message(
+      'Name',
+      name: 'name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Signature`
+  String get signature {
+    return Intl.message(
+      'Signature',
+      name: 'signature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note`
+  String get note {
+    return Intl.message(
+      'Note',
+      name: 'note',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If approved, please visit the site to confirm the request so the electronic contract can be issued.`
+  String get noteTexts {
+    return Intl.message(
+      'If approved, please visit the site to confirm the request so the electronic contract can be issued.',
+      name: 'noteTexts',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
