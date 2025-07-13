@@ -698,7 +698,10 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
   }
 
   Widget _buildMaintenanceRequestCard(
-      BuildContext context, ScheduleJop request, Key key) {
+    BuildContext context,
+    ScheduleJop request,
+    Key key,
+  ) {
     return Card(
       key: key,
       elevation: 2,
