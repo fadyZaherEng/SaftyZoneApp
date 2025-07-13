@@ -447,7 +447,16 @@
   "startTaskTitle": "Are you ready to start the task?",
   "startTaskSubtitle": "Once confirmed, the client will be notified of your arrival, and the task will officially begin.",
   "startNow": "Start Now",
-  "notYet": "Not Yet"
+  "notYet": "Not Yet",
+  "fireExtinguisherReportTitle": "Fire Extinguisher Receiving Report",
+  "powder6Kg": "6kg Powder Fire Extinguisher",
+  "powder12Kg": "12kg Powder Fire Extinguisher",
+  "co2Extinguisher": "CO₂ Fire Extinguisher",
+  "availableAtClient": "Quantity at Client",
+  "receivedCount": "Received Quantity",
+  "fireExtinguishersRepairOffer": "Fire Extinguishers Repair Offer",
+  "fireExtinguishersDelivery": "Fire Extinguishers Delivery",
+  "expiryDate": "Expiry Date"
 
 }
 

@@ -135,4 +135,5 @@ class ImagePaths {
   static const String firePng2 = "assets/images/fire_png2.png";
   static const String firePng3 = "assets/images/fire_png3.png";
   static const String inovoice = "assets/images/inovoice.png";
+  static const String quality = "assets/images/quality.svg";
  }

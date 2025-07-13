@@ -4553,6 +4553,96 @@ class S {
       args: [],
     );
   }
+
+  /// `Fire Extinguisher Receiving Report`
+  String get fireExtinguisherReportTitle {
+    return Intl.message(
+      'Fire Extinguisher Receiving Report',
+      name: 'fireExtinguisherReportTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `6kg Powder Fire Extinguisher`
+  String get powder6Kg {
+    return Intl.message(
+      '6kg Powder Fire Extinguisher',
+      name: 'powder6Kg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `12kg Powder Fire Extinguisher`
+  String get powder12Kg {
+    return Intl.message(
+      '12kg Powder Fire Extinguisher',
+      name: 'powder12Kg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CO₂ Fire Extinguisher`
+  String get co2Extinguisher {
+    return Intl.message(
+      'CO₂ Fire Extinguisher',
+      name: 'co2Extinguisher',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quantity at Client`
+  String get availableAtClient {
+    return Intl.message(
+      'Quantity at Client',
+      name: 'availableAtClient',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Received Quantity`
+  String get receivedCount {
+    return Intl.message(
+      'Received Quantity',
+      name: 'receivedCount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Extinguishers Repair Offer`
+  String get fireExtinguishersRepairOffer {
+    return Intl.message(
+      'Fire Extinguishers Repair Offer',
+      name: 'fireExtinguishersRepairOffer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Extinguishers Delivery`
+  String get fireExtinguishersDelivery {
+    return Intl.message(
+      'Fire Extinguishers Delivery',
+      name: 'fireExtinguishersDelivery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expiry Date`
+  String get expiryDate {
+    return Intl.message(
+      'Expiry Date',
+      name: 'expiryDate',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

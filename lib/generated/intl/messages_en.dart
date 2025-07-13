@@ -50,6 +50,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "autoSprinkler": MessageLookupByLibrary.simpleMessage("Auto Sprinkler"),
         "automaticSprinklers":
             MessageLookupByLibrary.simpleMessage("Automatic Sprinklers"),
+        "availableAtClient":
+            MessageLookupByLibrary.simpleMessage("Quantity at Client"),
         "backToHome": MessageLookupByLibrary.simpleMessage("Back to Home"),
         "backupLighting":
             MessageLookupByLibrary.simpleMessage("Backup Lighting"),
@@ -90,6 +92,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Client Information (First Party)"),
         "clientName": MessageLookupByLibrary.simpleMessage("Client Name"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
+        "co2Extinguisher":
+            MessageLookupByLibrary.simpleMessage("CO₂ Fire Extinguisher"),
         "codeSentTo": MessageLookupByLibrary.simpleMessage("Code sent to"),
         "companyActivityHint": MessageLookupByLibrary.simpleMessage(
             "Describe the type of business you operate or the services/products you offer"),
@@ -239,6 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorTitle": MessageLookupByLibrary.simpleMessage("Error"),
         "example3": MessageLookupByLibrary.simpleMessage("Example: 3 SAR"),
         "example350": MessageLookupByLibrary.simpleMessage("Example: 350 SAR"),
+        "expiryDate": MessageLookupByLibrary.simpleMessage("Expiry Date"),
         "extinguisher12KgPowder": MessageLookupByLibrary.simpleMessage(
             "Fire Extinguisher 12kg Powder"),
         "extinguisher6KgPowder": MessageLookupByLibrary.simpleMessage(
@@ -271,8 +276,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("CO2 Fire Extinguisher"),
         "fireExtinguisherMaintenance": MessageLookupByLibrary.simpleMessage(
             "Fire Extinguisher Maintenance"),
+        "fireExtinguisherReportTitle": MessageLookupByLibrary.simpleMessage(
+            "Fire Extinguisher Receiving Report"),
         "fireExtinguishers":
             MessageLookupByLibrary.simpleMessage("Fire Extinguishers:"),
+        "fireExtinguishersDelivery":
+            MessageLookupByLibrary.simpleMessage("Fire Extinguishers Delivery"),
+        "fireExtinguishersRepairOffer": MessageLookupByLibrary.simpleMessage(
+            "Fire Extinguishers Repair Offer"),
         "firePumps": MessageLookupByLibrary.simpleMessage("Fire Pumps"),
         "fireSuppressionSystemFees": MessageLookupByLibrary.simpleMessage(
             "Fire Suppression System Fees"),
@@ -467,6 +478,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseUploadAClearPhotoOfTheEmployeeASJPGPNGMax2MB":
             MessageLookupByLibrary.simpleMessage(
                 "Please upload a clear photo of the employee. JPG, PNG, max 2MB."),
+        "powder12Kg": MessageLookupByLibrary.simpleMessage(
+            "12kg Powder Fire Extinguisher"),
+        "powder6Kg": MessageLookupByLibrary.simpleMessage(
+            "6kg Powder Fire Extinguisher"),
         "previous": MessageLookupByLibrary.simpleMessage("Previous"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "priceClosed": MessageLookupByLibrary.simpleMessage("Price Closed"),
@@ -505,6 +520,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "receiveRequestsHighlight":
             MessageLookupByLibrary.simpleMessage("cannot receive requests"),
         "received": MessageLookupByLibrary.simpleMessage("Received"),
+        "receivedCount":
+            MessageLookupByLibrary.simpleMessage("Received Quantity"),
         "recently": MessageLookupByLibrary.simpleMessage("Recently"),
         "registerAsNewVendor":
             MessageLookupByLibrary.simpleMessage("Register as New Vendor"),

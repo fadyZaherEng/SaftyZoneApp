@@ -447,5 +447,14 @@
   "startTaskTitle": "هل أنت مستعد لبدء المهمة؟",
   "startTaskSubtitle": "بمجرد التأكيد، سيتم إخطار العميل بوصولك، وستبدأ المهمة رسمياً.",
   "startNow": "ابدأ الآن",
-  "notYet": "ليس بعد"
+  "notYet": "ليس بعد",
+  "fireExtinguisherReportTitle": "تقرير الاستلام لطفايات الحريق",
+  "powder6Kg": "6 كيلوغرام من طفاية حريق المسحوق",
+  "powder12Kg": "طفاية حريق مسحوق 12 كجم",
+  "co2Extinguisher": "طفاية حريق ثاني أكسيد الكربون",
+  "availableAtClient": "العدد الموجود عند العميل",
+  "receivedCount": "العدد المستلم",
+  "fireExtinguishersRepairOffer": "عرض إصلاح طفايات الحريق",
+  "fireExtinguishersDelivery": "تسليم الطفايات",
+  "expiryDate": "تاريخ الانتهاء"
 }

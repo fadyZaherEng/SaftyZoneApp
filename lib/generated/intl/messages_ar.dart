@@ -50,6 +50,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "autoSprinkler": MessageLookupByLibrary.simpleMessage("رشاش آلي"),
         "automaticSprinklers":
             MessageLookupByLibrary.simpleMessage("استخراجات الحريق"),
+        "availableAtClient":
+            MessageLookupByLibrary.simpleMessage("العدد الموجود عند العميل"),
         "backToHome":
             MessageLookupByLibrary.simpleMessage("العودة إلى الصفحة الرئيسية"),
         "backupLighting":
@@ -88,6 +90,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("بيانات العميل (الطرف الأول)"),
         "clientName": MessageLookupByLibrary.simpleMessage("اسم العميل"),
         "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
+        "co2Extinguisher": MessageLookupByLibrary.simpleMessage(
+            "طفاية حريق ثاني أكسيد الكربون"),
         "codeSentTo":
             MessageLookupByLibrary.simpleMessage("تم ارسال الرمز الى"),
         "companyActivityHint": MessageLookupByLibrary.simpleMessage(
@@ -230,6 +234,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorTitle": MessageLookupByLibrary.simpleMessage("خطأ"),
         "example3": MessageLookupByLibrary.simpleMessage("مثال 3 رس"),
         "example350": MessageLookupByLibrary.simpleMessage("مثال 350 رس"),
+        "expiryDate": MessageLookupByLibrary.simpleMessage("تاريخ الانتهاء"),
         "extinguisher12KgPowder":
             MessageLookupByLibrary.simpleMessage("طفاية حريق 12 كيلو بودره"),
         "extinguisher6KgPowder":
@@ -259,8 +264,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("طفاية حريق CO2"),
         "fireExtinguisherMaintenance":
             MessageLookupByLibrary.simpleMessage("صيانة الاستخراجات الحريق"),
+        "fireExtinguisherReportTitle": MessageLookupByLibrary.simpleMessage(
+            "تقرير الاستلام لطفايات الحريق"),
         "fireExtinguishers":
             MessageLookupByLibrary.simpleMessage("بنود طفاية الحريق:"),
+        "fireExtinguishersDelivery":
+            MessageLookupByLibrary.simpleMessage("تسليم الطفايات"),
+        "fireExtinguishersRepairOffer":
+            MessageLookupByLibrary.simpleMessage("عرض إصلاح طفايات الحريق"),
         "firePumps": MessageLookupByLibrary.simpleMessage("بومبات الحريق"),
         "fireSuppressionSystemFees":
             MessageLookupByLibrary.simpleMessage("رسوم نظام إخماد الحرائق"),
@@ -450,6 +461,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseUploadAClearPhotoOfTheEmployeeASJPGPNGMax2MB":
             MessageLookupByLibrary.simpleMessage(
                 "يرجى تحميل صورة صغيرة للموظف. JPG, PNG, max 2MB."),
+        "powder12Kg":
+            MessageLookupByLibrary.simpleMessage("طفاية حريق مسحوق 12 كجم"),
+        "powder6Kg": MessageLookupByLibrary.simpleMessage(
+            "6 كيلوغرام من طفاية حريق المسحوق"),
         "previous": MessageLookupByLibrary.simpleMessage("السابق"),
         "price": MessageLookupByLibrary.simpleMessage("السعر"),
         "priceClosed": MessageLookupByLibrary.simpleMessage("سعر مغلق"),
@@ -485,6 +500,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "receiveRequestsHighlight":
             MessageLookupByLibrary.simpleMessage("يمكنك استقبال الطلبات"),
         "received": MessageLookupByLibrary.simpleMessage("العدد المستلم"),
+        "receivedCount": MessageLookupByLibrary.simpleMessage("العدد المستلم"),
         "recently": MessageLookupByLibrary.simpleMessage("الاحدث"),
         "registerAsNewVendor":
             MessageLookupByLibrary.simpleMessage("تسجيل كمزود خدمة جديد"),
