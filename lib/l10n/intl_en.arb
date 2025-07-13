@@ -419,6 +419,7 @@
   "editEmployee": "Edit Employee",
   "english": "English",
   "arabic": "Arabic",
-  "changeLanguage": "Change Language"
+  "changeLanguage": "Change Language",
+  "theEmployeeResponsibleForExecutingTheRequest": "The employee responsible for executing the request"
 }
 

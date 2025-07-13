@@ -419,5 +419,6 @@
   "editEmployee": "تعديل الموظف",
   "english": "الانجليزية",
   "arabic": "العربية",
-  "changeLanguage": "تغيير اللغة"
+  "changeLanguage": "تغيير اللغة",
+  "theEmployeeResponsibleForExecutingTheRequest": "الموظف المسئول عن تنفيذ الطلب"
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
@@ -10,6 +11,7 @@ import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
+import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_empty_list_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -112,8 +114,9 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       final request = _workingProgress[index];
 
                       if (request.type ==
-                          RequestType.InstallationCertificate.name||request.type ==
-                          RequestType.EngineeringInspection.name) {
+                              RequestType.InstallationCertificate.name ||
+                          request.type ==
+                              RequestType.EngineeringInspection.name) {
                         return _buildFawryRequestCard(
                           context,
                           request,
@@ -924,12 +927,26 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
   }
 
   void _uploadLicenseDoc(BuildContext context, ScheduleJop request) {
-    // Navigator.pushNamed(
-    //   context,
-    //   Routes.uploadDocumentFawryScreen,
-    //   arguments: {'request': request},
-    // );
+    Navigator.pushNamed(
+      context,
+      Routes.uploadDocumentFawryScreen,
+      arguments: {'request': request},
+    );
   }
 
-  void _goToLocation(BuildContext context, ScheduleJop request) {}
+  void _goToLocation(BuildContext context, ScheduleJop request) async {
+    // Handle map navigation
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => MapSearchScreen(
+          initialLatitude: request.branch.location.coordinates.first,
+          initialLongitude: request.branch.location.coordinates.last,
+          onLocationSelected: (lat, lng, address) {
+            setState(() {});
+          },
+        ),
+      ),
+    );
+  }
 }
