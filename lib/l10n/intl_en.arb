@@ -443,7 +443,11 @@
   "name": "Name",
   "signature": "Signature",
   "note": "Note",
-  "noteTexts": "If approved, please visit the site to confirm the request so the electronic contract can be issued."
+  "noteTexts": "If approved, please visit the site to confirm the request so the electronic contract can be issued.",
+  "startTaskTitle": "Are you ready to start the task?",
+  "startTaskSubtitle": "Once confirmed, the client will be notified of your arrival, and the task will officially begin.",
+  "startNow": "Start Now",
+  "notYet": "Not Yet"
 
 }
 

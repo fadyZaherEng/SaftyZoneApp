@@ -1099,10 +1099,76 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
-                onTap: () => _startMission(context, request),
+                onTap: () => showStartTaskDialog(context, request),
               ),
             ),
             const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showStartTaskDialog(BuildContext context, ScheduleJop request) {
+    final s = S.of(context);
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              s.startTaskTitle,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: ColorSchemes.primary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              s.startTaskSubtitle,
+              style: const TextStyle(fontSize: 14, color: Colors.black87),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            const Divider(height: 1),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+                // Handle start now logic
+                _startMission(context, request);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Center(
+                  child: Text(
+                    s.startNow,
+                    style: const TextStyle(
+                        color: ColorSchemes.primary, fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            const Divider(height: 1),
+            InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Center(
+                  child: Text(
+                    s.notYet,
+                    style: const TextStyle(color: Colors.black54, fontSize: 14),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

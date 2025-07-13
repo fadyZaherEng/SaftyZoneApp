@@ -70,7 +70,8 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                     text: S.of(context).save,
                     backgroundColor: ColorSchemes.primary,
                     textColor: Colors.white,
-                    onTap: () {},
+                    onTap: () {
+                     },
                   ),
                 ),
                 const SizedBox(height: 64),
@@ -81,7 +82,6 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
       ),
     );
   }
-
 
   Widget _buildCardHeader(S s) {
     return Card(

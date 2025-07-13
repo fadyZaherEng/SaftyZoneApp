@@ -392,6 +392,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("لم يتم العثور على عناصر"),
         "noRequestsFound":
             MessageLookupByLibrary.simpleMessage("لم يتم العثور على طلبات"),
+        "notYet": MessageLookupByLibrary.simpleMessage("ليس بعد"),
         "note": MessageLookupByLibrary.simpleMessage("ملاحظة"),
         "noteText": MessageLookupByLibrary.simpleMessage(
             "ملاحظة: السعر يشمل الاستلام و التوصيل للفرع"),
@@ -580,6 +581,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "ابدأ في اضافة موظف جديد من خلال تكميل التفاصيل المطلوبة"),
         "startMission": MessageLookupByLibrary.simpleMessage("بدء المهمة"),
+        "startNow": MessageLookupByLibrary.simpleMessage("ابدأ الآن"),
+        "startTaskSubtitle": MessageLookupByLibrary.simpleMessage(
+            "بمجرد التأكيد، سيتم إخطار العميل بوصولك، وستبدأ المهمة رسمياً."),
+        "startTaskTitle":
+            MessageLookupByLibrary.simpleMessage("هل أنت مستعد لبدء المهمة؟"),
         "stayInformed": MessageLookupByLibrary.simpleMessage(
             "ابقَ على اطلاع على زيارات الموقع الحالية، والفنيين المعينين، ومهام الصيانة، والتقارير المعلقة لضمان تنفيذ الخدمة بسلاسة."),
         "stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention":

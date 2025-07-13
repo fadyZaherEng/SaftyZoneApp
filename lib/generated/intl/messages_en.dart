@@ -408,6 +408,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noRequestsFound":
             MessageLookupByLibrary.simpleMessage("No requests found"),
+        "notYet": MessageLookupByLibrary.simpleMessage("Not Yet"),
         "note": MessageLookupByLibrary.simpleMessage("Note"),
         "noteText": MessageLookupByLibrary.simpleMessage(
             "Note: Price includes pickup and delivery to the branch"),
@@ -604,6 +605,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Start adding a new employee by completing the required details"),
         "startMission": MessageLookupByLibrary.simpleMessage("Start Mission"),
+        "startNow": MessageLookupByLibrary.simpleMessage("Start Now"),
+        "startTaskSubtitle": MessageLookupByLibrary.simpleMessage(
+            "Once confirmed, the client will be notified of your arrival, and the task will officially begin."),
+        "startTaskTitle": MessageLookupByLibrary.simpleMessage(
+            "Are you ready to start the task?"),
         "stayInformed": MessageLookupByLibrary.simpleMessage(
             "Stay informed about current site visits, assigned technicians, maintenance tasks, and pending reports to ensure smooth service execution"),
         "stayInformedWithAllCriticalAlertsAndActionsThatRequireYourAttention":

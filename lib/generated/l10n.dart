@@ -4513,6 +4513,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Are you ready to start the task?`
+  String get startTaskTitle {
+    return Intl.message(
+      'Are you ready to start the task?',
+      name: 'startTaskTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Once confirmed, the client will be notified of your arrival, and the task will officially begin.`
+  String get startTaskSubtitle {
+    return Intl.message(
+      'Once confirmed, the client will be notified of your arrival, and the task will officially begin.',
+      name: 'startTaskSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Now`
+  String get startNow {
+    return Intl.message(
+      'Start Now',
+      name: 'startNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not Yet`
+  String get notYet {
+    return Intl.message(
+      'Not Yet',
+      name: 'notYet',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
