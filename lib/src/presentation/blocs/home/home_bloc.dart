@@ -21,6 +21,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetConsumerRequestsUseCase _getConsumerRequestsUseCase;
   final ScheduleJobAllUseCase _scheduleJobAllUseCase;
+  final GetUserLoginDataUseCase _getUserLoginDataUseCase;
 
   List<DashboardItem> dashboardItems = [
     DashboardItem('30', S.current.newRequests, ImagePaths.news),
@@ -33,6 +34,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(
     this._getConsumerRequestsUseCase,
     this._scheduleJobAllUseCase,
+    this._getUserLoginDataUseCase,
   ) : super(HomeInitial()) {
     on<GetHomeDashboardEvent>(_onGetHomeDashboardEvent);
   }
@@ -47,12 +49,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       phoneNumber: (await GetUserLoginDataUseCase(injector())())?.phone ?? '',
       code: (await GetUserLoginDataUseCase(injector())())?.code ?? '',
     ));
+    final pendingRequests = await _scheduleJobAllUseCase(
+      request: ScheduleJopRequest(
+        code: (await _getUserLoginDataUseCase())?.code ?? '',
+        phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
+      ),
+    );
     if (result is DataSuccess<List<Requests>>) {
       dashboardItems = [
         DashboardItem(S.current.newRequests,
             result.data?.length.toString() ?? '0', ImagePaths.news),
         DashboardItem(S.current.maintenanceReports, '5', ImagePaths.technical),
-        DashboardItem(S.current.pendingRequests, '10', ImagePaths.requests),
+        DashboardItem(
+            S.current.pendingRequests,
+            pendingRequests.data?.length.toString() ?? '0',
+            ImagePaths.requests),
         DashboardItem(S.current.priceOffers, '8', ImagePaths.work),
         DashboardItem(S.current.todayTasks,
             result2.data?.length.toString() ?? '0', ImagePaths.groups),
