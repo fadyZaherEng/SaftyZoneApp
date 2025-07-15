@@ -4643,6 +4643,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Engineering Report For Company`
+  String get engineeringReportForCompany {
+    return Intl.message(
+      'Engineering Report For Company',
+      name: 'engineeringReportForCompany',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

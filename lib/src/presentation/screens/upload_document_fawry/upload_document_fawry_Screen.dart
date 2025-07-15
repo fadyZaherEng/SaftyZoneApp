@@ -168,9 +168,9 @@ class _UploadDocumentFawryScreenState
                                           MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          S
-                                              .of(context)
-                                              .instantLicenseForCompany,
+        (widget.request.type == RequestType.InstallationCertificate.name) ?S.of(context)
+                                              .instantLicenseForCompany:
+                                          S.of(context).engineeringReportForCompany,
                                           style: TextStyle(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.normal,
