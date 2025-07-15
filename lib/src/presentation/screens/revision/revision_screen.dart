@@ -34,7 +34,7 @@ class _RevisionScreenState extends State<RevisionScreen> {
               (route) => false,
             ),
           ),
-          backgroundColor: ColorSchemes.red,
+          backgroundColor: ColorSchemes.primary,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),
