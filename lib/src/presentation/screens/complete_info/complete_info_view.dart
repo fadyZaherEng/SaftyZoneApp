@@ -10,7 +10,6 @@ import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/src/domain/usecase/auth/check_auth_use_case.dart';
-import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_authenticate_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
@@ -60,137 +59,153 @@ class _CompleteInfoViewState extends State<CompleteInfoView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF8B0000),
-          foregroundColor: Colors.white,
-          elevation: 0,
-          title: Text(
-            S.of(context).receiveRequests,
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: const Color(0xFF8B0000),
+            foregroundColor: Colors.white,
+            elevation: 0,
+            title: Text(
+              S.of(context).receiveRequests,
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            centerTitle: true,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                //check if navigator is not null
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.welcome,
+                    (route) => false,
+                  );
+                }
+              },
+              padding: EdgeInsets.all(12.w),
+              constraints: BoxConstraints(minWidth: 44.w, minHeight: 44.w),
             ),
           ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.pop(context),
-            padding: EdgeInsets.all(12.w),
-            constraints: BoxConstraints(minWidth: 44.w, minHeight: 44.w),
-          ),
-        ),
-        body: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(color: Color(0xFF8B0000)))
-            : SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 24.h),
+          body: _isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(color: Color(0xFF8B0000)))
+              : SafeArea(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 24.h),
 
-                      // Warning message
-                      RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            color: const Color(0xFF222222),
-                            height: 1.4,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: S.of(context).youCannot,
+                        // Warning message
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              color: const Color(0xFF222222),
+                              height: 1.4,
                             ),
-                            TextSpan(
-                              text: S.of(context).receiveRequestsHighlight,
-                              style: const TextStyle(
-                                color: Color(0xFF8B0000),
+                            children: [
+                              TextSpan(
+                                text: S.of(context).youCannot,
+                              ),
+                              TextSpan(
+                                text: S.of(context).receiveRequestsHighlight,
+                                style: const TextStyle(
+                                  color: Color(0xFF8B0000),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text: S.of(context).untilCompleted,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(height: 40.h),
+
+                        // Tasks list
+                        Expanded(
+                          child: Column(
+                            children: [
+                              // Add installation fees
+                              _buildTaskItem(
+                                title: S.of(context).addInstallationFees,
+                                iconPath: ImagePaths.installationFees,
+                                isCompleted: _installationFeesCompleted,
+                                onTap: () => _navigateToInstallationFees(),
+                              ),
+
+                              SizedBox(height: 24.h),
+
+                              // Add employees
+                              _buildTaskItem(
+                                title: S.of(context).addEmployees,
+                                iconPath: ImagePaths.addEmployees,
+                                isCompleted: _employeesCompleted,
+                                onTap: () => _handleEmployees(),
+                              ),
+
+                              SizedBox(height: 24.h),
+
+                              // Terms and conditions
+                              _buildTaskItem(
+                                title: S.of(context).termsAndConditions,
+                                iconPath: ImagePaths.termsAndConditions,
+                                isCompleted: _termsCompleted,
+                                onTap: () => _handleTermsAndConditions(),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // Complete button
+                        SizedBox(height: 32.h),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 56.h,
+                          child: ElevatedButton(
+                            onPressed: _areAllTasksCompleted()
+                                ? () => _completeInformation(context)
+                                : null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: _areAllTasksCompleted()
+                                  ? const Color(0xFF8B0000)
+                                  : const Color(0xFFCCCCCC),
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Text(
+                              S.of(context).completeInformation,
+                              style: TextStyle(
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            TextSpan(
-                              text: S.of(context).untilCompleted,
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(height: 40.h),
-
-                      // Tasks list
-                      Expanded(
-                        child: Column(
-                          children: [
-                            // Add installation fees
-                            _buildTaskItem(
-                              title: S.of(context).addInstallationFees,
-                              iconPath: ImagePaths.installationFees,
-                              isCompleted: _installationFeesCompleted,
-                              onTap: () => _navigateToInstallationFees(),
-                            ),
-
-                            SizedBox(height: 24.h),
-
-                            // Add employees
-                            _buildTaskItem(
-                              title: S.of(context).addEmployees,
-                              iconPath: ImagePaths.addEmployees,
-                              isCompleted: _employeesCompleted,
-                              onTap: () => _handleEmployees(),
-                            ),
-
-                            SizedBox(height: 24.h),
-
-                            // Terms and conditions
-                            _buildTaskItem(
-                              title: S.of(context).termsAndConditions,
-                              iconPath: ImagePaths.termsAndConditions,
-                              isCompleted: _termsCompleted,
-                              onTap: () => _handleTermsAndConditions(),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      // Complete button
-                      SizedBox(height: 32.h),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 56.h,
-                        child: ElevatedButton(
-                          onPressed: _areAllTasksCompleted()
-                              ? () => _completeInformation(context)
-                              : null,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: _areAllTasksCompleted()
-                                ? const Color(0xFF8B0000)
-                                : const Color(0xFFCCCCCC),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                            elevation: 0,
-                          ),
-                          child: Text(
-                            S.of(context).completeInformation,
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
                           ),
                         ),
-                      ),
 
-                      SizedBox(height: 32.h),
-                    ],
+                        SizedBox(height: 32.h),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+        ),
       ),
     );
   }

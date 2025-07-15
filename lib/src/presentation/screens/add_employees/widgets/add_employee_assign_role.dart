@@ -21,7 +21,7 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
         'ContractSigning': 'Contract Signing',
         'QuotationSubmission': 'Quotation Submission',
         'ReportWriting': 'Report Writing',
-        'FawryService': 'Fawry Service',
+        'InstallationCertificate': 'Installation Certificate',
       };
 
   List<String> _selectedTaskCodes = [];

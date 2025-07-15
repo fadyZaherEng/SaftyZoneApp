@@ -211,6 +211,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "employees": MessageLookupByLibrary.simpleMessage("Employees"),
         "engineeringReport":
             MessageLookupByLibrary.simpleMessage("Engineering Report"),
+        "engineeringReportForCompany": MessageLookupByLibrary.simpleMessage(
+            "Engineering Report For Company"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "enterAmount": MessageLookupByLibrary.simpleMessage("Enter amount"),
         "enterComponentFee":

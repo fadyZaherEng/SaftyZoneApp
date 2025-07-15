@@ -456,7 +456,8 @@
   "receivedCount": "Received Quantity",
   "fireExtinguishersRepairOffer": "Fire Extinguishers Repair Offer",
   "fireExtinguishersDelivery": "Fire Extinguishers Delivery",
-  "expiryDate": "Expiry Date"
+  "expiryDate": "Expiry Date",
+  "engineeringReportForCompany": "Engineering Report For Company"
 
 }
 

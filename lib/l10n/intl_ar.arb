@@ -332,6 +332,7 @@
   "uploadLicenseDoc": "رفع مستند الرخصة الفورية",
   "instantLicense": "رخصه فورية",
   "engineeringReport": "كشف هندسي",
+  "engineeringReportForCompany": "كشف هندسي للشركة",
   "goToLocation": "اذهب إلى الموقع",
   "generateReport": "اصدار التقرير",
   "receiveExtinguishers": "استلام الطفايات",

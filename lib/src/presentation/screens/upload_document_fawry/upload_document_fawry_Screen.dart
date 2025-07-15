@@ -13,7 +13,7 @@ import 'package:safety_zone/src/core/utils/permission_service_handler.dart';
 import 'package:safety_zone/src/core/utils/show_action_dialog_widget.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
- import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
+import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/blocs/upload_doc/upload_doc_bloc.dart';
@@ -120,7 +120,10 @@ class _UploadDocumentFawryScreenState
                   SizedBox(height: 16.h),
                   if (_isExpandedUpload)
                     Text(
-                      S.of(context).instantLicense,
+                      widget.request.type ==
+                              RequestType.InstallationCertificate.name
+                          ? S.of(context).instantLicense
+                          : S.of(context).engineeringReport,
                       style: TextStyle(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
@@ -165,9 +168,16 @@ class _UploadDocumentFawryScreenState
                                           MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          S
-                                              .of(context)
-                                              .instantLicenseForCompany,
+                                          widget.request.type ==
+                                                  RequestType
+                                                      .InstallationCertificate
+                                                      .name
+                                              ? S
+                                                  .of(context)
+                                                  .instantLicenseForCompany
+                                              : S
+                                                  .of(context)
+                                                  .engineeringReportForCompany,
                                           style: TextStyle(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.normal,

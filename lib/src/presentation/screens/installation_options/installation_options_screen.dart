@@ -24,98 +24,103 @@ class _InstallationOptionsScreenState extends State<InstallationOptionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _buildAppBar(context),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 24.h),
-              Text(
-                S.of(context).enterSafetySystemFees,
-                style: TextStyle(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF222222),
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                S.of(context).pleaseEnterSpecificFees,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: const Color(0xFF888888),
-                  height: 1.4,
-                ),
-                maxLines: 3,
-              ),
-              SizedBox(height: 24.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildSelectableCard(
-                      title: S.of(context).earlyWarningSystemFees,
-                      isSelected: _isEarlyWarningSelected,
-                      iconPath: ImagePaths.earlyWarning,
-                      onTap: () {
-                        setState(() {
-                          _isEarlyWarningSelected = !_isEarlyWarningSelected;
-                        });
-                      },
-                      semanticsLabel: 'Early Warning Icon',
-                    ),
-                  ),
-                  SizedBox(width: 16.w),
-                  Expanded(
-                    child: _buildSelectableCard(
-                      title: S.of(context).fireSuppressionSystemFees,
-                      isSelected: _isFireSuppressionSelected,
-                      iconPath: ImagePaths.fireExting,
-                      onTap: () {
-                        setState(() {
-                          _isFireSuppressionSelected =
-                              !_isFireSuppressionSelected;
-                        });
-                      },
-                      semanticsLabel: 'Fire Suppression Icon',
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              // Next Button
-              SizedBox(
-                width: double.infinity,
-                height: 56.h,
-                child: ElevatedButton(
-                  onPressed: _isAnyCardSelected()
-                      ? () => _navigateToFeeDetailsScreen()
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _isAnyCardSelected()
-                        ? ColorSchemes.red
-                        : const Color(0xFFCCCCCC),
-                    foregroundColor: ColorSchemes.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: Text(
-                    S.of(context).next,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: _buildAppBar(context),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 24.h),
+                Text(
+                  S.of(context).enterSafetySystemFees,
+                  style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF222222),
                   ),
                 ),
-              ),
+                SizedBox(height: 8.h),
+                Text(
+                  S.of(context).pleaseEnterSpecificFees,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: const Color(0xFF888888),
+                    height: 1.4,
+                  ),
+                  maxLines: 3,
+                ),
+                SizedBox(height: 24.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildSelectableCard(
+                        title: S.of(context).earlyWarningSystemFees,
+                        isSelected: _isEarlyWarningSelected,
+                        iconPath: ImagePaths.earlyWarning,
+                        onTap: () {
+                          setState(() {
+                            _isEarlyWarningSelected = !_isEarlyWarningSelected;
+                          });
+                        },
+                        semanticsLabel: 'Early Warning Icon',
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: _buildSelectableCard(
+                        title: S.of(context).fireSuppressionSystemFees,
+                        isSelected: _isFireSuppressionSelected,
+                        iconPath: ImagePaths.fireExting,
+                        onTap: () {
+                          setState(() {
+                            _isFireSuppressionSelected =
+                                !_isFireSuppressionSelected;
+                          });
+                        },
+                        semanticsLabel: 'Fire Suppression Icon',
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                // Next Button
+                SizedBox(
+                  width: double.infinity,
+                  height: 56.h,
+                  child: ElevatedButton(
+                    onPressed: _isAnyCardSelected()
+                        ? () => _navigateToFeeDetailsScreen()
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _isAnyCardSelected()
+                          ? ColorSchemes.red
+                          : const Color(0xFFCCCCCC),
+                      foregroundColor: ColorSchemes.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: Text(
+                      S.of(context).next,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
 
-              SizedBox(height: 32.h),
-            ],
+                SizedBox(height: 32.h),
+              ],
+            ),
           ),
         ),
       ),
