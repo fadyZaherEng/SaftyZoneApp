@@ -33,13 +33,18 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
   List<Requests> _requestsRecent = [];
 
   List<Requests> _requestsOld = [];
+  List<Requests> _tempRequestsRecent = [];
+
+  List<Requests> _tempRequestsOld = [];
+
   bool _isOld = false;
   bool _isLoading = true;
 
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
-  TextEditingController _price6KiloController = TextEditingController();
-  TextEditingController _price12KiloController = TextEditingController();
-  TextEditingController _priceCo2Controller = TextEditingController();
+  final TextEditingController _price6KiloController = TextEditingController();
+  final TextEditingController _price12KiloController = TextEditingController();
+  final TextEditingController _priceCo2Controller = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -56,6 +61,8 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
         } else if (state is GetConsumerRequestsSuccessState) {
           _requestsRecent = List.from(state.requestsRecent);
           _requestsOld = List.from(state.requestsOld);
+          _tempRequestsRecent = List.from(state.requestsRecent);
+          _tempRequestsOld = List.from(state.requestsOld);
           _isLoading = false;
         } else if (state is GetConsumerRequestsErrorState) {
           _showError(state.message);
@@ -84,47 +91,58 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
             child: SafeArea(
               child: Skeletonizer(
                 enabled: _isLoading,
-                child: Column(
-                  children: [
-                    _buildSearchSection(context),
-                    if (_isOld && _requestsOld.isEmpty)
-                      Center(
-                        child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 40),
-                            child: CustomEmptyListWidget(
-                              text: S.of(context).noRequestsFound,
-                              isRefreshable: true,
-                              onRefresh: () =>
-                                  _bloc.add(GetConsumerRequestsEvent()),
-                              imagePath: ImagePaths.emptyProject,
-                            )),
-                      ),
-                    if (!_isOld && _requestsRecent.isEmpty)
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 40),
-                          child: _isLoading
-                              ? Container(
-                                  height: 200,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    color: ColorSchemes.border,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                )
-                              : CustomEmptyListWidget(
-                                  text: S.of(context).noRequestsFound,
-                                  isRefreshable: true,
-                                  onRefresh: () =>
-                                      _bloc.add(GetConsumerRequestsEvent()),
-                                  imagePath: ImagePaths.emptyProject,
-                                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildSearchSection(context),
+                      if (_isOld && _requestsOld.isEmpty)
+                        Center(
+                          child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 40),
+                              child: _isLoading
+                                  ? Container(
+                                      height: 200,
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                        color: ColorSchemes.border,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    )
+                                  : CustomEmptyListWidget(
+                                      text: S.of(context).noRequestsFound,
+                                      isRefreshable: true,
+                                      onRefresh: () =>
+                                          _bloc.add(GetConsumerRequestsEvent()),
+                                      imagePath: ImagePaths.emptyProject,
+                                    )),
                         ),
-                      ),
-                    if (_isOld && _requestsOld.isNotEmpty ||
-                        !_isOld && _requestsRecent.isNotEmpty)
-                      Expanded(
-                        child: ListView.builder(
+                      if (!_isOld && _requestsRecent.isEmpty)
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 40),
+                            child: _isLoading
+                                ? Container(
+                                    height: 200,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      color: ColorSchemes.border,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  )
+                                : CustomEmptyListWidget(
+                                    text: S.of(context).noRequestsFound,
+                                    isRefreshable: true,
+                                    onRefresh: () =>
+                                        _bloc.add(GetConsumerRequestsEvent()),
+                                    imagePath: ImagePaths.emptyProject,
+                                  ),
+                          ),
+                        ),
+                      if (_isOld && _requestsOld.isNotEmpty ||
+                          !_isOld && _requestsRecent.isNotEmpty)
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           padding: const EdgeInsets.symmetric(
                             vertical: 8,
                             horizontal: 16,
@@ -139,9 +157,10 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                             if (SystemType.isExtinguisherType(
                                 request.requestType)) {
                               return _buildFireExtinguisherCard(
-                                  context,
-                                  request,
-                                  Key(request.requestNumber.toString()));
+                                context,
+                                request,
+                                Key(request.requestNumber.toString()),
+                              );
                             }
                             return _buildRequestCard(
                               context,
@@ -150,8 +169,8 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                             );
                           },
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -199,7 +218,9 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
           const SizedBox(height: 10),
           SizedBox(
             height: 42.h,
-            child: TextField(
+            child: TextFormField(
+              controller: _searchController,
+              onChanged: _onSearchChanged,
               decoration: InputDecoration(
                 hintText: s.searchHint,
                 prefixIcon: Padding(
@@ -268,6 +289,38 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
         ],
       ),
     );
+  }
+
+  void _onSearchChanged(String value) {
+    final query = value.toLowerCase().trim();
+
+    if (query.isEmpty) {
+      _bloc.add(GetConsumerRequestsEvent());
+      return;
+    }
+
+    final filtered =
+        (_isOld ? _tempRequestsOld : _tempRequestsRecent).where((element) {
+      final requestNumber = element.requestNumber.toString().toLowerCase();
+      final requestType = element.requestType.toLowerCase();
+      final branchName = element.branch.branchName.toLowerCase();
+      final status = element.providers.isNotEmpty
+          ? element.providers.first.status.toLowerCase()
+          : '';
+
+      return requestNumber.contains(query) ||
+          requestType.contains(query) ||
+          branchName.contains(query) ||
+          status.contains(query);
+    }).toList();
+
+    setState(() {
+      if (_isOld) {
+        _requestsOld = filtered;
+      } else {
+        _requestsRecent = filtered;
+      }
+    });
   }
 
   Widget _statusTab(

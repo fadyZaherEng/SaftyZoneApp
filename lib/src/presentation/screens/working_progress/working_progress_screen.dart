@@ -8,7 +8,6 @@ import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
-import 'package:safety_zone/src/domain/entities/home/requests.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
@@ -34,6 +33,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
 
   List<ScheduleJop> _workingProgress = [];
+  final List<ScheduleJop> _tempWorkingProgress = [];
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -89,79 +90,69 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             body: SafeArea(
               child: Skeletonizer(
                 enabled: _isLoading,
-                child: Column(
-                  children: [
-                    _buildSearchSection(context),
-                    if (_workingProgress.isEmpty)
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 40),
-                          child: _isLoading
-                              ? Container(
-                                  height: 200.h,
-                                  width: 200.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade300,
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                )
-                              : CustomEmptyListWidget(
-                                  text: S.of(context).noRequestsFound,
-                                  isRefreshable: true,
-                                  onRefresh: () => _bloc.add(
-                                    GetScheduleJobInProgressEvent(
-                                      status:
-                                          ScheduleJobStatusEnum.inProgress.name,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildSearchSection(context),
+                      if (_workingProgress.isEmpty)
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 40),
+                            child: _isLoading
+                                ? Container(
+                                    height: 200.h,
+                                    width: 200.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      borderRadius: BorderRadius.circular(6),
                                     ),
+                                  )
+                                : CustomEmptyListWidget(
+                                    text: S.of(context).noRequestsFound,
+                                    isRefreshable: true,
+                                    onRefresh: () => _bloc.add(
+                                      GetScheduleJobInProgressEvent(
+                                        status: ScheduleJobStatusEnum
+                                            .inProgress.name,
+                                      ),
+                                    ),
+                                    imagePath: ImagePaths.emptyProject,
                                   ),
-                                  imagePath: ImagePaths.emptyProject,
-                                ),
+                          ),
                         ),
-                      ),
-                    if (_workingProgress.isNotEmpty)
-                      Expanded(
-                        child: ListView.builder(
+                      if (_workingProgress.isNotEmpty)
+                        ListView.builder(
                           padding: const EdgeInsets.symmetric(
                             vertical: 8,
                             horizontal: 16,
                           ),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: _workingProgress.length,
                           itemBuilder: (context, index) {
                             final request = _workingProgress[index];
+                            final key = Key(request.Id.toString());
                             if (request.type ==
                                     RequestType.InstallationCertificate.name ||
                                 request.type ==
                                     RequestType.EngineeringInspection.name) {
                               return _buildFawryRequestCard(
-                                context,
-                                request,
-                                Key(request.Id.toString()),
-                              );
+                                  context, request, key);
                             } else if (request.type ==
                                 RequestType.MaintenanceContract.name) {
                               return _buildMaintenanceRequestCard(
-                                context,
-                                request,
-                                Key(request.Id.toString()),
-                              );
+                                  context, request, key);
                             } else if (request.type ==
                                 RequestType.FireExtinguisher.name) {
                               return _buildFireExtinguisherRequestCard(
-                                context,
-                                request,
-                                Key(request.Id.toString()),
-                              );
+                                  context, request, key);
                             } else {
-                              return _buildRequestCard(
-                                context,
-                                request,
-                                Key(request.Id.toString()),
-                              );
+                              return _buildRequestCard(context, request, key);
                             }
                           },
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -199,7 +190,9 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
           const SizedBox(height: 10),
           SizedBox(
             height: 42.h,
-            child: TextField(
+            child: TextFormField(
+              controller: _searchController,
+              onChanged: _onSearchChanged,
               decoration: InputDecoration(
                 hintText: s.searchHint,
                 prefixIcon: Padding(
@@ -252,6 +245,33 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
         ],
       ),
     );
+  }
+
+  void _onSearchChanged(String value) {
+    final query = value.toLowerCase().trim();
+
+    if (query.isEmpty) {
+      _bloc.add(GetConsumerRequestsEvent());
+      return;
+    }
+
+    final filtered = _tempWorkingProgress.where((element) {
+      final requestNumber = element.requestNumber.toString().toLowerCase();
+      final requestType = element.type.toLowerCase();
+      final branchName = element.branch.branchName.toLowerCase();
+      final status = element.status.toLowerCase();
+      final providerName = element.provider.toLowerCase();
+
+      return requestNumber.contains(query) ||
+          requestType.contains(query) ||
+          branchName.contains(query) ||
+          status.contains(query) ||
+          providerName.contains(query);
+    }).toList();
+
+    setState(() {
+      _workingProgress = filtered;
+    });
   }
 
   Widget _buildRequestCard(BuildContext context, ScheduleJop request, Key key) {

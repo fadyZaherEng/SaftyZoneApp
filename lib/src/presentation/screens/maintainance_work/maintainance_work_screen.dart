@@ -30,11 +30,13 @@ class MaintainanceWorkScreen extends BaseStatefulWidget {
 }
 
 class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
-  final List<ScheduleJop> _workingProgress = [];
+  List<ScheduleJop> _workingProgress = [];
+  final List<ScheduleJop> _tempWorkingProgress = [];
   bool _isLoading = true;
   bool _isComplete = false;
   bool _isAll = true;
   bool _isProgress = false;
+  final TextEditingController _searchController = TextEditingController();
 
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
 
@@ -53,6 +55,8 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
       } else if (state is ScheduleJobSuccessState) {
         _workingProgress.clear();
         _workingProgress.addAll(state.scheduleJob);
+        _tempWorkingProgress.clear();
+        _tempWorkingProgress.addAll(state.scheduleJob);
         _isLoading = false;
       } else if (state is ScheduleJobErrorState) {
         _isLoading = false;
@@ -81,32 +85,34 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
         body: SafeArea(
           child: Skeletonizer(
             enabled: _isLoading,
-            child: Column(
-              children: [
-                _buildSearchSection(context),
-                if (_workingProgress.isEmpty)
-                  Center(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
-                        child: _isLoading
-                            ? Container(
-                                height: 200.h,
-                                width: 200.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade300,
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                              )
-                            : CustomEmptyListWidget(
-                                text: S.of(context).noRequestsFound,
-                                isRefreshable: true,
-                                onRefresh: () =>
-                                    _bloc.add(GetScheduleJobEvent(status: "")),
-                                imagePath: ImagePaths.emptyProject,
-                              )),
-                  ),
-                Expanded(
-                  child: ListView.builder(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _buildSearchSection(context),
+                  if (_workingProgress.isEmpty)
+                    Center(
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 40),
+                          child: _isLoading
+                              ? Container(
+                                  height: 200.h,
+                                  width: 200.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade300,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                )
+                              : CustomEmptyListWidget(
+                                  text: S.of(context).noRequestsFound,
+                                  isRefreshable: true,
+                                  onRefresh: () => _bloc
+                                      .add(GetScheduleJobEvent(status: "")),
+                                  imagePath: ImagePaths.emptyProject,
+                                )),
+                    ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     padding:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     itemCount: _workingProgress.length,
@@ -138,8 +144,8 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       }
                     },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -175,7 +181,9 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
           const SizedBox(height: 10),
           SizedBox(
             height: 42.h,
-            child: TextField(
+            child: TextFormField(
+              controller: _searchController,
+              onChanged: _onSearchChanged,
               decoration: InputDecoration(
                 hintText: s.searchHint,
                 prefixIcon: Padding(
@@ -288,6 +296,33 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
         ],
       ),
     );
+  }
+
+  void _onSearchChanged(String value) {
+    final query = value.toLowerCase().trim();
+
+    if (query.isEmpty) {
+      _bloc.add(GetConsumerRequestsEvent());
+      return;
+    }
+
+    final filtered = _tempWorkingProgress.where((element) {
+      final requestNumber = element.requestNumber.toString().toLowerCase();
+      final requestType = element.type.toLowerCase();
+      final branchName = element.branch.branchName.toLowerCase();
+      final status = element.status.toLowerCase();
+      final providerName = element.provider.toLowerCase();
+
+      return requestNumber.contains(query) ||
+          requestType.contains(query) ||
+          branchName.contains(query) ||
+          status.contains(query) ||
+          providerName.contains(query);
+    }).toList();
+
+    setState(() {
+      _workingProgress = filtered;
+    });
   }
 
   Widget _statusTab(
