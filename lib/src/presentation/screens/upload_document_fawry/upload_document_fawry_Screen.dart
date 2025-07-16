@@ -38,6 +38,7 @@ class _UploadDocumentFawryScreenState
   bool _dotsOpen = false;
   bool _isExpandedUpload = false;
   String? imageFile;
+  String? finalPath;
   String? fileSize;
 
   UploadDocBloc get uploadDocBloc => BlocProvider.of<UploadDocBloc>(context);
@@ -50,6 +51,7 @@ class _UploadDocumentFawryScreenState
           hideLoading();
           _isExpandedUpload = true;
           imageFile = state.url;
+          finalPath = state.url;
           showSnackBar(
             context: context,
             message: state.url,
@@ -75,6 +77,23 @@ class _UploadDocumentFawryScreenState
             color: ColorSchemes.success,
             icon: ImagePaths.success,
           );
+        } else if (state is UploadDocDeleteErrorState) {
+          hideLoading();
+          showSnackBar(
+            context: context,
+            message: state.message,
+            color: ColorSchemes.warning,
+            icon: ImagePaths.error,
+          );
+        } else if (state is UploadDocApiSuccessState) {
+          hideLoading();
+          showSnackBar(
+            context: context,
+            message: S.of(context).uploadDocumentSuccess,
+            color: ColorSchemes.success,
+            icon: ImagePaths.success,
+          );
+          Navigator.pop(context);
         }
       },
       builder: (context, state) {
@@ -283,11 +302,8 @@ class _UploadDocumentFawryScreenState
                                         height: 48.h,
                                         child: InkWell(
                                           onTap: () {
-                                            uploadDocBloc.add(
-                                              DeleteDocEvent(
-                                                docPath: imageFile ?? '',
-                                              ),
-                                            );
+                                            uploadDocBloc.add(DeleteDocEvent(
+                                                docPath: imageFile ?? ''));
                                             setState(() {
                                               _dotsOpen = false;
                                               _isExpandedUpload = false;
@@ -338,9 +354,13 @@ class _UploadDocumentFawryScreenState
                     child: CustomButtonWidget(
                       backgroundColor: ColorSchemes.primary,
                       borderColor: ColorSchemes.primary,
-                      text: S.of(context).uploadLicenseDoc,
+                      text: finalPath == null
+                          ? S.of(context).uploadLicenseDoc
+                          : S.of(context).submit,
                       textColor: ColorSchemes.white,
-                      onTap: () => _uploadLicenseDoc(context, widget.request),
+                      onTap: () => finalPath != null
+                          ? _uploadApiDoc(context, widget.request)
+                          : _uploadLicenseDoc(context, widget.request),
                     ),
                   ),
                   SizedBox(height: 88.h),
@@ -523,15 +543,7 @@ class _UploadDocumentFawryScreenState
         //ToDO: Save File
         fileSize = "${(await getFileSize(imageFile)).toStringAsFixed(2)} mb";
         // ToDO: Upload File in Server
-        uploadDocBloc.add(
-          UploadDocumentEvent(
-              docPath: imageFile.path,
-              request: RequestCertificateInstallation(
-                branch: widget.request.branch.Id,
-                consumer: widget.request.consumer,
-                scheduleJob: widget.request.Id,
-              )),
-        );
+        uploadDocBloc.add(UploadDocumentEvent(docPath: imageFile.path));
       }
     } else {
       hideLoading();
@@ -569,5 +581,19 @@ class _UploadDocumentFawryScreenState
       return await file.length() / 1024;
     }
     return 0;
+  }
+
+  _uploadApiDoc(BuildContext context, ScheduleJop request) {
+    showLoading();
+    uploadDocBloc.add(
+      UploadDocumentAPiEvent(
+        request: RequestCertificateInstallation(
+          branch: widget.request.branch.Id,
+          consumer: widget.request.consumer,
+          scheduleJob: widget.request.Id,
+          file: finalPath,
+        ),
+      ),
+    );
   }
 }

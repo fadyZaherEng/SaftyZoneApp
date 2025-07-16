@@ -9,10 +9,16 @@ final class UploadDocLoadingState extends UploadDocState {}
 
 final class UploadDocSuccessState extends UploadDocState {
   final String url;
-  final RemoteCertificateInsatllation remoteCertificateInsatllation;
 
   UploadDocSuccessState({
     required this.url,
+   });
+}
+
+final class UploadDocApiSuccessState extends UploadDocState {
+  final RemoteCertificateInsatllation remoteCertificateInsatllation;
+
+  UploadDocApiSuccessState({
     required this.remoteCertificateInsatllation,
   });
 }
@@ -46,6 +52,7 @@ final class UploadDocUpdateSuccessState extends UploadDocState {
 
   UploadDocUpdateSuccessState({required this.url});
 }
+
 
 final class UploadDocUpdateErrorState extends UploadDocState {
   final String message;

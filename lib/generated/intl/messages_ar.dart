@@ -615,6 +615,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "storagePermissionIsRequiredToProceed":
             MessageLookupByLibrary.simpleMessage(
                 "تحتاج الى صلاحية المخزن للمتابعة"),
+        "submit": MessageLookupByLibrary.simpleMessage("تقديم"),
         "submitAPriceOfferForInstantPermitIssuance":
             MessageLookupByLibrary.simpleMessage(
                 "تقديم عرض سعر إصدار رخصة فورية"),
@@ -688,6 +689,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "uploadDocument": MessageLookupByLibrary.simpleMessage("تحميل"),
         "uploadDocumentHint": MessageLookupByLibrary.simpleMessage(
             "يرجى تحميل نسخة ممسوحة ضوئيًا من المستند"),
+        "uploadDocumentSuccess":
+            MessageLookupByLibrary.simpleMessage("تم تحميل المستند بنجاح"),
         "uploadInvoice": MessageLookupByLibrary.simpleMessage("تحميل فاتورة"),
         "uploadLicenseDoc":
             MessageLookupByLibrary.simpleMessage("رفع مستند الرخصة الفورية"),

@@ -457,5 +457,7 @@
   "receivedCount": "العدد المستلم",
   "fireExtinguishersRepairOffer": "عرض إصلاح طفايات الحريق",
   "fireExtinguishersDelivery": "تسليم الطفايات",
-  "expiryDate": "تاريخ الانتهاء"
+  "expiryDate": "تاريخ الانتهاء",
+  "submit": "تقديم",
+  "uploadDocumentSuccess": "تم تحميل المستند بنجاح"
 }

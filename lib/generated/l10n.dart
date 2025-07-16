@@ -4653,6 +4653,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Submit`
+  String get submit {
+    return Intl.message(
+      'Submit',
+      name: 'submit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Document uploaded successfully`
+  String get uploadDocumentSuccess {
+    return Intl.message(
+      'Document uploaded successfully',
+      name: 'uploadDocumentSuccess',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

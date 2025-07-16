@@ -29,6 +29,7 @@ class UploadDocBloc extends Bloc<UploadDocEvent, UploadDocState> {
     this._certificateInstallationsUseCase,
   ) : super(UploadDocInitial()) {
     on<UploadDocumentEvent>(_onUploadDocumentEvent);
+    on<UploadDocumentAPiEvent>(_onUploadDocumentAPiEvent);
     on<DeleteDocEvent>(_onDeleteDocEvent);
     on<EditDocEvent>(_onEditDocEvent);
   }
@@ -45,19 +46,8 @@ class UploadDocBloc extends Bloc<UploadDocEvent, UploadDocState> {
         result.data?.first.presignedURL ?? '',
       );
       if (isSuccess) {
-        final resultUpload = await _certificateInstallationsUseCase(
-          request: event.request.copyWith(
-            file: result.data?.first.mediaUrl,
-          ),
-        );
-        if (resultUpload is DataFailed) {
-          emit(UploadDocErrorState(message: resultUpload.message ?? ''));
-          return;
-        }
         emit(UploadDocSuccessState(
           url: result.data?.first.mediaUrl ?? '',
-          remoteCertificateInsatllation:
-              resultUpload.data ?? RemoteCertificateInsatllation(),
         ));
       } else {
         emit(UploadDocErrorState(message: "Upload failed"));
@@ -74,4 +64,19 @@ class UploadDocBloc extends Bloc<UploadDocEvent, UploadDocState> {
 
   FutureOr<void> _onEditDocEvent(
       EditDocEvent event, Emitter<UploadDocState> emit) {}
+
+  FutureOr<void> _onUploadDocumentAPiEvent(
+      UploadDocumentAPiEvent event, Emitter<UploadDocState> emit) async {
+    final resultUpload = await _certificateInstallationsUseCase(
+      request: event.request,
+    );
+    if (resultUpload is DataFailed) {
+      emit(UploadDocErrorState(message: resultUpload.message ?? ''));
+      return;
+    }
+    emit(UploadDocApiSuccessState(
+      remoteCertificateInsatllation:
+          resultUpload.data ?? RemoteCertificateInsatllation(),
+    ));
+  }
 }

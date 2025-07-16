@@ -457,7 +457,9 @@
   "fireExtinguishersRepairOffer": "Fire Extinguishers Repair Offer",
   "fireExtinguishersDelivery": "Fire Extinguishers Delivery",
   "expiryDate": "Expiry Date",
-  "engineeringReportForCompany": "Engineering Report For Company"
+  "engineeringReportForCompany": "Engineering Report For Company",
+  "submit": "Submit",
+  "uploadDocumentSuccess": "Document uploaded successfully"
 
 }
 

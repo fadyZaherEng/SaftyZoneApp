@@ -640,6 +640,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "storagePermissionIsRequiredToProceed":
             MessageLookupByLibrary.simpleMessage(
                 "Storage permission is required to proceed"),
+        "submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "submitAPriceOfferForInstantPermitIssuance":
             MessageLookupByLibrary.simpleMessage(
                 "Submit a Price Offer for Instant Permit Issuance"),
@@ -715,6 +716,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "uploadDocument": MessageLookupByLibrary.simpleMessage("Upload"),
         "uploadDocumentHint": MessageLookupByLibrary.simpleMessage(
             "Please upload a scanned copy of the document"),
+        "uploadDocumentSuccess": MessageLookupByLibrary.simpleMessage(
+            "Document uploaded successfully"),
         "uploadInvoice": MessageLookupByLibrary.simpleMessage("Upload Invoice"),
         "uploadLicenseDoc": MessageLookupByLibrary.simpleMessage(
             "Upload Instant License Document"),
