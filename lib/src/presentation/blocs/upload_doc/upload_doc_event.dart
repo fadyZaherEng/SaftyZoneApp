@@ -13,9 +13,11 @@ final class EditDocEvent extends UploadDocEvent {
 
 final class UploadDocumentEvent extends UploadDocEvent {
   final String docPath;
+  final RequestCertificateInstallation request;
 
   UploadDocumentEvent({
     required this.docPath,
+    required this.request,
   });
 }
 

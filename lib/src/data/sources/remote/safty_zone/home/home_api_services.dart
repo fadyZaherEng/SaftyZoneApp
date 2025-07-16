@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_certificate_insatllation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_send_price.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/schedule_jop_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
 
@@ -16,8 +18,8 @@ abstract class HomeApiServices {
 
   @GET(APIKeys.consumerRequests)
   Future<HttpResponse<List<RemoteRequests>>> getConsumerRequests(
-      @Header("Authorization") String token,
-      @Query("provider_status") String providerStatus,
+    @Header("Authorization") String token,
+    @Query("provider_status") String providerStatus,
   );
 
   @GET(APIKeys.getConsumerRequestDetails)
@@ -39,5 +41,12 @@ abstract class HomeApiServices {
   @GET(APIKeys.scheduleJob)
   Future<HttpResponse<List<RemoteScheduleJop>>> scheduleJobAll(
     @Body() ScheduleJopRequest request,
+  );
+
+  @POST(APIKeys.certificateOfEquipmentInstallations)
+  Future<HttpResponse<RemoteCertificateInsatllation>>
+      certificateOfEquipmentInstallations(
+    @Header("Authorization") String token,
+    @Body() RequestCertificateInstallation request,
   );
 }

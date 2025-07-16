@@ -5,11 +5,14 @@ import 'package:bloc/bloc.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/core/utils/upload_file_to_server.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/auth/entity/remote_generate_url.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_certificate_insatllation.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/domain/usecase/auth/generate_file_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/auth/generate_image_use_case.dart';
 import 'package:meta/meta.dart';
 
 import 'package:flutter/material.dart';
+import 'package:safety_zone/src/domain/usecase/home/certificate_installation_use_case.dart';
 
 part 'upload_doc_event.dart';
 
@@ -18,10 +21,12 @@ part 'upload_doc_state.dart';
 class UploadDocBloc extends Bloc<UploadDocEvent, UploadDocState> {
   final GenerateFileUrlUseCase _generateFileUrlUseCase;
   final GenerateImageUrlUseCase _generateImageUrlUseCase;
+  final CertificateInstallationsUseCase _certificateInstallationsUseCase;
 
   UploadDocBloc(
     this._generateFileUrlUseCase,
     this._generateImageUrlUseCase,
+    this._certificateInstallationsUseCase,
   ) : super(UploadDocInitial()) {
     on<UploadDocumentEvent>(_onUploadDocumentEvent);
     on<DeleteDocEvent>(_onDeleteDocEvent);
@@ -40,7 +45,20 @@ class UploadDocBloc extends Bloc<UploadDocEvent, UploadDocState> {
         result.data?.first.presignedURL ?? '',
       );
       if (isSuccess) {
-        emit(UploadDocSuccessState(url: result.data?.first.mediaUrl ?? ''));
+        final resultUpload = await _certificateInstallationsUseCase(
+          request: event.request.copyWith(
+            file: result.data?.first.mediaUrl,
+          ),
+        );
+        if (resultUpload is DataFailed) {
+          emit(UploadDocErrorState(message: resultUpload.message ?? ''));
+          return;
+        }
+        emit(UploadDocSuccessState(
+          url: result.data?.first.mediaUrl ?? '',
+          remoteCertificateInsatllation:
+              resultUpload.data ?? RemoteCertificateInsatllation(),
+        ));
       } else {
         emit(UploadDocErrorState(message: "Upload failed"));
       }

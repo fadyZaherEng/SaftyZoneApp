@@ -26,6 +26,7 @@ Future<void> initializeBlocDependencies() async {
   injector.registerFactory<UploadDocBloc>(() => UploadDocBloc(
         injector(),
         injector(),
+        injector(),
       ));
   injector.registerFactory<RequestsBloc>(() => RequestsBloc(
         injector(),

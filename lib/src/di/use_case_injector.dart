@@ -18,6 +18,7 @@ import 'package:safety_zone/src/domain/usecase/get_theme_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_user_login_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_user_verification_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/getauthenticate_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/certificate_installation_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_details_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/schedule_all_jop_use_case.dart';
@@ -97,4 +98,6 @@ Future<void> initializeUseCaseDependencies() async {
       () => SetUserLoginDataUseCase(injector()));
   injector.registerFactory<ScheduleJobAllUseCase>(
       () => ScheduleJobAllUseCase(injector()));
+  injector.registerFactory<CertificateInstallationsUseCase>(
+      () => CertificateInstallationsUseCase(injector()));
 }

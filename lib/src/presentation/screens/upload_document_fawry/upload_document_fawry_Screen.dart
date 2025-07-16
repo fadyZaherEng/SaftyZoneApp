@@ -12,6 +12,7 @@ import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/permission_service_handler.dart';
 import 'package:safety_zone/src/core/utils/show_action_dialog_widget.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
@@ -46,6 +47,7 @@ class _UploadDocumentFawryScreenState
     return BlocConsumer<UploadDocBloc, UploadDocState>(
       listener: (context, state) {
         if (state is UploadDocSuccessState) {
+          hideLoading();
           _isExpandedUpload = true;
           imageFile = state.url;
           showSnackBar(
@@ -55,6 +57,7 @@ class _UploadDocumentFawryScreenState
             icon: ImagePaths.success,
           );
         } else if (state is UploadDocErrorState) {
+          hideLoading();
           showSnackBar(
             context: context,
             message: state.message,
@@ -62,6 +65,7 @@ class _UploadDocumentFawryScreenState
             icon: ImagePaths.error,
           );
         } else if (state is UploadDocDeleteSuccessState) {
+          hideLoading();
           imageFile = null;
           _isExpandedUpload = false;
           _dotsOpen = false;
@@ -519,9 +523,16 @@ class _UploadDocumentFawryScreenState
         //ToDO: Save File
         fileSize = "${(await getFileSize(imageFile)).toStringAsFixed(2)} mb";
         // ToDO: Upload File in Server
-        uploadDocBloc.add(UploadDocumentEvent(docPath: imageFile.path));
+        uploadDocBloc.add(
+          UploadDocumentEvent(
+              docPath: imageFile.path,
+              request: RequestCertificateInstallation(
+                branch: widget.request.branch.Id,
+                consumer: widget.request.consumer,
+                scheduleJob: widget.request.Id,
+              )),
+        );
       }
-      hideLoading();
     } else {
       hideLoading();
       _dialogMessage(
