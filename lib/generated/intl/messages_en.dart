@@ -535,6 +535,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "rememberMe": MessageLookupByLibrary.simpleMessage("Remember Me"),
         "rememberme": MessageLookupByLibrary.simpleMessage("Remember me"),
         "renewContract": MessageLookupByLibrary.simpleMessage("Renew Contract"),
+        "repairCost": MessageLookupByLibrary.simpleMessage("Repair Cost"),
         "reportWriting": MessageLookupByLibrary.simpleMessage("Report Writing"),
         "reports": MessageLookupByLibrary.simpleMessage("Reports"),
         "requestNumber": MessageLookupByLibrary.simpleMessage("Request No."),

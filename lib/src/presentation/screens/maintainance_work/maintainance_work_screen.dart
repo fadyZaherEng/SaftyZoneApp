@@ -8,8 +8,10 @@ import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
@@ -92,23 +94,24 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                   if (_workingProgress.isEmpty)
                     Center(
                       child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 40),
-                          child: _isLoading
-                              ? Container(
-                                  height: 200.h,
-                                  width: 200.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade300,
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                )
-                              : CustomEmptyListWidget(
-                                  text: S.of(context).noRequestsFound,
-                                  isRefreshable: true,
-                                  onRefresh: () => _bloc
-                                      .add(GetScheduleJobEvent(status: "")),
-                                  imagePath: ImagePaths.emptyProject,
-                                )),
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        child: _isLoading
+                            ? Container(
+                                height: 200.h,
+                                width: 200.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              )
+                            : CustomEmptyListWidget(
+                                text: S.of(context).noRequestsFound,
+                                isRefreshable: true,
+                                onRefresh: () =>
+                                    _bloc.add(GetScheduleJobEvent(status: "")),
+                                imagePath: ImagePaths.emptyProject,
+                              ),
+                      ),
                     ),
                   ListView.builder(
                     shrinkWrap: true,
@@ -550,7 +553,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                 borderColor: ColorSchemes.grey,
                 text: S.of(context).submitQuotation,
                 textColor: ColorSchemes.primary,
-                onTap: () => _goToLocation(context, request),
+                onTap: () {},
               ),
             ),
             const SizedBox(height: 8),
@@ -562,7 +565,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                 borderColor: ColorSchemes.grey,
                 text: S.of(context).deliverExtinguishers,
                 textColor: ColorSchemes.primary,
-                onTap: () => _goToLocation(context, request),
+                onTap: () {},
               ),
             ),
             const SizedBox(height: 8),
@@ -650,14 +653,14 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              S.of(context).viewMoreInfo,
-              style: TextStyle(
-                color: ColorSchemes.red,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
-              ),
-            ),
+            // Text(
+            //   S.of(context).viewMoreInfo,
+            //   style: TextStyle(
+            //     color: ColorSchemes.red,
+            //     fontWeight: FontWeight.bold,
+            //     fontSize: 14.sp,
+            //   ),
+            // ),
             Divider(),
             const SizedBox(height: 8),
             Row(
@@ -970,6 +973,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
   }
 
   void _goToLocation(BuildContext context, ScheduleJop request) async {
+    await GoToLocationUseCase(injector())(id: request.Id);
     // Handle map navigation
     await Navigator.push(
       context,

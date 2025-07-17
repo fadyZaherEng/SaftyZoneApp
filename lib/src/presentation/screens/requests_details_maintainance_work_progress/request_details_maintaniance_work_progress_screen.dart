@@ -10,6 +10,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart';
 import 'package:safety_zone/src/domain/entities/home/request_details.dart';
+import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
@@ -19,21 +20,21 @@ import 'package:safety_zone/src/presentation/screens/map_search/map_search_scree
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class RequestDetailsInstallationScreen extends BaseStatefulWidget {
-  final String requestId;
+class RequestDetailsMaintainanceWorkProgressScreen extends BaseStatefulWidget {
+ final ScheduleJop workingProgress ;
 
-  const RequestDetailsInstallationScreen({
+  const RequestDetailsMaintainanceWorkProgressScreen({
     super.key,
-    required this.requestId,
+    required this.workingProgress,
   });
 
   @override
-  BaseState<RequestDetailsInstallationScreen> baseCreateState() =>
-      _RequestDetailsInstallationScreenState();
+  BaseState<RequestDetailsMaintainanceWorkProgressScreen> baseCreateState() =>
+      _RequestDetailsMaintainanceWorkProgressScreenState();
 }
 
-class _RequestDetailsInstallationScreenState
-    extends BaseState<RequestDetailsInstallationScreen>
+class _RequestDetailsMaintainanceWorkProgressScreenState
+    extends BaseState<RequestDetailsMaintainanceWorkProgressScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _priceController = TextEditingController();
@@ -50,8 +51,7 @@ class _RequestDetailsInstallationScreenState
 
   @override
   void initState() {
-    _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
-    _bloc.add(GetEmployeesEvent());
+     _bloc.add(GetEmployeesEvent());
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {

@@ -459,7 +459,8 @@
   "expiryDate": "Expiry Date",
   "engineeringReportForCompany": "Engineering Report For Company",
   "submit": "Submit",
-  "uploadDocumentSuccess": "Document uploaded successfully"
+  "uploadDocumentSuccess": "Document uploaded successfully",
+  "repairCost": "Repair Cost"
 
 }
 

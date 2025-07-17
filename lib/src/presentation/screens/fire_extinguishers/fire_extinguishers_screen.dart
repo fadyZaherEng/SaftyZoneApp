@@ -289,7 +289,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                     children: [
                       const SizedBox(height: 12),
                       _buildInputField(
-                        label: s.availableAtClient,
+                        label:_isSecondPage ? s.repairCost : s.availableAtClient,
                         value: clientCount,
                         path: ImagePaths.quality,
                       ),
@@ -460,7 +460,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
     );
   }
 
-  _getPageTitle() {
+  String _getPageTitle() {
     if (_isFirstPage) {
       return S.of(context).fireExtinguisherReportTitle;
     } else {

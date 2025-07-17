@@ -514,6 +514,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "rememberMe": MessageLookupByLibrary.simpleMessage("تذكرني"),
         "rememberme": MessageLookupByLibrary.simpleMessage("تذكرني"),
         "renewContract": MessageLookupByLibrary.simpleMessage("تجديد العقد"),
+        "repairCost": MessageLookupByLibrary.simpleMessage("تكلفة الاصلاح"),
         "reportWriting": MessageLookupByLibrary.simpleMessage("كتابة التقرير"),
         "reports": MessageLookupByLibrary.simpleMessage("التقارير"),
         "requestNumber": MessageLookupByLibrary.simpleMessage("رقم الطلب"),

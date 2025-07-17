@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_certificate_insatllation.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_go_to_location.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
@@ -48,5 +49,11 @@ abstract class HomeApiServices {
       certificateOfEquipmentInstallations(
     @Header("Authorization") String token,
     @Body() RequestCertificateInstallation request,
+  );
+
+  @PUT(APIKeys.goToLocation)
+  Future<HttpResponse<RemoteGoToLocation>> goToLocation(
+    @Header("Authorization") String token,
+    @Path("id") String id,
   );
 }

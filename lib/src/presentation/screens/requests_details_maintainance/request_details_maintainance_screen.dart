@@ -11,6 +11,7 @@ import 'package:safety_zone/src/domain/entities/home/request_details.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
+import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
@@ -277,6 +278,9 @@ class _RequestDetailsMaintainanceScreenState
                       textColor: Colors.white,
                       text: s.openMap,
                       onTap: () async {
+                        await GoToLocationUseCase(injector())(
+                            id: model.result.Id);
+
                         // Handle map navigation
                         await Navigator.push(
                           context,
@@ -678,13 +682,12 @@ class _RequestDetailsMaintainanceScreenState
   }
 
   Widget _buildTermsTab() {
-
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Row(
+          Row(
             children: [
               SvgPicture.asset(
                 ImagePaths.technical,
@@ -980,7 +983,7 @@ class _RequestDetailsMaintainanceScreenState
         _itemsAlarm.add(item);
       } else if (SystemType.isFireType(item.itemId.type)) {
         _itemsFire.add(item);
-      }else if (SystemType.isExtinguisherType(item.itemId.type)) {
+      } else if (SystemType.isExtinguisherType(item.itemId.type)) {
         _itemsExtinguishers.add(item);
       }
     }

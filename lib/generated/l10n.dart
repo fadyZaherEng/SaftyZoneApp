@@ -4673,6 +4673,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Repair Cost`
+  String get repairCost {
+    return Intl.message(
+      'Repair Cost',
+      name: 'repairCost',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

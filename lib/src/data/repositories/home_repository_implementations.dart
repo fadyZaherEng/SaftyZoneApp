@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_certificate_insatllation.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_go_to_location.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
@@ -155,6 +156,32 @@ class HomeRepositoryImplementations extends HomeRepository {
           await _homeApiServices.certificateOfEquipmentInstallations(
         GetTokenUseCase(injector())(),
         request,
+      );
+      if (((httpResponse.response.statusCode ?? 400) == 201) ||
+          (httpResponse.response.statusCode ?? 400) == 200) {
+        return DataSuccess(
+          data: httpResponse.data,
+          message: httpResponse.response.statusMessage ?? "",
+        );
+      }
+
+      return DataFailed(message: httpResponse.response.statusMessage ?? "");
+    } on DioException catch (e) {
+      return DataFailed(
+        error: e,
+        message: S.current.badResponse,
+      );
+    }
+  }
+
+  @override
+  Future<DataState<RemoteGoToLocation>> goToLocation({
+    required String id,
+  }) async {
+    try {
+      final httpResponse = await _homeApiServices.goToLocation(
+        GetTokenUseCase(injector())(),
+        id,
       );
       if (((httpResponse.response.statusCode ?? 400) == 201) ||
           (httpResponse.response.statusCode ?? 400) == 200) {

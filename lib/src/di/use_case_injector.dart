@@ -21,6 +21,7 @@ import 'package:safety_zone/src/domain/usecase/getauthenticate_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/certificate_installation_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_details_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/schedule_all_jop_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/schedule_jop_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/send_offer_price_use_case.dart';
@@ -100,4 +101,6 @@ Future<void> initializeUseCaseDependencies() async {
       () => ScheduleJobAllUseCase(injector()));
   injector.registerFactory<CertificateInstallationsUseCase>(
       () => CertificateInstallationsUseCase(injector()));
+  injector.registerFactory<GoToLocationUseCase>(
+      () => GoToLocationUseCase(injector()));
 }

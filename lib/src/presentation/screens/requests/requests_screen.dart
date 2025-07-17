@@ -10,7 +10,9 @@ import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
+import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
@@ -431,8 +433,10 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                 Expanded(
                   child: InkWell(
                     onTap: () => _openMap(
-                        request.branch.location.coordinates.first,
-                        request.branch.location.coordinates.last),
+                      request.branch.location.coordinates.first,
+                      request.branch.location.coordinates.last,
+                      request.Id,
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -516,7 +520,9 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     }
   }
 
-  void _openMap(double first, double last) async {
+  void _openMap(double first, double last, String id) async {
+    await GoToLocationUseCase(injector())(id: id);
+
     await Navigator.push(
       context,
       MaterialPageRoute(

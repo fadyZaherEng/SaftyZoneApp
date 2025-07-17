@@ -459,5 +459,6 @@
   "fireExtinguishersDelivery": "تسليم الطفايات",
   "expiryDate": "تاريخ الانتهاء",
   "submit": "تقديم",
-  "uploadDocumentSuccess": "تم تحميل المستند بنجاح"
+  "uploadDocumentSuccess": "تم تحميل المستند بنجاح",
+  "repairCost": "تكلفة الاصلاح"
 }

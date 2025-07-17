@@ -8,8 +8,10 @@ import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
@@ -474,7 +476,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
-                onTap: () => _goToLocation(context, request),
+                onTap: () {},
               ),
             ),
             const SizedBox(height: 8),
@@ -482,17 +484,16 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               width: double.infinity,
               height: 36.h,
               child: CustomButtonWidget(
-                backgroundColor: ColorSchemes.white,
-                borderColor: ColorSchemes.grey,
-                text: S.of(context).deliverExtinguishers,
-                textColor: ColorSchemes.primary,
-                textStyle: TextStyle(
-                  color: ColorSchemes.primary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16.sp,
-                ),
-                onTap: () => _goToLocation(context, request),
-              ),
+                  backgroundColor: ColorSchemes.white,
+                  borderColor: ColorSchemes.grey,
+                  text: S.of(context).deliverExtinguishers,
+                  textColor: ColorSchemes.primary,
+                  textStyle: TextStyle(
+                    color: ColorSchemes.primary,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                  ),
+                  onTap: () {}),
             ),
             const SizedBox(height: 8),
           ],
@@ -579,14 +580,14 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              S.of(context).viewMoreInfo,
-              style: TextStyle(
-                color: ColorSchemes.red,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
-              ),
-            ),
+            // Text(
+            //   S.of(context).viewMoreInfo,
+            //   style: TextStyle(
+            //     color: ColorSchemes.red,
+            //     fontWeight: FontWeight.bold,
+            //     fontSize: 14.sp,
+            //   ),
+            // ),
             Divider(),
             const SizedBox(height: 8),
             Row(
@@ -922,6 +923,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
   }
 
   void _goToLocation(BuildContext context, ScheduleJop request) async {
+    await GoToLocationUseCase(injector())(id: request.Id);
+
     // Handle map navigation
     await Navigator.push(
       context,

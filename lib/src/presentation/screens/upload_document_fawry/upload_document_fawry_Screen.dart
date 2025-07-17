@@ -435,14 +435,14 @@ class _UploadDocumentFawryScreenState
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              S.of(context).fireTitle,
-              style: TextStyle(
-                color: ColorSchemes.red,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
-              ),
-            ),
+            // Text(
+            //   S.of(context).fireTitle,
+            //   style: TextStyle(
+            //     color: ColorSchemes.red,
+            //     fontWeight: FontWeight.bold,
+            //     fontSize: 14.sp,
+            //   ),
+            // ),
             Divider(),
             const SizedBox(height: 8),
             Row(
