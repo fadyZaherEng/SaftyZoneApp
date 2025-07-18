@@ -460,5 +460,7 @@
   "expiryDate": "تاريخ الانتهاء",
   "submit": "تقديم",
   "uploadDocumentSuccess": "تم تحميل المستند بنجاح",
-  "repairCost": "تكلفة الاصلاح"
+  "repairCost": "تكلفة الاصلاح",
+  "numberOfMaintainanceCompleted": "عدد الصيانات المكتملة",
+  "numberArrivedForClient": "عدد الوصول للعميل"
 }

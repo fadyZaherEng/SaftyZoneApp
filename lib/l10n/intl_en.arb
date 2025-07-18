@@ -460,7 +460,9 @@
   "engineeringReportForCompany": "Engineering Report For Company",
   "submit": "Submit",
   "uploadDocumentSuccess": "Document uploaded successfully",
-  "repairCost": "Repair Cost"
+  "repairCost": "Repair Cost",
+  "numberOfMaintainanceCompleted": "Number Of Maintainance Completed",
+  "numberArrivedForClient": "Number Arrived For Client"
 
 }
 

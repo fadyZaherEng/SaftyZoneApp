@@ -415,6 +415,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "notesHint":
             MessageLookupByLibrary.simpleMessage("مثال: لا يوجد ملاحظات"),
         "notifications": MessageLookupByLibrary.simpleMessage("الاشعارات"),
+        "numberArrivedForClient":
+            MessageLookupByLibrary.simpleMessage("عدد الوصول للعميل"),
+        "numberOfMaintainanceCompleted":
+            MessageLookupByLibrary.simpleMessage("عدد الصيانات المكتملة"),
         "numberOfVisits": MessageLookupByLibrary.simpleMessage("عدد الزيارات"),
         "ofs": MessageLookupByLibrary.simpleMessage("من"),
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),

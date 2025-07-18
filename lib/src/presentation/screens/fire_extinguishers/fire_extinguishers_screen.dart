@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +11,9 @@ import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../../core/utils/android_date_picker.dart';
+import '../../../core/utils/ios_date_picker.dart';
 
 class FireExtinguishersScreen extends BaseStatefulWidget {
   final ScheduleJop scheduleJop;
@@ -188,14 +193,37 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                         child: CustomButtonWidget(
                           text: S.of(context).expiryDate,
                           backgroundColor: ColorSchemes.white,
-                          textColor:ColorSchemes.primary,
+                          textColor: ColorSchemes.primary,
                           borderColor: ColorSchemes.border,
                           onTap: () {
-                            // setState(() {
-                            //   _isSecondPage = false;
-                            //   _isFirstPage = false;
-                            //   _isThirdPage = false;
-                            // });
+                            if (Platform.isAndroid) {
+                              androidDatePicker(
+                                context: context,
+                                firstDate: DateTime.now()
+                                    .add(const Duration(days: 180)),
+                                selectedDate: DateTime.now()
+                                    .add(const Duration(days: 180)),
+                                onSelectDate: (picked) {
+                                  setState(() {});
+                                  // Navigator.pop(context);
+                                  if (picked != null) {}
+                                },
+                              );
+                            } else {
+                              DateTime? picked;
+                              iosDatePicker(
+                                context: context,
+                                selectedDate: DateTime.now()
+                                    .add(const Duration(days: 180)),
+                                onChange: (date) => picked = date,
+                                onCancel: () => Navigator.pop(context),
+                                onDone: () {
+                                  setState(() {});
+                                  // Navigator.pop(context);
+                                  if (picked != null) {}
+                                },
+                              );
+                            }
                           },
                         ),
                       ),
@@ -289,13 +317,19 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                     children: [
                       const SizedBox(height: 12),
                       _buildInputField(
-                        label:_isSecondPage ? s.repairCost : s.availableAtClient,
+                        label: _isSecondPage
+                            ? s.repairCost
+                            : _isThirdPage
+                                ? s.numberOfMaintainanceCompleted
+                                : s.availableAtClient,
                         value: clientCount,
                         path: ImagePaths.quality,
                       ),
                       const SizedBox(height: 8),
                       _buildInputField(
-                        label: s.receivedCount,
+                        label: _isThirdPage
+                            ? s.numberArrivedForClient
+                            : s.receivedCount,
                         value: receivedCount,
                         path: ImagePaths.technical,
                       ),

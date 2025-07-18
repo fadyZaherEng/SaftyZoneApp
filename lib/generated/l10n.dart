@@ -4683,6 +4683,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Number Of Maintainance Completed`
+  String get numberOfMaintainanceCompleted {
+    return Intl.message(
+      'Number Of Maintainance Completed',
+      name: 'numberOfMaintainanceCompleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number Arrived For Client`
+  String get numberArrivedForClient {
+    return Intl.message(
+      'Number Arrived For Client',
+      name: 'numberArrivedForClient',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

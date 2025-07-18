@@ -431,6 +431,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "notesHint":
             MessageLookupByLibrary.simpleMessage("Enter your notes here ..."),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "numberArrivedForClient":
+            MessageLookupByLibrary.simpleMessage("Number Arrived For Client"),
+        "numberOfMaintainanceCompleted": MessageLookupByLibrary.simpleMessage(
+            "Number Of Maintainance Completed"),
         "numberOfVisits":
             MessageLookupByLibrary.simpleMessage("Number of Visits"),
         "ofs": MessageLookupByLibrary.simpleMessage("of"),
