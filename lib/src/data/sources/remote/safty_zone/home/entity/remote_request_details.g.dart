@@ -71,11 +71,15 @@ RemoteItems _$RemoteItemsFromJson(Map<String, dynamic> json) => RemoteItems(
       itemId: json['item_id'] == null
           ? const RemoteItemId()
           : RemoteItemId.fromJson(json['item_id'] as Map<String, dynamic>),
+      quantity: (json['quantity'] as num?)?.toInt() ?? 0,
+      id: json['_id'] as String? ?? "",
     );
 
 Map<String, dynamic> _$RemoteItemsToJson(RemoteItems instance) =>
     <String, dynamic>{
       'item_id': instance.itemId,
+      'quantity': instance.quantity,
+      '_id': instance.id,
     };
 
 RemoteItemId _$RemoteItemIdFromJson(Map<String, dynamic> json) => RemoteItemId(

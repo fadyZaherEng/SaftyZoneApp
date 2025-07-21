@@ -20,4 +20,6 @@ class APIKeys {
   static const String scheduleJob = "/api/provider/schedule-job";
   static const String certificateOfEquipmentInstallations = "/api/provider/certificate-of-equipment-installations";
   static const String goToLocation = "/api/provider/schedule-job/go-to-location/{id}";
+  static const String receiveDeliver = "/api/provider/receive-deliver";
+  static const String receiveDeliverById = "/api/provider/receive-deliver/{id}";
 }

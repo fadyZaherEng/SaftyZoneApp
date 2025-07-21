@@ -93,9 +93,15 @@ extension RemoteResultExtension on RemoteResult {
 class RemoteItems {
   @JsonKey(name: 'item_id')
   final RemoteItemId? itemId;
+  @JsonKey(name: "quantity")
+  final int? quantity;
+  @JsonKey(name: "_id")
+  final String id;
 
   const RemoteItems({
     this.itemId = const RemoteItemId(),
+    this.quantity = 0,
+    this.id = "",
   });
 
   factory RemoteItems.fromJson(Map<String, dynamic> json) =>
@@ -108,6 +114,8 @@ extension RemoteItemsExtension on RemoteItems {
   Items mapToDomain() {
     return Items(
       itemId: itemId?.mapToDomain() ?? const ItemId(),
+      quantity: quantity ?? 0,
+      id: id ?? "",
     );
   }
 }

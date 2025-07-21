@@ -588,7 +588,7 @@ class _RequestDetailsInstallationScreenState
         ...items.asMap().entries.map(
               (item) => _buildQuantityRow(
                 item.value.itemId.itemName,
-                item.value.itemId.Quntity.toString(),
+                item.value.quantity.toString(),
                 item.key == items.length - 1,
               ),
             ),

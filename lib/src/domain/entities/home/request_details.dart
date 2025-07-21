@@ -63,30 +63,32 @@ class Result extends Equatable {
 
 class Items extends Equatable {
   final ItemId itemId;
+  final int quantity;
+  final String id;
 
   const Items({
     this.itemId = const ItemId(),
+    this.quantity = 0,
+    this.id = "",
   });
 
   @override
-  List<Object?> get props => [itemId];
+  List<Object?> get props => [itemId, quantity, id];
 }
 
 class ItemId extends Equatable {
   final String Id;
   final String itemName;
   final String type;
-  final int Quntity;
 
   const ItemId({
     this.Id = "",
     this.itemName = "",
     this.type = "",
-    this.Quntity = 0,
   });
 
   @override
-  List<Object?> get props => [Id, itemName, type, Quntity];
+  List<Object?> get props => [Id, itemName, type];
 }
 
 class TermsAndConditions extends Equatable {
