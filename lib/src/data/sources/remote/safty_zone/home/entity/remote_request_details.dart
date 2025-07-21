@@ -40,10 +40,12 @@ class RemoteResult {
   final String? requestNumber;
   final String? systemType;
   final int? space;
-  final List<RemoteItems>? items;
   final String? requestType;
   final String? status;
   final int? createdAt;
+  final List<RemoteItems>? alarmItems;
+  final List<RemoteItems>? fireExtinguisherItem;
+  final List<RemoteItems>? fireSystemItem;
 
   const RemoteResult({
     this.Id = "",
@@ -52,10 +54,12 @@ class RemoteResult {
     this.requestNumber = "",
     this.systemType = "",
     this.space = 0,
-    this.items = const [],
     this.requestType = "",
     this.status = "",
     this.createdAt = 0,
+    this.alarmItems = const [],
+    this.fireExtinguisherItem = const [],
+    this.fireSystemItem = const [],
   });
 
   factory RemoteResult.fromJson(Map<String, dynamic> json) =>
@@ -73,10 +77,14 @@ extension RemoteResultExtension on RemoteResult {
       requestNumber: requestNumber ?? "",
       systemType: systemType ?? "",
       space: space ?? 0,
-      items: items?.mapToDomain() ?? const [],
       requestType: requestType ?? "",
       status: status ?? "",
       createdAt: createdAt ?? 0,
+      alarmItems: alarmItems?.map((e) => e.mapToDomain()).toList() ?? [],
+      fireExtinguisherItem:
+          fireExtinguisherItem?.map((e) => e.mapToDomain()).toList() ?? [],
+      fireSystemItem:
+          fireSystemItem?.map((e) => e.mapToDomain()).toList() ?? [],
     );
   }
 }
@@ -85,14 +93,9 @@ extension RemoteResultExtension on RemoteResult {
 class RemoteItems {
   @JsonKey(name: 'item_id')
   final RemoteItemId? itemId;
-  final int? quantity;
-  @JsonKey(name: '_id')
-  final String? Id;
 
   const RemoteItems({
     this.itemId = const RemoteItemId(),
-    this.quantity = 0,
-    this.Id = "",
   });
 
   factory RemoteItems.fromJson(Map<String, dynamic> json) =>
@@ -100,15 +103,15 @@ class RemoteItems {
 
   Map<String, dynamic> toJson() => _$RemoteItemsToJson(this);
 }
+
 extension RemoteItemsExtension on RemoteItems {
   Items mapToDomain() {
     return Items(
       itemId: itemId?.mapToDomain() ?? const ItemId(),
-      quantity: quantity ?? 0,
-      Id: Id ?? "",
     );
   }
 }
+
 extension RemoteItemsListExtension on List<RemoteItems> {
   List<Items> mapToDomain() {
     return map((e) => e.mapToDomain()).toList();
@@ -183,6 +186,7 @@ extension TermsAndConditionsExtension on RemoteTermsAndConditions {
     );
   }
 }
+
 extension TermsAndConditionsListExtension on List<RemoteTermsAndConditions> {
   List<TermsAndConditions> mapToDomain() {
     return map((e) => e.mapToDomain()).toList();
@@ -214,6 +218,7 @@ extension RemoteClauseExtension on RemoteClauses {
     );
   }
 }
+
 extension RemoteClauseListExtension on List<RemoteClauses> {
   List<Clauses> mapToDomain() {
     return map((e) => e.mapToDomain()).toList();

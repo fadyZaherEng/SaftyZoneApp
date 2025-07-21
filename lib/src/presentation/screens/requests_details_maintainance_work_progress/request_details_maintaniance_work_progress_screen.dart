@@ -21,7 +21,7 @@ import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class RequestDetailsMaintainanceWorkProgressScreen extends BaseStatefulWidget {
- final ScheduleJop workingProgress ;
+  final ScheduleJop workingProgress;
 
   const RequestDetailsMaintainanceWorkProgressScreen({
     super.key,
@@ -44,14 +44,13 @@ class _RequestDetailsMaintainanceWorkProgressScreenState
   bool _isLoading = true;
 
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
-  final List<Items> _itemsAlarm = [];
-  final List<Items> _itemsFire = [];
+
   List<Employee> _employees = [];
   Employee _selectedEmployee = Employee();
 
   @override
   void initState() {
-     _bloc.add(GetEmployeesEvent());
+    _bloc.add(GetEmployeesEvent());
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {
@@ -79,7 +78,6 @@ class _RequestDetailsMaintainanceWorkProgressScreenState
           model = state.requestDetails;
         });
         _isLoading = false;
-        _filterItems(model.result.items);
       } else if (state is GetConsumerRequestDetailsErrorState) {
         _showValidationError(state.message, false);
         _isLoading = false;
@@ -515,12 +513,12 @@ class _RequestDetailsMaintainanceWorkProgressScreenState
           children: [
             _buildQuantitySection(
               title: s.alarmItems,
-              items: _itemsAlarm,
+              items: model.result.alarmItems,
             ),
             const SizedBox(height: 16),
             _buildQuantitySection(
               title: s.extinguishingItems,
-              items: _itemsFire,
+              items: model.result.fireSystemItem,
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -590,7 +588,7 @@ class _RequestDetailsMaintainanceWorkProgressScreenState
         ...items.asMap().entries.map(
               (item) => _buildQuantityRow(
                 item.value.itemId.itemName,
-                item.value.quantity.toString(),
+                item.value.itemId.Quntity.toString(),
                 item.key == items.length - 1,
               ),
             ),
@@ -793,18 +791,5 @@ class _RequestDetailsMaintainanceWorkProgressScreenState
       color: !bool ? ColorSchemes.warning : ColorSchemes.success,
       icon: !bool ? ImagePaths.error : ImagePaths.success,
     );
-  }
-
-  void _filterItems(List<Items> items) {
-    _itemsAlarm.clear();
-    _itemsFire.clear();
-    for (var item in items) {
-      if (SystemType.isAlarmType(item.itemId.type)) {
-        _itemsAlarm.add(item);
-      } else if (SystemType.isFireType(item.itemId.type)) {
-        _itemsFire.add(item);
-      }
-    }
-    setState(() {});
   }
 }

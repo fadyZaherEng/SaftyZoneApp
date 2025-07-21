@@ -43,9 +43,7 @@ class _RequestDetailsMaintainanceScreenState
   bool _isLoading = false;
 
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
-  final List<Items> _itemsAlarm = [];
-  final List<Items> _itemsFire = [];
-  final List<Items> _itemsExtinguishers = [];
+
   List<Employee> _employees = [];
   Employee? _selectedEmployee = Employee();
 
@@ -80,7 +78,6 @@ class _RequestDetailsMaintainanceScreenState
           model = state.requestDetails;
         });
         _isLoading = false;
-        _filterItems(model.result.items);
       } else if (state is GetConsumerRequestDetailsErrorState) {
         _showValidationError(state.message, false);
         _isLoading = false;
@@ -574,17 +571,17 @@ class _RequestDetailsMaintainanceScreenState
           children: [
             _buildQuantitySection(
               title: s.alarmItems,
-              items: _itemsAlarm,
+              items: model.result.alarmItems,
             ),
             const SizedBox(height: 16),
             _buildQuantitySection(
               title: s.extinguishingItems,
-              items: _itemsFire,
+              items: model.result.fireExtinguisherItem,
             ),
             const SizedBox(height: 24),
             _buildQuantitySection(
               title: s.fireExtinguishers,
-              items: _itemsExtinguishers,
+              items: model.result.fireSystemItem,
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -654,7 +651,7 @@ class _RequestDetailsMaintainanceScreenState
         ...items.asMap().entries.map(
               (item) => _buildQuantityRow(
                 item.value.itemId.itemName,
-                item.value.quantity.toString(),
+                item.value.itemId.Quntity.toString(),
                 item.key == items.length - 1,
               ),
             ),
@@ -972,21 +969,5 @@ class _RequestDetailsMaintainanceScreenState
       color: !bool ? ColorSchemes.warning : ColorSchemes.success,
       icon: !bool ? ImagePaths.error : ImagePaths.success,
     );
-  }
-
-  void _filterItems(List<Items> items) {
-    _itemsAlarm.clear();
-    _itemsFire.clear();
-    _itemsExtinguishers.clear();
-    for (var item in items) {
-      if (SystemType.isAlarmType(item.itemId.type)) {
-        _itemsAlarm.add(item);
-      } else if (SystemType.isFireType(item.itemId.type)) {
-        _itemsFire.add(item);
-      } else if (SystemType.isExtinguisherType(item.itemId.type)) {
-        _itemsExtinguishers.add(item);
-      }
-    }
-    setState(() {});
   }
 }
