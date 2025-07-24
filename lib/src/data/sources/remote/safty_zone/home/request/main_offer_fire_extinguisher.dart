@@ -6,14 +6,14 @@ part 'main_offer_fire_extinguisher.g.dart';
 class MainOfferFireExtinguisher {
   final String? consumerRequest;
   final String? responsibleEmployee;
-  final List<Item>? item;
+  final List<Item>? items;
   final String? scheduleJob;
   final int? price;
 
   const MainOfferFireExtinguisher({
     this.consumerRequest,
     this.responsibleEmployee,
-    this.item,
+    this.items,
     this.scheduleJob,
     this.price,
   });

@@ -460,6 +460,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "يرجى الموافقة على الشروط والأحكام"),
         "pleaseConfirmInformation": MessageLookupByLibrary.simpleMessage(
             "يرجى التأكيد على أن المعلومات دقيقة"),
+        "pleaseEnterANumberLessThanOrEqualTo":
+            MessageLookupByLibrary.simpleMessage(
+                "الرجاء ادخال عدد اقل من او يساوي"),
         "pleaseEnterSpecificFees": MessageLookupByLibrary.simpleMessage(
             "يرجى ادخال الرسوم المحددة لكل نظام لتحسين تكاليف الخدمة."),
         "pleaseUploadAClearPersonalPhotoOfYourselfForEmployeeRegistrationPurposesJPGPNGMax2MB":
@@ -678,6 +681,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("العدد المطلوب إصلاحه"),
         "todayTasks":
             MessageLookupByLibrary.simpleMessage("المهام المجدولة اليوم"),
+        "totalPrice": MessageLookupByLibrary.simpleMessage("السعر الكلي"),
         "training": MessageLookupByLibrary.simpleMessage("تدريب"),
         "transferred": MessageLookupByLibrary.simpleMessage("تم التحويل"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة اخرى"),

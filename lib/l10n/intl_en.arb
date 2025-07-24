@@ -464,7 +464,9 @@
   "numberOfMaintainanceCompleted": "Number Of Maintainance Completed",
   "numberArrivedForClient": "Number Arrived For Client",
   "fireSystems": "Fire Systems",
-  "success": "Success"
+  "success": "Success",
+  "pleaseEnterANumberLessThanOrEqualTo": "Please enter a number less than or equal to",
+  "totalPrice": "Total Price"
 
 }
 

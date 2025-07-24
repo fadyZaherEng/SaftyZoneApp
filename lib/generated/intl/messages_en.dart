@@ -477,6 +477,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please agree to the terms and conditions"),
         "pleaseConfirmInformation": MessageLookupByLibrary.simpleMessage(
             "Please confirm that the information is accurate"),
+        "pleaseEnterANumberLessThanOrEqualTo":
+            MessageLookupByLibrary.simpleMessage(
+                "Please enter a number less than or equal to"),
         "pleaseEnterSpecificFees": MessageLookupByLibrary.simpleMessage(
             "Please enter specific fees for each system to accurately calculate the service cost."),
         "pleaseUploadAClearPersonalPhotoOfYourselfForEmployeeRegistrationPurposesJPGPNGMax2MB":
@@ -704,6 +707,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "toRepair": MessageLookupByLibrary.simpleMessage("To Be Repaired"),
         "todayTasks":
             MessageLookupByLibrary.simpleMessage("Today’s Scheduled Tasks"),
+        "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price"),
         "training": MessageLookupByLibrary.simpleMessage("Training"),
         "transferred": MessageLookupByLibrary.simpleMessage("Transferred"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),

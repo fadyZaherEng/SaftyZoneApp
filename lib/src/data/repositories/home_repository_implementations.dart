@@ -268,8 +268,9 @@ class HomeRepositoryImplementations extends HomeRepository {
   Future<DataState<RemoteMainOfferFireExtinguisher>> fireExtinguisherMainOffer({
     required MainOfferFireExtinguisher mainOfferFireExtinguisher,
   }) async {
+    dynamic httpResponse;
     try {
-      final httpResponse = await _homeApiServices.fireExtinguisherMainOffer(
+        httpResponse = await _homeApiServices.fireExtinguisherMainOffer(
         mainOfferFireExtinguisher,
       );
       if (((httpResponse.response.statusCode ?? 400) == 201) ||
@@ -284,7 +285,7 @@ class HomeRepositoryImplementations extends HomeRepository {
     } on DioException catch (e) {
       return DataFailed(
         error: e,
-        message: S.current.badResponse,
+        message: S.current.thisProviderHasAlreadyMadeAnOfferForThisRequest,
       );
     }
   }

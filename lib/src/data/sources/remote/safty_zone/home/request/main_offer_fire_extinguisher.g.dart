@@ -11,7 +11,7 @@ MainOfferFireExtinguisher _$MainOfferFireExtinguisherFromJson(
     MainOfferFireExtinguisher(
       consumerRequest: json['consumerRequest'] as String?,
       responsibleEmployee: json['responsibleEmployee'] as String?,
-      item: (json['item'] as List<dynamic>?)
+      items: (json['items'] as List<dynamic>?)
           ?.map((e) => Item.fromJson(e as Map<String, dynamic>))
           .toList(),
       scheduleJob: json['scheduleJob'] as String?,
@@ -23,7 +23,7 @@ Map<String, dynamic> _$MainOfferFireExtinguisherToJson(
     <String, dynamic>{
       'consumerRequest': instance.consumerRequest,
       'responsibleEmployee': instance.responsibleEmployee,
-      'item': instance.item,
+      'items': instance.items,
       'scheduleJob': instance.scheduleJob,
       'price': instance.price,
     };

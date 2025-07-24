@@ -1264,7 +1264,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
   }
 
   bool _showQuotation(String step) {
-    if (step == "offer") {
+    if (step == "receive") {
       return true;
     } else {
       return false;
@@ -1272,7 +1272,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
   }
 
   bool _showDeliverExtinguishers(String step) {
-    if (step == "accept-offer") {
+    if (step == "offer") {
       return true;
     } else {
       return false;

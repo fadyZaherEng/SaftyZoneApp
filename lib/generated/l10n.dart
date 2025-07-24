@@ -4723,6 +4723,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Please enter a number less than or equal to`
+  String get pleaseEnterANumberLessThanOrEqualTo {
+    return Intl.message(
+      'Please enter a number less than or equal to',
+      name: 'pleaseEnterANumberLessThanOrEqualTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Price`
+  String get totalPrice {
+    return Intl.message(
+      'Total Price',
+      name: 'totalPrice',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

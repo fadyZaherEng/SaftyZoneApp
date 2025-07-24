@@ -4,18 +4,18 @@ part 'add_recieve_request.g.dart';
 
 @JsonSerializable()
 class AddRecieveRequest {
-  final List<RequestFireExtinguisher>? fireExtinguisher;
-  final String? consumer;
-  final String? branch;
-  final String? consumerRequest;
-  final String? scheduleJob;
+  final List<RequestFireExtinguisher> fireExtinguisher;
+  final String consumer;
+  final String branch;
+  final String consumerRequest;
+  final String scheduleJob;
 
   const AddRecieveRequest({
-    this.fireExtinguisher,
-    this.consumer,
-    this.branch,
-    this.consumerRequest,
-    this.scheduleJob,
+    required this.fireExtinguisher,
+    required this.consumer,
+    required this.branch,
+    required this.consumerRequest,
+    required this.scheduleJob,
   });
 
   factory AddRecieveRequest.fromJson(Map<String, dynamic> json) =>
@@ -23,6 +23,7 @@ class AddRecieveRequest {
 
   Map<String, dynamic> toJson() => _$AddRecieveRequestToJson(this);
 
+  @override
   toString() {
     return 'AddRecieveRequest{fireExtinguisher: $fireExtinguisher, consumer: $consumer, branch: $branch, consumerRequest: $consumerRequest, scheduleJob: $scheduleJob}';
   }
@@ -31,11 +32,11 @@ class AddRecieveRequest {
 @JsonSerializable()
 class RequestFireExtinguisher {
   @JsonKey(name: 'item_id')
-  final String? itemId;
+  final String? item_id;
   final int? receivedQuantity;
 
   const RequestFireExtinguisher({
-    required this.itemId,
+    required this.item_id,
     required this.receivedQuantity,
   });
 
@@ -44,7 +45,8 @@ class RequestFireExtinguisher {
 
   Map<String, dynamic> toJson() => _$RequestFireExtinguisherToJson(this);
 
+  @override
   toString() {
-    return 'RequestFireExtinguisher{itemId: $itemId, receivedQuantity: $receivedQuantity}';
+    return 'RequestFireExtinguisher{itemId: $item_id, receivedQuantity: $receivedQuantity}';
   }
 }
