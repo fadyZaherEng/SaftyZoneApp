@@ -14,6 +14,8 @@ class ScheduleJop extends Equatable {
   final int visitDate;
   final int createdAt;
   final int V;
+  final String step;
+  final String receiveAndDeleiverID;
 
   const ScheduleJop({
     this.Id = "",
@@ -28,6 +30,8 @@ class ScheduleJop extends Equatable {
     this.visitDate = 0,
     this.createdAt = 0,
     this.V = 0,
+    this.step = "",
+    this.receiveAndDeleiverID = "",
   });
 
   @override
@@ -44,5 +48,7 @@ class ScheduleJop extends Equatable {
         visitDate,
         createdAt,
         V,
+        step,
+        receiveAndDeleiverID,
       ];
 }

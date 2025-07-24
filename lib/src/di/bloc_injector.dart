@@ -1,5 +1,6 @@
 import 'package:safety_zone/src/core/utils/app_config.dart';
 import 'package:safety_zone/src/di/injector.dart';
+import 'package:safety_zone/src/presentation/blocs/fire_extinguishers/fire_extinguishers_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/home/home_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/main/main_cubit.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
@@ -14,6 +15,13 @@ Future<void> initializeBlocDependencies() async {
         injector(),
       ));
   injector.registerFactory<AppConfig>(() => AppConfig());
+  injector.registerFactory<FireExtinguishersBloc>(() => FireExtinguishersBloc(
+        injector(),
+        injector(),
+        injector(),
+        injector(),
+        injector(),
+      ));
   injector.registerFactory<HomeBloc>(() => HomeBloc(
         injector(),
         injector(),

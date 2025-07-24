@@ -35,7 +35,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
 
   List<ScheduleJop> _workingProgress = [];
-  final List<ScheduleJop> _tempWorkingProgress = [];
+  List<ScheduleJop> _tempWorkingProgress = [];
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -55,6 +55,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
           _isLoading = true;
         } else if (state is ScheduleJobInProgressSuccessState) {
           _workingProgress = List.from(state.scheduleJob);
+          _tempWorkingProgress = List.from(state.scheduleJob);
           _isLoading = false;
         } else if (state is ScheduleJobInProgressErrorState) {
           _isLoading = false;
@@ -630,7 +631,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.status,
+                    S.of(context).instantLicense,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -826,7 +827,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.status,
+                    S.of(context).maintenanceContracts,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -1047,7 +1048,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.type,
+                    S.of(context).fireSystems,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -1129,6 +1130,54 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               ),
             ),
             const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              height: 36.h,
+              child: CustomButtonWidget(
+                backgroundColor: _showQuotation(request.step)
+                    ? ColorSchemes.white
+                    : ColorSchemes.grey,
+                borderColor: _showQuotation(request.step)
+                    ? ColorSchemes.primary
+                    : ColorSchemes.grey,
+                text: S.of(context).submitQuotation,
+                textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: _showQuotation(request.step)
+                      ? ColorSchemes.primary
+                      : ColorSchemes.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
+                onTap: _showQuotation(request.step)
+                    ? () => showQuotationDialog(context, request)
+                    : () {},
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              height: 36.h,
+              child: CustomButtonWidget(
+                backgroundColor: _showDeliverExtinguishers(request.step)
+                    ? ColorSchemes.white
+                    : ColorSchemes.gray,
+                borderColor: ColorSchemes.grey,
+                text: S.of(context).deliverExtinguishers,
+                textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: _showDeliverExtinguishers(request.step)
+                      ? ColorSchemes.primary
+                      : ColorSchemes.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
+                onTap: _showDeliverExtinguishers(request.step)
+                    ? () => showDeliverExtinguishersDialog(context, request)
+                    : () {},
+              ),
+            ),
+            const SizedBox(height: 8),
           ],
         ),
       ),
@@ -1205,7 +1254,54 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
     Navigator.pushNamed(
       context,
       Routes.fireExtinguishersScreen,
-      arguments: {'scheduleJop': request},
+      arguments: {
+        'scheduleJop': request,
+        'isFirstPage': true,
+        'isSecondPage': false,
+        'isThirdPage': false,
+      },
+    );
+  }
+
+  bool _showQuotation(String step) {
+    if (step == "offer") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool _showDeliverExtinguishers(String step) {
+    if (step == "accept-offer") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  showQuotationDialog(BuildContext context, ScheduleJop request) {
+    Navigator.pushNamed(
+      context,
+      Routes.fireExtinguishersScreen,
+      arguments: {
+        'scheduleJop': request,
+        'isFirstPage': false,
+        'isSecondPage': true,
+        'isThirdPage': false,
+      },
+    );
+  }
+
+  showDeliverExtinguishersDialog(BuildContext context, ScheduleJop request) {
+    Navigator.pushNamed(
+      context,
+      Routes.fireExtinguishersScreen,
+      arguments: {
+        'scheduleJop': request,
+        'isFirstPage': false,
+        'isSecondPage': false,
+        'isThirdPage': true,
+      },
     );
   }
 }

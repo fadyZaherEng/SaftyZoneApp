@@ -191,6 +191,9 @@ class RoutesManager {
             routeSettings.arguments as Map<String, dynamic>?;
         return _materialRoute(FireExtinguishersScreen(
           scheduleJop: args?['scheduleJop'] as ScheduleJop,
+          isFirstPage: args?['isFirstPage'] as bool,
+          isSecondPage: args?['isSecondPage'] as bool,
+          isThirdPage: args?['isThirdPage'] as bool,
         ));
 
       case Routes.invoiceScreen:

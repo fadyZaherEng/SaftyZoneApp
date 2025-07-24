@@ -17,6 +17,8 @@ class RemoteScheduleJop {
   final String? requestNumber;
   final String? type;
   final String? status;
+  final String? receiveAndDeleiverID;
+  final String? step;
   final int? visitDate;
   final int? createdAt;
   @JsonKey(name: '__v')
@@ -35,6 +37,8 @@ class RemoteScheduleJop {
     this.visitDate = 0,
     this.createdAt = 0,
     this.V = 0,
+    this.receiveAndDeleiverID = "",
+    this.step = "",
   });
 
   factory RemoteScheduleJop.fromJson(Map<String, dynamic> json) =>
@@ -57,6 +61,8 @@ extension ScheduleJopMapper on RemoteScheduleJop {
         visitDate: visitDate ?? 0,
         createdAt: createdAt ?? 0,
         V: V ?? 0,
+        receiveAndDeleiverID: receiveAndDeleiverID ?? "",
+        step: step ?? "",
       );
 }
 

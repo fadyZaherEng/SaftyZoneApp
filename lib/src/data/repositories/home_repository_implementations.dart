@@ -3,13 +3,17 @@ import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_add_recieve.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_certificate_insatllation.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_first_screen_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_go_to_location.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_main_offer_fire_extinguisher.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_second_and_third_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_send_price.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/home_api_services.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/add_recieve_request.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/main_offer_fire_extinguisher.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/schedule_jop_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
@@ -243,6 +247,82 @@ class HomeRepositoryImplementations extends HomeRepository {
         id,
         request,
       );
+      if (((httpResponse.response.statusCode ?? 400) == 201) ||
+          (httpResponse.response.statusCode ?? 400) == 200) {
+        return DataSuccess(
+          data: httpResponse.data,
+          message: httpResponse.response.statusMessage ?? "",
+        );
+      }
+
+      return DataFailed(message: httpResponse.response.statusMessage ?? "");
+    } on DioException catch (e) {
+      return DataFailed(
+        error: e,
+        message: S.current.badResponse,
+      );
+    }
+  }
+
+  @override
+  Future<DataState<RemoteMainOfferFireExtinguisher>> fireExtinguisherMainOffer({
+    required MainOfferFireExtinguisher mainOfferFireExtinguisher,
+  }) async {
+    try {
+      final httpResponse = await _homeApiServices.fireExtinguisherMainOffer(
+        mainOfferFireExtinguisher,
+      );
+      if (((httpResponse.response.statusCode ?? 400) == 201) ||
+          (httpResponse.response.statusCode ?? 400) == 200) {
+        return DataSuccess(
+          data: httpResponse.data,
+          message: httpResponse.response.statusMessage ?? "",
+        );
+      }
+
+      return DataFailed(message: httpResponse.response.statusMessage ?? "");
+    } on DioException catch (e) {
+      return DataFailed(
+        error: e,
+        message: S.current.badResponse,
+      );
+    }
+  }
+
+  @override
+  Future<DataState<RemoteFirstScreenSchedule>> firstScreenScheduleJob({
+    required String id,
+  }) async {
+    try {
+      final httpResponse = await _homeApiServices.firstScreenScheduleJob(
+        id,
+        GetTokenUseCase(injector())(),
+      );
+      if (((httpResponse.response.statusCode ?? 400) == 201) ||
+          (httpResponse.response.statusCode ?? 400) == 200) {
+        return DataSuccess(
+          data: httpResponse.data,
+          message: httpResponse.response.statusMessage ?? "",
+        );
+      }
+
+      return DataFailed(message: httpResponse.response.statusMessage ?? "");
+    } on DioException catch (e) {
+      return DataFailed(
+        error: e,
+        message: S.current.badResponse,
+      );
+    }
+  }
+
+  @override
+  Future<DataState<RemoteSecondAndThirdSchedule>>
+      secondAndThirdScreenScheduleJob({
+    required String id,
+  }) async {
+    try {
+      final httpResponse =
+          await _homeApiServices.secondAndThirdScreenScheduleJob(id);
       if (((httpResponse.response.statusCode ?? 400) == 201) ||
           (httpResponse.response.statusCode ?? 400) == 200) {
         return DataSuccess(

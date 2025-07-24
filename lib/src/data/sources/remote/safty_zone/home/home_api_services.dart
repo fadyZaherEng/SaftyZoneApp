@@ -3,12 +3,17 @@ import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_add_recieve.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_certificate_insatllation.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_first_screen_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_go_to_location.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_main_offer_fire_extinguisher.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_second_and_third_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_send_price.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_update_status_deliver.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/add_recieve_request.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/main_offer_fire_extinguisher.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/schedule_jop_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
@@ -62,7 +67,7 @@ abstract class HomeApiServices {
   );
 
   @PUT(APIKeys.receiveDeliverById)
-  Future<HttpResponse> receiveDeliverById(
+  Future<HttpResponse<RemoteUpdateStatusDeliver>> receiveDeliverById(
     @Header("Authorization") String token,
     @Path("id") String id,
     @Body() UpdateRecieveRequest request,
@@ -72,5 +77,23 @@ abstract class HomeApiServices {
   Future<HttpResponse<RemoteAddRecieve>> receiveDeliver(
     @Header("Authorization") String token,
     @Body() AddRecieveRequest request,
+  );
+
+  @POST(APIKeys.fireExtinguisherMainOffer)
+  Future<HttpResponse<RemoteMainOfferFireExtinguisher>>
+      fireExtinguisherMainOffer(
+    @Body() MainOfferFireExtinguisher mainOfferFireExtinguisher,
+  );
+
+  @GET(APIKeys.firstScreenScheduleJob)
+  Future<HttpResponse<RemoteFirstScreenSchedule>> firstScreenScheduleJob(
+    @Path("id") String id,
+    @Header("Authorization") String token,
+  );
+
+  @GET(APIKeys.secondAndThirdScreenScheduleJob)
+  Future<HttpResponse<RemoteSecondAndThirdSchedule>>
+      secondAndThirdScreenScheduleJob(
+    @Path("id") String id,
   );
 }

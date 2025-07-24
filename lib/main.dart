@@ -18,6 +18,7 @@ import 'package:safety_zone/src/core/utils/show_no_internet_dialog_widget.dart';
 import 'package:safety_zone/src/di/injector.dart';
 import 'package:safety_zone/src/domain/usecase/get_firebase_notification_token_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/presentation/blocs/fire_extinguishers/fire_extinguishers_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/home/home_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/main/main_cubit.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
@@ -171,6 +172,7 @@ class _MyAppState extends State<MyApp> {
       BlocProvider<UploadDocBloc>(create: (context) => injector()),
       BlocProvider<RequestsBloc>(create: (context) => injector()),
       BlocProvider<HomeBloc>(create: (context) => injector()),
+      BlocProvider<FireExtinguishersBloc>(create: (context) => injector()),
     ];
   }
 }

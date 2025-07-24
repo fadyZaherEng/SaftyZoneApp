@@ -22,4 +22,8 @@ class APIKeys {
   static const String goToLocation = "/api/provider/schedule-job/go-to-location/{id}";
   static const String receiveDeliver = "/api/provider/receive-deliver";
   static const String receiveDeliverById = "/api/provider/receive-deliver/{id}";
+  //first screen in fire
+  static const String firstScreenScheduleJob = "/api/provider/schedule-job/{id}";
+  static const String secondAndThirdScreenScheduleJob = "/api/provider/receive-deliver/{id}";
+  static const String fireExtinguisherMainOffer = "/api/provider/offer/fire-extinguisher-main-offer";
 }

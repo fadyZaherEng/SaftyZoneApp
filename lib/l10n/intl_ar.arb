@@ -463,5 +463,6 @@
   "repairCost": "تكلفة الاصلاح",
   "numberOfMaintainanceCompleted": "عدد الصيانات المكتملة",
   "numberArrivedForClient": "عدد الوصول للعميل",
-  "fireSystems": "طفايات الحريق"
+  "fireSystems": "طفايات الحريق",
+  "success": "تم بنجاح"
 }

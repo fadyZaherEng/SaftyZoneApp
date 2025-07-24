@@ -27,3 +27,12 @@ enum RequestType {
 }
 
 enum ScheduleJobStatusEnum { pending, completed, inProgress }
+
+enum ScheduleJobStepEnum {
+  pending,
+  goLocation, //go-location
+  receive,
+  offer,
+  acceptOffer, //accept-offer
+  deliver,
+}

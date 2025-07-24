@@ -633,6 +633,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "submitRegistration":
             MessageLookupByLibrary.simpleMessage("تقديم التسجيل"),
         "submit_invoice": MessageLookupByLibrary.simpleMessage("تقديم مطالبة"),
+        "success": MessageLookupByLibrary.simpleMessage("تم بنجاح"),
         "sunday": MessageLookupByLibrary.simpleMessage("الاحد"),
         "systemAdministrator":
             MessageLookupByLibrary.simpleMessage("مدير النظام"),

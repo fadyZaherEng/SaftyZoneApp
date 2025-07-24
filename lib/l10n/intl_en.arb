@@ -463,7 +463,8 @@
   "repairCost": "Repair Cost",
   "numberOfMaintainanceCompleted": "Number Of Maintainance Completed",
   "numberArrivedForClient": "Number Arrived For Client",
-  "fireSystems": "Fire Systems"
+  "fireSystems": "Fire Systems",
+  "success": "Success"
 
 }
 
