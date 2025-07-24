@@ -79,7 +79,10 @@ class HomeRepositoryImplementations extends HomeRepository {
     required SendPriceRequest request,
   }) async {
     try {
-      final httpResponse = await _homeApiServices.sendPrice(request);
+      final httpResponse = await _homeApiServices.sendPrice(
+        GetTokenUseCase(injector())(),
+        request,
+      );
       if (((httpResponse.response.statusCode ?? 400) == 201) ||
           (httpResponse.response.statusCode ?? 400) == 200) {
         return DataSuccess(

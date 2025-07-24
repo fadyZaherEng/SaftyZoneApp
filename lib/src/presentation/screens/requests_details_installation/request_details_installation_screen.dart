@@ -156,7 +156,7 @@ class _RequestDetailsInstallationScreenState
               children: [
                 Chip(
                   label: Text(
-                    model.result.requestType,
+                    S.of(context).instantLicense,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -773,6 +773,14 @@ class _RequestDetailsInstallationScreenState
                     consumerRequest: model.result.Id,
                     responsibleEmployee: _selectedEmployee.Id,
                     price: int.parse(_priceController.text),
+                    is_Primary: false,
+                    items: [
+                      Item(
+                        ItemId: "",
+                        price: int.parse(_priceController.text),
+                        quantity: 1,
+                      )
+                    ],
                   ),
                 ),
               );

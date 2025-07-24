@@ -4703,6 +4703,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Fire Systems`
+  String get fireSystems {
+    return Intl.message(
+      'Fire Systems',
+      name: 'fireSystems',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

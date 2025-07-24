@@ -289,6 +289,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "firePumps": MessageLookupByLibrary.simpleMessage("Fire Pumps"),
         "fireSuppressionSystemFees": MessageLookupByLibrary.simpleMessage(
             "Fire Suppression System Fees"),
+        "fireSystems": MessageLookupByLibrary.simpleMessage("Fire Systems"),
         "fireTitle": MessageLookupByLibrary.simpleMessage(
             "View more information (but without contract)"),
         "firstAid": MessageLookupByLibrary.simpleMessage("First Aid"),

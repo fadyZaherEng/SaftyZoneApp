@@ -462,5 +462,6 @@
   "uploadDocumentSuccess": "تم تحميل المستند بنجاح",
   "repairCost": "تكلفة الاصلاح",
   "numberOfMaintainanceCompleted": "عدد الصيانات المكتملة",
-  "numberArrivedForClient": "عدد الوصول للعميل"
+  "numberArrivedForClient": "عدد الوصول للعميل",
+  "fireSystems": "طفايات الحريق"
 }

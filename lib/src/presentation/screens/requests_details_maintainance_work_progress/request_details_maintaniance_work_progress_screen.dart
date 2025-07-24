@@ -95,6 +95,15 @@ class _RequestDetailsMaintainanceWorkProgressScreenState
         hideLoading();
       } else if (state is SendPriceOfferLoadingState) {
         showLoading();
+      } else if (state is SendPriceOfferSuccessState) {
+        _showValidationError(S.of(context).sendPriceOfferSuccess, true);
+        hideLoading();
+        Navigator.pop(context);
+      } else if (state is SendPriceOfferErrorState) {
+        _showValidationError(state.message, false);
+        hideLoading();
+      } else if (state is SendPriceOfferLoadingState) {
+        showLoading();
       }
     }, builder: (context, state) {
       return Scaffold(
@@ -773,6 +782,14 @@ class _RequestDetailsMaintainanceWorkProgressScreenState
                     consumerRequest: model.result.Id,
                     responsibleEmployee: _selectedEmployee.Id,
                     price: int.parse(_priceController.text),
+                    is_Primary: false,
+                    items: [
+                      Item(
+                        ItemId: "",
+                        price: int.parse(_priceController.text),
+                        quantity: 1,
+                      )
+                    ],
                   ),
                 ),
               );

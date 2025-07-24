@@ -277,6 +277,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "firePumps": MessageLookupByLibrary.simpleMessage("بومبات الحريق"),
         "fireSuppressionSystemFees":
             MessageLookupByLibrary.simpleMessage("رسوم نظام إخماد الحرائق"),
+        "fireSystems": MessageLookupByLibrary.simpleMessage("طفايات الحريق"),
         "fireTitle": MessageLookupByLibrary.simpleMessage(
             "عرض المزيد من المعلومات (لكن بدون عقد)"),
         "firstAid": MessageLookupByLibrary.simpleMessage("المساعدة الأولى"),

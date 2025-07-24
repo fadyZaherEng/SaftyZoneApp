@@ -85,10 +85,13 @@ class _HomeApiServices implements HomeApiServices {
 
   @override
   Future<HttpResponse<RemoteSendPrice>> sendPrice(
-      SendPriceRequest request) async {
+    String token,
+    SendPriceRequest request,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(

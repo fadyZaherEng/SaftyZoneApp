@@ -1,6 +1,6 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 mixin LoadingManager {
   void runChangeState();
@@ -41,7 +41,7 @@ mixin LoadingManager {
         width: double.infinity,
         height: double.infinity,
         child: Center(
-            child: LoadingAnimationWidget.threeArchedCircle(
+            child: SpinKitDoubleBounce(
           color: ColorSchemes.primary,
           size: 50,
         )),

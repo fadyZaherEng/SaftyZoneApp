@@ -131,7 +131,7 @@ class _RequestDetailsMaintainanceScreenState
               children: [
                 Chip(
                   label: Text(
-                    model.result.requestType,
+                    S.of(context).maintenanceContracts,
                     style: const TextStyle(
                       color: Colors.white,
                     ),

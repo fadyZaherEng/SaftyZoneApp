@@ -21,7 +21,6 @@ class Result extends Equatable {
   final String requestNumber;
   final String systemType;
   final int space;
-
   final List<Items> alarmItems;
   final List<Items> fireExtinguisherItem;
   final List<Items> fireSystemItem;

@@ -33,6 +33,7 @@ abstract class HomeApiServices {
 
   @POST(APIKeys.sendPriceOffer)
   Future<HttpResponse<RemoteSendPrice>> sendPrice(
+    @Header("Authorization") String token,
     @Body() SendPriceRequest request,
   );
 
