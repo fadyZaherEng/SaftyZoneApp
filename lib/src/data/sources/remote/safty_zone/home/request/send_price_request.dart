@@ -10,9 +10,8 @@ class SendPriceRequest {
   final List<Item>? items;
   final bool? is_Primary;
 
-
   const SendPriceRequest({
-   required this.consumerRequest,
+    required this.consumerRequest,
     required this.responsibleEmployee,
     required this.price,
     required this.items,
@@ -33,8 +32,8 @@ class Item {
 
   const Item({
     required this.ItemId,
-    required  this.price,
-    required  this.quantity,
+    required this.price,
+    required this.quantity,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
