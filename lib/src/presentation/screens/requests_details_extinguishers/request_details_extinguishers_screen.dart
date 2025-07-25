@@ -693,7 +693,7 @@ class _RequestDetailsExtinguishersScreenState
                     responsibleEmployee: _selectedEmployee.Id,
                     price: totalPrice,
                     is_Primary: true,
-                    items: items,
+                    item: items,
                   ),
                 ),
               );

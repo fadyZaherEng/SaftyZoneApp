@@ -548,7 +548,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                 borderColor: request.step == "pending"
                     ? ColorSchemes.gray
                     : ColorSchemes.primary,
-                text: S.of(context).startMission,
+                text: S.of(context).receiveExtinguishers,
                 textColor: Colors.white,
                 textStyle: TextStyle(
                   color: ColorSchemes.white,
@@ -932,6 +932,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
               ],
             ),
             const SizedBox(height: 8),
+            if(!_isComplete)
             SizedBox(
               width: double.infinity,
               height: 36.h,
@@ -944,6 +945,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
               ),
             ),
             const SizedBox(height: 8),
+            if(!_isComplete)
             SizedBox(
               width: double.infinity,
               height: 36.h,

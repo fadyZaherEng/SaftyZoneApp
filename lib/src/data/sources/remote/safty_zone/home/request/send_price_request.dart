@@ -7,14 +7,14 @@ class SendPriceRequest {
   final String? consumerRequest;
   final String? responsibleEmployee;
   final int? price;
-  final List<Item>? items;
+  final List<Item>? item;
   final bool? is_Primary;
 
   const SendPriceRequest({
     required this.consumerRequest,
     required this.responsibleEmployee,
     required this.price,
-    required this.items,
+    required this.item,
     required this.is_Primary,
   });
 

@@ -1119,7 +1119,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               child: CustomButtonWidget(
                 backgroundColor:request.step=="pending"?ColorSchemes.gray: ColorSchemes.primary,
                 borderColor:request.step=="pending"?ColorSchemes.gray: ColorSchemes.primary,
-                text: S.of(context).startMission,
+                text: S.of(context).receiveExtinguishers,
                 textColor: Colors.white,
                 textStyle: TextStyle(
                   color: ColorSchemes.white,

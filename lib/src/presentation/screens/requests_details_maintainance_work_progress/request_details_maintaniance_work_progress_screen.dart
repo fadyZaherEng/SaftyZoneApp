@@ -783,7 +783,7 @@ class _RequestDetailsMaintainanceWorkProgressScreenState
                     responsibleEmployee: _selectedEmployee.Id,
                     price: int.parse(_priceController.text),
                     is_Primary: false,
-                    items: [
+                    item: [
                       Item(
                         ItemId: "",
                         price: int.parse(_priceController.text),

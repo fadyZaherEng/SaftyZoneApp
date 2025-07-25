@@ -11,7 +11,7 @@ SendPriceRequest _$SendPriceRequestFromJson(Map<String, dynamic> json) =>
       consumerRequest: json['consumerRequest'] as String?,
       responsibleEmployee: json['responsibleEmployee'] as String?,
       price: (json['price'] as num?)?.toInt(),
-      items: (json['items'] as List<dynamic>?)
+      item: (json['item'] as List<dynamic>?)
           ?.map((e) => Item.fromJson(e as Map<String, dynamic>))
           .toList(),
       is_Primary: json['is_Primary'] as bool?,
@@ -22,7 +22,7 @@ Map<String, dynamic> _$SendPriceRequestToJson(SendPriceRequest instance) =>
       'consumerRequest': instance.consumerRequest,
       'responsibleEmployee': instance.responsibleEmployee,
       'price': instance.price,
-      'items': instance.items,
+      'item': instance.item,
       'is_Primary': instance.is_Primary,
     };
 
