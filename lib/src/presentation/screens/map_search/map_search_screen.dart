@@ -107,6 +107,7 @@ class _MapSearchScreenState extends State<MapSearchScreen> {
               },
               markers: markers,
             ),
+            if(false)
             Positioned(
               top: 40,
               right: 10,

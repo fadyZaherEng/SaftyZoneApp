@@ -473,7 +473,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.status,
+                    S.of(context).fireExtinguisher,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -525,22 +525,15 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
               width: double.infinity,
               height: 36.h,
               child: CustomButtonWidget(
-                backgroundColor: ColorSchemes.primary,
-                borderColor: ColorSchemes.primary,
-                text: S.of(context).goToLocation,
-                textColor: Colors.white,
-                onTap: () => _uploadLicenseDoc(context, request),
-              ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              height: 36.h,
-              child: CustomButtonWidget(
                 backgroundColor: ColorSchemes.white,
                 borderColor: ColorSchemes.grey,
-                text: S.of(context).receiveExtinguishers,
+                text: S.of(context).goToLocation,
                 textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: ColorSchemes.primary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
                 onTap: () => _goToLocation(context, request),
               ),
             ),
@@ -549,11 +542,22 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
               width: double.infinity,
               height: 36.h,
               child: CustomButtonWidget(
-                backgroundColor: ColorSchemes.white,
-                borderColor: ColorSchemes.grey,
-                text: S.of(context).submitQuotation,
-                textColor: ColorSchemes.primary,
-                onTap: () {},
+                backgroundColor: request.step == "pending"
+                    ? ColorSchemes.gray
+                    : ColorSchemes.primary,
+                borderColor: request.step == "pending"
+                    ? ColorSchemes.gray
+                    : ColorSchemes.primary,
+                text: S.of(context).startMission,
+                textColor: Colors.white,
+                textStyle: TextStyle(
+                  color: ColorSchemes.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
+                onTap: () => request.step == "pending"
+                    ? null
+                    : showStartTaskDialog(context, request),
               ),
             ),
             const SizedBox(height: 8),
@@ -561,11 +565,47 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
               width: double.infinity,
               height: 36.h,
               child: CustomButtonWidget(
-                backgroundColor: ColorSchemes.white,
+                backgroundColor: _showQuotation(request.step)
+                    ? ColorSchemes.white
+                    : ColorSchemes.grey,
+                borderColor: _showQuotation(request.step)
+                    ? ColorSchemes.primary
+                    : ColorSchemes.grey,
+                text: S.of(context).submitQuotation,
+                textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: _showQuotation(request.step)
+                      ? ColorSchemes.primary
+                      : ColorSchemes.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
+                onTap: _showQuotation(request.step)
+                    ? () => showQuotationDialog(context, request)
+                    : () {},
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              height: 36.h,
+              child: CustomButtonWidget(
+                backgroundColor: _showDeliverExtinguishers(request.step)
+                    ? ColorSchemes.white
+                    : ColorSchemes.gray,
                 borderColor: ColorSchemes.grey,
                 text: S.of(context).deliverExtinguishers,
                 textColor: ColorSchemes.primary,
-                onTap: () {},
+                textStyle: TextStyle(
+                  color: _showDeliverExtinguishers(request.step)
+                      ? ColorSchemes.primary
+                      : ColorSchemes.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
+                onTap: _showDeliverExtinguishers(request.step)
+                    ? () => showDeliverExtinguishersDialog(context, request)
+                    : () {},
               ),
             ),
             const SizedBox(height: 8),
@@ -573,6 +613,147 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
         ),
       ),
     );
+  }
+
+  void showStartTaskDialog(BuildContext context, ScheduleJop request) {
+    final s = S.of(context);
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              s.startTaskTitle,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: ColorSchemes.primary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              s.startTaskSubtitle,
+              style: const TextStyle(fontSize: 14, color: Colors.black87),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            const Divider(height: 1),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+                // Handle start now logic
+                _startMission(context, request);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Center(
+                  child: Text(
+                    s.startNow,
+                    style: const TextStyle(
+                        color: ColorSchemes.primary, fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            const Divider(height: 1),
+            InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Center(
+                  child: Text(
+                    s.notYet,
+                    style: const TextStyle(color: Colors.black54, fontSize: 14),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _startMission(BuildContext context, ScheduleJop request) {
+    Navigator.pushNamed(
+      context,
+      Routes.fireExtinguishersScreen,
+      arguments: {
+        'scheduleJop': request,
+        'isFirstPage': true,
+        'isSecondPage': false,
+        'isThirdPage': false,
+      },
+    );
+  }
+
+  bool _showQuotation(String step) {
+    if (step == "receive") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool _showDeliverExtinguishers(String step) {
+    if (step == "offer") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  showQuotationDialog(BuildContext context, ScheduleJop request) {
+    Navigator.pushNamed(
+      context,
+      Routes.fireExtinguishersScreen,
+      arguments: {
+        'scheduleJop': request,
+        'isFirstPage': true,
+        'isSecondPage': false,
+        'isThirdPage': false,
+      },
+    );
+    // Navigator.pushNamed(
+    //   context,
+    //   Routes.fireExtinguishersScreen,
+    //   arguments: {
+    //     'scheduleJop': request,
+    //     'isFirstPage': false,
+    //     'isSecondPage': true,
+    //     'isThirdPage': false,
+    //   },
+    // );
+  }
+
+  showDeliverExtinguishersDialog(BuildContext context, ScheduleJop request) {
+    Navigator.pushNamed(
+      context,
+      Routes.fireExtinguishersScreen,
+      arguments: {
+        'scheduleJop': request,
+        'isFirstPage': true,
+        'isSecondPage': false,
+        'isThirdPage': false,
+      },
+    );
+    // Navigator.pushNamed(
+    //   context,
+    //   Routes.fireExtinguishersScreen,
+    //   arguments: {
+    //     'scheduleJop': request,
+    //     'isFirstPage': false,
+    //     'isSecondPage': false,
+    //     'isThirdPage': true,
+    //   },
+    // );
   }
 
   Widget _buildFawryRequestCard(
@@ -703,7 +884,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.status,
+                    S.of(context).instantLicense,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -886,7 +1067,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.status,
+                    S.of(context).maintenanceReports,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,

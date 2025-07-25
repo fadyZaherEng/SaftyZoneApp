@@ -475,7 +475,7 @@ class _UploadDocumentFawryScreenState
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.type,
+                    _getTitle(request.type),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -595,5 +595,15 @@ class _UploadDocumentFawryScreenState
         ),
       ),
     );
+  }
+
+  String _getTitle(String requestType) {
+    if (RequestType.FireExtinguisher.name == requestType) {
+      return S.of(context).fireSystems;
+    } else if (RequestType.MaintenanceContract.name == requestType) {
+      return S.of(context).maintenanceContracts;
+    } else {
+      return S.of(context).instantLicense;
+    }
   }
 }

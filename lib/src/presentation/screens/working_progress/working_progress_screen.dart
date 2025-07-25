@@ -688,7 +688,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 text: S.of(context).uploadLicenseDoc,
                 textColor: Colors.white,
                 textStyle: TextStyle(
-                  color: ColorSchemes.primary,
+                  color: ColorSchemes.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
@@ -1117,8 +1117,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               width: double.infinity,
               height: 36.h,
               child: CustomButtonWidget(
-                backgroundColor: ColorSchemes.primary,
-                borderColor: ColorSchemes.primary,
+                backgroundColor:request.step=="pending"?ColorSchemes.gray: ColorSchemes.primary,
+                borderColor:request.step=="pending"?ColorSchemes.gray: ColorSchemes.primary,
                 text: S.of(context).startMission,
                 textColor: Colors.white,
                 textStyle: TextStyle(
@@ -1126,7 +1126,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
-                onTap: () => showStartTaskDialog(context, request),
+                onTap: () =>request.step=="pending"?null: showStartTaskDialog(context, request),
               ),
             ),
             const SizedBox(height: 8),
@@ -1285,11 +1285,21 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
       Routes.fireExtinguishersScreen,
       arguments: {
         'scheduleJop': request,
-        'isFirstPage': false,
-        'isSecondPage': true,
+        'isFirstPage': true,
+        'isSecondPage': false,
         'isThirdPage': false,
       },
     );
+    // Navigator.pushNamed(
+    //   context,
+    //   Routes.fireExtinguishersScreen,
+    //   arguments: {
+    //     'scheduleJop': request,
+    //     'isFirstPage': false,
+    //     'isSecondPage': true,
+    //     'isThirdPage': false,
+    //   },
+    // );
   }
 
   showDeliverExtinguishersDialog(BuildContext context, ScheduleJop request) {
@@ -1298,10 +1308,20 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
       Routes.fireExtinguishersScreen,
       arguments: {
         'scheduleJop': request,
-        'isFirstPage': false,
+        'isFirstPage': true,
         'isSecondPage': false,
-        'isThirdPage': true,
+        'isThirdPage': false,
       },
     );
+    // Navigator.pushNamed(
+    //   context,
+    //   Routes.fireExtinguishersScreen,
+    //   arguments: {
+    //     'scheduleJop': request,
+    //     'isFirstPage': false,
+    //     'isSecondPage': false,
+    //     'isThirdPage': true,
+    //   },
+    // );
   }
 }
