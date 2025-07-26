@@ -95,17 +95,19 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
 
   @override
   void initState() {
-    if(widget.isFirstPage) {
+    if (widget.isFirstPage) {
       _bloc.add(GetFirstScreenScheduleEvent(id: widget.scheduleJop.Id));
     }
     super.initState();
     _isFirstPage = widget.isFirstPage;
     _isSecondPage = widget.isSecondPage;
     _isThirdPage = widget.isThirdPage;
-    if(widget.isSecondPage){
-      _bloc.add(GetSecondAndThirdScreenScheduleEvent(id: widget.scheduleJop.receiveAndDeleiverID));
-    }else if(widget.isThirdPage){
-      _bloc.add(GetSecondAndThirdScreenScheduleEvent(id: widget.scheduleJop.receiveAndDeleiverID));
+    if (widget.isSecondPage) {
+      _bloc.add(GetSecondAndThirdScreenScheduleEvent(
+          id: widget.scheduleJop.receiveItem));
+    } else if (widget.isThirdPage) {
+      _bloc.add(GetSecondAndThirdScreenScheduleEvent(
+          id: widget.scheduleJop.receiveItem));
     }
   }
 
@@ -407,9 +409,8 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                               MainOfferFireExtinguishersEvent(
                                 mainOfferFireExtinguisher:
                                     MainOfferFireExtinguisher(
-                                  consumerRequest: firstScreenSchedule
-                                          .data?.consumerRequest?.Id ??
-                                      "",
+                                  consumerRequest:
+                                      widget.scheduleJop.consumerRequest,
                                   scheduleJob: widget.scheduleJop.Id,
                                   responsibleEmployee:
                                       widget.scheduleJop.responseEmployee.Id,

@@ -22,6 +22,11 @@ class MainOfferFireExtinguisher {
       _$MainOfferFireExtinguisherFromJson(json);
 
   Map<String, dynamic> toJson() => _$MainOfferFireExtinguisherToJson(this);
+
+  @override
+  toString() {
+    return 'MainOfferFireExtinguisher{consumerRequest: $consumerRequest, responsibleEmployee: $responsibleEmployee, items: $items, scheduleJob: $scheduleJob, price: $price}';
+  }
 }
 
 @JsonSerializable()
@@ -40,4 +45,9 @@ class Item {
       _$ItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemToJson(this);
+
+  @override
+  toString() {
+    return 'Item{ItemId: $ItemId, price: $price, quantity: $quantity}';
+  }
 }
