@@ -948,7 +948,11 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
           },
         ),
       ),
-    );
+    ).then((value) {
+
+      _bloc.add(GetScheduleJobInProgressEvent(
+          status: ScheduleJobStatusEnum.inProgress.name));
+    });
   }
 
   Widget _buildFireExtinguisherRequestCard(
@@ -1127,10 +1131,10 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               width: double.infinity,
               height: 36.h,
               child: CustomButtonWidget(
-                backgroundColor: request.step == "go-location"
+                backgroundColor: request.step != "go-location"
                     ? ColorSchemes.gray
                     : ColorSchemes.primary,
-                borderColor: request.step == "go-location"
+                borderColor: request.step != "go-location"
                     ? ColorSchemes.gray
                     : ColorSchemes.primary,
                 text: S.of(context).receiveExtinguishers,
@@ -1140,7 +1144,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
-                onTap: () => request.step == "go-location"
+                onTap: () => request.step != "go-location"
                     ? null
                     : showStartTaskDialog(context, request),
               ),

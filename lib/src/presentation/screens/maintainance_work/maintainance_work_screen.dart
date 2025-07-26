@@ -54,8 +54,8 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
       onRefresh: () async {
         _bloc.add(GetScheduleJobEvent(status: ""));
       },
-      child: BlocConsumer<RequestsBloc, RequestsState>(
-          listener: (context, state) {
+      child:
+          BlocConsumer<RequestsBloc, RequestsState>(listener: (context, state) {
         if (state is ScheduleJobLoadingState) {
           _isLoading = true;
         } else if (state is ScheduleJobSuccessState) {
@@ -111,8 +111,8 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                               : CustomEmptyListWidget(
                                   text: S.of(context).noRequestsFound,
                                   isRefreshable: true,
-                                  onRefresh: () =>
-                                      _bloc.add(GetScheduleJobEvent(status: "")),
+                                  onRefresh: () => _bloc
+                                      .add(GetScheduleJobEvent(status: "")),
                                   imagePath: ImagePaths.emptyProject,
                                 ),
                         ),
@@ -120,8 +120,8 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
                       itemCount: _workingProgress.length,
                       itemBuilder: (context, index) {
                         final request = _workingProgress[index];
@@ -558,10 +558,10 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                 width: double.infinity,
                 height: 36.h,
                 child: CustomButtonWidget(
-                  backgroundColor: request.step == "go-location"
+                  backgroundColor: request.step != "go-location"
                       ? ColorSchemes.gray
                       : ColorSchemes.primary,
-                  borderColor: request.step == "go-location"
+                  borderColor: request.step != "go-location"
                       ? ColorSchemes.gray
                       : ColorSchemes.primary,
                   text: S.of(context).receiveExtinguishers,
@@ -571,7 +571,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                     fontWeight: FontWeight.w600,
                     fontSize: 16.sp,
                   ),
-                  onTap: () => request.step == "go-location"
+                  onTap: () => request.step != "go-location"
                       ? null
                       : showStartTaskDialog(context, request),
                 ),
@@ -1169,7 +1169,9 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
           },
         ),
       ),
-    );
+    ).then((_) {
+      _bloc.add(GetScheduleJobEvent(status: ""));
+    });
   }
 
   String _getStatus(String status) {
