@@ -466,7 +466,11 @@
   "fireSystems": "Fire Systems",
   "success": "Success",
   "pleaseEnterANumberLessThanOrEqualTo": "Please enter a number less than or equal to",
-  "totalPrice": "Total Price"
-
+  "totalPrice": "Total Price",
+  "accepted": "Accepted",
+  "cancelled": "Cancelled",
+  "inProgress": "In Progress",
+  "zone": "Zone",
+  "loop": "Loop"
 }
 

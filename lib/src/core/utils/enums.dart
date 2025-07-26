@@ -4,6 +4,7 @@ enum TextSizes { small, medium, large }
 enum RegisterStatus { Pending, Complete_Register, Home_Page }
 
 enum RequestStatus { pending, accepted, rejected, cancelled, active }
+enum ScheduleJobStatusEnum { pending, completed, inProgress }
 
 class SystemType {
   static bool isAlarmType(String type) {
@@ -26,7 +27,6 @@ enum RequestType {
   FireExtinguisher, //طفاية حريق
 }
 
-enum ScheduleJobStatusEnum { pending, completed, inProgress }
 
 enum ScheduleJobStepEnum {
   pending,

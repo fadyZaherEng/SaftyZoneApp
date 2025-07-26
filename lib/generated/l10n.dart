@@ -4743,6 +4743,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Accepted`
+  String get accepted {
+    return Intl.message(
+      'Accepted',
+      name: 'accepted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancelled`
+  String get cancelled {
+    return Intl.message(
+      'Cancelled',
+      name: 'cancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In Progress`
+  String get inProgress {
+    return Intl.message(
+      'In Progress',
+      name: 'inProgress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Zone`
+  String get zone {
+    return Intl.message(
+      'Zone',
+      name: 'zone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loop`
+  String get loop {
+    return Intl.message(
+      'Loop',
+      name: 'loop',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

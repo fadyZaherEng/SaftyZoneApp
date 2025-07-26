@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "accepted": MessageLookupByLibrary.simpleMessage("مقبول"),
         "active": MessageLookupByLibrary.simpleMessage("نشط"),
         "activityType": MessageLookupByLibrary.simpleMessage("نوع النشاط"),
         "addAnotherEmployee":
@@ -74,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("المعلومات الاساسية"),
         "camera": MessageLookupByLibrary.simpleMessage("الكاميرا"),
         "cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
+        "cancelled": MessageLookupByLibrary.simpleMessage("ملغي"),
         "cannotReceiveRequestsMessage": MessageLookupByLibrary.simpleMessage(
             "لا يمكنك استقبال الطلبات حتى يتم استكمالها."),
         "changeDocument": MessageLookupByLibrary.simpleMessage("تغيير"),
@@ -310,6 +312,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "فشل في تحديد الصورة. حاول مرة اخرى."),
         "imageUploadError":
             MessageLookupByLibrary.simpleMessage("حدث خطأ في رفع الصورة"),
+        "inProgress": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
         "inValidPhoneNumber":
             MessageLookupByLibrary.simpleMessage("رقم هاتف غير صالح"),
         "informationCompletedSuccessfully":
@@ -362,6 +365,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تسجيل الدخول ادناه"),
         "loginTitle": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
+        "loop": MessageLookupByLibrary.simpleMessage("اللوب"),
         "lowercaseRequirement": MessageLookupByLibrary.simpleMessage(
             "على الاقل يجب ان يحتوي كلمة المرور على حرف صغير"),
         "maintainance": MessageLookupByLibrary.simpleMessage("الصيانة"),
@@ -760,6 +764,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تم ارسال بياناتك للمراجعة"),
         "yourLocation": MessageLookupByLibrary.simpleMessage("موقعك"),
         "your_rights": MessageLookupByLibrary.simpleMessage(
-            "مبلغ حقوقك (أحد أفراد فريق الأمان التابع لمؤسستنا)")
+            "مبلغ حقوقك (أحد أفراد فريق الأمان التابع لمؤسستنا)"),
+        "zone": MessageLookupByLibrary.simpleMessage("العادي")
       };
 }

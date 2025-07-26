@@ -393,7 +393,7 @@ class _UploadDocumentFawryScreenState
                 const Spacer(),
                 Chip(
                   label: Text(
-                    request.status,
+                    _getStatus(request.status),
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -604,6 +604,24 @@ class _UploadDocumentFawryScreenState
       return S.of(context).maintenanceContracts;
     } else {
       return S.of(context).instantLicense;
+    }
+  }
+
+  String _getStatus(String status) {
+    if (status.toLowerCase() == "pending") {
+      return S.of(context).pending;
+    } else if (status.toLowerCase() == "accepted") {
+      return S.of(context).accepted;
+    } else if (status.toLowerCase() == "rejected") {
+      return S.of(context).rejected;
+    } else if (status.toLowerCase() == "cancelled") {
+      return S.of(context).cancelled;
+    } else if (status.toLowerCase() == "active") {
+      return S.of(context).active;
+    } else if (status.toLowerCase() == "inProgress") {
+      return S.of(context).inProgress;
+    } else {
+      return S.of(context).rejected;
     }
   }
 }

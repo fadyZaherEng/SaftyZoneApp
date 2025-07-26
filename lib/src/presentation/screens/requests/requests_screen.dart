@@ -464,7 +464,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.providers.first.status.toUpperCase(),
+                    _getStatus(request.providers.first.status),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -539,6 +539,24 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
       return S.of(context).maintenanceContracts;
     } else {
       return S.of(context).instantLicense;
+    }
+  }
+
+  String _getStatus(String status) {
+    if (status.toLowerCase() == "pending") {
+      return S.of(context).pending;
+    } else if (status.toLowerCase() == "accepted") {
+      return S.of(context).accepted;
+    } else if (status.toLowerCase() == "rejected") {
+      return S.of(context).rejected;
+    } else if (status.toLowerCase() == "cancelled") {
+      return S.of(context).cancelled;
+    } else if (status.toLowerCase() == "active") {
+      return S.of(context).active;
+    } else if (status.toLowerCase() == "inProgress") {
+      return S.of(context).inProgress;
+    } else {
+      return S.of(context).rejected;
     }
   }
 }

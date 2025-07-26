@@ -79,10 +79,10 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
   bool _isSecondPage = false;
   bool _isThirdPage = false;
   RemoteSecondAndThirdSchedule secondAndThirdSchedule =
-  RemoteSecondAndThirdSchedule();
+      RemoteSecondAndThirdSchedule();
   RemoteFirstScreenSchedule firstScreenSchedule = RemoteFirstScreenSchedule();
   RemoteMainOfferFireExtinguisher mainOfferFireExtinguisher =
-  RemoteMainOfferFireExtinguisher();
+      RemoteMainOfferFireExtinguisher();
   RemoteUpdateStatusDeliver updateStatusDeliver = RemoteUpdateStatusDeliver();
   RemoteAddRecieve addRecieve = RemoteAddRecieve();
 
@@ -95,11 +95,18 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
 
   @override
   void initState() {
-    _bloc.add(GetFirstScreenScheduleEvent(id: widget.scheduleJop.Id));
+    if(widget.isFirstPage) {
+      _bloc.add(GetFirstScreenScheduleEvent(id: widget.scheduleJop.Id));
+    }
     super.initState();
     _isFirstPage = widget.isFirstPage;
     _isSecondPage = widget.isSecondPage;
     _isThirdPage = widget.isThirdPage;
+    if(widget.isSecondPage){
+      _bloc.add(GetSecondAndThirdScreenScheduleEvent(id: widget.scheduleJop.receiveAndDeleiverID));
+    }else if(widget.isThirdPage){
+      _bloc.add(GetSecondAndThirdScreenScheduleEvent(id: widget.scheduleJop.receiveAndDeleiverID));
+    }
   }
 
   @override
@@ -125,9 +132,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
         } else if (state is MainOfferFireExtinguishersSuccessState) {
           mainOfferFireExtinguisher = state.remoteMainOfferFireExtinguisher;
           hideLoading();
-          _showValidationError(S
-              .of(context)
-              .success, true);
+          _showValidationError(S.of(context).success, true);
           _isSecondPage = false;
           _isFirstPage = false;
           _isThirdPage = true;
@@ -147,10 +152,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
           });
 
           // تحديث الأسعار بعد الإنشاء
-          reviewItems = reviewItems
-              .asMap()
-              .entries
-              .map((entry) {
+          reviewItems = reviewItems.asMap().entries.map((entry) {
             final index = entry.key;
             final item = entry.value;
 
@@ -180,10 +182,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
           });
 
           // تحديث الأسعار بعد الإنشاء
-          reviewItems = reviewItems
-              .asMap()
-              .entries
-              .map((entry) {
+          reviewItems = reviewItems.asMap().entries.map((entry) {
             final index = entry.key;
             final item = entry.value;
 
@@ -263,7 +262,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                         firstScreenSchedule.data != null &&
                         firstScreenSchedule.data!.consumerRequest != null &&
                         firstScreenSchedule
-                            .data!.consumerRequest!.fireExtinguisherItem !=
+                                .data!.consumerRequest!.fireExtinguisherItem !=
                             null &&
                         firstScreenSchedule.data!.consumerRequest!
                             .fireExtinguisherItem!.isNotEmpty)
@@ -272,24 +271,23 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.all(16),
                         children: firstScreenSchedule
-                            .data?.consumerRequest?.fireExtinguisherItem
-                            ?.asMap()
-                            .entries
-                            .map(
-                              (e) =>
-                              _buildItem(
-                                context,
-                                imagePath: e.value.itemId?.image ??
-                                    ImagePaths.firePng1,
-                                title:
-                                e.value.itemId?.itemName ?? s.powder6Kg,
-                                receivedCount: 0,
-                                clientCount: e.value.quantity ?? 0,
-                                controller: _firstPageControllers[e.key],
-                                formKey: firstPageFormKeys[e.key],
-                              ),
-                        )
-                            .toList() ??
+                                .data?.consumerRequest?.fireExtinguisherItem
+                                ?.asMap()
+                                .entries
+                                .map(
+                                  (e) => _buildItem(
+                                    context,
+                                    imagePath: e.value.itemId?.image ??
+                                        ImagePaths.firePng1,
+                                    title:
+                                        e.value.itemId?.itemName ?? s.powder6Kg,
+                                    receivedCount: 0,
+                                    clientCount: e.value.quantity ?? 0,
+                                    controller: _firstPageControllers[e.key],
+                                    formKey: firstPageFormKeys[e.key],
+                                  ),
+                                )
+                                .toList() ??
                             [],
                       ),
 
@@ -298,9 +296,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: CustomButtonWidget(
-                          text: S
-                              .of(context)
-                              .save,
+                          text: S.of(context).save,
                           backgroundColor: ColorSchemes.primary,
                           textColor: Colors.white,
                           onTap: () {
@@ -315,29 +311,28 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                                 AddReceiveToDeliverEvent(
                                   request: AddRecieveRequest(
                                     consumerRequest: firstScreenSchedule
-                                        .data?.consumerRequest?.Id ??
+                                            .data?.consumerRequest?.Id ??
                                         "",
                                     branch:
-                                    firstScreenSchedule.data?.branch?.Id ??
-                                        "",
+                                        firstScreenSchedule.data?.branch?.Id ??
+                                            "",
                                     consumer: firstScreenSchedule
-                                        .data?.consumerRequest?.Id ??
+                                            .data?.consumerRequest?.Id ??
                                         "",
                                     scheduleJob: widget.scheduleJop.Id,
                                     fireExtinguisher: firstScreenSchedule
-                                        .data
-                                        ?.consumerRequest
-                                        ?.fireExtinguisherItem
-                                        ?.asMap()
-                                        .entries
-                                        .map((e) =>
-                                        RequestFireExtinguisher(
-                                            item_id:
-                                            e.value.itemId?.Id ?? "",
-                                            receivedQuantity: int.parse(
-                                                _firstPageControllers[e.key]
-                                                    .text)))
-                                        .toList() ??
+                                            .data
+                                            ?.consumerRequest
+                                            ?.fireExtinguisherItem
+                                            ?.asMap()
+                                            .entries
+                                            .map((e) => RequestFireExtinguisher(
+                                                item_id:
+                                                    e.value.itemId?.Id ?? "",
+                                                receivedQuantity: int.parse(
+                                                    _firstPageControllers[e.key]
+                                                        .text)))
+                                            .toList() ??
                                         [],
                                   ),
                                 ),
@@ -359,20 +354,20 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.all(16),
                         children: secondAndThirdSchedule.data?.fireExtinguisher
-                            ?.asMap()
-                            .entries
-                            .map((e) {
-                          return _buildItem(
-                            context,
-                            imagePath: e.value.itemId?.image ??
-                                ImagePaths.firePng2,
-                            title: e.value.itemId?.itemName ?? s.powder6Kg,
-                            receivedCount: 0,
-                            clientCount: e.value.receivedQuantity ?? 0,
-                            controller: _secondPageControllers[e.key],
-                            formKey: secondPageFormKeys[e.key],
-                          );
-                        }).toList() ??
+                                ?.asMap()
+                                .entries
+                                .map((e) {
+                              return _buildItem(
+                                context,
+                                imagePath: e.value.itemId?.image ??
+                                    ImagePaths.firePng2,
+                                title: e.value.itemId?.itemName ?? s.powder6Kg,
+                                receivedCount: 0,
+                                clientCount: e.value.receivedQuantity ?? 0,
+                                controller: _secondPageControllers[e.key],
+                                formKey: secondPageFormKeys[e.key],
+                              );
+                            }).toList() ??
                             [],
                       ),
                     if (_isSecondPage) const SizedBox(height: 32),
@@ -380,26 +375,24 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: CustomButtonWidget(
-                          text: S
-                              .of(context)
-                              .sendPriceOffer,
+                          text: S.of(context).sendPriceOffer,
                           backgroundColor: ColorSchemes.primary,
                           textColor: Colors.white,
                           onTap: () {
                             final List<Item> items = [];
                             int total = 0;
                             int lengthFire = secondAndThirdSchedule
-                                .data?.fireExtinguisher?.length ??
+                                    .data?.fireExtinguisher?.length ??
                                 0;
                             for (int i = 0; i < lengthFire; i++) {
                               AlarmItems element = firstScreenSchedule
-                                  .data
-                                  ?.consumerRequest
-                                  ?.fireExtinguisherItem?[i] ??
+                                      .data
+                                      ?.consumerRequest
+                                      ?.fireExtinguisherItem?[i] ??
                                   AlarmItems();
                               final entrePrice = _secondPageControllers[i]
-                                  .text
-                                  .isNotEmpty
+                                      .text
+                                      .isNotEmpty
                                   ? int.parse(_secondPageControllers[i].text)
                                   : 0;
                               total += entrePrice;
@@ -413,13 +406,13 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                             _bloc.add(
                               MainOfferFireExtinguishersEvent(
                                 mainOfferFireExtinguisher:
-                                MainOfferFireExtinguisher(
+                                    MainOfferFireExtinguisher(
                                   consumerRequest: firstScreenSchedule
-                                      .data?.consumerRequest?.Id ??
+                                          .data?.consumerRequest?.Id ??
                                       "",
                                   scheduleJob: widget.scheduleJop.Id,
                                   responsibleEmployee:
-                                  widget.scheduleJop.responseEmployee.Id,
+                                      widget.scheduleJop.responseEmployee.Id,
                                   items: items,
                                   price: total,
                                 ),
@@ -438,8 +431,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                         padding: const EdgeInsets.all(16),
                         children: reviewItems
                             .map(
-                              (e) =>
-                              _buildItem(
+                              (e) => _buildItem(
                                 context,
                                 imagePath: e.image,
                                 title: e.title,
@@ -448,7 +440,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                                 controller: TextEditingController(),
                                 formKey: GlobalKey<FormState>(),
                               ),
-                        )
+                            )
                             .toList(),
                       ),
                     if (_isThirdPage) ...[
@@ -458,9 +450,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: CustomButtonWidget(
-                              text: S
-                                  .of(context)
-                                  .expiryDate,
+                              text: S.of(context).expiryDate,
                               backgroundColor: ColorSchemes.white,
                               textColor: ColorSchemes.primary,
                               borderColor: ColorSchemes.border,
@@ -500,9 +490,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: CustomButtonWidget(
-                              text: S
-                                  .of(context)
-                                  .fireExtinguishersDelivery,
+                              text: S.of(context).fireExtinguishersDelivery,
                               backgroundColor: ColorSchemes.primary,
                               textColor: Colors.white,
                               onTap: () {
@@ -529,7 +517,8 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
     );
   }
 
-  Widget _buildItem(BuildContext context, {
+  Widget _buildItem(
+    BuildContext context, {
     required String imagePath,
     required String title,
     required int clientCount,
@@ -539,9 +528,9 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
   }) {
     final s = S.of(context);
     final TextEditingController clientCountController =
-    TextEditingController(text: clientCount.toString());
+        TextEditingController(text: clientCount.toString());
     final TextEditingController receivedCountController =
-    TextEditingController(text: receivedCount.toString());
+        TextEditingController(text: receivedCount.toString());
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 0.3,
@@ -589,37 +578,37 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                       const SizedBox(height: 8),
                       _isFirstPage
                           ? _buildFirstInputField(
-                        label: _isThirdPage
-                            ? s.numberArrivedForClient
-                            : _isSecondPage
-                            ? s.totalPrice
-                            : s.receivedCount,
-                        value: receivedCount,
-                        isReadOnly: false,
-                        path: ImagePaths.technical,
-                        controller: controller,
-                        clientCount: clientCount,
-                        formKey: formKey,
-                      )
+                              label: _isThirdPage
+                                  ? s.numberArrivedForClient
+                                  : _isSecondPage
+                                      ? s.totalPrice
+                                      : s.receivedCount,
+                              value: receivedCount,
+                              isReadOnly: false,
+                              path: ImagePaths.technical,
+                              controller: controller,
+                              clientCount: clientCount,
+                              formKey: formKey,
+                            )
                           : _isSecondPage
-                          ? _buildInputField(
-                        label: _isThirdPage
-                            ? s.numberArrivedForClient
-                            : _isSecondPage
-                            ? s.totalPrice
-                            : s.receivedCount,
-                        value: receivedCount,
-                        isReadOnly: false,
-                        path: ImagePaths.technical,
-                        controller: controller,
-                      )
-                          : _buildInputField(
-                        label: s.totalPrice,
-                        value: receivedCount,
-                        isReadOnly: false,
-                        path: ImagePaths.technical,
-                        controller: receivedCountController,
-                      ),
+                              ? _buildInputField(
+                                  label: _isThirdPage
+                                      ? s.numberArrivedForClient
+                                      : _isSecondPage
+                                          ? s.totalPrice
+                                          : s.receivedCount,
+                                  value: receivedCount,
+                                  isReadOnly: false,
+                                  path: ImagePaths.technical,
+                                  controller: controller,
+                                )
+                              : _buildInputField(
+                                  label: s.totalPrice,
+                                  value: receivedCount,
+                                  isReadOnly: false,
+                                  path: ImagePaths.technical,
+                                  controller: receivedCountController,
+                                ),
                     ],
                   ),
                 ),
@@ -684,9 +673,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                 } else if (int.tryParse(value) == null) {
                   return 'Please enter a valid number';
                 } else if (int.parse(value) > clientCount) {
-                  return '${S
-                      .of(context)
-                      .pleaseEnterANumberLessThanOrEqualTo} $clientCount';
+                  return '${S.of(context).pleaseEnterANumberLessThanOrEqualTo} $clientCount';
                 }
                 return null;
               },
@@ -788,7 +775,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
         Card(
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           elevation: 2,
           color: Colors.white,
           child: Padding(
@@ -800,7 +787,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                   children: [
                     Chip(
                       label: Text(
-                        widget.scheduleJop.status,
+                        _getStatus(widget.scheduleJop.status),
                         style: const TextStyle(
                           color: Colors.white,
                         ),
@@ -839,9 +826,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                         const Icon(Icons.location_pin, size: 16),
                         const SizedBox(width: 4),
                         Text(
-                          widget.scheduleJop.branch.address
-                              .split(" ")
-                              .last,
+                          widget.scheduleJop.branch.address.split(" ").last,
                           style: TextStyle(
                             color: Colors.grey[700],
                             fontWeight: FontWeight.w500,
@@ -854,9 +839,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  S
-                      .of(context)
-                      .viewMoreInfo,
+                  S.of(context).viewMoreInfo,
                   style: TextStyle(
                     color: ColorSchemes.primary,
                     fontWeight: FontWeight.w500,
@@ -949,13 +932,27 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
 
   String _getPageTitle() {
     if (_isFirstPage) {
-      return S
-          .of(context)
-          .fireExtinguisherReportTitle;
+      return S.of(context).fireExtinguisherReportTitle;
     } else {
-      return S
-          .of(context)
-          .fireExtinguishersRepairOffer;
+      return S.of(context).fireExtinguishersRepairOffer;
+    }
+  }
+
+  String _getStatus(String status) {
+    if (status.toLowerCase() == "pending") {
+      return S.of(context).pending;
+    } else if (status.toLowerCase() == "accepted") {
+      return S.of(context).accepted;
+    } else if (status.toLowerCase() == "rejected") {
+      return S.of(context).rejected;
+    } else if (status.toLowerCase() == "cancelled") {
+      return S.of(context).cancelled;
+    } else if (status.toLowerCase() == "active") {
+      return S.of(context).active;
+    } else if (status.toLowerCase() == "inProgress") {
+      return S.of(context).inProgress;
+    } else {
+      return S.of(context).rejected;
     }
   }
 }

@@ -258,7 +258,7 @@ class _RequestDetailsMaintainanceWorkProgressScreenState
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    model.result.systemType,
+                    _systemType(model.result.requestType),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -432,7 +432,7 @@ class _RequestDetailsMaintainanceWorkProgressScreenState
               ),
               const Spacer(),
               Text(
-                model.result.systemType,
+                _systemType(model.result.systemType),
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 15.sp,
@@ -808,5 +808,15 @@ class _RequestDetailsMaintainanceWorkProgressScreenState
       color: !bool ? ColorSchemes.warning : ColorSchemes.success,
       icon: !bool ? ImagePaths.error : ImagePaths.success,
     );
+  }
+
+  String _systemType(String systemType) {
+    if (systemType.toLowerCase() == "zone") {
+      return S.of(context).zone;
+    } else if (systemType.toLowerCase() == "loop") {
+      return S.of(context).loop;
+    } else {
+      return S.of(context).loop;
+    }
   }
 }

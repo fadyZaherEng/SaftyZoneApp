@@ -298,7 +298,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 const Spacer(),
                 Chip(
                   label: Text(
-                    request.status,
+                    _getStatus(request.status),
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -315,6 +315,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             ),
             const SizedBox(height: 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   request.branch.branchName,
@@ -324,20 +326,27 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     color: Colors.black,
                   ),
                 ),
-                const Spacer(),
-                Row(
-                  children: [
-                    const Icon(Icons.location_pin, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      request.branch.address.split(',').last,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
+                const SizedBox(width: 24),
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.location_pin, size: 16),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          request.branch.address.split(",").first,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -392,7 +401,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.status,
+                    _getStatus(request.status),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -528,7 +537,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 const Spacer(),
                 Chip(
                   label: Text(
-                    request.status,
+                    _getStatus(request.status),
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -545,6 +554,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             ),
             const SizedBox(height: 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   request.branch.branchName,
@@ -554,41 +565,31 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     color: Colors.black,
                   ),
                 ),
-                const Spacer(),
-                Row(
-                  children: [
-                    _isLoading
-                        ? Container(
-                            width: 16.w,
-                            height: 16.h,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          )
-                        : const Icon(Icons.location_pin, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      request.branch.address.split(",").first,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
+                const SizedBox(width: 24),
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.location_pin, size: 16),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          request.branch.address.split(",").first,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 8),
-            // Text(
-            //   S.of(context).viewMoreInfo,
-            //   style: TextStyle(
-            //     color: ColorSchemes.red,
-            //     fontWeight: FontWeight.bold,
-            //     fontSize: 14.sp,
-            //   ),
-            // ),
             Divider(),
             const SizedBox(height: 8),
             Row(
@@ -744,7 +745,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 const Spacer(),
                 Chip(
                   label: Text(
-                    request.status,
+                    _getStatus(request.status),
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -761,6 +762,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             ),
             const SizedBox(height: 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   request.branch.branchName,
@@ -770,20 +773,27 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     color: Colors.black,
                   ),
                 ),
-                const Spacer(),
-                Row(
-                  children: [
-                    const Icon(Icons.location_pin, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      request.branch.address.split(',').first,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
+                const SizedBox(width: 24),
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.location_pin, size: 16),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          request.branch.address.split(",").first,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -963,6 +973,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             ),
             const SizedBox(height: 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   request.branch.branchName,
@@ -972,29 +984,27 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     color: Colors.black,
                   ),
                 ),
-                const Spacer(),
-                Row(
-                  children: [
-                    _isLoading
-                        ? Container(
-                            width: 16.w,
-                            height: 16.h,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          )
-                        : const Icon(Icons.location_pin, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      request.branch.address.split(",").first,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
+                const SizedBox(width: 24),
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.location_pin, size: 16),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          request.branch.address.split(",").first,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -1117,8 +1127,12 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               width: double.infinity,
               height: 36.h,
               child: CustomButtonWidget(
-                backgroundColor:request.step=="pending"?ColorSchemes.gray: ColorSchemes.primary,
-                borderColor:request.step=="pending"?ColorSchemes.gray: ColorSchemes.primary,
+                backgroundColor: request.step == "go-location"
+                    ? ColorSchemes.gray
+                    : ColorSchemes.primary,
+                borderColor: request.step == "go-location"
+                    ? ColorSchemes.gray
+                    : ColorSchemes.primary,
                 text: S.of(context).receiveExtinguishers,
                 textColor: Colors.white,
                 textStyle: TextStyle(
@@ -1126,7 +1140,9 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
-                onTap: () =>request.step=="pending"?null: showStartTaskDialog(context, request),
+                onTap: () => request.step == "go-location"
+                    ? null
+                    : showStartTaskDialog(context, request),
               ),
             ),
             const SizedBox(height: 8),
@@ -1272,7 +1288,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
   }
 
   bool _showDeliverExtinguishers(String step) {
-    if (step == "offer") {
+    if (step == "accept-offer") {
       return true;
     } else {
       return false;
@@ -1285,21 +1301,11 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
       Routes.fireExtinguishersScreen,
       arguments: {
         'scheduleJop': request,
-        'isFirstPage': true,
-        'isSecondPage': false,
+        'isFirstPage': false,
+        'isSecondPage': true,
         'isThirdPage': false,
       },
     );
-    // Navigator.pushNamed(
-    //   context,
-    //   Routes.fireExtinguishersScreen,
-    //   arguments: {
-    //     'scheduleJop': request,
-    //     'isFirstPage': false,
-    //     'isSecondPage': true,
-    //     'isThirdPage': false,
-    //   },
-    // );
   }
 
   showDeliverExtinguishersDialog(BuildContext context, ScheduleJop request) {
@@ -1308,20 +1314,28 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
       Routes.fireExtinguishersScreen,
       arguments: {
         'scheduleJop': request,
-        'isFirstPage': true,
+        'isFirstPage': false,
         'isSecondPage': false,
-        'isThirdPage': false,
+        'isThirdPage': true,
       },
     );
-    // Navigator.pushNamed(
-    //   context,
-    //   Routes.fireExtinguishersScreen,
-    //   arguments: {
-    //     'scheduleJop': request,
-    //     'isFirstPage': false,
-    //     'isSecondPage': false,
-    //     'isThirdPage': true,
-    //   },
-    // );
+  }
+
+  String _getStatus(String status) {
+    if (status.toLowerCase() == "pending") {
+      return S.of(context).pending;
+    } else if (status.toLowerCase() == "accepted") {
+      return S.of(context).accepted;
+    } else if (status.toLowerCase() == "rejected") {
+      return S.of(context).rejected;
+    } else if (status.toLowerCase() == "cancelled") {
+      return S.of(context).cancelled;
+    } else if (status.toLowerCase() == "active") {
+      return S.of(context).active;
+    } else if (status.toLowerCase() == "inProgress") {
+      return S.of(context).inProgress;
+    } else {
+      return S.of(context).rejected;
+    }
   }
 }

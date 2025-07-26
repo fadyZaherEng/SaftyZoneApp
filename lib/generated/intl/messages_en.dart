@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "accepted": MessageLookupByLibrary.simpleMessage("Accepted"),
         "active": MessageLookupByLibrary.simpleMessage("Active"),
         "activityType": MessageLookupByLibrary.simpleMessage("Activity Type"),
         "addAnotherEmployee":
@@ -75,6 +76,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Basic Information"),
         "camera": MessageLookupByLibrary.simpleMessage("Camera"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "cancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
         "cannotReceiveRequestsMessage": MessageLookupByLibrary.simpleMessage(
             "You cannot receive requests until they are completed."),
         "changeDocument": MessageLookupByLibrary.simpleMessage("Change"),
@@ -323,6 +325,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Failed to select image. Please try again."),
         "imageUploadError":
             MessageLookupByLibrary.simpleMessage("Image upload error"),
+        "inProgress": MessageLookupByLibrary.simpleMessage("In Progress"),
         "inValidPhoneNumber":
             MessageLookupByLibrary.simpleMessage("Invalid phone number"),
         "informationCompletedSuccessfully":
@@ -379,6 +382,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginBelow": MessageLookupByLibrary.simpleMessage("Login below"),
         "loginTitle": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+        "loop": MessageLookupByLibrary.simpleMessage("Loop"),
         "lowercaseRequirement": MessageLookupByLibrary.simpleMessage(
             "At least one lowercase letter"),
         "maintainance": MessageLookupByLibrary.simpleMessage("Maintainance"),
@@ -789,6 +793,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Your information has been sent for review"),
         "yourLocation": MessageLookupByLibrary.simpleMessage("Your Location"),
         "your_rights": MessageLookupByLibrary.simpleMessage(
-            "Your rights (One of our safety team members)")
+            "Your rights (One of our safety team members)"),
+        "zone": MessageLookupByLibrary.simpleMessage("Zone")
       };
 }

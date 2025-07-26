@@ -466,5 +466,10 @@
   "fireSystems": "طفايات الحريق",
   "success": "تم بنجاح",
   "pleaseEnterANumberLessThanOrEqualTo": "الرجاء ادخال عدد اقل من او يساوي",
-  "totalPrice": "السعر الكلي"
+  "totalPrice": "السعر الكلي",
+  "accepted": "مقبول",
+   "cancelled": "ملغي",
+   "inProgress": "قيد التنفيذ",
+  "zone": "العادي",
+  "loop": "اللوب"
 }
