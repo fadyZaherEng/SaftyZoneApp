@@ -233,6 +233,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
           _isThirdPage = false;
           _bloc.add(GetSecondAndThirdScreenScheduleEvent(
               id: addRecieve.data?.Id ?? ""));
+          Navigator.pop(context);
         }
       },
       builder: (context, state) {
