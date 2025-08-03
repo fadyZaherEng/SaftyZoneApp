@@ -546,7 +546,9 @@ class _RequestDetailsExtinguishersScreenState
         const SizedBox(height: 8),
         ...items.asMap().entries.map(
               (item) => _buildQuantityRow(
-                item.value.itemId.itemName,
+                GetLanguageUseCase(injector())() == 'en'
+                    ? item.value.itemId.itemName.en
+                    : item.value.itemId.itemName.ar,
                 item.value.quantity.toString(),
                 item.key == items.length - 1,
               ),
@@ -657,7 +659,9 @@ class _RequestDetailsExtinguishersScreenState
             Column(
               children: [
                 _buildFireItem(
-                  title: model.result.fireExtinguisherItem[i].itemId.itemName,
+                  title: GetLanguageUseCase(injector())() == 'en'
+                      ? model.result.fireExtinguisherItem[i].itemId.itemName.en
+                      : model.result.fireExtinguisherItem[i].itemId.itemName.ar,
                   hint: S.of(context).example3,
                   controller: _priceKiloController[i],
                   iconDescription: ImagePaths.price,

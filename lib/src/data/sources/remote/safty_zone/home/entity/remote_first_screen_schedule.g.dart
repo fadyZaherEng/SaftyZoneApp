@@ -154,7 +154,9 @@ Map<String, dynamic> _$AlarmItemsToJson(AlarmItems instance) =>
 
 ItemId _$ItemIdFromJson(Map<String, dynamic> json) => ItemId(
       Id: json['_id'] as String?,
-      itemName: json['itemName'] as String?,
+      itemName: json['itemName'] == null
+          ? const ItemName(en: '', ar: '')
+          : ItemName.fromJson(json['itemName'] as Map<String, dynamic>),
       image: json['image'] as String?,
       type: json['type'] as String?,
       subCategory: json['subCategory'] as String?,

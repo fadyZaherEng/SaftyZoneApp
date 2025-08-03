@@ -16,7 +16,9 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remot
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_update_status_deliver.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/add_recieve_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/main_offer_fire_extinguisher.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
+import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/fire_extinguishers/fire_extinguishers_bloc.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -282,8 +284,11 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                                     context,
                                     imagePath: e.value.itemId?.image ??
                                         ImagePaths.firePng1,
-                                    title:
-                                        e.value.itemId?.itemName ?? s.powder6Kg,
+                                    title: (GetLanguageUseCase(injector())() ==
+                                                'en'
+                                            ? e.value.itemId?.itemName?.en
+                                            : e.value.itemId?.itemName?.ar) ??
+                                        s.powder6Kg,
                                     receivedCount: 0,
                                     clientCount: e.value.quantity ?? 0,
                                     controller: _firstPageControllers[e.key],

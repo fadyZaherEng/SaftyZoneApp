@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
+import 'package:safety_zone/src/presentation/screens/installation_options/models/installation_fee_model.dart';
 
 class RequestDetails extends Equatable {
   final Result result;
@@ -77,12 +78,12 @@ class Items extends Equatable {
 
 class ItemId extends Equatable {
   final String Id;
-  final String itemName;
+  final ItemName itemName;
   final String type;
 
   const ItemId({
     this.Id = "",
-    this.itemName = "",
+    this.itemName = const ItemName(),
     this.type = "",
   });
 

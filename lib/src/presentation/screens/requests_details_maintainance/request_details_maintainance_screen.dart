@@ -400,7 +400,7 @@ class _RequestDetailsMaintainanceScreenState
                 ),
                 const Spacer(),
                 Text(
-                _systemType(model.result.systemType),
+                  _systemType(model.result.systemType),
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 15.sp,
@@ -650,7 +650,9 @@ class _RequestDetailsMaintainanceScreenState
         const SizedBox(height: 8),
         ...items.asMap().entries.map(
               (item) => _buildQuantityRow(
-                item.value.itemId.itemName,
+                GetLanguageUseCase(injector())() == 'en'
+                    ? item.value.itemId.itemName.en
+                    : item.value.itemId.itemName.ar,
                 item.value.quantity.toString(),
                 item.key == items.length - 1,
               ),

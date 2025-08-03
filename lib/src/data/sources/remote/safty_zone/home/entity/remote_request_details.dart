@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
 import 'package:safety_zone/src/domain/entities/home/request_details.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
+import 'package:safety_zone/src/presentation/screens/installation_options/models/installation_fee_model.dart';
 
 part 'remote_request_details.g.dart';
 
@@ -130,12 +131,12 @@ extension RemoteItemsListExtension on List<RemoteItems> {
 class RemoteItemId {
   @JsonKey(name: '_id')
   final String? Id;
-  final String? itemName;
+  final ItemName  itemName;
   final String? type;
 
   const RemoteItemId({
     this.Id = "",
-    this.itemName = "",
+    this.itemName = const ItemName(),
     this.type = "",
   });
 
@@ -145,11 +146,12 @@ class RemoteItemId {
   Map<String, dynamic> toJson() => _$RemoteItemIdToJson(this);
 }
 
+
 extension RemoteItemIdExtension on RemoteItemId {
   ItemId mapToDomain() {
     return ItemId(
       Id: Id ?? "",
-      itemName: itemName ?? "",
+      itemName: itemName,
       type: type ?? "",
     );
   }

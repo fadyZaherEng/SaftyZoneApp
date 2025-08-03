@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:safety_zone/src/presentation/screens/installation_options/models/installation_fee_model.dart';
 
 part 'remote_first_screen_schedule.g.dart';
 
@@ -173,14 +174,14 @@ class AlarmItems {
 class ItemId {
   @JsonKey(name: '_id')
   final String? Id;
-  final String? itemName;
+  final ItemName? itemName;
   final String? image;
   final String? type;
   final String? subCategory;
 
   const ItemId({
     this.Id,
-    this.itemName,
+    this.itemName=const ItemName(en: '', ar: ''),
     this.image,
     this.type,
     this.subCategory,

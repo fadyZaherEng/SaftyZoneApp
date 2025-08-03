@@ -587,7 +587,9 @@ class _RequestDetailsInstallationScreenState
         const SizedBox(height: 8),
         ...items.asMap().entries.map(
               (item) => _buildQuantityRow(
-                item.value.itemId.itemName,
+                GetLanguageUseCase(injector())() == 'en'
+                    ? item.value.itemId.itemName.en
+                    : item.value.itemId.itemName.ar,
                 item.value.quantity.toString(),
                 item.key == items.length - 1,
               ),

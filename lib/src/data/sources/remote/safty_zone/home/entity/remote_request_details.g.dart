@@ -84,7 +84,9 @@ Map<String, dynamic> _$RemoteItemsToJson(RemoteItems instance) =>
 
 RemoteItemId _$RemoteItemIdFromJson(Map<String, dynamic> json) => RemoteItemId(
       Id: json['_id'] as String? ?? "",
-      itemName: json['itemName'] as String? ?? "",
+      itemName: json['itemName'] == null
+          ? const ItemName()
+          : ItemName.fromJson(json['itemName'] as Map<String, dynamic>),
       type: json['type'] as String? ?? "",
     );
 
