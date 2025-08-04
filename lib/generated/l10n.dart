@@ -5233,6 +5233,186 @@ class S {
       args: [],
     );
   }
+
+  /// `System Repair Price`
+  String get system_repair_price {
+    return Intl.message(
+      'System Repair Price',
+      name: 'system_repair_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System Repair Price`
+  String get system_repair_price_title {
+    return Intl.message(
+      'System Repair Price',
+      name: 'system_repair_price_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Detailed cost estimation for the repair based on the maintenance report.`
+  String get repair_description {
+    return Intl.message(
+      'Detailed cost estimation for the repair based on the maintenance report.',
+      name: 'repair_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you need spare parts for the repair?`
+  String get need_spare_parts {
+    return Intl.message(
+      'Do you need spare parts for the repair?',
+      name: 'need_spare_parts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message(
+      'Yes',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get no {
+    return Intl.message(
+      'No',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Part Price`
+  String get part_price {
+    return Intl.message(
+      'Part Price',
+      name: 'part_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload Spare Part Invoice`
+  String get upload_invoice {
+    return Intl.message(
+      'Upload Spare Part Invoice',
+      name: 'upload_invoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Glass Breaker`
+  String get glass_breaker {
+    return Intl.message(
+      'Glass Breaker',
+      name: 'glass_breaker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Pumps`
+  String get fire_pumps {
+    return Intl.message(
+      'Fire Pumps',
+      name: 'fire_pumps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning Labels`
+  String get warning_labels {
+    return Intl.message(
+      'Warning Labels',
+      name: 'warning_labels',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Boxes`
+  String get fire_boxes {
+    return Intl.message(
+      'Fire Boxes',
+      name: 'fire_boxes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Costs After the Report:`
+  String get total_after_report {
+    return Intl.message(
+      'Total Costs After the Report:',
+      name: 'total_after_report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Material Purchase Cost`
+  String get materials_cost {
+    return Intl.message(
+      'Total Material Purchase Cost',
+      name: 'materials_cost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Repair Costs`
+  String get repair_cost {
+    return Intl.message(
+      'Total Repair Costs',
+      name: 'repair_cost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Installation Cost`
+  String get installation_cost {
+    return Intl.message(
+      'Total Installation Cost',
+      name: 'installation_cost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tax`
+  String get tax {
+    return Intl.message(
+      'Tax',
+      name: 'tax',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total`
+  String get total {
+    return Intl.message(
+      'Total',
+      name: 'total',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

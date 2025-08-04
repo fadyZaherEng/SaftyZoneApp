@@ -324,10 +324,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "fireSystems": MessageLookupByLibrary.simpleMessage("Fire Systems"),
         "fireTitle": MessageLookupByLibrary.simpleMessage(
             "View more information (but without contract)"),
+        "fire_boxes": MessageLookupByLibrary.simpleMessage("Fire Boxes"),
         "fire_detector":
             MessageLookupByLibrary.simpleMessage("Conventional Fire Detector"),
         "fire_extinguish":
             MessageLookupByLibrary.simpleMessage("Fire Suppression Report"),
+        "fire_pumps": MessageLookupByLibrary.simpleMessage("Fire Pumps"),
         "firstAid": MessageLookupByLibrary.simpleMessage("First Aid"),
         "firstParty": MessageLookupByLibrary.simpleMessage("First Party"),
         "firstSafety": MessageLookupByLibrary.simpleMessage("First Safety"),
@@ -348,6 +350,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Generate Report"),
         "getStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
         "glassBreaker": MessageLookupByLibrary.simpleMessage("Glass Breaker"),
+        "glass_breaker": MessageLookupByLibrary.simpleMessage("Glass Breaker"),
         "goToLocation": MessageLookupByLibrary.simpleMessage("Go to Location"),
         "go_to_maintenance_needed": MessageLookupByLibrary.simpleMessage(
             "Reports Requiring Maintenance"),
@@ -382,6 +385,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Installation materials price"),
         "installationTasks":
             MessageLookupByLibrary.simpleMessage("Installation Tasks"),
+        "installation_cost":
+            MessageLookupByLibrary.simpleMessage("Total Installation Cost"),
         "instantLicense":
             MessageLookupByLibrary.simpleMessage("Instant License"),
         "instantLicenseForCompany":
@@ -446,6 +451,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Maintenance Report"),
         "mapLocation":
             MessageLookupByLibrary.simpleMessage("Location on the map"),
+        "materials_cost": MessageLookupByLibrary.simpleMessage(
+            "Total Material Purchase Cost"),
         "mentionedInIt":
             MessageLookupByLibrary.simpleMessage("Mentioned in it"),
         "messages": MessageLookupByLibrary.simpleMessage("Messages"),
@@ -457,6 +464,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "navigate_to_maintenance_reports": MessageLookupByLibrary.simpleMessage(
             "Please go to the \'Reports Requiring Maintenance\' page to provide a repair estimate to the customer."),
+        "need_spare_parts": MessageLookupByLibrary.simpleMessage(
+            "Do you need spare parts for the repair?"),
         "newPassword": MessageLookupByLibrary.simpleMessage("New Password"),
         "newProviderRegistration": MessageLookupByLibrary.simpleMessage(
             "New registration as a service provider"),
@@ -464,6 +473,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("New registration as a"),
         "newRequests": MessageLookupByLibrary.simpleMessage("New Requests"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
+        "no": MessageLookupByLibrary.simpleMessage("No"),
         "noComponentsSelected":
             MessageLookupByLibrary.simpleMessage("No components selected"),
         "noEmployeesFound":
@@ -504,6 +514,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Other Transaction Value"),
         "otpResent":
             MessageLookupByLibrary.simpleMessage("OTP resent successfully"),
+        "part_price": MessageLookupByLibrary.simpleMessage("Part Price"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordLengthRequirement": MessageLookupByLibrary.simpleMessage(
             "Password length must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number and one special character."),
@@ -599,6 +610,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "rememberme": MessageLookupByLibrary.simpleMessage("Remember me"),
         "renewContract": MessageLookupByLibrary.simpleMessage("Renew Contract"),
         "repairCost": MessageLookupByLibrary.simpleMessage("Repair Cost"),
+        "repair_cost":
+            MessageLookupByLibrary.simpleMessage("Total Repair Costs"),
+        "repair_description": MessageLookupByLibrary.simpleMessage(
+            "Detailed cost estimation for the repair based on the maintenance report."),
         "reportWriting": MessageLookupByLibrary.simpleMessage("Report Writing"),
         "report_prepared_by":
             MessageLookupByLibrary.simpleMessage("Report prepared by"),
@@ -739,6 +754,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "systemType": MessageLookupByLibrary.simpleMessage("System Type"),
         "system_error_detected": MessageLookupByLibrary.simpleMessage(
             "System errors have been detected."),
+        "system_repair_price":
+            MessageLookupByLibrary.simpleMessage("System Repair Price"),
+        "system_repair_price_title":
+            MessageLookupByLibrary.simpleMessage("System Repair Price"),
         "system_safety_status": MessageLookupByLibrary.simpleMessage(
             "System & Site Safety - Flammable Materials"),
         "table": MessageLookupByLibrary.simpleMessage("Table"),
@@ -747,6 +766,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Tap to select location"),
         "tasksSelection":
             MessageLookupByLibrary.simpleMessage("Task Selection"),
+        "tax": MessageLookupByLibrary.simpleMessage("Tax"),
         "taxLabel":
             MessageLookupByLibrary.simpleMessage("Tax (15% of the invoice)"),
         "technicianResponsibleForInstallingTheEquipment":
@@ -780,7 +800,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "toRepair": MessageLookupByLibrary.simpleMessage("To Be Repaired"),
         "todayTasks":
             MessageLookupByLibrary.simpleMessage("Today’s Scheduled Tasks"),
+        "total": MessageLookupByLibrary.simpleMessage("Total"),
         "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price"),
+        "total_after_report": MessageLookupByLibrary.simpleMessage(
+            "Total Costs After the Report:"),
         "training": MessageLookupByLibrary.simpleMessage("Training"),
         "transferred": MessageLookupByLibrary.simpleMessage("Transferred"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
@@ -809,6 +832,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "uploadMediaGallery":
             MessageLookupByLibrary.simpleMessage("Upload media from gallery"),
         "uploadPhoto": MessageLookupByLibrary.simpleMessage("Upload Photo"),
+        "upload_invoice":
+            MessageLookupByLibrary.simpleMessage("Upload Spare Part Invoice"),
         "uppercaseRequirement": MessageLookupByLibrary.simpleMessage(
             "At least one uppercase letter"),
         "username": MessageLookupByLibrary.simpleMessage("Username"),
@@ -832,6 +857,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "wallet": MessageLookupByLibrary.simpleMessage("Wallet"),
         "wallet_summary":
             MessageLookupByLibrary.simpleMessage("Wallet Summary"),
+        "warning_labels":
+            MessageLookupByLibrary.simpleMessage("Warning Labels"),
         "wednesday": MessageLookupByLibrary.simpleMessage("Wednesday"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Welcome Back"),
@@ -849,6 +876,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("WhatsApp number is required"),
         "workingInProgress":
             MessageLookupByLibrary.simpleMessage("Working In Progress"),
+        "yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "youCannot": MessageLookupByLibrary.simpleMessage("You "),
         "youShouldHaveCameraPermission": MessageLookupByLibrary.simpleMessage(
             "You should have camera permission to use this feature."),

@@ -310,10 +310,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "fireSystems": MessageLookupByLibrary.simpleMessage("طفايات الحريق"),
         "fireTitle": MessageLookupByLibrary.simpleMessage(
             "عرض المزيد من المعلومات (لكن بدون عقد)"),
+        "fire_boxes": MessageLookupByLibrary.simpleMessage("صناديق الحريق"),
         "fire_detector": MessageLookupByLibrary.simpleMessage(
             "كاشف حريق من النوع الانجليزي"),
         "fire_extinguish":
             MessageLookupByLibrary.simpleMessage("تقرير نظام إطفاء الحريق"),
+        "fire_pumps": MessageLookupByLibrary.simpleMessage("ضخات الحريق"),
         "firstAid": MessageLookupByLibrary.simpleMessage("المساعدة الأولى"),
         "firstParty": MessageLookupByLibrary.simpleMessage("الطرف الأول"),
         "firstSafety": MessageLookupByLibrary.simpleMessage("الأمان الأولى"),
@@ -333,6 +335,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "generateReport": MessageLookupByLibrary.simpleMessage("اصدار التقرير"),
         "getStarted": MessageLookupByLibrary.simpleMessage("ابدأ الآن"),
         "glassBreaker": MessageLookupByLibrary.simpleMessage("محدد الزجاج"),
+        "glass_breaker": MessageLookupByLibrary.simpleMessage("كاسر زجاج"),
         "goToLocation": MessageLookupByLibrary.simpleMessage("اذهب إلى الموقع"),
         "go_to_maintenance_needed":
             MessageLookupByLibrary.simpleMessage("التقارير التي تتطلب الصيانة"),
@@ -365,6 +368,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تكاليف المواد التثبيتية"),
         "installationTasks":
             MessageLookupByLibrary.simpleMessage("أجور التركيب"),
+        "installation_cost":
+            MessageLookupByLibrary.simpleMessage("تكلفة التركيب الإجمالية"),
         "instantLicense": MessageLookupByLibrary.simpleMessage("رخصه فورية"),
         "instantLicenseForCompany":
             MessageLookupByLibrary.simpleMessage(" رخصة فورية للشركة"),
@@ -427,6 +432,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تقرير الصيانة"),
         "mapLocation":
             MessageLookupByLibrary.simpleMessage("الموقع على الخريطة"),
+        "materials_cost":
+            MessageLookupByLibrary.simpleMessage("إجمالي تكلفة شراء المواد"),
         "mentionedInIt": MessageLookupByLibrary.simpleMessage("مذكوره فيه"),
         "messages": MessageLookupByLibrary.simpleMessage("الرسائل"),
         "missingData":
@@ -437,6 +444,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "navigate_to_maintenance_reports": MessageLookupByLibrary.simpleMessage(
             "يرجى الانتقال إلى صفحة \"التقارير التي تتطلب الصيانة\" لتقديم سعر الإصلاح إلى العميل."),
+        "need_spare_parts": MessageLookupByLibrary.simpleMessage(
+            "هل تحتاج إلى قطع غيار للصيانة؟"),
         "newPassword":
             MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
         "newProviderRegistration":
@@ -445,6 +454,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تسجيل جديد كـ"),
         "newRequests": MessageLookupByLibrary.simpleMessage("الطلبات الجديدة"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
+        "no": MessageLookupByLibrary.simpleMessage("لا"),
         "noComponentsSelected":
             MessageLookupByLibrary.simpleMessage("لم يتم اختيار اي مكونات"),
         "noEmployeesFound": MessageLookupByLibrary.simpleMessage(
@@ -487,6 +497,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("قيمة المعاملة الأخرى"),
         "otpResent":
             MessageLookupByLibrary.simpleMessage("تم اعادة ارسال الرمز بنجاح"),
+        "part_price": MessageLookupByLibrary.simpleMessage("سعر القطع"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "passwordLengthRequirement": MessageLookupByLibrary.simpleMessage(
             "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، وتحتوي على حرف كبير واحد على الأقل، وحرف صغير واحد على الأقل، ورقم واحد، وحرف خاص واحد على الأقل."),
@@ -576,6 +587,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "rememberme": MessageLookupByLibrary.simpleMessage("تذكرني"),
         "renewContract": MessageLookupByLibrary.simpleMessage("تجديد العقد"),
         "repairCost": MessageLookupByLibrary.simpleMessage("تكلفة الاصلاح"),
+        "repair_cost":
+            MessageLookupByLibrary.simpleMessage("إجمالي تكاليف الإصلاح"),
+        "repair_description": MessageLookupByLibrary.simpleMessage(
+            "توفير تفاصيل تفصيلية للتكلفة للإصلاح بناءً على تقرير الصيانة."),
         "reportWriting": MessageLookupByLibrary.simpleMessage("كتابة التقرير"),
         "report_prepared_by":
             MessageLookupByLibrary.simpleMessage("تقرير أعده"),
@@ -712,6 +727,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "systemType": MessageLookupByLibrary.simpleMessage("نوع النظام"),
         "system_error_detected":
             MessageLookupByLibrary.simpleMessage("تم اكتشاف أخطاء النظام."),
+        "system_repair_price":
+            MessageLookupByLibrary.simpleMessage("عرض سعر إصلاح النظام"),
+        "system_repair_price_title":
+            MessageLookupByLibrary.simpleMessage("عرض سعر إصلاح النظام"),
         "system_safety_status": MessageLookupByLibrary.simpleMessage(
             "حالة سلامة النظام والموقع - توافر مواد قابلة للاشتعال أو خطرة"),
         "table": MessageLookupByLibrary.simpleMessage("جدول"),
@@ -719,6 +738,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tapToSelectLocation":
             MessageLookupByLibrary.simpleMessage("انقر للحدد الموقع"),
         "tasksSelection": MessageLookupByLibrary.simpleMessage("اختيار المهام"),
+        "tax": MessageLookupByLibrary.simpleMessage("ضريبة"),
         "taxLabel":
             MessageLookupByLibrary.simpleMessage("الضريبة (15% من المطالبة)"),
         "technicianResponsibleForInstallingTheEquipment":
@@ -753,7 +773,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("العدد المطلوب إصلاحه"),
         "todayTasks":
             MessageLookupByLibrary.simpleMessage("المهام المجدولة اليوم"),
+        "total": MessageLookupByLibrary.simpleMessage("المجموع"),
         "totalPrice": MessageLookupByLibrary.simpleMessage("السعر الكلي"),
+        "total_after_report": MessageLookupByLibrary.simpleMessage(
+            "إجمالي التكاليف بعد التقرير:"),
         "training": MessageLookupByLibrary.simpleMessage("تدريب"),
         "transferred": MessageLookupByLibrary.simpleMessage("تم التحويل"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة اخرى"),
@@ -781,6 +804,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "uploadMediaGallery":
             MessageLookupByLibrary.simpleMessage("تحميل الوسائط من المعرض"),
         "uploadPhoto": MessageLookupByLibrary.simpleMessage("تحميل الصورة"),
+        "upload_invoice":
+            MessageLookupByLibrary.simpleMessage("تحميل فاتورة قطع الغيار"),
         "uppercaseRequirement": MessageLookupByLibrary.simpleMessage(
             "على الاقل يجب ان يحتوي كلمة المرور على حرف كبير"),
         "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
@@ -804,6 +829,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "visits": MessageLookupByLibrary.simpleMessage(" زيارات"),
         "wallet": MessageLookupByLibrary.simpleMessage("المحفظة"),
         "wallet_summary": MessageLookupByLibrary.simpleMessage("ملخص المحفظة"),
+        "warning_labels":
+            MessageLookupByLibrary.simpleMessage("اللافتات التحذيرية"),
         "wednesday": MessageLookupByLibrary.simpleMessage("الاربعاء"),
         "welcome": MessageLookupByLibrary.simpleMessage("مرحباً"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("مرحباً بعودتك"),
@@ -820,6 +847,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("رقم الواتساب مطلوب"),
         "workingInProgress":
             MessageLookupByLibrary.simpleMessage("أعمال قيد التنفيذ"),
+        "yes": MessageLookupByLibrary.simpleMessage("نعم"),
         "youCannot": MessageLookupByLibrary.simpleMessage("لا "),
         "youShouldHaveCameraPermission": MessageLookupByLibrary.simpleMessage(
             "يجب عليك تمكين الكاميرا لاستخدام هذه الميزة."),

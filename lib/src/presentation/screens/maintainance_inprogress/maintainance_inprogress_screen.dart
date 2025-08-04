@@ -8,14 +8,17 @@ import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
+import 'package:safety_zone/src/presentation/screens/repair_rstimate/repair_estimate_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 
 class MaintainanceInProgressScreen extends BaseStatefulWidget {
   final ScheduleJop scheduleJop;
+  final bool isRepair;
 
   const MaintainanceInProgressScreen({
     super.key,
     required this.scheduleJop,
+    this.isRepair = false,
   });
 
   @override
@@ -332,12 +335,22 @@ class _MaintainanceInProgressScreenState
                           S.of(context).foam_box,
                         ],
                         (p3) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SystemReportsPage(),
-                            ),
-                          );
+                          if (widget.isRepair) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    RepairEstimateScreen(repairComplete: true),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SystemReportsPage(),
+                              ),
+                            );
+                          }
                         },
                         ImagePaths.fireBox,
                       ),
@@ -387,9 +400,9 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
     final s = S.of(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F9F9),
+      backgroundColor: ColorSchemes.white,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF7B0000),
+        backgroundColor: ColorSchemes.primary,
         title: Text(
           s.systemReportsTitle,
           style: const TextStyle(color: Colors.white),
@@ -828,6 +841,14 @@ class SystemErrorScreen extends StatelessWidget {
               textColor: ColorSchemes.white,
               onTap: () {
                 // Navigate to reports page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => RepairEstimateScreen(
+                      repairComplete: false,
+                    ),
+                  ),
+                );
               },
             ),
             SizedBox(height: 32),

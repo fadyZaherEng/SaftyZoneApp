@@ -74,7 +74,8 @@ class Routes {
   static const String notificationsScreen = '/notifications-screen';
   static const String fireExtinguishersScreen = '/fire-extinguishers-screen';
   static const String invoiceScreen = '/invoiceScreen';
-  static const String maintainanceInProgressScreen = '/maintainanceInProgressScreen';
+  static const String maintainanceInProgressScreen =
+      '/maintainanceInProgressScreen';
 }
 
 class RoutesManager {
@@ -203,6 +204,7 @@ class RoutesManager {
             routeSettings.arguments as Map<String, dynamic>?;
         return _materialRoute(MaintainanceInProgressScreen(
           scheduleJop: args?['scheduleJop'] as ScheduleJop,
+          isRepair: args?['isRepair'] as bool? ?? false,
         ));
 
       case Routes.invoiceScreen:

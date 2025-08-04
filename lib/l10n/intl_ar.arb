@@ -515,6 +515,25 @@
   "submit_report": "الموافقة على التقرير",
   "system_error_detected": "تم اكتشاف أخطاء النظام.",
   "navigate_to_maintenance_reports": "يرجى الانتقال إلى صفحة \"التقارير التي تتطلب الصيانة\" لتقديم سعر الإصلاح إلى العميل.",
-  "go_to_maintenance_needed": "التقارير التي تتطلب الصيانة"
+  "go_to_maintenance_needed": "التقارير التي تتطلب الصيانة",
+  "system_repair_price": "عرض سعر إصلاح النظام",
+  "system_repair_price_title": "عرض سعر إصلاح النظام",
+  "repair_description": "توفير تفاصيل تفصيلية للتكلفة للإصلاح بناءً على تقرير الصيانة.",
+  "need_spare_parts": "هل تحتاج إلى قطع غيار للصيانة؟",
+  "yes": "نعم",
+  "no": "لا",
+  "part_price": "سعر القطع",
+  "upload_invoice": "تحميل فاتورة قطع الغيار",
+
+  "glass_breaker": "كاسر زجاج",
+   "fire_pumps": "ضخات الحريق",
+  "warning_labels": "اللافتات التحذيرية",
+  "fire_boxes": "صناديق الحريق",
+  "total_after_report": "إجمالي التكاليف بعد التقرير:",
+  "materials_cost": "إجمالي تكلفة شراء المواد",
+  "repair_cost": "إجمالي تكاليف الإصلاح",
+  "installation_cost": "تكلفة التركيب الإجمالية",
+  "tax": "ضريبة",
+  "total": "المجموع"
 
 }
