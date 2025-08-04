@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Addressed installation fee"),
         "alarmBell": MessageLookupByLibrary.simpleMessage("Alarm Bell"),
         "alarmItems": MessageLookupByLibrary.simpleMessage("Alarm Items:"),
+        "alarm_bell": MessageLookupByLibrary.simpleMessage("Alarm Bell"),
         "all": MessageLookupByLibrary.simpleMessage("All"),
         "amount_received":
             MessageLookupByLibrary.simpleMessage("Amounts Received"),
@@ -51,6 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "autoSprinkler": MessageLookupByLibrary.simpleMessage("Auto Sprinkler"),
         "automaticSprinklers":
             MessageLookupByLibrary.simpleMessage("Automatic Sprinklers"),
+        "available": MessageLookupByLibrary.simpleMessage("Available"),
         "availableAtClient":
             MessageLookupByLibrary.simpleMessage("Quantity at Client"),
         "backToHome": MessageLookupByLibrary.simpleMessage("Back to Home"),
@@ -74,6 +76,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Bank account number is required"),
         "basicInformation":
             MessageLookupByLibrary.simpleMessage("Basic Information"),
+        "bell_with_flasher": MessageLookupByLibrary.simpleMessage(
+            "External Fire Alarm with Flasher"),
+        "broken_glass": MessageLookupByLibrary.simpleMessage("Broken Glass"),
         "camera": MessageLookupByLibrary.simpleMessage("Camera"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
@@ -138,6 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contractTime": MessageLookupByLibrary.simpleMessage("Contract Time"),
         "contractsList": MessageLookupByLibrary.simpleMessage("Contracts List"),
         "controlPanel": MessageLookupByLibrary.simpleMessage("Control Panel"),
+        "control_panel": MessageLookupByLibrary.simpleMessage("Control Panel"),
         "costOfMonitoredSystem":
             MessageLookupByLibrary.simpleMessage("Cost of monitored system"),
         "costOfNormalSystem":
@@ -180,6 +186,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Document Preview"),
         "documentUploaded": MessageLookupByLibrary.simpleMessage("Uploaded"),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
+        "earlyWarningSystem": MessageLookupByLibrary.simpleMessage(
+            "Enter maintenance reports in the early warning system"),
         "earlyWarningSystemFees":
             MessageLookupByLibrary.simpleMessage("Early Warning System Fees"),
         "easySubtitle": MessageLookupByLibrary.simpleMessage(
@@ -204,10 +212,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "emailRequired":
             MessageLookupByLibrary.simpleMessage("Email is required"),
         "emergencyExit": MessageLookupByLibrary.simpleMessage("Emergency Exit"),
+        "emergencyLight":
+            MessageLookupByLibrary.simpleMessage("Emergency Light"),
         "emergencyLighting":
             MessageLookupByLibrary.simpleMessage("Emergency Lighting"),
         "emergencyVisitFee":
             MessageLookupByLibrary.simpleMessage("Emergency Visit Fee"),
+        "emergency_exit":
+            MessageLookupByLibrary.simpleMessage("Emergency Exit"),
+        "emergency_lights":
+            MessageLookupByLibrary.simpleMessage("Emergency Lighting"),
         "employeeSavedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Employee saved successfully"),
         "employees": MessageLookupByLibrary.simpleMessage("Employees"),
@@ -248,6 +262,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "example3": MessageLookupByLibrary.simpleMessage("Example: 3 SAR"),
         "example350": MessageLookupByLibrary.simpleMessage("Example: 350 SAR"),
         "expiryDate": MessageLookupByLibrary.simpleMessage("Expiry Date"),
+        "external_bell":
+            MessageLookupByLibrary.simpleMessage("External Fire Alarm"),
+        "external_glass":
+            MessageLookupByLibrary.simpleMessage("External Glass Breaker"),
+        "external_sprinkler":
+            MessageLookupByLibrary.simpleMessage("External Sprinkler"),
         "extinguisher12KgPowder": MessageLookupByLibrary.simpleMessage(
             "Fire Extinguisher 12kg Powder"),
         "extinguisher6KgPowder": MessageLookupByLibrary.simpleMessage(
@@ -258,6 +278,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Details of Fire Extinguishers to be Repaired"),
         "extinguishingItems":
             MessageLookupByLibrary.simpleMessage("Extinguishing Items:"),
+        "extinguishingSystems":
+            MessageLookupByLibrary.simpleMessage("Extinguishing Systems"),
         "failedToSave": MessageLookupByLibrary.simpleMessage(
             "Failed to save, please try again"),
         "fawryService": MessageLookupByLibrary.simpleMessage("Fawry Service"),
@@ -268,6 +290,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Final Price (after pickup and maintenance)"),
         "finish": MessageLookupByLibrary.simpleMessage("Finish"),
         "fireBox": MessageLookupByLibrary.simpleMessage("Fire Box"),
+        "fireBoxes": MessageLookupByLibrary.simpleMessage("Fire Boxes"),
         "fireCabinets": MessageLookupByLibrary.simpleMessage("Fire Cabinets"),
         "fireDetector": MessageLookupByLibrary.simpleMessage("Fire Detector"),
         "fireExtinguisher":
@@ -282,6 +305,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Fire Extinguisher Maintenance"),
         "fireExtinguisherReportTitle": MessageLookupByLibrary.simpleMessage(
             "Fire Extinguisher Receiving Report"),
+        "fireExtinguisherSystem": MessageLookupByLibrary.simpleMessage(
+            "Enter maintenance reports in the fire extinguishing system"),
         "fireExtinguishers":
             MessageLookupByLibrary.simpleMessage("Fire Extinguishers:"),
         "fireExtinguishersDelivery":
@@ -294,9 +319,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "fireSystems": MessageLookupByLibrary.simpleMessage("Fire Systems"),
         "fireTitle": MessageLookupByLibrary.simpleMessage(
             "View more information (but without contract)"),
+        "fire_detector":
+            MessageLookupByLibrary.simpleMessage("Conventional Fire Detector"),
+        "fire_extinguish":
+            MessageLookupByLibrary.simpleMessage("Fire Suppression Report"),
         "firstAid": MessageLookupByLibrary.simpleMessage("First Aid"),
         "firstParty": MessageLookupByLibrary.simpleMessage("First Party"),
         "firstSafety": MessageLookupByLibrary.simpleMessage("First Safety"),
+        "foam_box": MessageLookupByLibrary.simpleMessage("Foam Fire Box"),
         "forgotpassword":
             MessageLookupByLibrary.simpleMessage("Forgot Password?"),
         "friday": MessageLookupByLibrary.simpleMessage("Friday"),
@@ -328,6 +358,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "inProgress": MessageLookupByLibrary.simpleMessage("In Progress"),
         "inValidPhoneNumber":
             MessageLookupByLibrary.simpleMessage("Invalid phone number"),
+        "in_progress": MessageLookupByLibrary.simpleMessage("In Progress"),
         "informationCompletedSuccessfully":
             MessageLookupByLibrary.simpleMessage(
                 "Information completed successfully"),
@@ -350,6 +381,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Instant License for Company"),
         "instantPermitIssuanceFee":
             MessageLookupByLibrary.simpleMessage("Instant Permit Issuance Fee"),
+        "internal_box": MessageLookupByLibrary.simpleMessage("Internal Box"),
+        "internal_glass":
+            MessageLookupByLibrary.simpleMessage("Internal Glass Breaker"),
+        "internal_light":
+            MessageLookupByLibrary.simpleMessage("Internal Emergency Light"),
         "invalidCode": MessageLookupByLibrary.simpleMessage("Invalid code"),
         "invalidPhoneNumber":
             MessageLookupByLibrary.simpleMessage("Invalid phone number"),
@@ -521,6 +557,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Provider/Technician Name"),
         "providerRating":
             MessageLookupByLibrary.simpleMessage("Provider Rating"),
+        "pumps": MessageLookupByLibrary.simpleMessage("Fire Pumps"),
         "quantitiesTable":
             MessageLookupByLibrary.simpleMessage("Quantities Table"),
         "quantity": MessageLookupByLibrary.simpleMessage("Quantity"),
@@ -549,6 +586,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "renewContract": MessageLookupByLibrary.simpleMessage("Renew Contract"),
         "repairCost": MessageLookupByLibrary.simpleMessage("Repair Cost"),
         "reportWriting": MessageLookupByLibrary.simpleMessage("Report Writing"),
+        "report_title":
+            MessageLookupByLibrary.simpleMessage("Early Warning Report"),
         "reports": MessageLookupByLibrary.simpleMessage("Reports"),
         "requestNumber": MessageLookupByLibrary.simpleMessage("Request No."),
         "requestServiceSubtitle": MessageLookupByLibrary.simpleMessage(
@@ -558,6 +597,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "requestType": MessageLookupByLibrary.simpleMessage(
             "Request Type: Fire Extinguisher Repair Quotation"),
         "requests": MessageLookupByLibrary.simpleMessage("Requests"),
+        "required": MessageLookupByLibrary.simpleMessage("Required"),
         "resendCode": MessageLookupByLibrary.simpleMessage("Resend Code"),
         "resendCodeIn": MessageLookupByLibrary.simpleMessage("Resend code in"),
         "responsibleContractors":
@@ -582,6 +622,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Enter what you want to search for..."),
         "secondParty": MessageLookupByLibrary.simpleMessage("Second Party"),
         "security": MessageLookupByLibrary.simpleMessage("Security"),
+        "selectAnotherEmployee":
+            MessageLookupByLibrary.simpleMessage("select another employee"),
         "selectComponents":
             MessageLookupByLibrary.simpleMessage("Select components"),
         "selectDate": MessageLookupByLibrary.simpleMessage("Select Date"),
@@ -622,6 +664,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "siteManagement":
             MessageLookupByLibrary.simpleMessage("Site Management"),
         "skip": MessageLookupByLibrary.simpleMessage("Skip"),
+        "smokeDetector": MessageLookupByLibrary.simpleMessage("Smoke Detector"),
         "someThingError":
             MessageLookupByLibrary.simpleMessage("Some Thing Error"),
         "sorryTheNewPasswordAndConfirmPasswordDoNotMatch":
@@ -629,6 +672,9 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Sorry, the new password and confirm password do not match."),
         "specialCharacterRequirement": MessageLookupByLibrary.simpleMessage(
             "At least one special character (!@#\$%^&*_=+-)"),
+        "sprinkler_amer":
+            MessageLookupByLibrary.simpleMessage("American Sprinkler"),
+        "sprinklers": MessageLookupByLibrary.simpleMessage("Water Sprinklers"),
         "standardInstallationFee":
             MessageLookupByLibrary.simpleMessage("Standard installation fee"),
         "startAddingEmployee":
@@ -671,6 +717,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "systemAdministrator":
             MessageLookupByLibrary.simpleMessage("System Administrator"),
         "systemManager": MessageLookupByLibrary.simpleMessage("System Manager"),
+        "systemReportsTitle":
+            MessageLookupByLibrary.simpleMessage("System Reports"),
         "systemType": MessageLookupByLibrary.simpleMessage("System Type"),
         "table": MessageLookupByLibrary.simpleMessage("Table"),
         "takePhoto": MessageLookupByLibrary.simpleMessage("Take photo"),
@@ -794,6 +842,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "yourLocation": MessageLookupByLibrary.simpleMessage("Your Location"),
         "your_rights": MessageLookupByLibrary.simpleMessage(
             "Your rights (One of our safety team members)"),
-        "zone": MessageLookupByLibrary.simpleMessage("Zone")
+        "zone": MessageLookupByLibrary.simpleMessage("Zone"),
+        "zone_loop":
+            MessageLookupByLibrary.simpleMessage("Control Panel (Zone-loop)")
       };
 }

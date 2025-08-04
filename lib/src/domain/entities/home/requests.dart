@@ -23,6 +23,22 @@ class Requests extends Equatable {
         requestNumber,
         requestType,
       ];
+  //copy with
+  Requests copyWith({
+    String? Id,
+    Branch? branch,
+    List<Providers>? providers,
+    String? requestNumber,
+    String? requestType,
+  }) {
+    return Requests(
+      Id: Id ?? this.Id,
+      branch: branch ?? this.branch,
+      providers: providers ?? this.providers,
+      requestNumber: requestNumber ?? this.requestNumber,
+      requestType: requestType ?? this.requestType,
+    );
+  }
 }
 
 class Branch extends Equatable {

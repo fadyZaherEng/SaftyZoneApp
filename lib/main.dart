@@ -16,6 +16,7 @@ import 'package:safety_zone/src/core/utils/network_connectivity.dart';
 import 'package:safety_zone/src/core/utils/notifications/firebase_notification_services.dart';
 import 'package:safety_zone/src/core/utils/show_no_internet_dialog_widget.dart';
 import 'package:safety_zone/src/di/injector.dart';
+import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/src/domain/usecase/get_firebase_notification_token_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/blocs/fire_extinguishers/fire_extinguishers_bloc.dart';
@@ -26,6 +27,7 @@ import 'package:safety_zone/src/presentation/blocs/term_conditions/term_conditio
 import 'package:safety_zone/src/presentation/blocs/theme/theme_cubit.dart';
 import 'package:safety_zone/src/presentation/blocs/upload_doc/upload_doc_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/working_progress/working_progress_bloc.dart';
+import 'package:safety_zone/src/presentation/screens/maintainance_inprogress/maintainance_inprogress_screen.dart';
 import 'package:safety_zone/src/presentation/screens/splash/splash_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
 import 'package:huawei_hmsavailability/huawei_hmsavailability.dart';
@@ -99,7 +101,7 @@ class _MyAppState extends State<MyApp> {
                       ],
                       supportedLocales: S.delegate.supportedLocales,
                       onGenerateRoute: RoutesManager.getRoute,
-                      initialRoute: Routes.splash,
+                      // initialRoute: Routes.splash,
                       localizationsDelegates: const [
                         S.delegate,
                         GlobalMaterialLocalizations.delegate,
@@ -112,9 +114,10 @@ class _MyAppState extends State<MyApp> {
                       theme: AppTheme(locale.languageCode).light,
                       themeMode: themeState,
                       locale: locale,
-                      builder: (context, child) {
-                        return _buildInitialScreen(context, child);
-                      },
+                      home: MaintainanceInProgressScreen(scheduleJop: ScheduleJop()),
+                      // builder: (context, child) {
+                      //   return _buildInitialScreen(context, child);
+                      // },
                     ),
                   );
                 },

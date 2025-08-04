@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
@@ -9,6 +10,7 @@ import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
+import 'package:safety_zone/src/domain/entities/home/requests.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
@@ -745,7 +747,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 const Spacer(),
                 Chip(
                   label: Text(
-                    _getStatus(request.status),
+                    S.of(context).selectAnotherEmployee,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -810,25 +812,47 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (SystemType.isExtinguisherType(request.type))
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.calendar_month_outlined,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.sp,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      ImagePaths.calendar,
+                      height: 16.h,
+                      width: 16.w,
+                    ),
+                    const SizedBox(width: 4),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          S.of(context).visitDate,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                        const SizedBox(height: 2),
+                        Text(
+                          // DateFormat("yyyy-MM-dd")
+                          //     .format()
+                          //     .toString(),
+                          request.visitDate.toString(),
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -894,7 +918,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 text: S.of(context).goToLocation,
                 textColor: ColorSchemes.white,
                 textStyle: TextStyle(
-                  color: ColorSchemes.primary,
+                  color: ColorSchemes.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
@@ -915,7 +939,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
-                onTap: () => _uploadLicenseDoc(context, request),
+                onTap: () => _generateReport(context, request),
               ),
             ),
             const SizedBox(height: 8),
@@ -949,7 +973,6 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
         ),
       ),
     ).then((value) {
-
       _bloc.add(GetScheduleJobInProgressEvent(
           status: ScheduleJobStatusEnum.inProgress.name));
     });
@@ -1341,5 +1364,15 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
     } else {
       return S.of(context).rejected;
     }
+  }
+
+  void _generateReport(BuildContext context, ScheduleJop request) {
+    Navigator.pushNamed(
+      context,
+      Routes.maintainanceInProgressScreen,
+      arguments: {
+        'scheduleJop': request,
+      },
+    );
   }
 }

@@ -4793,6 +4793,316 @@ class S {
       args: [],
     );
   }
+
+  /// `select another employee`
+  String get selectAnotherEmployee {
+    return Intl.message(
+      'select another employee',
+      name: 'selectAnotherEmployee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Early Warning Report`
+  String get report_title {
+    return Intl.message(
+      'Early Warning Report',
+      name: 'report_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Control Panel`
+  String get control_panel {
+    return Intl.message(
+      'Control Panel',
+      name: 'control_panel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Control Panel (Zone-loop)`
+  String get zone_loop {
+    return Intl.message(
+      'Control Panel (Zone-loop)',
+      name: 'zone_loop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conventional Fire Detector`
+  String get fire_detector {
+    return Intl.message(
+      'Conventional Fire Detector',
+      name: 'fire_detector',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Alarm Bell`
+  String get alarm_bell {
+    return Intl.message(
+      'Alarm Bell',
+      name: 'alarm_bell',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `External Fire Alarm`
+  String get external_bell {
+    return Intl.message(
+      'External Fire Alarm',
+      name: 'external_bell',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `External Fire Alarm with Flasher`
+  String get bell_with_flasher {
+    return Intl.message(
+      'External Fire Alarm with Flasher',
+      name: 'bell_with_flasher',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internal Glass Breaker`
+  String get internal_glass {
+    return Intl.message(
+      'Internal Glass Breaker',
+      name: 'internal_glass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `External Glass Breaker`
+  String get external_glass {
+    return Intl.message(
+      'External Glass Breaker',
+      name: 'external_glass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Emergency Lighting`
+  String get emergency_lights {
+    return Intl.message(
+      'Emergency Lighting',
+      name: 'emergency_lights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internal Emergency Light`
+  String get internal_light {
+    return Intl.message(
+      'Internal Emergency Light',
+      name: 'internal_light',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Emergency Exit`
+  String get emergency_exit {
+    return Intl.message(
+      'Emergency Exit',
+      name: 'emergency_exit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Suppression Report`
+  String get fire_extinguish {
+    return Intl.message(
+      'Fire Suppression Report',
+      name: 'fire_extinguish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Pumps`
+  String get pumps {
+    return Intl.message(
+      'Fire Pumps',
+      name: 'pumps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Water Sprinklers`
+  String get sprinklers {
+    return Intl.message(
+      'Water Sprinklers',
+      name: 'sprinklers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `American Sprinkler`
+  String get sprinkler_amer {
+    return Intl.message(
+      'American Sprinkler',
+      name: 'sprinkler_amer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internal Box`
+  String get internal_box {
+    return Intl.message(
+      'Internal Box',
+      name: 'internal_box',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Foam Fire Box`
+  String get foam_box {
+    return Intl.message(
+      'Foam Fire Box',
+      name: 'foam_box',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available`
+  String get available {
+    return Intl.message(
+      'Available',
+      name: 'available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Required`
+  String get required {
+    return Intl.message(
+      'Required',
+      name: 'required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In Progress`
+  String get in_progress {
+    return Intl.message(
+      'In Progress',
+      name: 'in_progress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Broken Glass`
+  String get broken_glass {
+    return Intl.message(
+      'Broken Glass',
+      name: 'broken_glass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `External Sprinkler`
+  String get external_sprinkler {
+    return Intl.message(
+      'External Sprinkler',
+      name: 'external_sprinkler',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System Reports`
+  String get systemReportsTitle {
+    return Intl.message(
+      'System Reports',
+      name: 'systemReportsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter maintenance reports in the early warning system`
+  String get earlyWarningSystem {
+    return Intl.message(
+      'Enter maintenance reports in the early warning system',
+      name: 'earlyWarningSystem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter maintenance reports in the fire extinguishing system`
+  String get fireExtinguisherSystem {
+    return Intl.message(
+      'Enter maintenance reports in the fire extinguishing system',
+      name: 'fireExtinguisherSystem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Smoke Detector`
+  String get smokeDetector {
+    return Intl.message(
+      'Smoke Detector',
+      name: 'smokeDetector',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Emergency Light`
+  String get emergencyLight {
+    return Intl.message(
+      'Emergency Light',
+      name: 'emergencyLight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extinguishing Systems`
+  String get extinguishingSystems {
+    return Intl.message(
+      'Extinguishing Systems',
+      name: 'extinguishingSystems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Boxes`
+  String get fireBoxes {
+    return Intl.message(
+      'Fire Boxes',
+      name: 'fireBoxes',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
