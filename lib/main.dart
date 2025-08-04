@@ -101,7 +101,7 @@ class _MyAppState extends State<MyApp> {
                       ],
                       supportedLocales: S.delegate.supportedLocales,
                       onGenerateRoute: RoutesManager.getRoute,
-                      // initialRoute: Routes.splash,
+                      initialRoute: Routes.splash,
                       localizationsDelegates: const [
                         S.delegate,
                         GlobalMaterialLocalizations.delegate,
@@ -114,10 +114,9 @@ class _MyAppState extends State<MyApp> {
                       theme: AppTheme(locale.languageCode).light,
                       themeMode: themeState,
                       locale: locale,
-                      home: MaintainanceInProgressScreen(scheduleJop: ScheduleJop()),
-                      // builder: (context, child) {
-                      //   return _buildInitialScreen(context, child);
-                      // },
+                       builder: (context, child) {
+                        return _buildInitialScreen(context, child);
+                      },
                     ),
                   );
                 },

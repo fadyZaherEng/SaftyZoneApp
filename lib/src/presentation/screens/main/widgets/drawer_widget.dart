@@ -10,6 +10,7 @@ import 'package:safety_zone/src/domain/usecase/clear_local_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
+import 'package:safety_zone/src/presentation/screens/reports/reports_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -141,7 +142,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
             context,
             ImagePaths.businessReport,
             s.reports,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const ReportsScreen(),
+                ),
+              );
+            },
           ),
           //change language
           Padding(
@@ -158,7 +166,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   ),
                 ),
                 Checkbox(
-                  value: GetLanguageUseCase(injector())()=='en',
+                  value: GetLanguageUseCase(injector())() == 'en',
                   onChanged: (value) {
                     setState(() => _isEnglish = value!);
                     SetLanguageUseCase(injector())(_isEnglish ? 'en' : 'ar');
