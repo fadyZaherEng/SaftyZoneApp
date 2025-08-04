@@ -5103,6 +5103,136 @@ class S {
       args: [],
     );
   }
+
+  /// `Maintenance Report`
+  String get maintenance_report {
+    return Intl.message(
+      'Maintenance Report',
+      name: 'maintenance_report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintenance Report After Visit`
+  String get post_visit_report {
+    return Intl.message(
+      'Maintenance Report After Visit',
+      name: 'post_visit_report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System & Site Safety - Flammable Materials`
+  String get system_safety_status {
+    return Intl.message(
+      'System & Site Safety - Flammable Materials',
+      name: 'system_safety_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Very Safe`
+  String get very_safe {
+    return Intl.message(
+      'Very Safe',
+      name: 'very_safe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Moderate`
+  String get moderate {
+    return Intl.message(
+      'Moderate',
+      name: 'moderate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Danger`
+  String get danger {
+    return Intl.message(
+      'Danger',
+      name: 'danger',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add any technical notes or site condition`
+  String get add_notes {
+    return Intl.message(
+      'Add any technical notes or site condition',
+      name: 'add_notes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What is the type of early alarm system?`
+  String get alarm_type {
+    return Intl.message(
+      'What is the type of early alarm system?',
+      name: 'alarm_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report prepared by`
+  String get report_prepared_by {
+    return Intl.message(
+      'Report prepared by',
+      name: 'report_prepared_by',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit Report`
+  String get submit_report {
+    return Intl.message(
+      'Submit Report',
+      name: 'submit_report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System errors have been detected.`
+  String get system_error_detected {
+    return Intl.message(
+      'System errors have been detected.',
+      name: 'system_error_detected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please go to the 'Reports Requiring Maintenance' page to provide a repair estimate to the customer.`
+  String get navigate_to_maintenance_reports {
+    return Intl.message(
+      'Please go to the \'Reports Requiring Maintenance\' page to provide a repair estimate to the customer.',
+      name: 'navigate_to_maintenance_reports',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reports Requiring Maintenance`
+  String get go_to_maintenance_needed {
+    return Intl.message(
+      'Reports Requiring Maintenance',
+      name: 'go_to_maintenance_needed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

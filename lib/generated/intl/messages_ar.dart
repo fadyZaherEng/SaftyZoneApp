@@ -33,11 +33,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "addInstallationFees":
             MessageLookupByLibrary.simpleMessage("إضافة رسوم التركيب"),
         "addOtherTerm": MessageLookupByLibrary.simpleMessage("إضافة بند آخر"),
+        "add_notes": MessageLookupByLibrary.simpleMessage(
+            "أضف أي ملاحظات فنية بخصوص الصيانة أو حالة الموقع"),
         "addressedInstallationFee":
             MessageLookupByLibrary.simpleMessage("تكاليف التثبيت المعرفة"),
         "alarmBell": MessageLookupByLibrary.simpleMessage("صوت التنبيه"),
         "alarmItems": MessageLookupByLibrary.simpleMessage("بنود الإنذار:"),
         "alarm_bell": MessageLookupByLibrary.simpleMessage("جرس إنذار"),
+        "alarm_type": MessageLookupByLibrary.simpleMessage(
+            "ما هو نوع النظام الانذار المبكر؟"),
         "all": MessageLookupByLibrary.simpleMessage("الكل"),
         "amount_received":
             MessageLookupByLibrary.simpleMessage("المبالغ التي تم استلامها"),
@@ -166,6 +170,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مبلغ المحفظة الحالي"),
         "dailyTasksSubtitle": MessageLookupByLibrary.simpleMessage(
             "تابع مهامك اليومية، وكن على اطلاع دائم بالتقارير والإشعارات في مكان واحد."),
+        "danger": MessageLookupByLibrary.simpleMessage("خطر"),
         "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
         "delete": MessageLookupByLibrary.simpleMessage("حذف"),
         "deleteEmployee": MessageLookupByLibrary.simpleMessage("حذف الموظف"),
@@ -329,6 +334,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "getStarted": MessageLookupByLibrary.simpleMessage("ابدأ الآن"),
         "glassBreaker": MessageLookupByLibrary.simpleMessage("محدد الزجاج"),
         "goToLocation": MessageLookupByLibrary.simpleMessage("اذهب إلى الموقع"),
+        "go_to_maintenance_needed":
+            MessageLookupByLibrary.simpleMessage("التقارير التي تتطلب الصيانة"),
         "holdAmount": MessageLookupByLibrary.simpleMessage("المبلغ المحفوظ"),
         "home": MessageLookupByLibrary.simpleMessage("الصفحة الرئيسية"),
         "hours": MessageLookupByLibrary.simpleMessage("ساعات"),
@@ -416,6 +423,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("سعر الصيانة (بالكيلو)"),
         "maintenanceReports":
             MessageLookupByLibrary.simpleMessage("تقارير تحتاج الى صيانة"),
+        "maintenance_report":
+            MessageLookupByLibrary.simpleMessage("تقرير الصيانة"),
         "mapLocation":
             MessageLookupByLibrary.simpleMessage("الموقع على الخريطة"),
         "mentionedInIt": MessageLookupByLibrary.simpleMessage("مذكوره فيه"),
@@ -423,8 +432,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "missingData":
             MessageLookupByLibrary.simpleMessage("هناك بعض البيانات المفقودة"),
         "mission": MessageLookupByLibrary.simpleMessage("المهمة"),
+        "moderate": MessageLookupByLibrary.simpleMessage("معتدل"),
         "monday": MessageLookupByLibrary.simpleMessage("الاثنين"),
         "name": MessageLookupByLibrary.simpleMessage("الاسم"),
+        "navigate_to_maintenance_reports": MessageLookupByLibrary.simpleMessage(
+            "يرجى الانتقال إلى صفحة \"التقارير التي تتطلب الصيانة\" لتقديم سعر الإصلاح إلى العميل."),
         "newPassword":
             MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
         "newProviderRegistration":
@@ -509,6 +521,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseUploadAClearPhotoOfTheEmployeeASJPGPNGMax2MB":
             MessageLookupByLibrary.simpleMessage(
                 "يرجى تحميل صورة صغيرة للموظف. JPG, PNG, max 2MB."),
+        "post_visit_report":
+            MessageLookupByLibrary.simpleMessage("تقرير الصيانة بعد الزيارة"),
         "powder12Kg":
             MessageLookupByLibrary.simpleMessage("طفاية حريق مسحوق 12 كجم"),
         "powder6Kg": MessageLookupByLibrary.simpleMessage(
@@ -563,6 +577,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "renewContract": MessageLookupByLibrary.simpleMessage("تجديد العقد"),
         "repairCost": MessageLookupByLibrary.simpleMessage("تكلفة الاصلاح"),
         "reportWriting": MessageLookupByLibrary.simpleMessage("كتابة التقرير"),
+        "report_prepared_by":
+            MessageLookupByLibrary.simpleMessage("تقرير أعده"),
         "report_title":
             MessageLookupByLibrary.simpleMessage("تقرير نظام الإنذار المبكر"),
         "reports": MessageLookupByLibrary.simpleMessage("التقارير"),
@@ -684,6 +700,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "submitRegistration":
             MessageLookupByLibrary.simpleMessage("تقديم التسجيل"),
         "submit_invoice": MessageLookupByLibrary.simpleMessage("تقديم مطالبة"),
+        "submit_report":
+            MessageLookupByLibrary.simpleMessage("الموافقة على التقرير"),
         "success": MessageLookupByLibrary.simpleMessage("تم بنجاح"),
         "sunday": MessageLookupByLibrary.simpleMessage("الاحد"),
         "systemAdministrator":
@@ -692,6 +710,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "systemReportsTitle":
             MessageLookupByLibrary.simpleMessage("تقارير النظام"),
         "systemType": MessageLookupByLibrary.simpleMessage("نوع النظام"),
+        "system_error_detected":
+            MessageLookupByLibrary.simpleMessage("تم اكتشاف أخطاء النظام."),
+        "system_safety_status": MessageLookupByLibrary.simpleMessage(
+            "حالة سلامة النظام والموقع - توافر مواد قابلة للاشتعال أو خطرة"),
         "table": MessageLookupByLibrary.simpleMessage("جدول"),
         "takePhoto": MessageLookupByLibrary.simpleMessage("استخراج صورة"),
         "tapToSelectLocation":
@@ -772,6 +794,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تم التحقق بنجاح"),
         "verify": MessageLookupByLibrary.simpleMessage("تأكيد"),
         "verifyCode": MessageLookupByLibrary.simpleMessage("تأكيد الرمز"),
+        "very_safe": MessageLookupByLibrary.simpleMessage("آمن جداً"),
         "viewMap": MessageLookupByLibrary.simpleMessage("فتح الخريطة"),
         "viewMoreInfo": MessageLookupByLibrary.simpleMessage(
             "عرض المزيد من المعلومات (الطلب فوري)"),

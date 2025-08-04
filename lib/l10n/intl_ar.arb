@@ -502,5 +502,19 @@
   "fireExtinguisherSystem": "ادخل تقارير الصيانة في نظام اطفاء الحريق",
   "smokeDetector": "كاشف الدخان",
   "emergencyLight": "إنارة الطوارئ",
-  "extinguishingSystems": "أنظمة الإطفاء"
+  "extinguishingSystems": "أنظمة الإطفاء",
+  "maintenance_report": "تقرير الصيانة",
+  "post_visit_report": "تقرير الصيانة بعد الزيارة",
+  "system_safety_status": "حالة سلامة النظام والموقع - توافر مواد قابلة للاشتعال أو خطرة",
+  "very_safe": "آمن جداً",
+  "moderate": "معتدل",
+  "danger": "خطر",
+  "add_notes": "أضف أي ملاحظات فنية بخصوص الصيانة أو حالة الموقع",
+  "alarm_type": "ما هو نوع النظام الانذار المبكر؟",
+  "report_prepared_by": "تقرير أعده",
+  "submit_report": "الموافقة على التقرير",
+  "system_error_detected": "تم اكتشاف أخطاء النظام.",
+  "navigate_to_maintenance_reports": "يرجى الانتقال إلى صفحة \"التقارير التي تتطلب الصيانة\" لتقديم سعر الإصلاح إلى العميل.",
+  "go_to_maintenance_needed": "التقارير التي تتطلب الصيانة"
+
 }

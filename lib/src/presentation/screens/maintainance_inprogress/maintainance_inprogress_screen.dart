@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -423,12 +425,19 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF7B0000),
-              minimumSize: const Size(double.infinity, 50),
+              minimumSize: const Size(double.infinity, 42),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MaintenanceReportScreen(),
+                ),
+              );
+            },
             child: Text(s.next),
           ),
           const SizedBox(height: 64),
@@ -458,7 +467,8 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
                 child: Text(
                   title,
                   textAlign: TextAlign.right,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
               const SizedBox(width: 8),
@@ -509,6 +519,320 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class MaintenanceReportScreen extends StatelessWidget {
+  const MaintenanceReportScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = S.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(t.maintenance_report),
+        backgroundColor: ColorSchemes.primary,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset(
+                  ImagePaths.priceSending,
+                  width: 22,
+                  height: 22,
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  t.post_visit_report,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              elevation: 3,
+              color: ColorSchemes.white,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      children: [
+                        Transform.rotate(
+                          angle: -pi / 2,
+                          child: SvgPicture.asset(
+                            ImagePaths.priceTag,
+                            width: 18,
+                            height: 18,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Text(
+                            t.system_safety_status,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  _buildSafetyOptions(t),
+                ],
+              ),
+            ),
+            SizedBox(height: 12),
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              elevation: 3,
+              color: ColorSchemes.white,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Transform.rotate(
+                          angle: -pi / 2,
+                          child: SvgPicture.asset(
+                            ImagePaths.priceTag,
+                            width: 18,
+                            height: 18,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(child: _buildSectionTitle(t.add_notes)),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        hintText: 'اكتب هنا...',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 12),
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              elevation: 3,
+              color: ColorSchemes.white,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Transform.rotate(
+                          angle: -pi / 2,
+                          child: SvgPicture.asset(
+                            ImagePaths.priceTag,
+                            width: 18,
+                            height: 18,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(child: _buildSectionTitle("${t.alarm_type}*")),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      decoration: InputDecoration(
+                          hintText: 'ادخل نوع النظام الإنذار العادي',
+                          border: OutlineInputBorder()),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 12),
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              elevation: 3,
+              color: ColorSchemes.white,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          ImagePaths.person,
+                          width: 18,
+                          height: 18,
+                        ),
+                        const SizedBox(width: 16),
+                        _buildSectionTitle(t.report_prepared_by),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      decoration: InputDecoration(
+                          hintText: 'محمد أحمد علي',
+                          border: OutlineInputBorder()),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 30),
+            CustomButtonWidget(
+              text: t.submit_report,
+              backgroundColor: ColorSchemes.primary,
+              textColor: ColorSchemes.white,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SystemErrorScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Text(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSafetyOptions(t) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: CheckboxListTile(
+              value: true,
+              contentPadding: EdgeInsets.zero,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              onChanged: (_) {},
+              title: Text(t.very_safe),
+            ),
+          ),
+          Expanded(
+            child: CheckboxListTile(
+              value: false,
+              contentPadding: EdgeInsets.zero,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              onChanged: (_) {},
+              title: Text(t.moderate),
+            ),
+          ),
+          Expanded(
+            child: CheckboxListTile(
+              value: false,
+              contentPadding: EdgeInsets.zero,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              onChanged: (_) {},
+              title: Text(t.danger),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SystemErrorScreen extends StatelessWidget {
+  const SystemErrorScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = S.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(t.maintenance_report),
+        backgroundColor: ColorSchemes.primary,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset(
+                  ImagePaths.priceSending,
+                  width: 22,
+                  height: 22,
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  t.post_visit_report,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 80),
+            Image.asset(
+              ImagePaths.systemError,
+              width: 200,
+              height: 200,
+            ),
+            SizedBox(height: 20),
+            Text(
+              t.system_error_detected,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 32),
+            Text(
+              t.navigate_to_maintenance_reports,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey[700]),
+            ),
+            SizedBox(height: 30),
+            CustomButtonWidget(
+              text: t.go_to_maintenance_needed,
+              backgroundColor: ColorSchemes.primary,
+              textColor: ColorSchemes.white,
+              onTap: () {
+                // Navigate to reports page
+              },
+            ),
+            SizedBox(height: 32),
+          ],
+        ),
       ),
     );
   }

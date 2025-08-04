@@ -502,6 +502,20 @@
    "smokeDetector": "Smoke Detector",
    "emergencyLight": "Emergency Light",
    "extinguishingSystems": "Extinguishing Systems",
-  "fireBoxes": "Fire Boxes"
- }
+  "fireBoxes": "Fire Boxes",
+  "maintenance_report": "Maintenance Report",
+  "post_visit_report": "Maintenance Report After Visit",
+  "system_safety_status": "System & Site Safety - Flammable Materials",
+  "very_safe": "Very Safe",
+  "moderate": "Moderate",
+  "danger": "Danger",
+  "add_notes": "Add any technical notes or site condition",
+  "alarm_type": "What is the type of early alarm system?",
+  "report_prepared_by": "Report prepared by",
+  "submit_report": "Submit Report",
+  "system_error_detected": "System errors have been detected.",
+  "navigate_to_maintenance_reports": "Please go to the 'Reports Requiring Maintenance' page to provide a repair estimate to the customer.",
+  "go_to_maintenance_needed": "Reports Requiring Maintenance"
+
+}
 

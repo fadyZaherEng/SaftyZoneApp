@@ -147,4 +147,5 @@ class ImagePaths {
   static String fireBox = "assets/images/fire-box.svg";
   static String riskManagement = "assets/images/risk-management.svg";
   static String fireExtinguishers = "assets/images/fire-extinguishers.svg";
+  static String systemError = "assets/images/error.png";
  }

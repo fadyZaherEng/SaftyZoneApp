@@ -33,11 +33,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "addInstallationFees":
             MessageLookupByLibrary.simpleMessage("Add installation fees"),
         "addOtherTerm": MessageLookupByLibrary.simpleMessage("Add other term"),
+        "add_notes": MessageLookupByLibrary.simpleMessage(
+            "Add any technical notes or site condition"),
         "addressedInstallationFee":
             MessageLookupByLibrary.simpleMessage("Addressed installation fee"),
         "alarmBell": MessageLookupByLibrary.simpleMessage("Alarm Bell"),
         "alarmItems": MessageLookupByLibrary.simpleMessage("Alarm Items:"),
         "alarm_bell": MessageLookupByLibrary.simpleMessage("Alarm Bell"),
+        "alarm_type": MessageLookupByLibrary.simpleMessage(
+            "What is the type of early alarm system?"),
         "all": MessageLookupByLibrary.simpleMessage("All"),
         "amount_received":
             MessageLookupByLibrary.simpleMessage("Amounts Received"),
@@ -171,6 +175,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Current Wallet Amount"),
         "dailyTasksSubtitle": MessageLookupByLibrary.simpleMessage(
             "Track your daily tasks and stay updated with reports and notifications in one place."),
+        "danger": MessageLookupByLibrary.simpleMessage("Danger"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteEmployee":
@@ -344,6 +349,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "getStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
         "glassBreaker": MessageLookupByLibrary.simpleMessage("Glass Breaker"),
         "goToLocation": MessageLookupByLibrary.simpleMessage("Go to Location"),
+        "go_to_maintenance_needed": MessageLookupByLibrary.simpleMessage(
+            "Reports Requiring Maintenance"),
         "holdAmount": MessageLookupByLibrary.simpleMessage("Hold Amount"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "hours": MessageLookupByLibrary.simpleMessage("Hours"),
@@ -435,6 +442,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Maintenance Price (per Kilo)"),
         "maintenanceReports":
             MessageLookupByLibrary.simpleMessage("Reports need maintenance"),
+        "maintenance_report":
+            MessageLookupByLibrary.simpleMessage("Maintenance Report"),
         "mapLocation":
             MessageLookupByLibrary.simpleMessage("Location on the map"),
         "mentionedInIt":
@@ -443,8 +452,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "missingData":
             MessageLookupByLibrary.simpleMessage("There are some missing data"),
         "mission": MessageLookupByLibrary.simpleMessage("Mission"),
+        "moderate": MessageLookupByLibrary.simpleMessage("Moderate"),
         "monday": MessageLookupByLibrary.simpleMessage("Monday"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
+        "navigate_to_maintenance_reports": MessageLookupByLibrary.simpleMessage(
+            "Please go to the \'Reports Requiring Maintenance\' page to provide a repair estimate to the customer."),
         "newPassword": MessageLookupByLibrary.simpleMessage("New Password"),
         "newProviderRegistration": MessageLookupByLibrary.simpleMessage(
             "New registration as a service provider"),
@@ -528,6 +540,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseUploadAClearPhotoOfTheEmployeeASJPGPNGMax2MB":
             MessageLookupByLibrary.simpleMessage(
                 "Please upload a clear photo of the employee. JPG, PNG, max 2MB."),
+        "post_visit_report": MessageLookupByLibrary.simpleMessage(
+            "Maintenance Report After Visit"),
         "powder12Kg": MessageLookupByLibrary.simpleMessage(
             "12kg Powder Fire Extinguisher"),
         "powder6Kg": MessageLookupByLibrary.simpleMessage(
@@ -586,6 +600,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "renewContract": MessageLookupByLibrary.simpleMessage("Renew Contract"),
         "repairCost": MessageLookupByLibrary.simpleMessage("Repair Cost"),
         "reportWriting": MessageLookupByLibrary.simpleMessage("Report Writing"),
+        "report_prepared_by":
+            MessageLookupByLibrary.simpleMessage("Report prepared by"),
         "report_title":
             MessageLookupByLibrary.simpleMessage("Early Warning Report"),
         "reports": MessageLookupByLibrary.simpleMessage("Reports"),
@@ -712,6 +728,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Submit Registration"),
         "submit_invoice":
             MessageLookupByLibrary.simpleMessage("Submit Invoice"),
+        "submit_report": MessageLookupByLibrary.simpleMessage("Submit Report"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
         "sunday": MessageLookupByLibrary.simpleMessage("Sunday"),
         "systemAdministrator":
@@ -720,6 +737,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "systemReportsTitle":
             MessageLookupByLibrary.simpleMessage("System Reports"),
         "systemType": MessageLookupByLibrary.simpleMessage("System Type"),
+        "system_error_detected": MessageLookupByLibrary.simpleMessage(
+            "System errors have been detected."),
+        "system_safety_status": MessageLookupByLibrary.simpleMessage(
+            "System & Site Safety - Flammable Materials"),
         "table": MessageLookupByLibrary.simpleMessage("Table"),
         "takePhoto": MessageLookupByLibrary.simpleMessage("Take photo"),
         "tapToSelectLocation":
@@ -801,6 +822,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Verification successful"),
         "verify": MessageLookupByLibrary.simpleMessage("Verify"),
         "verifyCode": MessageLookupByLibrary.simpleMessage("Verify Code"),
+        "very_safe": MessageLookupByLibrary.simpleMessage("Very Safe"),
         "viewMap": MessageLookupByLibrary.simpleMessage("View Map"),
         "viewMoreInfo": MessageLookupByLibrary.simpleMessage(
             "View more information (Urgent request)"),
