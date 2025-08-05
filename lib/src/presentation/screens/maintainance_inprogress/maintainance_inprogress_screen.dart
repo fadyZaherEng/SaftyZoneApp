@@ -1,13 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
+import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_first_screen_schedule.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
+import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
+import 'package:safety_zone/src/presentation/blocs/fire_extinguishers/fire_extinguishers_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/repair_rstimate/repair_estimate_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 
@@ -31,13 +37,342 @@ class _MaintainanceInProgressScreenState
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
+  RemoteFirstScreenSchedule firstScreenSchedule = RemoteFirstScreenSchedule();
+  List<AlarmItems> items = [];
+  List<TextEditingController> itemsEnterByUserController = [];
+  List<TextEditingController> itemsQuantityController = [];
+
+  FireExtinguishersBloc get _bloc =>
+      BlocProvider.of<FireExtinguishersBloc>(context);
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc.add(GetFirstScreenScheduleEvent(id: widget.scheduleJop.Id));
+  }
+
+  @override
+  Widget baseBuild(BuildContext context) {
+    return BlocConsumer<FireExtinguishersBloc, FireExtinguishersState>(
+      listener: (context, state) {
+        if (state is GetFirstScreenScheduleSuccessState) {
+          firstScreenSchedule = state.remoteFirstScreenSchedule;
+          _showValidationError(
+              state.remoteFirstScreenSchedule.message.toString(), true);
+
+          items = [
+            ...firstScreenSchedule
+                    .data?.consumerRequest?.fireExtinguisherItem ??
+                [],
+            ...firstScreenSchedule.data?.consumerRequest?.alarmItems ?? [],
+            ...firstScreenSchedule.data?.consumerRequest?.fireSystemItem ?? [],
+          ];
+          // Add controllers before building the list
+          itemsEnterByUserController.clear(); // Optional: reset if needed
+          itemsQuantityController.clear();
+          _counter = 0;
+          for (int i = 0; i < items.length; i++) {
+            TextEditingController enterByUserController =
+                TextEditingController();
+            enterByUserController.text = "0";
+            itemsEnterByUserController.add(enterByUserController);
+            if (items[i].itemId?.subCategory == "control panel") {
+              TextEditingController quantityController =
+                  TextEditingController();
+              quantityController.text = items[i].quantity.toString();
+              itemsQuantityController.add(quantityController);
+            } else if (items[i].itemId?.subCategory == "fire detector") {
+              TextEditingController quantityController =
+                  TextEditingController();
+              quantityController.text = items[i].quantity.toString();
+              itemsQuantityController.add(quantityController);
+            } else if (items[i].itemId?.subCategory == "alarm bell") {
+              TextEditingController quantityController =
+                  TextEditingController();
+              quantityController.text = items[i].quantity.toString();
+              itemsQuantityController.add(quantityController);
+            } else if (items[i].itemId?.subCategory == "glass breaker") {
+              TextEditingController quantityController =
+                  TextEditingController();
+              quantityController.text = items[i].quantity.toString();
+              itemsQuantityController.add(quantityController);
+            } else if (items[i].itemId?.subCategory == "Emergency Lighting" ||
+                items[i].itemId?.subCategory == "Emergency Exit") {
+              TextEditingController quantityController =
+                  TextEditingController();
+              quantityController.text = items[i].quantity.toString();
+              itemsQuantityController.add(quantityController);
+            } else if (items[i].itemId?.subCategory == "Automatic Sprinklers") {
+              TextEditingController quantityController =
+                  TextEditingController();
+              quantityController.text = items[i].quantity.toString();
+              itemsQuantityController.add(quantityController);
+            } else if (items[i].itemId?.subCategory == "Fire pumps") {
+              TextEditingController quantityController =
+                  TextEditingController();
+              quantityController.text = items[i].quantity.toString();
+              itemsQuantityController.add(quantityController);
+            } else {
+              TextEditingController quantityController =
+                  TextEditingController();
+              quantityController.text = items[i].quantity.toString();
+              itemsQuantityController.add(quantityController);
+            }
+          }
+        } else if (state is GetFirstScreenScheduleErrorState) {
+          _showValidationError(state.message, false);
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: ColorSchemes.primary,
+            title: Text(S.of(context).report_title),
+            centerTitle: true,
+          ),
+          body: Column(
+            children: [
+              const SizedBox(height: 16),
+              buildPageIndicator(),
+              const SizedBox(height: 16),
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  onPageChanged: onPageChanged,
+                  children: [
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          buildSection(
+                            S.of(context).control_panel,
+                            [
+                              for (int i = 0; i < items.length; i++)
+                                if (items[i].itemId?.subCategory ==
+                                    "control panel") ...[
+                                  GetLanguageUseCase(injector())() == 'en'
+                                      ? items[i].itemId?.itemName?.en ?? ''
+                                      : items[i].itemId?.itemName?.ar ?? '',
+                                ],
+                            ],
+                            (p0) {},
+                            ImagePaths.controlPanel,
+                            isButton: false,
+                            length: 0,
+                          ),
+                          buildSection(
+                            S.of(context).fireDetector,
+                            [
+                              for (int i = 0; i < items.length; i++)
+                                if (items[i].itemId?.subCategory ==
+                                    "fire detector") ...[
+                                  GetLanguageUseCase(injector())() == 'en'
+                                      ? items[i].itemId?.itemName?.en ?? ''
+                                      : items[i].itemId?.itemName?.ar ?? '',
+                                ],
+                            ],
+                            (p0) {},
+                            ImagePaths.smokeDetector,
+                            length: items
+                                .where((element) =>
+                                    element.itemId?.subCategory ==
+                                        "fire detector" ||
+                                    element.itemId?.subCategory ==
+                                        "control panel")
+                                .length,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          buildSection(
+                            S.of(context).alarm_bell,
+                            [
+                              for (int i = 0; i < items.length; i++)
+                                if (items[i].itemId?.subCategory ==
+                                    "alarm bell") ...[
+                                  GetLanguageUseCase(injector())() == 'en'
+                                      ? items[i].itemId?.itemName?.en ?? ''
+                                      : items[i].itemId?.itemName?.ar ?? '',
+                                ],
+                            ],
+                            (p1) {},
+                            ImagePaths.alarmBell,
+                            isButton: false,
+                            length: 0,
+                          ),
+                          buildSection(
+                            S.of(context).broken_glass,
+                            [
+                              for (int i = 0; i < items.length; i++)
+                                if (items[i].itemId?.subCategory ==
+                                    "glass breaker") ...[
+                                  GetLanguageUseCase(injector())() == 'en'
+                                      ? items[i].itemId?.itemName?.en ?? ''
+                                      : items[i].itemId?.itemName?.ar ?? '',
+                                ],
+                            ],
+                            (p1) {},
+                            ImagePaths.breakGlass,
+                            length: items
+                                .where((element) =>
+                                    element.itemId?.subCategory ==
+                                        "glass breaker" ||
+                                    element.itemId?.subCategory == "alarm bell")
+                                .length,
+                          ),
+                        ],
+                      ),
+                    ),
+                    buildSection(
+                      S.of(context).emergency_lights,
+                      [
+                        for (int i = 0; i < items.length; i++)
+                          if (items[i].itemId?.subCategory ==
+                                  "Emergency Lighting" ||
+                              items[i].itemId?.subCategory ==
+                                  "Emergency Exit") ...[
+                            GetLanguageUseCase(injector())() == 'en'
+                                ? items[i].itemId?.itemName?.en ?? ''
+                                : items[i].itemId?.itemName?.ar ?? '',
+                          ],
+                      ],
+                      (p2) {},
+                      ImagePaths.lighting,
+                      length: items
+                          .where((element) =>
+                              element.itemId?.subCategory ==
+                                  "Emergency Lighting" ||
+                              element.itemId?.subCategory == "Emergency Exit")
+                          .length,
+                    ),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          buildSection(
+                            S.of(context).pumps,
+                            [
+                              for (int i = 0; i < items.length; i++)
+                                if (items[i].itemId?.subCategory ==
+                                    "Fire pumps") ...[
+                                  GetLanguageUseCase(injector())() == 'en'
+                                      ? items[i].itemId?.itemName?.en ?? ''
+                                      : items[i].itemId?.itemName?.ar ?? '',
+                                ],
+                            ],
+                            (p3) {},
+                            ImagePaths.fireHydrant,
+                            isButton: false,
+                            length: 0,
+                          ),
+                          buildSection(
+                            S.of(context).external_sprinkler,
+                            [
+                              for (int i = 0; i < items.length; i++)
+                                if (items[i].itemId?.subCategory ==
+                                    "Automatic Sprinklers") ...[
+                                  GetLanguageUseCase(injector())() == 'en'
+                                      ? items[i].itemId?.itemName?.en ?? ''
+                                      : items[i].itemId?.itemName?.ar ?? '',
+                                ],
+                            ],
+                            (p3) {},
+                            ImagePaths.irrigation,
+                            isButton: false,
+                            length: 0,
+                          ),
+                          buildSection(
+                            S.of(context).fireBoxes,
+                            [
+                              //if not above item is not in the list
+                              for (int i = 0; i < items.length; i++)
+                                if (items[i].itemId?.subCategory != "control panel" &&
+                                    items[i].itemId?.subCategory !=
+                                        "fire detector" &&
+                                    items[i].itemId?.subCategory !=
+                                        "alarm bell" &&
+                                    items[i].itemId?.subCategory !=
+                                        "glass breaker" &&
+                                    items[i].itemId?.subCategory !=
+                                        "Emergency Lighting" &&
+                                    items[i].itemId?.subCategory !=
+                                        "Emergency Exit" &&
+                                    items[i].itemId?.subCategory !=
+                                        "Fire pumps" &&
+                                    items[i].itemId?.subCategory !=
+                                        "Automatic Sprinklers") ...[
+                                  GetLanguageUseCase(injector())() == 'en'
+                                      ? items[i].itemId?.itemName?.en ?? ''
+                                      : items[i].itemId?.itemName?.ar ?? '',
+                                ],
+                            ],
+                            (p3) {
+                              if (widget.isRepair) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RepairEstimateScreen(
+                                        repairComplete: true),
+                                  ),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SystemReportsPage(),
+                                  ),
+                                );
+                              }
+                            },
+                            ImagePaths.fireBox,
+                            length: items
+                                .where((element) =>
+                                    element.itemId?.subCategory != "control panel" &&
+                                    element.itemId?.subCategory !=
+                                        "fire detector" &&
+                                    element.itemId?.subCategory !=
+                                        "alarm bell" &&
+                                    element.itemId?.subCategory !=
+                                        "glass breaker" &&
+                                    element.itemId?.subCategory !=
+                                        "Emergency Lighting" &&
+                                    element.itemId?.subCategory !=
+                                        "Emergency Exit")
+                                .length,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   void onPageChanged(int index) {
     setState(() {
       _currentIndex = index;
     });
   }
 
-  Widget buildItem(String title) {
+  void _showValidationError(String locationSelected, bool bool) {
+    showSnackBar(
+      context: context,
+      message: locationSelected,
+      color: !bool ? ColorSchemes.warning : ColorSchemes.success,
+      icon: !bool ? ImagePaths.error : ImagePaths.success,
+    );
+  }
+
+  Widget buildItem(String title, int index) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
       elevation: 3,
@@ -76,8 +411,8 @@ class _MaintainanceInProgressScreenState
                     label: S.of(context).available,
                     value: 1,
                     path: ImagePaths.quality,
-                    isReadOnly: false,
-                    controller: TextEditingController(),
+                    isReadOnly: true,
+                    controller: itemsQuantityController[index],
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -86,8 +421,8 @@ class _MaintainanceInProgressScreenState
                     label: S.of(context).required,
                     value: 1,
                     path: ImagePaths.technical,
-                    isReadOnly: true,
-                    controller: TextEditingController(),
+                    isReadOnly: false,
+                    controller: itemsEnterByUserController[index],
                   ),
                 ),
               ],
@@ -158,14 +493,18 @@ class _MaintainanceInProgressScreenState
     );
   }
 
+  int _counter = 0;
+
   Widget buildSection(
     String title,
     List<String> items,
     void Function(int) onTap,
     String path, {
     bool isButton = true,
+    required int length,
   }) {
-    return SingleChildScrollView(
+    print(_counter);
+    Widget buildSection = SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,12 +528,15 @@ class _MaintainanceInProgressScreenState
             ],
           ),
           const SizedBox(height: 12),
-          ...items.map(buildItem),
+          ...items.asMap().entries.map(
+                (entry) => buildItem(entry.value, entry.key + _counter),
+              ),
           if (isButton) const SizedBox(height: 40),
           if (isButton)
             CustomButtonWidget(
               onTap: () {
                 if (_currentIndex < 3) {
+                  _counter += length;
                   _pageController.nextPage(
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.ease);
@@ -211,6 +553,7 @@ class _MaintainanceInProgressScreenState
         ],
       ),
     );
+    return buildSection;
   }
 
   Widget buildPageIndicator() {
@@ -228,141 +571,6 @@ class _MaintainanceInProgressScreenState
           ),
         );
       }),
-    );
-  }
-
-  @override
-  Widget baseBuild(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorSchemes.primary,
-        title: Text(S.of(context).report_title),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 16),
-          buildPageIndicator(),
-          const SizedBox(height: 16),
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: onPageChanged,
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      buildSection(
-                        S.of(context).control_panel,
-                        [
-                          S.of(context).zone_loop,
-                          S.of(context).control_panel,
-                        ],
-                        (p0) {},
-                        ImagePaths.controlPanel,
-                        isButton: false,
-                      ),
-                      buildSection(
-                        S.of(context).fireDetector,
-                        [
-                          S.of(context).fire_detector,
-                        ],
-                        (p0) {},
-                        ImagePaths.smokeDetector,
-                      ),
-                    ],
-                  ),
-                ),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      buildSection(
-                        S.of(context).alarm_bell,
-                        [
-                          S.of(context).external_bell,
-                          S.of(context).bell_with_flasher,
-                        ],
-                        (p1) {},
-                        ImagePaths.alarmBell,
-                        isButton: false,
-                      ),
-                      buildSection(
-                        S.of(context).broken_glass,
-                        [
-                          S.of(context).internal_glass,
-                          S.of(context).external_glass,
-                        ],
-                        (p1) {},
-                        ImagePaths.breakGlass,
-                      ),
-                    ],
-                  ),
-                ),
-                buildSection(
-                  S.of(context).emergency_lights,
-                  [
-                    S.of(context).internal_light,
-                    S.of(context).emergency_exit,
-                  ],
-                  (p2) {},
-                  ImagePaths.lighting,
-                ),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      buildSection(
-                        S.of(context).pumps,
-                        [
-                          S.of(context).pumps,
-                        ],
-                        (p3) {},
-                        ImagePaths.fireHydrant,
-                        isButton: false,
-                      ),
-                      buildSection(
-                        S.of(context).external_sprinkler,
-                        [
-                          S.of(context).sprinkler_amer,
-                        ],
-                        (p3) {},
-                        ImagePaths.irrigation,
-                        isButton: false,
-                      ),
-                      buildSection(
-                        S.of(context).fireBoxes,
-                        [
-                          S.of(context).internal_box,
-                          S.of(context).foam_box,
-                        ],
-                        (p3) {
-                          if (widget.isRepair) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    RepairEstimateScreen(repairComplete: true),
-                              ),
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SystemReportsPage(),
-                              ),
-                            );
-                          }
-                        },
-                        ImagePaths.fireBox,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 8),
-        ],
-      ),
     );
   }
 }

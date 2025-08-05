@@ -120,7 +120,7 @@ ConsumerRequest _$ConsumerRequestFromJson(Map<String, dynamic> json) =>
           ?.map((e) => AlarmItems.fromJson(e as Map<String, dynamic>))
           .toList(),
       fireSystemItem: (json['fireSystemItem'] as List<dynamic>?)
-          ?.map((e) => FireSystemItem.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => AlarmItems.fromJson(e as Map<String, dynamic>))
           .toList(),
       requestType: json['requestType'] as String?,
       status: json['status'] as String?,

@@ -130,7 +130,7 @@ class ConsumerRequest {
   final String? requestNumber;
   final List<AlarmItems>? alarmItems;
   final List<AlarmItems>? fireExtinguisherItem;
-  final List<FireSystemItem>? fireSystemItem;
+  final List<AlarmItems>? fireSystemItem;
   final String? requestType;
   final String? status;
 
