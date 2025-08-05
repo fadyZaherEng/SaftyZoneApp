@@ -37,10 +37,14 @@ class _MaintainanceInProgressScreenState
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
+  // int _counter = 0;
+
   RemoteFirstScreenSchedule firstScreenSchedule = RemoteFirstScreenSchedule();
   List<AlarmItems> items = [];
+  List<AlarmItems> changedItems = [];
   List<TextEditingController> itemsEnterByUserController = [];
   List<TextEditingController> itemsQuantityController = [];
+  Map<String, double> changeQuantity = {};
 
   FireExtinguishersBloc get _bloc =>
       BlocProvider.of<FireExtinguishersBloc>(context);
@@ -67,57 +71,27 @@ class _MaintainanceInProgressScreenState
             ...firstScreenSchedule.data?.consumerRequest?.alarmItems ?? [],
             ...firstScreenSchedule.data?.consumerRequest?.fireSystemItem ?? [],
           ];
-          // Add controllers before building the list
-          itemsEnterByUserController.clear(); // Optional: reset if needed
+          changedItems = [
+            ...firstScreenSchedule
+                    .data?.consumerRequest?.fireExtinguisherItem ??
+                [],
+            ...firstScreenSchedule.data?.consumerRequest?.alarmItems ?? [],
+            ...firstScreenSchedule.data?.consumerRequest?.fireSystemItem ?? [],
+          ];
+
+          // Reset and add controllers properly
+          itemsEnterByUserController.clear();
           itemsQuantityController.clear();
-          _counter = 0;
-          for (int i = 0; i < items.length; i++) {
-            TextEditingController enterByUserController =
-                TextEditingController();
-            enterByUserController.text = "0";
-            itemsEnterByUserController.add(enterByUserController);
-            if (items[i].itemId?.subCategory == "control panel") {
-              TextEditingController quantityController =
-                  TextEditingController();
-              quantityController.text = items[i].quantity.toString();
-              itemsQuantityController.add(quantityController);
-            } else if (items[i].itemId?.subCategory == "fire detector") {
-              TextEditingController quantityController =
-                  TextEditingController();
-              quantityController.text = items[i].quantity.toString();
-              itemsQuantityController.add(quantityController);
-            } else if (items[i].itemId?.subCategory == "alarm bell") {
-              TextEditingController quantityController =
-                  TextEditingController();
-              quantityController.text = items[i].quantity.toString();
-              itemsQuantityController.add(quantityController);
-            } else if (items[i].itemId?.subCategory == "glass breaker") {
-              TextEditingController quantityController =
-                  TextEditingController();
-              quantityController.text = items[i].quantity.toString();
-              itemsQuantityController.add(quantityController);
-            } else if (items[i].itemId?.subCategory == "Emergency Lighting" ||
-                items[i].itemId?.subCategory == "Emergency Exit") {
-              TextEditingController quantityController =
-                  TextEditingController();
-              quantityController.text = items[i].quantity.toString();
-              itemsQuantityController.add(quantityController);
-            } else if (items[i].itemId?.subCategory == "Automatic Sprinklers") {
-              TextEditingController quantityController =
-                  TextEditingController();
-              quantityController.text = items[i].quantity.toString();
-              itemsQuantityController.add(quantityController);
-            } else if (items[i].itemId?.subCategory == "Fire pumps") {
-              TextEditingController quantityController =
-                  TextEditingController();
-              quantityController.text = items[i].quantity.toString();
-              itemsQuantityController.add(quantityController);
-            } else {
-              TextEditingController quantityController =
-                  TextEditingController();
-              quantityController.text = items[i].quantity.toString();
-              itemsQuantityController.add(quantityController);
-            }
+          changeQuantity.clear();
+          // _counter = 0;
+
+          for (final item in items) {
+            final subCategory = item.itemId?.subCategory ?? "";
+            changeQuantity[subCategory] = 0.0;
+
+            itemsEnterByUserController.add(TextEditingController(text: "0"));
+            itemsQuantityController
+                .add(TextEditingController(text: item.quantity.toString()));
           }
         } else if (state is GetFirstScreenScheduleErrorState) {
           _showValidationError(state.message, false);
@@ -141,211 +115,45 @@ class _MaintainanceInProgressScreenState
                   physics: const NeverScrollableScrollPhysics(),
                   onPageChanged: onPageChanged,
                   children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          buildSection(
-                            S.of(context).control_panel,
-                            [
-                              for (int i = 0; i < items.length; i++)
-                                if (items[i].itemId?.subCategory ==
-                                    "control panel") ...[
-                                  GetLanguageUseCase(injector())() == 'en'
-                                      ? items[i].itemId?.itemName?.en ?? ''
-                                      : items[i].itemId?.itemName?.ar ?? '',
-                                ],
-                            ],
-                            (p0) {},
-                            ImagePaths.controlPanel,
-                            isButton: false,
-                            length: 0,
-                          ),
-                          buildSection(
-                            S.of(context).fireDetector,
-                            [
-                              for (int i = 0; i < items.length; i++)
-                                if (items[i].itemId?.subCategory ==
-                                    "fire detector") ...[
-                                  GetLanguageUseCase(injector())() == 'en'
-                                      ? items[i].itemId?.itemName?.en ?? ''
-                                      : items[i].itemId?.itemName?.ar ?? '',
-                                ],
-                            ],
-                            (p0) {},
-                            ImagePaths.smokeDetector,
-                            length: items
-                                .where((element) =>
-                                    element.itemId?.subCategory ==
-                                        "fire detector" ||
-                                    element.itemId?.subCategory ==
-                                        "control panel")
-                                .length,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          buildSection(
-                            S.of(context).alarm_bell,
-                            [
-                              for (int i = 0; i < items.length; i++)
-                                if (items[i].itemId?.subCategory ==
-                                    "alarm bell") ...[
-                                  GetLanguageUseCase(injector())() == 'en'
-                                      ? items[i].itemId?.itemName?.en ?? ''
-                                      : items[i].itemId?.itemName?.ar ?? '',
-                                ],
-                            ],
-                            (p1) {},
-                            ImagePaths.alarmBell,
-                            isButton: false,
-                            length: 0,
-                          ),
-                          buildSection(
-                            S.of(context).broken_glass,
-                            [
-                              for (int i = 0; i < items.length; i++)
-                                if (items[i].itemId?.subCategory ==
-                                    "glass breaker") ...[
-                                  GetLanguageUseCase(injector())() == 'en'
-                                      ? items[i].itemId?.itemName?.en ?? ''
-                                      : items[i].itemId?.itemName?.ar ?? '',
-                                ],
-                            ],
-                            (p1) {},
-                            ImagePaths.breakGlass,
-                            length: items
-                                .where((element) =>
-                                    element.itemId?.subCategory ==
-                                        "glass breaker" ||
-                                    element.itemId?.subCategory == "alarm bell")
-                                .length,
-                          ),
-                        ],
-                      ),
-                    ),
-                    buildSection(
-                      S.of(context).emergency_lights,
-                      [
-                        for (int i = 0; i < items.length; i++)
-                          if (items[i].itemId?.subCategory ==
-                                  "Emergency Lighting" ||
-                              items[i].itemId?.subCategory ==
-                                  "Emergency Exit") ...[
-                            GetLanguageUseCase(injector())() == 'en'
-                                ? items[i].itemId?.itemName?.en ?? ''
-                                : items[i].itemId?.itemName?.ar ?? '',
+                    _buildPage([
+                      _buildSection(S.of(context).control_panel,
+                          "control panel", ImagePaths.controlPanel, false),
+                      _buildSection(S.of(context).fireDetector, "fire detector",
+                          ImagePaths.smokeDetector, true),
+                    ]),
+                    _buildPage([
+                      _buildSection(S.of(context).alarm_bell, "alarm bell",
+                          ImagePaths.alarmBell, false),
+                      _buildSection(S.of(context).broken_glass, "glass breaker",
+                          ImagePaths.breakGlass, true),
+                    ]),
+                    _buildPage([
+                      _buildSection(S.of(context).emergency_lights,
+                          "Emergency Lighting", ImagePaths.lighting, true,
+                          extraSub: "Emergency Exit"),
+                    ]),
+                    _buildPage([
+                      _buildSection(S.of(context).pumps, "Fire pumps",
+                          ImagePaths.fireHydrant, false),
+                      _buildSection(S.of(context).external_sprinkler,
+                          "Automatic Sprinklers", ImagePaths.irrigation, false),
+                      _buildSection(
+                          S.of(context).fireBoxes,
+                          "fire Boxes", //equal to Fire Cabinets
+                          ImagePaths.fireBox,
+                          true,
+                          excludeSubs: [
+                            "control panel",
+                            "fire detector",
+                            "alarm bell",
+                            "glass breaker",
+                            "Emergency Lighting",
+                            "Emergency Exit",
+                            "Fire pumps",
+                            "Automatic Sprinklers"
                           ],
-                      ],
-                      (p2) {},
-                      ImagePaths.lighting,
-                      length: items
-                          .where((element) =>
-                              element.itemId?.subCategory ==
-                                  "Emergency Lighting" ||
-                              element.itemId?.subCategory == "Emergency Exit")
-                          .length,
-                    ),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          buildSection(
-                            S.of(context).pumps,
-                            [
-                              for (int i = 0; i < items.length; i++)
-                                if (items[i].itemId?.subCategory ==
-                                    "Fire pumps") ...[
-                                  GetLanguageUseCase(injector())() == 'en'
-                                      ? items[i].itemId?.itemName?.en ?? ''
-                                      : items[i].itemId?.itemName?.ar ?? '',
-                                ],
-                            ],
-                            (p3) {},
-                            ImagePaths.fireHydrant,
-                            isButton: false,
-                            length: 0,
-                          ),
-                          buildSection(
-                            S.of(context).external_sprinkler,
-                            [
-                              for (int i = 0; i < items.length; i++)
-                                if (items[i].itemId?.subCategory ==
-                                    "Automatic Sprinklers") ...[
-                                  GetLanguageUseCase(injector())() == 'en'
-                                      ? items[i].itemId?.itemName?.en ?? ''
-                                      : items[i].itemId?.itemName?.ar ?? '',
-                                ],
-                            ],
-                            (p3) {},
-                            ImagePaths.irrigation,
-                            isButton: false,
-                            length: 0,
-                          ),
-                          buildSection(
-                            S.of(context).fireBoxes,
-                            [
-                              //if not above item is not in the list
-                              for (int i = 0; i < items.length; i++)
-                                if (items[i].itemId?.subCategory != "control panel" &&
-                                    items[i].itemId?.subCategory !=
-                                        "fire detector" &&
-                                    items[i].itemId?.subCategory !=
-                                        "alarm bell" &&
-                                    items[i].itemId?.subCategory !=
-                                        "glass breaker" &&
-                                    items[i].itemId?.subCategory !=
-                                        "Emergency Lighting" &&
-                                    items[i].itemId?.subCategory !=
-                                        "Emergency Exit" &&
-                                    items[i].itemId?.subCategory !=
-                                        "Fire pumps" &&
-                                    items[i].itemId?.subCategory !=
-                                        "Automatic Sprinklers") ...[
-                                  GetLanguageUseCase(injector())() == 'en'
-                                      ? items[i].itemId?.itemName?.en ?? ''
-                                      : items[i].itemId?.itemName?.ar ?? '',
-                                ],
-                            ],
-                            (p3) {
-                              if (widget.isRepair) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RepairEstimateScreen(
-                                        repairComplete: true),
-                                  ),
-                                );
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SystemReportsPage(),
-                                  ),
-                                );
-                              }
-                            },
-                            ImagePaths.fireBox,
-                            length: items
-                                .where((element) =>
-                                    element.itemId?.subCategory != "control panel" &&
-                                    element.itemId?.subCategory !=
-                                        "fire detector" &&
-                                    element.itemId?.subCategory !=
-                                        "alarm bell" &&
-                                    element.itemId?.subCategory !=
-                                        "glass breaker" &&
-                                    element.itemId?.subCategory !=
-                                        "Emergency Lighting" &&
-                                    element.itemId?.subCategory !=
-                                        "Emergency Exit")
-                                .length,
-                          ),
-                        ],
-                      ),
-                    ),
+                          isLastPage: true),
+                    ]),
                   ],
                 ),
               ),
@@ -363,22 +171,124 @@ class _MaintainanceInProgressScreenState
     });
   }
 
-  void _showValidationError(String locationSelected, bool bool) {
+  void _showValidationError(String message, bool isSuccess) {
     showSnackBar(
       context: context,
-      message: locationSelected,
-      color: !bool ? ColorSchemes.warning : ColorSchemes.success,
-      icon: !bool ? ImagePaths.error : ImagePaths.success,
+      message: message,
+      color: isSuccess ? ColorSchemes.success : ColorSchemes.warning,
+      icon: isSuccess ? ImagePaths.success : ImagePaths.error,
     );
   }
 
-  Widget buildItem(String title, int index) {
+  Widget _buildPage(List<Widget> sections) {
+    return SingleChildScrollView(
+      child: Column(children: sections),
+    );
+  }
+
+  Widget _buildSection(
+    String title,
+    String subCategory,
+    String iconPath,
+    bool showButton, {
+    String? extraSub,
+    List<String>? excludeSubs,
+    bool isLastPage = false,
+  }) {
+    final filteredItems = items.asMap().entries.where((entry) {
+      final sub = entry.value.itemId?.subCategory?.toLowerCase() ?? "";
+
+      if (excludeSubs != null && excludeSubs.isNotEmpty) {
+        return !excludeSubs.contains(entry.value.itemId?.subCategory);
+      }
+      if (extraSub != null) {
+        return sub == subCategory.toLowerCase() ||
+            sub == extraSub.toLowerCase();
+      }
+      return sub == subCategory.toLowerCase();
+    }).toList();
+
+    final widgets = filteredItems.map((entry) {
+      final i = entry.key;
+      final item = entry.value;
+      final itemName = GetLanguageUseCase(injector())() == 'en'
+          ? item.itemId?.itemName?.en ?? ''
+          : item.itemId?.itemName?.ar ?? '';
+      return buildItem(itemName, i,
+          subCategory: item.itemId?.subCategory ?? '');
+    }).toList();
+
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              SvgPicture.asset(iconPath,
+                  height: 22.h, width: 22.w, color: ColorSchemes.primary),
+              const SizedBox(width: 12),
+              Text(title,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          const SizedBox(height: 12),
+          ...widgets,
+          if (showButton) const SizedBox(height: 40),
+          if (showButton)
+            CustomButtonWidget(
+              onTap: () {
+                if (_currentIndex < 3) {
+                  // _counter += widgets.length;
+                  _pageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.ease);
+                  for (var item in changeQuantity.entries) {
+                    print('${item.key} ${item.value}');
+                  }
+                }
+                if (isLastPage) {
+                  for (var item in changeQuantity.entries) {
+                    print('${item.key} ${item.value}');
+                  }
+                  for (var item in changedItems) {
+                    print('${item.quantity} ${item.itemId?.subCategory}');
+                  }
+                  if (widget.isRepair) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) =>
+                                RepairEstimateScreen(repairComplete: true)));
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => SystemReportsPage(
+                          changedItems: changedItems,
+                          changeQuantity: changeQuantity,
+                        ),
+                      ),
+                    );
+                  }
+                }
+              },
+              text: S.of(context).next,
+              backgroundColor: ColorSchemes.primary,
+              textColor: Colors.white,
+            ),
+          if (showButton) const SizedBox(height: 40),
+        ],
+      ),
+    );
+  }
+
+  Widget buildItem(String title, int index, {required String subCategory}) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
       elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.r),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       color: ColorSchemes.white,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -387,20 +297,13 @@ class _MaintainanceInProgressScreenState
           children: [
             Row(
               children: [
-                SvgPicture.asset(
-                  ImagePaths.priceTag,
-                  height: 16.h,
-                  width: 16.w,
-                  color: ColorSchemes.primary,
-                ),
+                SvgPicture.asset(ImagePaths.priceTag,
+                    height: 16.h, width: 16.w, color: ColorSchemes.primary),
                 const SizedBox(width: 8),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: ColorSchemes.secondary,
-                  ),
-                ),
+                Text(title,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: ColorSchemes.secondary)),
               ],
             ),
             const SizedBox(height: 16),
@@ -413,6 +316,7 @@ class _MaintainanceInProgressScreenState
                     path: ImagePaths.quality,
                     isReadOnly: true,
                     controller: itemsQuantityController[index],
+                    onChanged: (_) {},
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -423,6 +327,17 @@ class _MaintainanceInProgressScreenState
                     path: ImagePaths.technical,
                     isReadOnly: false,
                     controller: itemsEnterByUserController[index],
+                    onChanged: (value) {
+                      setState(() {
+                        changeQuantity[subCategory] =
+                            double.tryParse(value) ?? 0.0;
+                        // Update the changedItems list
+                        if (index < changedItems.length) {
+                          changedItems[index] = changedItems[index]
+                              .copyWith(quantity: int.parse(value));
+                        }
+                      });
+                    },
                   ),
                 ),
               ],
@@ -439,18 +354,15 @@ class _MaintainanceInProgressScreenState
     required String path,
     required bool isReadOnly,
     required TextEditingController controller,
+    required void Function(String) onChanged,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            SvgPicture.asset(
-              path,
-              height: 16.h,
-              width: 16.w,
-              color: ColorSchemes.black,
-            ),
+            SvgPicture.asset(path,
+                height: 16.h, width: 16.w, color: ColorSchemes.black),
             const SizedBox(width: 8),
             Text(label, style: const TextStyle(fontSize: 14)),
           ],
@@ -461,6 +373,15 @@ class _MaintainanceInProgressScreenState
           child: TextFormField(
             controller: controller,
             readOnly: isReadOnly,
+            onChanged: (value) {
+              controller.text = value;
+              controller.selection = TextSelection.fromPosition(
+                  TextPosition(offset: value.length));
+              onChanged(value);
+            },
+            validator: (value) => (value == null || value.isEmpty)
+                ? 'Please enter quantity'
+                : null,
             keyboardType: TextInputType.number,
             style: const TextStyle(fontSize: 14),
             decoration: InputDecoration(
@@ -478,82 +399,13 @@ class _MaintainanceInProgressScreenState
                 borderRadius: BorderRadius.circular(2),
                 borderSide: const BorderSide(color: Colors.red),
               ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 6,
-              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             ),
           ),
         ),
       ],
     );
-  }
-
-  int _counter = 0;
-
-  Widget buildSection(
-    String title,
-    List<String> items,
-    void Function(int) onTap,
-    String path, {
-    bool isButton = true,
-    required int length,
-  }) {
-    print(_counter);
-    Widget buildSection = SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                path,
-                height: 22.h,
-                width: 22.w,
-                color: ColorSchemes.primary,
-              ),
-              const SizedBox(width: 12),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ...items.asMap().entries.map(
-                (entry) => buildItem(entry.value, entry.key + _counter),
-              ),
-          if (isButton) const SizedBox(height: 40),
-          if (isButton)
-            CustomButtonWidget(
-              onTap: () {
-                if (_currentIndex < 3) {
-                  _counter += length;
-                  _pageController.nextPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.ease);
-                }
-                if (_currentIndex == 3) {
-                  onTap(_currentIndex);
-                }
-              },
-              text: S.of(context).next,
-              backgroundColor: ColorSchemes.primary,
-              textColor: Colors.white,
-            ),
-          if (isButton) const SizedBox(height: 40),
-        ],
-      ),
-    );
-    return buildSection;
   }
 
   Widget buildPageIndicator() {
@@ -575,8 +427,603 @@ class _MaintainanceInProgressScreenState
   }
 }
 
+// class _MaintainanceInProgressScreenState
+//     extends BaseState<MaintainanceInProgressScreen> {
+//   final PageController _pageController = PageController();
+//   int _currentIndex = 0;
+//
+//   RemoteFirstScreenSchedule firstScreenSchedule = RemoteFirstScreenSchedule();
+//   List<AlarmItems> items = [];
+//   List<TextEditingController> itemsEnterByUserController = [];
+//   List<TextEditingController> itemsQuantityController = [];
+//   Map<String, double> changeQuantity = {};
+//
+//   FireExtinguishersBloc get _bloc =>
+//       BlocProvider.of<FireExtinguishersBloc>(context);
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _bloc.add(GetFirstScreenScheduleEvent(id: widget.scheduleJop.Id));
+//   }
+//
+//   @override
+//   Widget baseBuild(BuildContext context) {
+//     return BlocConsumer<FireExtinguishersBloc, FireExtinguishersState>(
+//       listener: (context, state) {
+//         if (state is GetFirstScreenScheduleSuccessState) {
+//           firstScreenSchedule = state.remoteFirstScreenSchedule;
+//           _showValidationError(
+//               state.remoteFirstScreenSchedule.message.toString(), true);
+//
+//           items = [
+//             ...firstScreenSchedule
+//                     .data?.consumerRequest?.fireExtinguisherItem ??
+//                 [],
+//             ...firstScreenSchedule.data?.consumerRequest?.alarmItems ?? [],
+//             ...firstScreenSchedule.data?.consumerRequest?.fireSystemItem ?? [],
+//           ];
+//           // Add controllers before building the list
+//           itemsEnterByUserController.clear(); // Optional: reset if needed
+//           itemsQuantityController.clear();
+//           _counter = 0;
+//           changeQuantity = {};
+//           for (int i = 0; i < items.length; i++) {
+//             changeQuantity[items[i].itemId?.subCategory ?? ""] = 0.0;
+//             TextEditingController enterByUserController =
+//                 TextEditingController();
+//             enterByUserController.text = "0";
+//             itemsEnterByUserController.add(enterByUserController);
+//             if (items[i].itemId?.subCategory == "control panel") {
+//               TextEditingController quantityController =
+//                   TextEditingController();
+//               quantityController.text = items[i].quantity.toString();
+//               itemsQuantityController.add(quantityController);
+//             } else if (items[i].itemId?.subCategory == "fire detector") {
+//               TextEditingController quantityController =
+//                   TextEditingController();
+//               quantityController.text = items[i].quantity.toString();
+//               itemsQuantityController.add(quantityController);
+//             } else if (items[i].itemId?.subCategory == "alarm bell") {
+//               TextEditingController quantityController =
+//                   TextEditingController();
+//               quantityController.text = items[i].quantity.toString();
+//               itemsQuantityController.add(quantityController);
+//             } else if (items[i].itemId?.subCategory == "glass breaker") {
+//               TextEditingController quantityController =
+//                   TextEditingController();
+//               quantityController.text = items[i].quantity.toString();
+//               itemsQuantityController.add(quantityController);
+//             } else if (items[i].itemId?.subCategory == "Emergency Lighting" ||
+//                 items[i].itemId?.subCategory == "Emergency Exit") {
+//               TextEditingController quantityController =
+//                   TextEditingController();
+//               quantityController.text = items[i].quantity.toString();
+//               itemsQuantityController.add(quantityController);
+//             } else if (items[i].itemId?.subCategory == "Automatic Sprinklers") {
+//               TextEditingController quantityController =
+//                   TextEditingController();
+//               quantityController.text = items[i].quantity.toString();
+//               itemsQuantityController.add(quantityController);
+//             } else if (items[i].itemId?.subCategory == "Fire pumps") {
+//               TextEditingController quantityController =
+//                   TextEditingController();
+//               quantityController.text = items[i].quantity.toString();
+//               itemsQuantityController.add(quantityController);
+//             } else {
+//               TextEditingController quantityController =
+//                   TextEditingController();
+//               quantityController.text = items[i].quantity.toString();
+//               itemsQuantityController.add(quantityController);
+//             }
+//           }
+//         } else if (state is GetFirstScreenScheduleErrorState) {
+//           _showValidationError(state.message, false);
+//         }
+//       },
+//       builder: (context, state) {
+//         return Scaffold(
+//           appBar: AppBar(
+//             backgroundColor: ColorSchemes.primary,
+//             title: Text(S.of(context).report_title),
+//             centerTitle: true,
+//           ),
+//           body: Column(
+//             children: [
+//               const SizedBox(height: 16),
+//               buildPageIndicator(),
+//               const SizedBox(height: 16),
+//               Expanded(
+//                 child: PageView(
+//                   controller: _pageController,
+//                   physics: const NeverScrollableScrollPhysics(),
+//                   onPageChanged: onPageChanged,
+//                   children: [
+//                     SingleChildScrollView(
+//                       child: Column(
+//                         children: [
+//                           buildSection(
+//                             S.of(context).control_panel,
+//                             "control panel",
+//                             [
+//                               for (int i = 0; i < items.length; i++)
+//                                 if (items[i].itemId?.subCategory ==
+//                                     "control panel") ...[
+//                                   GetLanguageUseCase(injector())() == 'en'
+//                                       ? items[i].itemId?.itemName?.en ?? ''
+//                                       : items[i].itemId?.itemName?.ar ?? '',
+//                                 ],
+//                             ],
+//                             (p0) {},
+//                             ImagePaths.controlPanel,
+//                             isButton: false,
+//                             length: 0,
+//                           ),
+//                           buildSection(
+//                             S.of(context).fireDetector,
+//                             "fire detector",
+//                             [
+//                               for (int i = 0; i < items.length; i++)
+//                                 if (items[i].itemId?.subCategory ==
+//                                     "fire detector") ...[
+//                                   GetLanguageUseCase(injector())() == 'en'
+//                                       ? items[i].itemId?.itemName?.en ?? ''
+//                                       : items[i].itemId?.itemName?.ar ?? '',
+//                                 ],
+//                             ],
+//                             (p0) {},
+//                             ImagePaths.smokeDetector,
+//                             length: items
+//                                 .where((element) =>
+//                                     element.itemId?.subCategory ==
+//                                         "fire detector" ||
+//                                     element.itemId?.subCategory ==
+//                                         "control panel")
+//                                 .length,
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                     SingleChildScrollView(
+//                       child: Column(
+//                         children: [
+//                           buildSection(
+//                             S.of(context).alarm_bell,
+//                             "alarm bell",
+//                             [
+//                               for (int i = 0; i < items.length; i++)
+//                                 if (items[i].itemId?.subCategory ==
+//                                     "alarm bell") ...[
+//                                   GetLanguageUseCase(injector())() == 'en'
+//                                       ? items[i].itemId?.itemName?.en ?? ''
+//                                       : items[i].itemId?.itemName?.ar ?? '',
+//                                 ],
+//                             ],
+//                             (p1) {},
+//                             ImagePaths.alarmBell,
+//                             isButton: false,
+//                             length: 0,
+//                           ),
+//                           buildSection(
+//                             S.of(context).broken_glass,
+//                             "glass breaker",
+//                             [
+//                               for (int i = 0; i < items.length; i++)
+//                                 if (items[i].itemId?.subCategory ==
+//                                     "glass breaker") ...[
+//                                   GetLanguageUseCase(injector())() == 'en'
+//                                       ? items[i].itemId?.itemName?.en ?? ''
+//                                       : items[i].itemId?.itemName?.ar ?? '',
+//                                 ],
+//                             ],
+//                             (p1) {},
+//                             ImagePaths.breakGlass,
+//                             length: items
+//                                 .where((element) =>
+//                                     element.itemId?.subCategory ==
+//                                         "glass breaker" ||
+//                                     element.itemId?.subCategory == "alarm bell")
+//                                 .length,
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                     buildSection(
+//                       S.of(context).emergency_lights,
+//                       "emergency lighting",
+//                       [
+//                         for (int i = 0; i < items.length; i++)
+//                           if (items[i].itemId?.subCategory ==
+//                                   "Emergency Lighting" ||
+//                               items[i].itemId?.subCategory ==
+//                                   "Emergency Exit") ...[
+//                             GetLanguageUseCase(injector())() == 'en'
+//                                 ? items[i].itemId?.itemName?.en ?? ''
+//                                 : items[i].itemId?.itemName?.ar ?? '',
+//                           ],
+//                       ],
+//                       (p2) {},
+//                       ImagePaths.lighting,
+//                       length: items
+//                           .where((element) =>
+//                               element.itemId?.subCategory ==
+//                                   "Emergency Lighting" ||
+//                               element.itemId?.subCategory == "Emergency Exit")
+//                           .length,
+//                     ),
+//                     SingleChildScrollView(
+//                       child: Column(
+//                         children: [
+//                           buildSection(
+//                             S.of(context).pumps,
+//                             "Fire pumps",
+//                             [
+//                               for (int i = 0; i < items.length; i++)
+//                                 if (items[i].itemId?.subCategory ==
+//                                     "Fire pumps") ...[
+//                                   GetLanguageUseCase(injector())() == 'en'
+//                                       ? items[i].itemId?.itemName?.en ?? ''
+//                                       : items[i].itemId?.itemName?.ar ?? '',
+//                                 ],
+//                             ],
+//                             (p3) {},
+//                             ImagePaths.fireHydrant,
+//                             isButton: false,
+//                             length: 0,
+//                           ),
+//                           buildSection(
+//                             S.of(context).external_sprinkler,
+//                             "Automatic Sprinklers",
+//                             [
+//                               for (int i = 0; i < items.length; i++)
+//                                 if (items[i].itemId?.subCategory ==
+//                                     "Automatic Sprinklers") ...[
+//                                   GetLanguageUseCase(injector())() == 'en'
+//                                       ? items[i].itemId?.itemName?.en ?? ''
+//                                       : items[i].itemId?.itemName?.ar ?? '',
+//                                 ],
+//                             ],
+//                             (p3) {},
+//                             ImagePaths.irrigation,
+//                             isButton: false,
+//                             length: 0,
+//                           ),
+//                           buildSection(
+//                             S.of(context).fireBoxes,
+//                             "fire Boxes",
+//                             [
+//                               //if not above item is not in the list
+//                               for (int i = 0; i < items.length; i++)
+//                                 if (items[i].itemId?.subCategory != "control panel" &&
+//                                     items[i].itemId?.subCategory !=
+//                                         "fire detector" &&
+//                                     items[i].itemId?.subCategory !=
+//                                         "alarm bell" &&
+//                                     items[i].itemId?.subCategory !=
+//                                         "glass breaker" &&
+//                                     items[i].itemId?.subCategory !=
+//                                         "Emergency Lighting" &&
+//                                     items[i].itemId?.subCategory !=
+//                                         "Emergency Exit" &&
+//                                     items[i].itemId?.subCategory !=
+//                                         "Fire pumps" &&
+//                                     items[i].itemId?.subCategory !=
+//                                         "Automatic Sprinklers") ...[
+//                                   GetLanguageUseCase(injector())() == 'en'
+//                                       ? items[i].itemId?.itemName?.en ?? ''
+//                                       : items[i].itemId?.itemName?.ar ?? '',
+//                                 ],
+//                             ],
+//                             (p3) {
+//                               if (widget.isRepair) {
+//                                 Navigator.push(
+//                                   context,
+//                                   MaterialPageRoute(
+//                                     builder: (context) => RepairEstimateScreen(
+//                                         repairComplete: true),
+//                                   ),
+//                                 );
+//                               } else {
+//                                 Navigator.push(
+//                                   context,
+//                                   MaterialPageRoute(
+//                                     builder: (context) =>
+//                                         const SystemReportsPage(),
+//                                   ),
+//                                 );
+//                               }
+//                             },
+//                             ImagePaths.fireBox,
+//                             length: items
+//                                 .where((element) =>
+//                                     element.itemId?.subCategory != "control panel" &&
+//                                     element.itemId?.subCategory !=
+//                                         "fire detector" &&
+//                                     element.itemId?.subCategory !=
+//                                         "alarm bell" &&
+//                                     element.itemId?.subCategory !=
+//                                         "glass breaker" &&
+//                                     element.itemId?.subCategory !=
+//                                         "Emergency Lighting" &&
+//                                     element.itemId?.subCategory !=
+//                                         "Emergency Exit")
+//                                 .length,
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//               const SizedBox(height: 8),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+//
+//   void onPageChanged(int index) {
+//     setState(() {
+//       _currentIndex = index;
+//     });
+//   }
+//
+//   void _showValidationError(String locationSelected, bool bool) {
+//     showSnackBar(
+//       context: context,
+//       message: locationSelected,
+//       color: !bool ? ColorSchemes.warning : ColorSchemes.success,
+//       icon: !bool ? ImagePaths.error : ImagePaths.success,
+//     );
+//   }
+//
+//   Widget buildItem(String title, int index, {required String subCategory}) {
+//     return Card(
+//       margin: const EdgeInsets.symmetric(vertical: 8),
+//       elevation: 3,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(12.r),
+//       ),
+//       color: ColorSchemes.white,
+//       child: Padding(
+//         padding: const EdgeInsets.all(16),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Row(
+//               children: [
+//                 SvgPicture.asset(
+//                   ImagePaths.priceTag,
+//                   height: 16.h,
+//                   width: 16.w,
+//                   color: ColorSchemes.primary,
+//                 ),
+//                 const SizedBox(width: 8),
+//                 Text(
+//                   title,
+//                   style: const TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                     color: ColorSchemes.secondary,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//             const SizedBox(height: 16),
+//             Row(
+//               children: [
+//                 Expanded(
+//                   child: _buildInputField(
+//                     label: S.of(context).available,
+//                     value: 1,
+//                     path: ImagePaths.quality,
+//                     isReadOnly: true,
+//                     controller: itemsQuantityController[index],
+//                     onChanged: (value) {},
+//                   ),
+//                 ),
+//                 const SizedBox(width: 10),
+//                 Expanded(
+//                   child: _buildInputField(
+//                     label: S.of(context).required,
+//                     value: 1,
+//                     path: ImagePaths.technical,
+//                     isReadOnly: false,
+//                     controller: itemsEnterByUserController[index],
+//                     onChanged: (value) {
+//                       setState(() {
+//                         changeQuantity[subCategory] = double.parse(value);
+//                       });
+//                     },
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+//
+//   Widget _buildInputField({
+//     required String label,
+//     required int value,
+//     required String path,
+//     required bool isReadOnly,
+//     required TextEditingController controller,
+//     required void Function(String) onChanged,
+//   }) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Row(
+//           children: [
+//             SvgPicture.asset(
+//               path,
+//               height: 16.h,
+//               width: 16.w,
+//               color: ColorSchemes.black,
+//             ),
+//             const SizedBox(width: 8),
+//             Text(label, style: const TextStyle(fontSize: 14)),
+//           ],
+//         ),
+//         const SizedBox(height: 16),
+//         SizedBox(
+//           height: 34.h,
+//           child: TextFormField(
+//             controller: controller,
+//             readOnly: isReadOnly,
+//             onChanged: (value) {
+//               setState(() {
+//                 controller.text = value;
+//                 controller.selection = TextSelection.fromPosition(
+//                   TextPosition(offset: value.length),
+//                 );
+//                 onChanged(value);
+//               });
+//               if (int.tryParse(value) != null) {
+//                 int.parse(value);
+//               }
+//             },
+//             validator: (value) {
+//               if (value == null || value.isEmpty) {
+//                 return 'Please enter quantity';
+//               }
+//               return null;
+//             },
+//             keyboardType: TextInputType.number,
+//             style: const TextStyle(fontSize: 14),
+//             decoration: InputDecoration(
+//               fillColor: ColorSchemes.white,
+//               filled: true,
+//               enabledBorder: OutlineInputBorder(
+//                 borderRadius: BorderRadius.circular(2),
+//                 borderSide: const BorderSide(color: Colors.grey),
+//               ),
+//               focusedBorder: OutlineInputBorder(
+//                 borderRadius: BorderRadius.circular(2),
+//                 borderSide: const BorderSide(color: Colors.grey),
+//               ),
+//               errorBorder: OutlineInputBorder(
+//                 borderRadius: BorderRadius.circular(2),
+//                 borderSide: const BorderSide(color: Colors.red),
+//               ),
+//               border: OutlineInputBorder(
+//                 borderRadius: BorderRadius.circular(2),
+//                 borderSide: const BorderSide(color: Colors.grey),
+//               ),
+//               contentPadding: const EdgeInsets.symmetric(
+//                 horizontal: 12,
+//                 vertical: 6,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+//
+//   int _counter = 0;
+//
+//   Widget buildSection(
+//     String title,
+//     String subCategory,
+//     List<String> items,
+//     void Function(int) onTap,
+//     String path, {
+//     bool isButton = true,
+//     required int length,
+//   }) {
+//     print(_counter);
+//     Widget buildSection = SingleChildScrollView(
+//       padding: const EdgeInsets.all(16),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Row(
+//             children: [
+//               SvgPicture.asset(
+//                 path,
+//                 height: 22.h,
+//                 width: 22.w,
+//                 color: ColorSchemes.primary,
+//               ),
+//               const SizedBox(width: 12),
+//               Text(
+//                 title,
+//                 style: const TextStyle(
+//                   fontSize: 20,
+//                   fontWeight: FontWeight.bold,
+//                 ),
+//               ),
+//             ],
+//           ),
+//           const SizedBox(height: 12),
+//           ...items.asMap().entries.map(
+//                 (entry) => buildItem(
+//                   entry.value,
+//                   entry.key + _counter,
+//                   subCategory: subCategory,
+//                 ),
+//               ),
+//           if (isButton) const SizedBox(height: 40),
+//           if (isButton)
+//             CustomButtonWidget(
+//               onTap: () {
+//                 if (_currentIndex < 3) {
+//                   _counter += length;
+//                   _pageController.nextPage(
+//                       duration: const Duration(milliseconds: 300),
+//                       curve: Curves.ease);
+//                 }
+//                 if (_currentIndex == 3) {
+//                   for(var item in changeQuantity.entries){
+//                     print('${item.key} ${item.value}');
+//                   }
+//                   onTap(_currentIndex);
+//                 }
+//               },
+//               text: S.of(context).next,
+//               backgroundColor: ColorSchemes.primary,
+//               textColor: Colors.white,
+//             ),
+//           if (isButton) const SizedBox(height: 40),
+//         ],
+//       ),
+//     );
+//     return buildSection;
+//   }
+//
+//   Widget buildPageIndicator() {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: List.generate(4, (index) {
+//         return AnimatedContainer(
+//           duration: const Duration(milliseconds: 300),
+//           margin: const EdgeInsets.symmetric(horizontal: 4),
+//           height: 6,
+//           width: 40,
+//           decoration: BoxDecoration(
+//             color: _currentIndex == index ? Colors.red[900] : Colors.grey[300],
+//             borderRadius: BorderRadius.circular(4),
+//           ),
+//         );
+//       }),
+//     );
+//   }
+// }
+//
 class SystemReportsPage extends StatefulWidget {
-  const SystemReportsPage({super.key});
+  final List<AlarmItems> changedItems;
+
+  final Map<String, double> changeQuantity;
+
+  const SystemReportsPage({
+    super.key,
+    required this.changedItems,
+    required this.changeQuantity,
+  });
 
   @override
   State<SystemReportsPage> createState() => _SystemReportsPageState();
@@ -668,11 +1115,10 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
   }
 
   Widget systemSection({
-    required String title,
-    required String icon,
-    required List<String> items,
+     required String icon,
+    required Map<String, bool> items,
     bool isFirst = false,
-  }) {
+   }) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -686,7 +1132,7 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
             children: [
               Expanded(
                 child: Text(
-                  title,
+                  items.keys.toList().join(', '),
                   textAlign: TextAlign.right,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 16),
@@ -702,7 +1148,7 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
             ],
           ),
           const SizedBox(height: 12),
-          ...items.map(
+          ...items.entries.map(
             (e) => Column(
               children: [
                 ListTile(
@@ -711,19 +1157,19 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
                     children: [
                       isFirst
                           ? SvgPicture.asset(
-                              itemsFirstSectionIcon[items.indexOf(e)],
+                              itemsFirstSectionIcon[items.entries.toList().indexOf(e)],
                               width: 20,
                               height: 20,
                               color: ColorSchemes.secondary,
                             )
                           : SvgPicture.asset(
-                              itemsSecondSectionIcon[items.indexOf(e)],
+                              itemsSecondSectionIcon[items.entries.toList().indexOf(e)],
                               width: 20,
                               height: 20,
                               color: ColorSchemes.secondary,
                             ),
                       const SizedBox(width: 8),
-                      Text(e, style: const TextStyle(fontSize: 16)),
+                      Text(e.key, style: const TextStyle(fontSize: 16)),
                     ],
                   ),
                   trailing: SvgPicture.asset(
@@ -732,8 +1178,11 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
                     height: 24,
                     color: const Color(0xFF7B0000),
                   ),
-                  leading:
-                      const Icon(Icons.check_box, color: Color(0xFF7B0000)),
+                  leading:   Icon(
+                    !items.values.toList()[items.entries.toList().indexOf(e)]? Icons.check_box_outline_blank :
+                    Icons.check_box,
+                    color:!items.values.toList()[items.entries.toList().indexOf(e)] ? ColorSchemes.border : Color(0xFF7B0000),
+                  ),
                 ),
                 const Divider(),
               ],
@@ -744,6 +1193,7 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
     );
   }
 }
+
 
 class MaintenanceReportScreen extends StatelessWidget {
   const MaintenanceReportScreen({super.key});

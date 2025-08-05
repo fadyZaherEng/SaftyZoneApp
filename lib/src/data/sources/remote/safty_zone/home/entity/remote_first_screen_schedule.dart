@@ -168,6 +168,19 @@ class AlarmItems {
       _$AlarmItemsFromJson(json);
 
   Map<String, dynamic> toJson() => _$AlarmItemsToJson(this);
+
+  //copy with
+  AlarmItems copyWith({
+    ItemId? itemId,
+    int? quantity,
+    String? Id,
+  }) {
+    return AlarmItems(
+      itemId: itemId ?? this.itemId,
+      quantity: quantity ?? this.quantity,
+      Id: Id ?? this.Id,
+    );
+  }
 }
 
 @JsonSerializable()
