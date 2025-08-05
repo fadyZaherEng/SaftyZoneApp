@@ -1137,7 +1137,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                   borderColor: ColorSchemes.grey,
                   text: S.of(context).generateReport,
                   textColor: ColorSchemes.primary,
-                  onTap: () => _uploadLicenseDoc(context, request),
+                  onTap: () => _generateReport(context, request),
                 ),
               ),
             const SizedBox(height: 8),
@@ -1190,5 +1190,16 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
     } else {
       return S.of(context).rejected;
     }
+  }
+
+  void _generateReport(BuildContext context, ScheduleJop request) {
+    Navigator.pushNamed(
+      context,
+      Routes.maintainanceInProgressScreen,
+      arguments: {
+        'scheduleJop': request,
+        "isRepair": false,
+      },
+    );
   }
 }
