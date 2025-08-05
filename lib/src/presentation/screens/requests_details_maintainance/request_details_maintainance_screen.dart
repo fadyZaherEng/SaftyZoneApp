@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
-import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart';
 import 'package:safety_zone/src/domain/entities/home/request_details.dart';
@@ -17,7 +18,7 @@ import 'package:safety_zone/src/presentation/screens/map_search/map_search_scree
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class RequestDetailsMaintainanceScreen extends StatefulWidget {
+class RequestDetailsMaintainanceScreen extends BaseStatefulWidget {
   final String requestId;
 
   const RequestDetailsMaintainanceScreen({
@@ -26,12 +27,12 @@ class RequestDetailsMaintainanceScreen extends StatefulWidget {
   });
 
   @override
-  State<RequestDetailsMaintainanceScreen> createState() =>
+  BaseState<RequestDetailsMaintainanceScreen> baseCreateState() =>
       _RequestDetailsMaintainanceScreenState();
 }
 
 class _RequestDetailsMaintainanceScreenState
-    extends State<RequestDetailsMaintainanceScreen>
+    extends BaseState<RequestDetailsMaintainanceScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _visitValueController = TextEditingController();
@@ -45,11 +46,11 @@ class _RequestDetailsMaintainanceScreenState
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
 
   List<Employee> _employees = [];
-  Employee? _selectedEmployee = Employee();
+  Employee _selectedEmployee = Employee();
 
   @override
   void initState() {
-    // _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
+    _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
     _bloc.add(GetEmployeesEvent());
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
@@ -67,7 +68,7 @@ class _RequestDetailsMaintainanceScreenState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget baseBuild(BuildContext context) {
     final s = S.of(context);
     return BlocConsumer<RequestsBloc, RequestsState>(
         listener: (context, state) {
@@ -86,6 +87,16 @@ class _RequestDetailsMaintainanceScreenState
         _selectedEmployee = _employees.first;
       } else if (state is GetEmployeesErrorState) {
         _showValidationError(state.message, false);
+      } else if (state is SendPriceOfferSuccessState) {
+        _showValidationError(S.of(context).sendPriceOfferSuccess, true);
+        hideLoading();
+        Navigator.pop(context);
+      } else if (state is SendPriceOfferErrorState) {
+        _showValidationError(state.message, false);
+        hideLoading();
+        Navigator.pop(context);
+      } else if (state is SendPriceOfferLoadingState) {
+        showLoading();
       }
     }, builder: (context, state) {
       return Scaffold(
@@ -99,17 +110,33 @@ class _RequestDetailsMaintainanceScreenState
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: Skeletonizer(
             enabled: _isLoading,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildCardHeader(s),
-                const SizedBox(height: 12),
-                if (!_isPriceSending) _buildTabBar(s),
-                if (!_isPriceSending) const SizedBox(height: 16),
-                if (!_isPriceSending) Expanded(child: _buildTabContent(s)),
-                if (_isPriceSending) _buildPriceSending(s),
-              ],
-            ),
+            child: _isPriceSending
+                ? SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildCardHeader(s),
+                        const SizedBox(height: 12),
+                        if (!_isPriceSending) _buildTabBar(s),
+                        if (!_isPriceSending) const SizedBox(height: 16),
+                        if (!_isPriceSending)
+                          Expanded(child: _buildTabContent(s)),
+                        if (_isPriceSending) _buildPriceSending(s),
+                      ],
+                    ),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildCardHeader(s),
+                      const SizedBox(height: 12),
+                      if (!_isPriceSending) _buildTabBar(s),
+                      if (!_isPriceSending) const SizedBox(height: 16),
+                      if (!_isPriceSending)
+                        Expanded(child: _buildTabContent(s)),
+                      if (_isPriceSending) _buildPriceSending(s),
+                    ],
+                  ),
           ),
         ),
       );
@@ -481,7 +508,7 @@ class _RequestDetailsMaintainanceScreenState
                 ),
                 const Spacer(),
                 Text(
-                  "5 ${s.visits}",
+                  "${model.result.numberOfVisits} ${s.visits}",
                   style: const TextStyle(
                     fontWeight: FontWeight.normal,
                   ),
@@ -521,7 +548,7 @@ class _RequestDetailsMaintainanceScreenState
                 ),
                 const Spacer(),
                 Text(
-                  "5 ${s.hours}",
+                  "${model.result.duration} ${s.hours}",
                   style: const TextStyle(
                     fontWeight: FontWeight.normal,
                   ),
@@ -709,7 +736,7 @@ class _RequestDetailsMaintainanceScreenState
                 value: _selectedEmployee,
                 onChanged: (value) {
                   setState(() {
-                    _selectedEmployee = value;
+                    _selectedEmployee = value ?? _selectedEmployee;
                   });
                 },
                 items: _employees.map((emp) {
@@ -805,7 +832,7 @@ class _RequestDetailsMaintainanceScreenState
               ),
               const Spacer(),
               Text(
-                "5 ${s.visits}",
+                "${model.result.numberOfVisits} ${s.visits}",
                 style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 16,
@@ -956,6 +983,21 @@ class _RequestDetailsMaintainanceScreenState
             text: S.of(context).send,
             onTap: () {
               debugPrint('Saved Model: $model');
+              _bloc.add(
+                SendPriceOfferEvent(
+                  request: SendPriceRequest(
+                    consumerRequest: model.result.Id,
+                    responsibleEmployee: _selectedEmployee.Id,
+                    price: int.parse(_visitValueController.text) *
+                        model.result.numberOfVisits,
+                    visitPrice: int.parse(_visitValueController.text),
+                    emergencyVisitPrice:
+                        int.parse(_emergencyVisitFeeController.text),
+                    is_Primary: false,
+                    item: [],
+                  ),
+                ),
+              );
             },
           ),
           const SizedBox(height: 32),

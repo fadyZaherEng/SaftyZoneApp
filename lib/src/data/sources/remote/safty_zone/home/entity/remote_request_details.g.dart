@@ -49,6 +49,8 @@ RemoteResult _$RemoteResultFromJson(Map<String, dynamic> json) => RemoteResult(
               ?.map((e) => RemoteItems.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      numberOfVisits: (json['numberOfVisits'] as num?)?.toInt() ?? 0,
+      duration: (json['duration'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$RemoteResultToJson(RemoteResult instance) =>
@@ -65,6 +67,8 @@ Map<String, dynamic> _$RemoteResultToJson(RemoteResult instance) =>
       'alarmItems': instance.alarmItems,
       'fireExtinguisherItem': instance.fireExtinguisherItem,
       'fireSystemItem': instance.fireSystemItem,
+      'numberOfVisits': instance.numberOfVisits,
+      'duration': instance.duration,
     };
 
 RemoteItems _$RemoteItemsFromJson(Map<String, dynamic> json) => RemoteItems(

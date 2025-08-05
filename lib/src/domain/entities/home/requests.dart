@@ -4,6 +4,7 @@ class Requests extends Equatable {
   final String Id;
   final Branch branch;
   final String requestNumber;
+  final int numberOfVisits;
   final String requestType;
   final List<Providers> providers;
 
@@ -13,6 +14,7 @@ class Requests extends Equatable {
     this.providers = const [],
     this.requestNumber = "",
     this.requestType = "",
+    this.numberOfVisits = 0,
   });
 
   @override
@@ -22,6 +24,7 @@ class Requests extends Equatable {
         providers,
         requestNumber,
         requestType,
+        numberOfVisits,
       ];
   //copy with
   Requests copyWith({
@@ -30,6 +33,7 @@ class Requests extends Equatable {
     List<Providers>? providers,
     String? requestNumber,
     String? requestType,
+    int? numberOfVisits,
   }) {
     return Requests(
       Id: Id ?? this.Id,
@@ -37,6 +41,7 @@ class Requests extends Equatable {
       providers: providers ?? this.providers,
       requestNumber: requestNumber ?? this.requestNumber,
       requestType: requestType ?? this.requestType,
+      numberOfVisits: numberOfVisits ?? this.numberOfVisits,
     );
   }
 }

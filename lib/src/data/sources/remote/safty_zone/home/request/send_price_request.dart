@@ -10,12 +10,17 @@ class SendPriceRequest {
   final List<Item>? item;
   final bool? is_Primary;
 
+  final int? visitPrice;
+  final int? emergencyVisitPrice;
+
   const SendPriceRequest({
     required this.consumerRequest,
     required this.responsibleEmployee,
     required this.price,
     required this.item,
     required this.is_Primary,
+    this.visitPrice = 0,
+    this.emergencyVisitPrice = 0,
   });
 
   factory SendPriceRequest.fromJson(Map<String, dynamic> json) =>
@@ -40,3 +45,4 @@ class Item {
 
   Map<String, dynamic> toJson() => _$ItemToJson(this);
 }
+

@@ -420,7 +420,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        "Visit:8 ",
+                        "${S.of(context).visits}:${request.numberOfVisits} ",
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontWeight: FontWeight.w500,

@@ -9,6 +9,7 @@ class RemoteRequests {
   final String? Id;
   final RemoteBranch? branch;
   final String? requestNumber;
+  final int? numberOfVisits;
   final String? requestType;
   final List<RemoteProviders>? providers;
 
@@ -18,6 +19,7 @@ class RemoteRequests {
     this.providers = const [],
     this.requestNumber = "",
     this.requestType = "",
+    this.numberOfVisits = 0,
   });
 
   factory RemoteRequests.fromJson(Map<String, dynamic> json) =>
@@ -33,6 +35,7 @@ extension RemoteRequestsExtension on RemoteRequests {
         providers: providers?.map((e) => e.mapToDomain()).toList() ?? [],
         requestNumber: requestNumber ?? "",
         requestType: requestType ?? "",
+        numberOfVisits: numberOfVisits ?? 0,
       );
 }
 

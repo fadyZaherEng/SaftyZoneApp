@@ -39,6 +39,8 @@ class RemoteResult {
   final String? consumer;
   final RemoteBranch? branch;
   final String? requestNumber;
+  final int? numberOfVisits;
+  final int? duration;
   final String? systemType;
   final int? space;
   final String? requestType;
@@ -61,6 +63,8 @@ class RemoteResult {
     this.alarmItems = const [],
     this.fireExtinguisherItem = const [],
     this.fireSystemItem = const [],
+    this.numberOfVisits = 0,
+    this.duration = 0,
   });
 
   factory RemoteResult.fromJson(Map<String, dynamic> json) =>
@@ -86,6 +90,7 @@ extension RemoteResultExtension on RemoteResult {
           fireExtinguisherItem?.map((e) => e.mapToDomain()).toList() ?? [],
       fireSystemItem:
           fireSystemItem?.map((e) => e.mapToDomain()).toList() ?? [],
+      numberOfVisits: numberOfVisits ?? 0,
     );
   }
 }

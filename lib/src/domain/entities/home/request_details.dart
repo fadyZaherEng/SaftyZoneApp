@@ -20,6 +20,8 @@ class Result extends Equatable {
   final String consumer;
   final Branch branch;
   final String requestNumber;
+  final int numberOfVisits;
+  final int duration;
   final String systemType;
   final int space;
   final List<Items> alarmItems;
@@ -42,6 +44,8 @@ class Result extends Equatable {
     this.alarmItems = const [],
     this.fireExtinguisherItem = const [],
     this.fireSystemItem = const [],
+    this.numberOfVisits = 0,
+    this.duration = 0,
   });
 
   @override
@@ -58,6 +62,8 @@ class Result extends Equatable {
         alarmItems,
         fireExtinguisherItem,
         fireSystemItem,
+        numberOfVisits,
+        duration,
       ];
 }
 

@@ -18,6 +18,7 @@ RemoteRequests _$RemoteRequestsFromJson(Map<String, dynamic> json) =>
           const [],
       requestNumber: json['requestNumber'] as String? ?? "",
       requestType: json['requestType'] as String? ?? "",
+      numberOfVisits: json['numberOfVisits'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$RemoteRequestsToJson(RemoteRequests instance) =>
@@ -27,6 +28,7 @@ Map<String, dynamic> _$RemoteRequestsToJson(RemoteRequests instance) =>
       'requestNumber': instance.requestNumber,
       'requestType': instance.requestType,
       'providers': instance.providers,
+      'numberOfVisits': instance.numberOfVisits,
     };
 
 RemoteBranch _$RemoteBranchFromJson(Map<String, dynamic> json) => RemoteBranch(
