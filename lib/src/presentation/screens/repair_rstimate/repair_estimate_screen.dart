@@ -63,30 +63,48 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
     ];
     emergencyExitValue = widget.changeQuantity['Emergency Exit'] ?? 0.0;
     widget.changeQuantity.removeWhere(
-      (key, value) => key == 'Emergency Exit',
+          (key, value) => key == 'Emergency Exit',
     );
   }
 
   String getSystemType(String item) {
     switch (item) {
       case 'Emergency Lighting':
-        return S.of(context).emergency_lights;
+        return S
+            .of(context)
+            .emergency_lights;
       case 'glass breaker':
-        return S.of(context).glass_breaker;
+        return S
+            .of(context)
+            .glass_breaker;
       case 'control panel':
-        return S.of(context).control_panel;
+        return S
+            .of(context)
+            .control_panel;
       case 'alarm bell':
-        return S.of(context).alarm_bell;
+        return S
+            .of(context)
+            .alarm_bell;
       case 'fire detector':
-        return S.of(context).fireDetector;
+        return S
+            .of(context)
+            .fireDetector;
       case 'Fire pumps':
-        return S.of(context).fire_pumps;
+        return S
+            .of(context)
+            .fire_pumps;
       case 'Automatic Sprinklers':
-        return S.of(context).autoSprinkler;
+        return S
+            .of(context)
+            .autoSprinkler;
       case 'Fire Cabinets':
-        return S.of(context).fireBoxes;
+        return S
+            .of(context)
+            .fireBoxes;
       default:
-        return S.of(context).fireBoxes;
+        return S
+            .of(context)
+            .fireBoxes;
     }
   }
 
@@ -105,14 +123,30 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
     super.didChangeDependencies();
 
     itemsTitle = [
-      S.of(context).control_panel,
-      S.of(context).fire_detector,
-      S.of(context).alarm_bell,
-      S.of(context).glass_breaker,
-      S.of(context).emergency_lights,
-      S.of(context).fire_pumps,
-      S.of(context).warning_labels,
-      S.of(context).fire_boxes,
+      S
+          .of(context)
+          .control_panel,
+      S
+          .of(context)
+          .fire_detector,
+      S
+          .of(context)
+          .alarm_bell,
+      S
+          .of(context)
+          .glass_breaker,
+      S
+          .of(context)
+          .emergency_lights,
+      S
+          .of(context)
+          .fire_pumps,
+      S
+          .of(context)
+          .warning_labels,
+      S
+          .of(context)
+          .fire_boxes,
     ];
   }
 
@@ -174,10 +208,11 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
                             ),
                             value: isYes,
                             groupValue: needsParts,
-                            onChanged: (val) => setState(() {
-                              needsParts = val!;
-                              isYes = isYes;
-                            }),
+                            onChanged: (val) =>
+                                setState(() {
+                                  needsParts = val!;
+                                  isYes = isYes;
+                                }),
                           ),
                         ),
                         Expanded(
@@ -195,10 +230,11 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
                             ),
                             value: !isYes,
                             groupValue: needsParts,
-                            onChanged: (val) => setState(() {
-                              needsParts = val!;
-                              isYes = !isYes;
-                            }),
+                            onChanged: (val) =>
+                                setState(() {
+                                  needsParts = val!;
+                                  isYes = !isYes;
+                                }),
                           ),
                         ),
                       ],
@@ -218,7 +254,7 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (_) =>
-                                  const MaintainanceInProgressScreen(
+                              const MaintainanceInProgressScreen(
                                 scheduleJop: ScheduleJop(),
                               ),
                             ),
@@ -241,7 +277,7 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             t.upload_invoice,
@@ -273,11 +309,10 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
             ),
             SizedBox(height: 20),
             if(widget.changeQuantity.isNotEmpty)
-            systemSection(
-              title: t.earlyWarningSystem,
-              icon: ImagePaths.riskManagement,
-              items: generateFilteredItems(),
-            ),
+              systemSection(
+                 icon: ImagePaths.riskManagement,
+                items: generateFilteredItems(),
+              ),
             if(widget.changeQuantity.isEmpty)
               systemSectionNotChange(),
             const SizedBox(height: 20),
@@ -394,8 +429,12 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const SizedBox(height: 12),
-          ...items.asMap().entries.map(
-                (e) => Column(
+          ...items
+              .asMap()
+              .entries
+              .map(
+                (e) =>
+                Column(
                   children: [
                     ListTile(
                       contentPadding: EdgeInsets.zero,
@@ -439,7 +478,7 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
                     const Divider(),
                   ],
                 ),
-              )
+          )
         ],
       ),
     );
@@ -448,7 +487,6 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
   Widget systemSection({
     required String icon,
     required Map<String, bool> items,
-    String? title,
   }) {
     bool showSecondHeader = true;
 
@@ -461,66 +499,15 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          // Main section header
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: Text(
-          //         title ?? '',
-          //         textAlign: TextAlign.right,
-          //         style: const TextStyle(
-          //           fontWeight: FontWeight.bold,
-          //           fontSize: 16,
-          //         ),
-          //       ),
-          //     ),
-          //     const SizedBox(width: 8),
-          //     SvgPicture.asset(
-          //       icon,
-          //       width: 50,
-          //       height: 50,
-          //       color: const Color(0xFF7B0000),
-          //     ),
-          //   ],
-          // ),
-          // const SizedBox(height: 12),
-
-          // Items
-          ...items.entries.toList().asMap().entries.map((entry) {
+          ...items.entries
+              .toList()
+              .asMap()
+              .entries
+              .map((entry) {
             final index = entry.key;
             final item = entry.value;
 
             List<Widget> widgets = [];
-
-            // Optional second section title after 5 items
-            // if (index == 5 && showSecondHeader) {
-            //   widgets.addAll([
-            //     const SizedBox(height: 16),
-            //     Row(
-            //       children: [
-            //         Expanded(
-            //           child: Text(
-            //             title ?? '',
-            //             textAlign: TextAlign.right,
-            //             style: const TextStyle(
-            //               fontWeight: FontWeight.bold,
-            //               fontSize: 16,
-            //             ),
-            //           ),
-            //         ),
-            //         const SizedBox(width: 8),
-            //         SvgPicture.asset(
-            //           icon,
-            //           width: 50,
-            //           height: 50,
-            //           color: const Color(0xFF7B0000),
-            //         ),
-            //       ],
-            //     ),
-            //     const SizedBox(height: 12),
-            //   ]);
-            //   showSecondHeader = false;
-            // }
 
             widgets.add(
               ListTile(
@@ -616,13 +603,12 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
     );
   }
 
-  Widget _buildRow(
-    String label,
-    double value, {
-    Color? color,
-    bool isBold = false,
-    Color? valueColor,
-  }) {
+  Widget _buildRow(String label,
+      double value, {
+        Color? color,
+        bool isBold = false,
+        Color? valueColor,
+      }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(

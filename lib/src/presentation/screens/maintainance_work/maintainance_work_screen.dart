@@ -1041,8 +1041,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (SystemType.isExtinguisherType(request.type))
-                  Row(
+                   Row(
                     children: [
                       const Icon(
                         Icons.calendar_month_outlined,
@@ -1050,7 +1049,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        "${S.of(context).visitDate}:\n${request.visitDate}",
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontWeight: FontWeight.w500,

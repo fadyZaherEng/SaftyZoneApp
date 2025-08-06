@@ -415,8 +415,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "lowercaseRequirement": MessageLookupByLibrary.simpleMessage(
             "على الاقل يجب ان يحتوي كلمة المرور على حرف صغير"),
         "maintainance": MessageLookupByLibrary.simpleMessage("الصيانة"),
-        "maintainanceTitle": MessageLookupByLibrary.simpleMessage(
-            "عرض المزيد من المعلومات (نفس القائمة لاستلام الطلب لكن النهاية العقد)"),
+        "maintainanceTitle":
+            MessageLookupByLibrary.simpleMessage("عرض المزيد من المعلومات "),
         "maintenance": MessageLookupByLibrary.simpleMessage("صيانة"),
         "maintenanceContracts":
             MessageLookupByLibrary.simpleMessage("عقود الصيانة"),
@@ -605,7 +605,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "requestType": MessageLookupByLibrary.simpleMessage(
             "نوع الطلب: عرض سعر إصلاح طفايات الحريق"),
         "requests": MessageLookupByLibrary.simpleMessage("الطلبات"),
-        "required": MessageLookupByLibrary.simpleMessage("عدد المحصل"),
+        "required": MessageLookupByLibrary.simpleMessage("عدد المعطل"),
         "resendCode": MessageLookupByLibrary.simpleMessage("اعادة ارسال الرمز"),
         "resendCodeIn":
             MessageLookupByLibrary.simpleMessage("اعادة ارسال الرمز في"),

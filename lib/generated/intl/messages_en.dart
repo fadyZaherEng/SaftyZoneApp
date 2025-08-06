@@ -434,8 +434,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "lowercaseRequirement": MessageLookupByLibrary.simpleMessage(
             "At least one lowercase letter"),
         "maintainance": MessageLookupByLibrary.simpleMessage("Maintainance"),
-        "maintainanceTitle": MessageLookupByLibrary.simpleMessage(
-            "View more information (Same list for receiving the request but ends with contract)"),
+        "maintainanceTitle":
+            MessageLookupByLibrary.simpleMessage("View more information "),
         "maintenance": MessageLookupByLibrary.simpleMessage("Maintenance"),
         "maintenanceContracts":
             MessageLookupByLibrary.simpleMessage("Maintenance Contracts"),
@@ -628,7 +628,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "requestType": MessageLookupByLibrary.simpleMessage(
             "Request Type: Fire Extinguisher Repair Quotation"),
         "requests": MessageLookupByLibrary.simpleMessage("Requests"),
-        "required": MessageLookupByLibrary.simpleMessage("Required"),
+        "required":
+            MessageLookupByLibrary.simpleMessage("Number of not working"),
         "resendCode": MessageLookupByLibrary.simpleMessage("Resend Code"),
         "resendCodeIn": MessageLookupByLibrary.simpleMessage("Resend code in"),
         "responsibleContractors":

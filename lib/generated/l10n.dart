@@ -3438,10 +3438,10 @@ class S {
     );
   }
 
-  /// `View more information (Same list for receiving the request but ends with contract)`
+  /// `View more information `
   String get maintainanceTitle {
     return Intl.message(
-      'View more information (Same list for receiving the request but ends with contract)',
+      'View more information ',
       name: 'maintainanceTitle',
       desc: '',
       args: [],
@@ -4994,10 +4994,10 @@ class S {
     );
   }
 
-  /// `Required`
+  /// `Number of not working`
   String get required {
     return Intl.message(
-      'Required',
+      'Number of not working',
       name: 'required',
       desc: '',
       args: [],
