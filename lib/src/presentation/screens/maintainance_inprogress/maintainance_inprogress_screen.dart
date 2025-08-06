@@ -59,7 +59,9 @@ class _MaintainanceInProgressScreenState
   Widget baseBuild(BuildContext context) {
     return BlocConsumer<FireExtinguishersBloc, FireExtinguishersState>(
       listener: (context, state) {
-        if (state is GetFirstScreenScheduleSuccessState) {
+        if (state is GetFirstScreenScheduleLoadingState) {
+          showLoading();
+        } else if (state is GetFirstScreenScheduleSuccessState) {
           firstScreenSchedule = state.remoteFirstScreenSchedule;
           _showValidationError(
               state.remoteFirstScreenSchedule.message.toString(), true);
@@ -93,8 +95,10 @@ class _MaintainanceInProgressScreenState
             itemsQuantityController
                 .add(TextEditingController(text: item.quantity.toString()));
           }
+          hideLoading();
         } else if (state is GetFirstScreenScheduleErrorState) {
           _showValidationError(state.message, false);
+          hideLoading();
         }
       },
       builder: (context, state) {
@@ -1014,9 +1018,9 @@ class _MaintainanceInProgressScreenState
 //   }
 // }
 //
+
 class SystemReportsPage extends StatefulWidget {
   final List<AlarmItems> changedItems;
-
   final Map<String, double> changeQuantity;
 
   const SystemReportsPage({
@@ -1030,24 +1034,59 @@ class SystemReportsPage extends StatefulWidget {
 }
 
 class _SystemReportsPageState extends State<SystemReportsPage> {
-  List<String> itemsFirstSectionIcon = [];
-  List<String> itemsSecondSectionIcon = [];
+  List<String> itemsSectionIcon = [];
+  double emergencyExitValue = 0.0;
 
   @override
   void initState() {
     super.initState();
-    itemsFirstSectionIcon = [
+    itemsSectionIcon = [
       ImagePaths.controlPanel,
       ImagePaths.smokeDetector,
       ImagePaths.alarmBell,
       ImagePaths.breakGlass,
       ImagePaths.lighting,
-    ];
-    itemsSecondSectionIcon = [
       ImagePaths.fireHydrant,
       ImagePaths.irrigation,
       ImagePaths.fireBox,
     ];
+    emergencyExitValue = widget.changeQuantity['Emergency Exit'] ?? 0.0;
+    widget.changeQuantity.removeWhere(
+      (key, value) => key == 'Emergency Exit',
+    );
+  }
+
+  String getSystemType(String item) {
+    switch (item) {
+      case 'Emergency Lighting':
+        return S.of(context).emergency_lights;
+      case 'glass breaker':
+        return S.of(context).glass_breaker;
+      case 'control panel':
+        return S.of(context).control_panel;
+      case 'alarm bell':
+        return S.of(context).alarm_bell;
+      case 'fire detector':
+        return S.of(context).fireDetector;
+      case 'Fire pumps':
+        return S.of(context).fire_pumps;
+      case 'Automatic Sprinklers':
+        return S.of(context).autoSprinkler;
+      case 'Fire Cabinets':
+        return S.of(context).fireBoxes;
+      default:
+        return S.of(context).fireBoxes;
+    }
+  }
+
+  Map<String, bool> generateFilteredItems() {
+    return widget.changeQuantity.map((key, value) {
+      final isEmergencyLighting = key == 'Emergency Lighting';
+      final shouldShow = (!isEmergencyLighting && value > 0.0) ||
+          (isEmergencyLighting && (value > 0.0 || emergencyExitValue > 0.0));
+
+      return MapEntry(key, shouldShow);
+    });
   }
 
   @override
@@ -1070,24 +1109,7 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
           systemSection(
             title: s.earlyWarningSystem,
             icon: ImagePaths.riskManagement,
-            items: [
-              s.controlPanel,
-              s.smokeDetector,
-              s.alarmBell,
-              s.glassBreaker,
-              s.emergencyLight,
-            ],
-            isFirst: true,
-          ),
-          const SizedBox(height: 24),
-          systemSection(
-            title: s.fireExtinguisherSystem,
-            icon: ImagePaths.fireExtinguishers,
-            items: [
-              s.fireExtinguishers,
-              s.extinguishingSystems,
-              s.fireBoxes,
-            ],
+            items: generateFilteredItems(),
           ),
           const SizedBox(height: 32),
           ElevatedButton(
@@ -1115,10 +1137,12 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
   }
 
   Widget systemSection({
-     required String icon,
+    required String icon,
     required Map<String, bool> items,
-    bool isFirst = false,
-   }) {
+    String? title,
+  }) {
+    bool showSecondHeader = true;
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -1128,14 +1152,17 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          // Main section header
           Row(
             children: [
               Expanded(
                 child: Text(
-                  items.keys.toList().join(', '),
+                  title ?? '',
                   textAlign: TextAlign.right,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -1148,52 +1175,86 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
             ],
           ),
           const SizedBox(height: 12),
-          ...items.entries.map(
-            (e) => Column(
-              children: [
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Row(
-                    children: [
-                      isFirst
-                          ? SvgPicture.asset(
-                              itemsFirstSectionIcon[items.entries.toList().indexOf(e)],
-                              width: 20,
-                              height: 20,
-                              color: ColorSchemes.secondary,
-                            )
-                          : SvgPicture.asset(
-                              itemsSecondSectionIcon[items.entries.toList().indexOf(e)],
-                              width: 20,
-                              height: 20,
-                              color: ColorSchemes.secondary,
-                            ),
-                      const SizedBox(width: 8),
-                      Text(e.key, style: const TextStyle(fontSize: 16)),
-                    ],
-                  ),
-                  trailing: SvgPicture.asset(
-                    ImagePaths.arrowLeft,
-                    width: 24,
-                    height: 24,
-                    color: const Color(0xFF7B0000),
-                  ),
-                  leading:   Icon(
-                    !items.values.toList()[items.entries.toList().indexOf(e)]? Icons.check_box_outline_blank :
-                    Icons.check_box,
-                    color:!items.values.toList()[items.entries.toList().indexOf(e)] ? ColorSchemes.border : Color(0xFF7B0000),
-                  ),
+
+          // Items
+          ...items.entries.toList().asMap().entries.map((entry) {
+            final index = entry.key;
+            final item = entry.value;
+
+            List<Widget> widgets = [];
+
+            // Optional second section title after 5 items
+            if (index == 5 && showSecondHeader) {
+              widgets.addAll([
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        title ?? '',
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    SvgPicture.asset(
+                      icon,
+                      width: 50,
+                      height: 50,
+                      color: const Color(0xFF7B0000),
+                    ),
+                  ],
                 ),
-                const Divider(),
-              ],
-            ),
-          )
+                const SizedBox(height: 12),
+              ]);
+              showSecondHeader = false;
+            }
+
+            widgets.add(
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Row(
+                  children: [
+                    SvgPicture.asset(
+                      index < itemsSectionIcon.length
+                          ? itemsSectionIcon[index]
+                          : ImagePaths.error, // fallback icon
+                      width: 20,
+                      height: 20,
+                      color: ColorSchemes.secondary,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(getSystemType(item.key),
+                        style: const TextStyle(fontSize: 16)),
+                  ],
+                ),
+                trailing: SvgPicture.asset(
+                  ImagePaths.arrowLeft,
+                  width: 24,
+                  height: 24,
+                  color: const Color(0xFF7B0000),
+                ),
+                leading: Icon(
+                  !item.value ? Icons.check_box : Icons.check_box_outline_blank,
+                  color: !item.value
+                      ? const Color(0xFF7B0000)
+                      : ColorSchemes.border,
+                ),
+              ),
+            );
+
+            widgets.add(const Divider());
+
+            return Column(children: widgets);
+          }),
         ],
       ),
     );
   }
 }
-
 
 class MaintenanceReportScreen extends StatelessWidget {
   const MaintenanceReportScreen({super.key});
