@@ -155,6 +155,7 @@ class AlarmItems {
   @JsonKey(name: 'item_id')
   final ItemId? itemId;
   final int? quantity;
+  final int? malfunctionsNumber;
   @JsonKey(name: '_id')
   final String? Id;
 
@@ -162,6 +163,7 @@ class AlarmItems {
     this.itemId,
     this.quantity,
     this.Id,
+    this.malfunctionsNumber=0,
   });
 
   factory AlarmItems.fromJson(Map<String, dynamic> json) =>
@@ -174,11 +176,13 @@ class AlarmItems {
     ItemId? itemId,
     int? quantity,
     String? Id,
+    int? malfunctionsNumber,
   }) {
     return AlarmItems(
       itemId: itemId ?? this.itemId,
       quantity: quantity ?? this.quantity,
       Id: Id ?? this.Id,
+      malfunctionsNumber: malfunctionsNumber ?? this.malfunctionsNumber,
     );
   }
 }

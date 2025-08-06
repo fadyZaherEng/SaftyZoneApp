@@ -12,10 +12,12 @@ import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 
 class RepairEstimateScreen extends StatefulWidget {
   final bool repairComplete;
+  final Map<String, double> changeQuantity;
 
   const RepairEstimateScreen({
     super.key,
     required this.repairComplete,
+    required this.changeQuantity,
   });
 
   @override
@@ -23,6 +25,8 @@ class RepairEstimateScreen extends StatefulWidget {
 }
 
 class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
+  List<String> itemsSectionIcon = [];
+  double emergencyExitValue = 0.0;
   bool needsParts = true;
   TextEditingController priceController = TextEditingController(text: "2000");
   List<String> itemsFirstSectionIcon = [];
@@ -33,7 +37,6 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
 
   @override
   void initState() {
-    super.initState();
     itemsFirstSectionIcon = [
       ImagePaths.controlPanel,
       ImagePaths.smokeDetector,
@@ -47,6 +50,54 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
       ImagePaths.fireBox,
     ];
     items = [...itemsFirstSectionIcon, ...itemsSecondSectionIcon];
+    super.initState();
+    itemsSectionIcon = [
+      ImagePaths.controlPanel,
+      ImagePaths.smokeDetector,
+      ImagePaths.alarmBell,
+      ImagePaths.breakGlass,
+      ImagePaths.lighting,
+      ImagePaths.fireHydrant,
+      ImagePaths.irrigation,
+      ImagePaths.fireBox,
+    ];
+    emergencyExitValue = widget.changeQuantity['Emergency Exit'] ?? 0.0;
+    widget.changeQuantity.removeWhere(
+      (key, value) => key == 'Emergency Exit',
+    );
+  }
+
+  String getSystemType(String item) {
+    switch (item) {
+      case 'Emergency Lighting':
+        return S.of(context).emergency_lights;
+      case 'glass breaker':
+        return S.of(context).glass_breaker;
+      case 'control panel':
+        return S.of(context).control_panel;
+      case 'alarm bell':
+        return S.of(context).alarm_bell;
+      case 'fire detector':
+        return S.of(context).fireDetector;
+      case 'Fire pumps':
+        return S.of(context).fire_pumps;
+      case 'Automatic Sprinklers':
+        return S.of(context).autoSprinkler;
+      case 'Fire Cabinets':
+        return S.of(context).fireBoxes;
+      default:
+        return S.of(context).fireBoxes;
+    }
+  }
+
+  Map<String, bool> generateFilteredItems() {
+    return widget.changeQuantity.map((key, value) {
+      final isEmergencyLighting = key == 'Emergency Lighting';
+      final shouldShow = (!isEmergencyLighting && value > 0.0) ||
+          (isEmergencyLighting && (value > 0.0 || emergencyExitValue > 0.0));
+
+      return MapEntry(key, shouldShow);
+    });
   }
 
   @override
@@ -221,7 +272,14 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
               ),
             ),
             SizedBox(height: 20),
-            systemSection(),
+            if(widget.changeQuantity.isNotEmpty)
+            systemSection(
+              title: t.earlyWarningSystem,
+              icon: ImagePaths.riskManagement,
+              items: generateFilteredItems(),
+            ),
+            if(widget.changeQuantity.isEmpty)
+              systemSectionNotChange(),
             const SizedBox(height: 20),
             if (widget.repairComplete) _buildPriceSection(),
             const SizedBox(height: 48),
@@ -325,7 +383,7 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
     );
   }
 
-  Widget systemSection() {
+  Widget systemSectionNotChange() {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -382,6 +440,125 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
                   ],
                 ),
               )
+        ],
+      ),
+    );
+  }
+
+  Widget systemSection({
+    required String icon,
+    required Map<String, bool> items,
+    String? title,
+  }) {
+    bool showSecondHeader = true;
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          // Main section header
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       child: Text(
+          //         title ?? '',
+          //         textAlign: TextAlign.right,
+          //         style: const TextStyle(
+          //           fontWeight: FontWeight.bold,
+          //           fontSize: 16,
+          //         ),
+          //       ),
+          //     ),
+          //     const SizedBox(width: 8),
+          //     SvgPicture.asset(
+          //       icon,
+          //       width: 50,
+          //       height: 50,
+          //       color: const Color(0xFF7B0000),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(height: 12),
+
+          // Items
+          ...items.entries.toList().asMap().entries.map((entry) {
+            final index = entry.key;
+            final item = entry.value;
+
+            List<Widget> widgets = [];
+
+            // Optional second section title after 5 items
+            // if (index == 5 && showSecondHeader) {
+            //   widgets.addAll([
+            //     const SizedBox(height: 16),
+            //     Row(
+            //       children: [
+            //         Expanded(
+            //           child: Text(
+            //             title ?? '',
+            //             textAlign: TextAlign.right,
+            //             style: const TextStyle(
+            //               fontWeight: FontWeight.bold,
+            //               fontSize: 16,
+            //             ),
+            //           ),
+            //         ),
+            //         const SizedBox(width: 8),
+            //         SvgPicture.asset(
+            //           icon,
+            //           width: 50,
+            //           height: 50,
+            //           color: const Color(0xFF7B0000),
+            //         ),
+            //       ],
+            //     ),
+            //     const SizedBox(height: 12),
+            //   ]);
+            //   showSecondHeader = false;
+            // }
+
+            widgets.add(
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Row(
+                  children: [
+                    SvgPicture.asset(
+                      index < itemsSectionIcon.length
+                          ? itemsSectionIcon[index]
+                          : ImagePaths.error, // fallback icon
+                      width: 20,
+                      height: 20,
+                      color: ColorSchemes.secondary,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(getSystemType(item.key),
+                        style: const TextStyle(fontSize: 16)),
+                  ],
+                ),
+                trailing: SvgPicture.asset(
+                  ImagePaths.arrowLeft,
+                  width: 24,
+                  height: 24,
+                  color: const Color(0xFF7B0000),
+                ),
+                leading: Icon(
+                  !item.value ? Icons.check_box : Icons.check_box_outline_blank,
+                  color: !item.value
+                      ? const Color(0xFF7B0000)
+                      : ColorSchemes.border,
+                ),
+              ),
+            );
+
+            widgets.add(const Divider());
+
+            return Column(children: widgets);
+          }),
         ],
       ),
     );

@@ -145,6 +145,7 @@ class ContractCard extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => const RepairEstimateScreen(
                           repairComplete: true,
+                          changeQuantity: {},
                         ),
                       ),
                     ),

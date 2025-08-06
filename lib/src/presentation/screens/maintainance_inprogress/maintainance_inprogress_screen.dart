@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,11 +6,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
+import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_first_screen_schedule.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/maintainance_report_request.dart'
+    as maintainance_report_request;
 import 'package:safety_zone/src/di/data_layer_injector.dart';
+import 'package:safety_zone/src/domain/entities/auth/check_auth.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
+import 'package:safety_zone/src/domain/usecase/auth/check_auth_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/fire_extinguishers/fire_extinguishers_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/repair_rstimate/repair_estimate_screen.dart';
@@ -36,8 +40,6 @@ class _MaintainanceInProgressScreenState
     extends BaseState<MaintainanceInProgressScreen> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
-
-  // int _counter = 0;
 
   RemoteFirstScreenSchedule firstScreenSchedule = RemoteFirstScreenSchedule();
   List<AlarmItems> items = [];
@@ -85,7 +87,6 @@ class _MaintainanceInProgressScreenState
           itemsEnterByUserController.clear();
           itemsQuantityController.clear();
           changeQuantity.clear();
-          // _counter = 0;
 
           for (final item in items) {
             final subCategory = item.itemId?.subCategory ?? "";
@@ -119,29 +120,52 @@ class _MaintainanceInProgressScreenState
                   physics: const NeverScrollableScrollPhysics(),
                   onPageChanged: onPageChanged,
                   children: [
-                    _buildPage([
-                      _buildSection(S.of(context).control_panel,
-                          "control panel", ImagePaths.controlPanel, false),
-                      _buildSection(S.of(context).fireDetector, "fire detector",
-                          ImagePaths.smokeDetector, true),
-                    ]),
-                    _buildPage([
-                      _buildSection(S.of(context).alarm_bell, "alarm bell",
-                          ImagePaths.alarmBell, false),
-                      _buildSection(S.of(context).broken_glass, "glass breaker",
-                          ImagePaths.breakGlass, true),
-                    ]),
-                    _buildPage([
-                      _buildSection(S.of(context).emergency_lights,
-                          "Emergency Lighting", ImagePaths.lighting, true,
-                          extraSub: "Emergency Exit"),
-                    ]),
-                    _buildPage([
-                      _buildSection(S.of(context).pumps, "Fire pumps",
-                          ImagePaths.fireHydrant, false),
-                      _buildSection(S.of(context).external_sprinkler,
-                          "Automatic Sprinklers", ImagePaths.irrigation, false),
-                      _buildSection(
+                    _buildPage(
+                      [
+                        _buildSection(S.of(context).control_panel,
+                            "control panel", ImagePaths.controlPanel, false),
+                        _buildSection(
+                          S.of(context).fireDetector,
+                          "fire detector",
+                          ImagePaths.smokeDetector,
+                          true,
+                        ),
+                      ],
+                    ),
+                    _buildPage(
+                      [
+                        _buildSection(S.of(context).alarm_bell, "alarm bell",
+                            ImagePaths.alarmBell, false),
+                        _buildSection(
+                          S.of(context).broken_glass,
+                          "glass breaker",
+                          ImagePaths.breakGlass,
+                          true,
+                        ),
+                      ],
+                    ),
+                    _buildPage(
+                      [
+                        _buildSection(
+                          S.of(context).emergency_lights,
+                          "Emergency Lighting",
+                          ImagePaths.lighting,
+                          true,
+                          extraSub: "Emergency Exit",
+                        ),
+                      ],
+                    ),
+                    _buildPage(
+                      [
+                        _buildSection(S.of(context).pumps, "Fire pumps",
+                            ImagePaths.fireHydrant, false),
+                        _buildSection(
+                          S.of(context).external_sprinkler,
+                          "Automatic Sprinklers",
+                          ImagePaths.irrigation,
+                          false,
+                        ),
+                        _buildSection(
                           S.of(context).fireBoxes,
                           "fire Boxes", //equal to Fire Cabinets
                           ImagePaths.fireBox,
@@ -156,8 +180,10 @@ class _MaintainanceInProgressScreenState
                             "Fire pumps",
                             "Automatic Sprinklers"
                           ],
-                          isLastPage: true),
-                    ]),
+                          isLastPage: true,
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -261,10 +287,14 @@ class _MaintainanceInProgressScreenState
                   }
                   if (widget.isRepair) {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) =>
-                                RepairEstimateScreen(repairComplete: true)));
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => RepairEstimateScreen(
+                          repairComplete: true,
+                          changeQuantity: {},
+                        ),
+                      ),
+                    );
                   } else {
                     Navigator.push(
                       context,
@@ -349,7 +379,7 @@ class _MaintainanceInProgressScreenState
                         // Update the changedItems list
                         if (index < changedItems.length) {
                           changedItems[index] = changedItems[index]
-                              .copyWith(quantity: int.parse(value));
+                              .copyWith(malfunctionsNumber: int.parse(value));
                         }
                       });
                     },
@@ -446,9 +476,7 @@ class SystemReportsPage extends StatefulWidget {
   final List<AlarmItems> changedItems;
   final Map<String, double> changeQuantity;
   final int alarmItemLength;
-
   final int fireSystemItemLength;
-
   final String scheduleJob;
   final String consumerRequest;
   final String consumer;
@@ -734,9 +762,61 @@ class MaintenanceReportScreen extends BaseStatefulWidget {
       _MaintenanceReportScreenState();
 }
 
+enum MaintenanceStatus {
+  needMaintenance,
+  notNeedMaintenance,
+  offerSend,
+  offerAccepted,
+  offerRejected,
+  maintenanceInProgress,
+  maintenanceDone,
+}
+
+enum SafetyStatus {
+  safe,
+  normal,
+  dangerous,
+}
+
 class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
   FireExtinguishersBloc get _bloc =>
       BlocProvider.of<FireExtinguishersBloc>(context);
+  List<maintainance_report_request.AlarmItem> alarmItems = [];
+  List<maintainance_report_request.FireSystemItem> fireSystemItems = [];
+  String selectedStatus = MaintenanceStatus.needMaintenance.name;
+  String selectedSafetyStatus = SafetyStatus.safe.name;
+  String anyDetails = '';
+  String description = '';
+
+  @override
+  void initState() {
+    super.initState();
+    for (var i = 0; i < widget.alarmItemLength; i++) {
+      alarmItems.add(maintainance_report_request.AlarmItem(
+        item: widget.changedItems[i].Id,
+        quantity: widget.changedItems[i].quantity,
+        malfunctionsNumber: widget.changedItems[i].malfunctionsNumber,
+      ));
+    }
+
+    for (var i = widget.alarmItemLength; i < widget.changedItems.length; i++) {
+      fireSystemItems.add(maintainance_report_request.FireSystemItem(
+        item: widget.changedItems[i].Id,
+        quantity: widget.changedItems[i].quantity,
+        malfunctionsNumber: widget.changedItems[i].malfunctionsNumber,
+      ));
+    }
+  }
+
+  DataState<CheckAuth>? result;
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    result = (await CheckAuthUseCase(injector())());
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {});
+  }
 
   @override
   Widget baseBuild(BuildContext context) {
@@ -746,8 +826,23 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
         showLoading();
       } else if (state is MaintainanceReportSuccessState) {
         hideLoading();
-        Navigator.pop(context);
         showSuccessToast(S.of(context).success);
+        if (state.remoteMaintainanceReport.maintenanceOfferStatus
+                ?.toLowerCase() ==
+            MaintenanceStatus.needMaintenance.name.toLowerCase()) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => SystemErrorScreen(
+                changeQuantity: widget.changeQuantity,
+              ),
+            ),
+          );
+        } else {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+        }
       } else if (state is MaintainanceReportErrorState) {
         hideLoading();
         showErrorToast(state.message);
@@ -848,6 +943,16 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
                       const SizedBox(height: 8),
                       TextFormField(
                         maxLines: 3,
+                        style: TextStyle(
+                          color: ColorSchemes.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            description = value;
+                          });
+                        },
                         decoration: InputDecoration(
                           hintText: 'اكتب هنا...',
                           border: OutlineInputBorder(),
@@ -885,9 +990,20 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
                       ),
                       const SizedBox(height: 8),
                       TextFormField(
+                        style: TextStyle(
+                          color: ColorSchemes.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                         decoration: InputDecoration(
-                            hintText: 'ادخل نوع النظام الإنذار العادي',
-                            border: OutlineInputBorder()),
+                          hintText: 'ادخل نوع النظام الإنذار العادي',
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            anyDetails = value;
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -917,9 +1033,16 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
                       ),
                       const SizedBox(height: 8),
                       TextFormField(
+                        enabled: false,
                         decoration: InputDecoration(
-                            hintText: 'محمد أحمد علي',
-                            border: OutlineInputBorder()),
+                          hintStyle: TextStyle(
+                            color: ColorSchemes.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          hintText: result?.data?.employeeDetails.fullName,
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                     ],
                   ),
@@ -931,14 +1054,26 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
                 backgroundColor: ColorSchemes.primary,
                 textColor: ColorSchemes.white,
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const SystemErrorScreen(),
+                  _bloc.add(
+                    MaintainanceReportEvent(
+                      maintainanceReportRequest:
+                          maintainance_report_request.MaintainanceReportRequest(
+                        branch: widget.branch,
+                        safetyStatus: selectedSafetyStatus,
+                        description: description,
+                        details: anyDetails,
+                        consumerRequest: widget.consumerRequest,
+                        alarmItem: alarmItems,
+                        fireSystemItem: fireSystemItems,
+                        consumer: widget.consumer,
+                        offer: widget.offer,
+                        scheduleJob: widget.scheduleJob,
+                      ),
                     ),
                   );
                 },
               ),
+              const SizedBox(height: 64),
             ],
           ),
         ),
@@ -966,28 +1101,40 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
         children: [
           Expanded(
             child: CheckboxListTile(
-              value: true,
+              value: selectedSafetyStatus == SafetyStatus.safe.name,
               contentPadding: EdgeInsets.zero,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onChanged: (_) {},
+              onChanged: (_) {
+                setState(() {
+                  selectedSafetyStatus = SafetyStatus.safe.name;
+                });
+              },
               title: Text(t.very_safe),
             ),
           ),
           Expanded(
             child: CheckboxListTile(
-              value: false,
+              value: selectedSafetyStatus == SafetyStatus.normal.name,
               contentPadding: EdgeInsets.zero,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onChanged: (_) {},
+              onChanged: (_) {
+                setState(() {
+                  selectedSafetyStatus = SafetyStatus.normal.name;
+                });
+              },
               title: Text(t.moderate),
             ),
           ),
           Expanded(
             child: CheckboxListTile(
-              value: false,
+              value: selectedSafetyStatus == SafetyStatus.dangerous.name,
               contentPadding: EdgeInsets.zero,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onChanged: (_) {},
+              onChanged: (_) {
+                setState(() {
+                  selectedSafetyStatus = SafetyStatus.dangerous.name;
+                });
+              },
               title: Text(t.danger),
             ),
           ),
@@ -1015,9 +1162,19 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
   }
 }
 
-class SystemErrorScreen extends StatelessWidget {
-  const SystemErrorScreen({super.key});
+class SystemErrorScreen extends StatefulWidget {
+  final Map<String, double> changeQuantity;
 
+  const SystemErrorScreen({
+    super.key,
+    required this.changeQuantity,
+  });
+
+  @override
+  State<SystemErrorScreen> createState() => _SystemErrorScreenState();
+}
+
+class _SystemErrorScreenState extends State<SystemErrorScreen> {
   @override
   Widget build(BuildContext context) {
     final t = S.of(context);
@@ -1077,6 +1234,7 @@ class SystemErrorScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (_) => RepairEstimateScreen(
                       repairComplete: false,
+                      changeQuantity: widget.changeQuantity,
                     ),
                   ),
                 );
