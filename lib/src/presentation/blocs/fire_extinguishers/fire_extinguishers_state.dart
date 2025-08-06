@@ -82,3 +82,17 @@ final class MainOfferFireExtinguishersErrorState
 
   MainOfferFireExtinguishersErrorState({required this.message});
 }
+
+final class MaintainanceReportLoadingState extends FireExtinguishersState {}
+
+final class MaintainanceReportSuccessState extends FireExtinguishersState {
+  final RemoteMaintainanceReport remoteMaintainanceReport;
+
+  MaintainanceReportSuccessState({required this.remoteMaintainanceReport});
+}
+
+final class MaintainanceReportErrorState extends FireExtinguishersState {
+  final String message;
+
+  MaintainanceReportErrorState({required this.message});
+}

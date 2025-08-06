@@ -442,594 +442,6 @@ class _MaintainanceInProgressScreenState
   }
 }
 
-// class _MaintainanceInProgressScreenState
-//     extends BaseState<MaintainanceInProgressScreen> {
-//   final PageController _pageController = PageController();
-//   int _currentIndex = 0;
-//
-//   RemoteFirstScreenSchedule firstScreenSchedule = RemoteFirstScreenSchedule();
-//   List<AlarmItems> items = [];
-//   List<TextEditingController> itemsEnterByUserController = [];
-//   List<TextEditingController> itemsQuantityController = [];
-//   Map<String, double> changeQuantity = {};
-//
-//   FireExtinguishersBloc get _bloc =>
-//       BlocProvider.of<FireExtinguishersBloc>(context);
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _bloc.add(GetFirstScreenScheduleEvent(id: widget.scheduleJop.Id));
-//   }
-//
-//   @override
-//   Widget baseBuild(BuildContext context) {
-//     return BlocConsumer<FireExtinguishersBloc, FireExtinguishersState>(
-//       listener: (context, state) {
-//         if (state is GetFirstScreenScheduleSuccessState) {
-//           firstScreenSchedule = state.remoteFirstScreenSchedule;
-//           _showValidationError(
-//               state.remoteFirstScreenSchedule.message.toString(), true);
-//
-//           items = [
-//             ...firstScreenSchedule
-//                     .data?.consumerRequest?.fireExtinguisherItem ??
-//                 [],
-//             ...firstScreenSchedule.data?.consumerRequest?.alarmItems ?? [],
-//             ...firstScreenSchedule.data?.consumerRequest?.fireSystemItem ?? [],
-//           ];
-//           // Add controllers before building the list
-//           itemsEnterByUserController.clear(); // Optional: reset if needed
-//           itemsQuantityController.clear();
-//           _counter = 0;
-//           changeQuantity = {};
-//           for (int i = 0; i < items.length; i++) {
-//             changeQuantity[items[i].itemId?.subCategory ?? ""] = 0.0;
-//             TextEditingController enterByUserController =
-//                 TextEditingController();
-//             enterByUserController.text = "0";
-//             itemsEnterByUserController.add(enterByUserController);
-//             if (items[i].itemId?.subCategory == "control panel") {
-//               TextEditingController quantityController =
-//                   TextEditingController();
-//               quantityController.text = items[i].quantity.toString();
-//               itemsQuantityController.add(quantityController);
-//             } else if (items[i].itemId?.subCategory == "fire detector") {
-//               TextEditingController quantityController =
-//                   TextEditingController();
-//               quantityController.text = items[i].quantity.toString();
-//               itemsQuantityController.add(quantityController);
-//             } else if (items[i].itemId?.subCategory == "alarm bell") {
-//               TextEditingController quantityController =
-//                   TextEditingController();
-//               quantityController.text = items[i].quantity.toString();
-//               itemsQuantityController.add(quantityController);
-//             } else if (items[i].itemId?.subCategory == "glass breaker") {
-//               TextEditingController quantityController =
-//                   TextEditingController();
-//               quantityController.text = items[i].quantity.toString();
-//               itemsQuantityController.add(quantityController);
-//             } else if (items[i].itemId?.subCategory == "Emergency Lighting" ||
-//                 items[i].itemId?.subCategory == "Emergency Exit") {
-//               TextEditingController quantityController =
-//                   TextEditingController();
-//               quantityController.text = items[i].quantity.toString();
-//               itemsQuantityController.add(quantityController);
-//             } else if (items[i].itemId?.subCategory == "Automatic Sprinklers") {
-//               TextEditingController quantityController =
-//                   TextEditingController();
-//               quantityController.text = items[i].quantity.toString();
-//               itemsQuantityController.add(quantityController);
-//             } else if (items[i].itemId?.subCategory == "Fire pumps") {
-//               TextEditingController quantityController =
-//                   TextEditingController();
-//               quantityController.text = items[i].quantity.toString();
-//               itemsQuantityController.add(quantityController);
-//             } else {
-//               TextEditingController quantityController =
-//                   TextEditingController();
-//               quantityController.text = items[i].quantity.toString();
-//               itemsQuantityController.add(quantityController);
-//             }
-//           }
-//         } else if (state is GetFirstScreenScheduleErrorState) {
-//           _showValidationError(state.message, false);
-//         }
-//       },
-//       builder: (context, state) {
-//         return Scaffold(
-//           appBar: AppBar(
-//             backgroundColor: ColorSchemes.primary,
-//             title: Text(S.of(context).report_title),
-//             centerTitle: true,
-//           ),
-//           body: Column(
-//             children: [
-//               const SizedBox(height: 16),
-//               buildPageIndicator(),
-//               const SizedBox(height: 16),
-//               Expanded(
-//                 child: PageView(
-//                   controller: _pageController,
-//                   physics: const NeverScrollableScrollPhysics(),
-//                   onPageChanged: onPageChanged,
-//                   children: [
-//                     SingleChildScrollView(
-//                       child: Column(
-//                         children: [
-//                           buildSection(
-//                             S.of(context).control_panel,
-//                             "control panel",
-//                             [
-//                               for (int i = 0; i < items.length; i++)
-//                                 if (items[i].itemId?.subCategory ==
-//                                     "control panel") ...[
-//                                   GetLanguageUseCase(injector())() == 'en'
-//                                       ? items[i].itemId?.itemName?.en ?? ''
-//                                       : items[i].itemId?.itemName?.ar ?? '',
-//                                 ],
-//                             ],
-//                             (p0) {},
-//                             ImagePaths.controlPanel,
-//                             isButton: false,
-//                             length: 0,
-//                           ),
-//                           buildSection(
-//                             S.of(context).fireDetector,
-//                             "fire detector",
-//                             [
-//                               for (int i = 0; i < items.length; i++)
-//                                 if (items[i].itemId?.subCategory ==
-//                                     "fire detector") ...[
-//                                   GetLanguageUseCase(injector())() == 'en'
-//                                       ? items[i].itemId?.itemName?.en ?? ''
-//                                       : items[i].itemId?.itemName?.ar ?? '',
-//                                 ],
-//                             ],
-//                             (p0) {},
-//                             ImagePaths.smokeDetector,
-//                             length: items
-//                                 .where((element) =>
-//                                     element.itemId?.subCategory ==
-//                                         "fire detector" ||
-//                                     element.itemId?.subCategory ==
-//                                         "control panel")
-//                                 .length,
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                     SingleChildScrollView(
-//                       child: Column(
-//                         children: [
-//                           buildSection(
-//                             S.of(context).alarm_bell,
-//                             "alarm bell",
-//                             [
-//                               for (int i = 0; i < items.length; i++)
-//                                 if (items[i].itemId?.subCategory ==
-//                                     "alarm bell") ...[
-//                                   GetLanguageUseCase(injector())() == 'en'
-//                                       ? items[i].itemId?.itemName?.en ?? ''
-//                                       : items[i].itemId?.itemName?.ar ?? '',
-//                                 ],
-//                             ],
-//                             (p1) {},
-//                             ImagePaths.alarmBell,
-//                             isButton: false,
-//                             length: 0,
-//                           ),
-//                           buildSection(
-//                             S.of(context).broken_glass,
-//                             "glass breaker",
-//                             [
-//                               for (int i = 0; i < items.length; i++)
-//                                 if (items[i].itemId?.subCategory ==
-//                                     "glass breaker") ...[
-//                                   GetLanguageUseCase(injector())() == 'en'
-//                                       ? items[i].itemId?.itemName?.en ?? ''
-//                                       : items[i].itemId?.itemName?.ar ?? '',
-//                                 ],
-//                             ],
-//                             (p1) {},
-//                             ImagePaths.breakGlass,
-//                             length: items
-//                                 .where((element) =>
-//                                     element.itemId?.subCategory ==
-//                                         "glass breaker" ||
-//                                     element.itemId?.subCategory == "alarm bell")
-//                                 .length,
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                     buildSection(
-//                       S.of(context).emergency_lights,
-//                       "emergency lighting",
-//                       [
-//                         for (int i = 0; i < items.length; i++)
-//                           if (items[i].itemId?.subCategory ==
-//                                   "Emergency Lighting" ||
-//                               items[i].itemId?.subCategory ==
-//                                   "Emergency Exit") ...[
-//                             GetLanguageUseCase(injector())() == 'en'
-//                                 ? items[i].itemId?.itemName?.en ?? ''
-//                                 : items[i].itemId?.itemName?.ar ?? '',
-//                           ],
-//                       ],
-//                       (p2) {},
-//                       ImagePaths.lighting,
-//                       length: items
-//                           .where((element) =>
-//                               element.itemId?.subCategory ==
-//                                   "Emergency Lighting" ||
-//                               element.itemId?.subCategory == "Emergency Exit")
-//                           .length,
-//                     ),
-//                     SingleChildScrollView(
-//                       child: Column(
-//                         children: [
-//                           buildSection(
-//                             S.of(context).pumps,
-//                             "Fire pumps",
-//                             [
-//                               for (int i = 0; i < items.length; i++)
-//                                 if (items[i].itemId?.subCategory ==
-//                                     "Fire pumps") ...[
-//                                   GetLanguageUseCase(injector())() == 'en'
-//                                       ? items[i].itemId?.itemName?.en ?? ''
-//                                       : items[i].itemId?.itemName?.ar ?? '',
-//                                 ],
-//                             ],
-//                             (p3) {},
-//                             ImagePaths.fireHydrant,
-//                             isButton: false,
-//                             length: 0,
-//                           ),
-//                           buildSection(
-//                             S.of(context).external_sprinkler,
-//                             "Automatic Sprinklers",
-//                             [
-//                               for (int i = 0; i < items.length; i++)
-//                                 if (items[i].itemId?.subCategory ==
-//                                     "Automatic Sprinklers") ...[
-//                                   GetLanguageUseCase(injector())() == 'en'
-//                                       ? items[i].itemId?.itemName?.en ?? ''
-//                                       : items[i].itemId?.itemName?.ar ?? '',
-//                                 ],
-//                             ],
-//                             (p3) {},
-//                             ImagePaths.irrigation,
-//                             isButton: false,
-//                             length: 0,
-//                           ),
-//                           buildSection(
-//                             S.of(context).fireBoxes,
-//                             "fire Boxes",
-//                             [
-//                               //if not above item is not in the list
-//                               for (int i = 0; i < items.length; i++)
-//                                 if (items[i].itemId?.subCategory != "control panel" &&
-//                                     items[i].itemId?.subCategory !=
-//                                         "fire detector" &&
-//                                     items[i].itemId?.subCategory !=
-//                                         "alarm bell" &&
-//                                     items[i].itemId?.subCategory !=
-//                                         "glass breaker" &&
-//                                     items[i].itemId?.subCategory !=
-//                                         "Emergency Lighting" &&
-//                                     items[i].itemId?.subCategory !=
-//                                         "Emergency Exit" &&
-//                                     items[i].itemId?.subCategory !=
-//                                         "Fire pumps" &&
-//                                     items[i].itemId?.subCategory !=
-//                                         "Automatic Sprinklers") ...[
-//                                   GetLanguageUseCase(injector())() == 'en'
-//                                       ? items[i].itemId?.itemName?.en ?? ''
-//                                       : items[i].itemId?.itemName?.ar ?? '',
-//                                 ],
-//                             ],
-//                             (p3) {
-//                               if (widget.isRepair) {
-//                                 Navigator.push(
-//                                   context,
-//                                   MaterialPageRoute(
-//                                     builder: (context) => RepairEstimateScreen(
-//                                         repairComplete: true),
-//                                   ),
-//                                 );
-//                               } else {
-//                                 Navigator.push(
-//                                   context,
-//                                   MaterialPageRoute(
-//                                     builder: (context) =>
-//                                         const SystemReportsPage(),
-//                                   ),
-//                                 );
-//                               }
-//                             },
-//                             ImagePaths.fireBox,
-//                             length: items
-//                                 .where((element) =>
-//                                     element.itemId?.subCategory != "control panel" &&
-//                                     element.itemId?.subCategory !=
-//                                         "fire detector" &&
-//                                     element.itemId?.subCategory !=
-//                                         "alarm bell" &&
-//                                     element.itemId?.subCategory !=
-//                                         "glass breaker" &&
-//                                     element.itemId?.subCategory !=
-//                                         "Emergency Lighting" &&
-//                                     element.itemId?.subCategory !=
-//                                         "Emergency Exit")
-//                                 .length,
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//               const SizedBox(height: 8),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
-//
-//   void onPageChanged(int index) {
-//     setState(() {
-//       _currentIndex = index;
-//     });
-//   }
-//
-//   void _showValidationError(String locationSelected, bool bool) {
-//     showSnackBar(
-//       context: context,
-//       message: locationSelected,
-//       color: !bool ? ColorSchemes.warning : ColorSchemes.success,
-//       icon: !bool ? ImagePaths.error : ImagePaths.success,
-//     );
-//   }
-//
-//   Widget buildItem(String title, int index, {required String subCategory}) {
-//     return Card(
-//       margin: const EdgeInsets.symmetric(vertical: 8),
-//       elevation: 3,
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(12.r),
-//       ),
-//       color: ColorSchemes.white,
-//       child: Padding(
-//         padding: const EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               children: [
-//                 SvgPicture.asset(
-//                   ImagePaths.priceTag,
-//                   height: 16.h,
-//                   width: 16.w,
-//                   color: ColorSchemes.primary,
-//                 ),
-//                 const SizedBox(width: 8),
-//                 Text(
-//                   title,
-//                   style: const TextStyle(
-//                     fontWeight: FontWeight.bold,
-//                     color: ColorSchemes.secondary,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             const SizedBox(height: 16),
-//             Row(
-//               children: [
-//                 Expanded(
-//                   child: _buildInputField(
-//                     label: S.of(context).available,
-//                     value: 1,
-//                     path: ImagePaths.quality,
-//                     isReadOnly: true,
-//                     controller: itemsQuantityController[index],
-//                     onChanged: (value) {},
-//                   ),
-//                 ),
-//                 const SizedBox(width: 10),
-//                 Expanded(
-//                   child: _buildInputField(
-//                     label: S.of(context).required,
-//                     value: 1,
-//                     path: ImagePaths.technical,
-//                     isReadOnly: false,
-//                     controller: itemsEnterByUserController[index],
-//                     onChanged: (value) {
-//                       setState(() {
-//                         changeQuantity[subCategory] = double.parse(value);
-//                       });
-//                     },
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _buildInputField({
-//     required String label,
-//     required int value,
-//     required String path,
-//     required bool isReadOnly,
-//     required TextEditingController controller,
-//     required void Function(String) onChanged,
-//   }) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Row(
-//           children: [
-//             SvgPicture.asset(
-//               path,
-//               height: 16.h,
-//               width: 16.w,
-//               color: ColorSchemes.black,
-//             ),
-//             const SizedBox(width: 8),
-//             Text(label, style: const TextStyle(fontSize: 14)),
-//           ],
-//         ),
-//         const SizedBox(height: 16),
-//         SizedBox(
-//           height: 34.h,
-//           child: TextFormField(
-//             controller: controller,
-//             readOnly: isReadOnly,
-//             onChanged: (value) {
-//               setState(() {
-//                 controller.text = value;
-//                 controller.selection = TextSelection.fromPosition(
-//                   TextPosition(offset: value.length),
-//                 );
-//                 onChanged(value);
-//               });
-//               if (int.tryParse(value) != null) {
-//                 int.parse(value);
-//               }
-//             },
-//             validator: (value) {
-//               if (value == null || value.isEmpty) {
-//                 return 'Please enter quantity';
-//               }
-//               return null;
-//             },
-//             keyboardType: TextInputType.number,
-//             style: const TextStyle(fontSize: 14),
-//             decoration: InputDecoration(
-//               fillColor: ColorSchemes.white,
-//               filled: true,
-//               enabledBorder: OutlineInputBorder(
-//                 borderRadius: BorderRadius.circular(2),
-//                 borderSide: const BorderSide(color: Colors.grey),
-//               ),
-//               focusedBorder: OutlineInputBorder(
-//                 borderRadius: BorderRadius.circular(2),
-//                 borderSide: const BorderSide(color: Colors.grey),
-//               ),
-//               errorBorder: OutlineInputBorder(
-//                 borderRadius: BorderRadius.circular(2),
-//                 borderSide: const BorderSide(color: Colors.red),
-//               ),
-//               border: OutlineInputBorder(
-//                 borderRadius: BorderRadius.circular(2),
-//                 borderSide: const BorderSide(color: Colors.grey),
-//               ),
-//               contentPadding: const EdgeInsets.symmetric(
-//                 horizontal: 12,
-//                 vertical: 6,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-//
-//   int _counter = 0;
-//
-//   Widget buildSection(
-//     String title,
-//     String subCategory,
-//     List<String> items,
-//     void Function(int) onTap,
-//     String path, {
-//     bool isButton = true,
-//     required int length,
-//   }) {
-//     print(_counter);
-//     Widget buildSection = SingleChildScrollView(
-//       padding: const EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Row(
-//             children: [
-//               SvgPicture.asset(
-//                 path,
-//                 height: 22.h,
-//                 width: 22.w,
-//                 color: ColorSchemes.primary,
-//               ),
-//               const SizedBox(width: 12),
-//               Text(
-//                 title,
-//                 style: const TextStyle(
-//                   fontSize: 20,
-//                   fontWeight: FontWeight.bold,
-//                 ),
-//               ),
-//             ],
-//           ),
-//           const SizedBox(height: 12),
-//           ...items.asMap().entries.map(
-//                 (entry) => buildItem(
-//                   entry.value,
-//                   entry.key + _counter,
-//                   subCategory: subCategory,
-//                 ),
-//               ),
-//           if (isButton) const SizedBox(height: 40),
-//           if (isButton)
-//             CustomButtonWidget(
-//               onTap: () {
-//                 if (_currentIndex < 3) {
-//                   _counter += length;
-//                   _pageController.nextPage(
-//                       duration: const Duration(milliseconds: 300),
-//                       curve: Curves.ease);
-//                 }
-//                 if (_currentIndex == 3) {
-//                   for(var item in changeQuantity.entries){
-//                     print('${item.key} ${item.value}');
-//                   }
-//                   onTap(_currentIndex);
-//                 }
-//               },
-//               text: S.of(context).next,
-//               backgroundColor: ColorSchemes.primary,
-//               textColor: Colors.white,
-//             ),
-//           if (isButton) const SizedBox(height: 40),
-//         ],
-//       ),
-//     );
-//     return buildSection;
-//   }
-//
-//   Widget buildPageIndicator() {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: List.generate(4, (index) {
-//         return AnimatedContainer(
-//           duration: const Duration(milliseconds: 300),
-//           margin: const EdgeInsets.symmetric(horizontal: 4),
-//           height: 6,
-//           width: 40,
-//           decoration: BoxDecoration(
-//             color: _currentIndex == index ? Colors.red[900] : Colors.grey[300],
-//             borderRadius: BorderRadius.circular(4),
-//           ),
-//         );
-//       }),
-//     );
-//   }
-// }
-//
-
 class SystemReportsPage extends StatefulWidget {
   final List<AlarmItems> changedItems;
   final Map<String, double> changeQuantity;
@@ -1151,7 +563,7 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>   MaintenanceReportScreen(
+                  builder: (context) => MaintenanceReportScreen(
                     changedItems: widget.changedItems,
                     changeQuantity: widget.changeQuantity,
                     alarmItemLength: widget.alarmItemLength,
@@ -1293,7 +705,7 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
   }
 }
 
-class MaintenanceReportScreen extends StatelessWidget {
+class MaintenanceReportScreen extends BaseStatefulWidget {
   final List<AlarmItems> changedItems;
   final Map<String, double> changeQuantity;
   final int alarmItemLength;
@@ -1318,196 +730,220 @@ class MaintenanceReportScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final t = S.of(context);
+  BaseState<MaintenanceReportScreen> baseCreateState() =>
+      _MaintenanceReportScreenState();
+}
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.maintenance_report),
-        backgroundColor: ColorSchemes.primary,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                SvgPicture.asset(
-                  ImagePaths.priceSending,
-                  width: 22,
-                  height: 22,
-                ),
-                const SizedBox(width: 16),
-                Text(
-                  t.post_visit_report,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              elevation: 3,
-              color: ColorSchemes.white,
-              child: Column(
+class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
+  FireExtinguishersBloc get _bloc =>
+      BlocProvider.of<FireExtinguishersBloc>(context);
+
+  @override
+  Widget baseBuild(BuildContext context) {
+    return BlocConsumer<FireExtinguishersBloc, FireExtinguishersState>(
+        listener: (context, state) {
+      if (state is MaintainanceReportLoadingState) {
+        showLoading();
+      } else if (state is MaintainanceReportSuccessState) {
+        hideLoading();
+        Navigator.pop(context);
+        showSuccessToast(S.of(context).success);
+      } else if (state is MaintainanceReportErrorState) {
+        hideLoading();
+        showErrorToast(state.message);
+      }
+    }, builder: (context, state) {
+      final t = S.of(context);
+
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(t.maintenance_report),
+          backgroundColor: ColorSchemes.primary,
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      children: [
-                        Transform.rotate(
-                          angle: -pi / 2,
-                          child: SvgPicture.asset(
-                            ImagePaths.priceTag,
-                            width: 18,
-                            height: 18,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Text(
-                            t.system_safety_status,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
+                  SvgPicture.asset(
+                    ImagePaths.priceSending,
+                    width: 22,
+                    height: 22,
+                  ),
+                  const SizedBox(width: 16),
+                  Text(
+                    t.post_visit_report,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 6),
-                  _buildSafetyOptions(t),
                 ],
               ),
-            ),
-            SizedBox(height: 12),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              elevation: 3,
-              color: ColorSchemes.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              SizedBox(height: 10),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                elevation: 3,
+                color: ColorSchemes.white,
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Transform.rotate(
-                          angle: -pi / 2,
-                          child: SvgPicture.asset(
-                            ImagePaths.priceTag,
-                            width: 18,
-                            height: 18,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        children: [
+                          Transform.rotate(
+                            angle: -pi / 2,
+                            child: SvgPicture.asset(
+                              ImagePaths.priceTag,
+                              width: 18,
+                              height: 18,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(child: _buildSectionTitle(t.add_notes)),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                        hintText: 'اكتب هنا...',
-                        border: OutlineInputBorder(),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              t.system_safety_status,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    const SizedBox(height: 6),
+                    _buildSafetyOptions(t),
                   ],
                 ),
               ),
-            ),
-            SizedBox(height: 12),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.r),
+              SizedBox(height: 12),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                elevation: 3,
+                color: ColorSchemes.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Transform.rotate(
+                            angle: -pi / 2,
+                            child: SvgPicture.asset(
+                              ImagePaths.priceTag,
+                              width: 18,
+                              height: 18,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(child: _buildSectionTitle(t.add_notes)),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                          hintText: 'اكتب هنا...',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              elevation: 3,
-              color: ColorSchemes.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Transform.rotate(
-                          angle: -pi / 2,
-                          child: SvgPicture.asset(
-                            ImagePaths.priceTag,
+              SizedBox(height: 12),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                elevation: 3,
+                color: ColorSchemes.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Transform.rotate(
+                            angle: -pi / 2,
+                            child: SvgPicture.asset(
+                              ImagePaths.priceTag,
+                              width: 18,
+                              height: 18,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                              child: _buildSectionTitle("${t.alarm_type}*")),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        decoration: InputDecoration(
+                            hintText: 'ادخل نوع النظام الإنذار العادي',
+                            border: OutlineInputBorder()),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 12),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                elevation: 3,
+                color: ColorSchemes.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            ImagePaths.person,
                             width: 18,
                             height: 18,
                           ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(child: _buildSectionTitle("${t.alarm_type}*")),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          hintText: 'ادخل نوع النظام الإنذار العادي',
-                          border: OutlineInputBorder()),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 12),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              elevation: 3,
-              color: ColorSchemes.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          ImagePaths.person,
-                          width: 18,
-                          height: 18,
-                        ),
-                        const SizedBox(width: 16),
-                        _buildSectionTitle(t.report_prepared_by),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          hintText: 'محمد أحمد علي',
-                          border: OutlineInputBorder()),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 30),
-            CustomButtonWidget(
-              text: t.submit_report,
-              backgroundColor: ColorSchemes.primary,
-              textColor: ColorSchemes.white,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const SystemErrorScreen(),
+                          const SizedBox(width: 16),
+                          _buildSectionTitle(t.report_prepared_by),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        decoration: InputDecoration(
+                            hintText: 'محمد أحمد علي',
+                            border: OutlineInputBorder()),
+                      ),
+                    ],
                   ),
-                );
-              },
-            ),
-          ],
+                ),
+              ),
+              SizedBox(height: 30),
+              CustomButtonWidget(
+                text: t.submit_report,
+                backgroundColor: ColorSchemes.primary,
+                textColor: ColorSchemes.white,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const SystemErrorScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildSectionTitle(String title) {
@@ -1557,6 +993,24 @@ class MaintenanceReportScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void showErrorToast(String message) {
+    showSnackBar(
+      context: context,
+      message: message,
+      color: ColorSchemes.warning,
+      icon: ImagePaths.error,
+    );
+  }
+
+  void showSuccessToast(message) {
+    showSnackBar(
+      context: context,
+      message: message,
+      color: ColorSchemes.success,
+      icon: ImagePaths.success,
     );
   }
 }

@@ -21,6 +21,7 @@ Future<void> initializeBlocDependencies() async {
         injector(),
         injector(),
         injector(),
+        injector(),
       ));
   injector.registerFactory<HomeBloc>(() => HomeBloc(
         injector(),

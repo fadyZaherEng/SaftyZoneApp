@@ -6,6 +6,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remot
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_first_screen_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_go_to_location.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_main_offer_fire_extinguisher.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_maintainance_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
@@ -14,6 +15,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remot
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_update_status_deliver.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/add_recieve_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/main_offer_fire_extinguisher.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/maintainance_report_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/schedule_jop_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
@@ -95,5 +97,11 @@ abstract class HomeApiServices {
   Future<HttpResponse<RemoteSecondAndThirdSchedule>>
       secondAndThirdScreenScheduleJob(
     @Path("id") String id,
+  );
+
+  @POST(APIKeys.createMaintenanceReport)
+  Future<HttpResponse<RemoteMaintainanceReport>> createMaintenanceReport(
+    @Header("Authorization") String token,
+    @Body() MaintainanceReportRequest maintenanceReport,
   );
 }

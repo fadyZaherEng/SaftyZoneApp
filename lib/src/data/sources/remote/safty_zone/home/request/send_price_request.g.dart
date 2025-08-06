@@ -15,8 +15,8 @@ SendPriceRequest _$SendPriceRequestFromJson(Map<String, dynamic> json) =>
           ?.map((e) => Item.fromJson(e as Map<String, dynamic>))
           .toList(),
       is_Primary: json['is_Primary'] as bool?,
-      emergencyVisitPrice: (json['emergencyVisitPrice'] as num?)?.toInt(),
-      visitPrice: (json['visitPrice'] as num?)?.toInt(),
+      visitPrice: (json['visitPrice'] as num?)?.toInt() ?? 0,
+      emergencyVisitPrice: (json['emergencyVisitPrice'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$SendPriceRequestToJson(SendPriceRequest instance) =>
@@ -26,8 +26,8 @@ Map<String, dynamic> _$SendPriceRequestToJson(SendPriceRequest instance) =>
       'price': instance.price,
       'item': instance.item,
       'is_Primary': instance.is_Primary,
-      'emergencyVisitPrice': instance.emergencyVisitPrice,
       'visitPrice': instance.visitPrice,
+      'emergencyVisitPrice': instance.emergencyVisitPrice,
     };
 
 Item _$ItemFromJson(Map<String, dynamic> json) => Item(

@@ -59,6 +59,8 @@ Map<String, dynamic> _$RemoteResultToJson(RemoteResult instance) =>
       'consumer': instance.consumer,
       'branch': instance.branch,
       'requestNumber': instance.requestNumber,
+      'numberOfVisits': instance.numberOfVisits,
+      'duration': instance.duration,
       'systemType': instance.systemType,
       'space': instance.space,
       'requestType': instance.requestType,
@@ -67,8 +69,6 @@ Map<String, dynamic> _$RemoteResultToJson(RemoteResult instance) =>
       'alarmItems': instance.alarmItems,
       'fireExtinguisherItem': instance.fireExtinguisherItem,
       'fireSystemItem': instance.fireSystemItem,
-      'numberOfVisits': instance.numberOfVisits,
-      'duration': instance.duration,
     };
 
 RemoteItems _$RemoteItemsFromJson(Map<String, dynamic> json) => RemoteItems(

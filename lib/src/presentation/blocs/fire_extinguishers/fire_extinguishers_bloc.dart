@@ -6,14 +6,17 @@ import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_add_recieve.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_first_screen_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_main_offer_fire_extinguisher.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_maintainance_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_second_and_third_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_update_status_deliver.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/add_recieve_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/main_offer_fire_extinguisher.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/maintainance_report_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/update_recieve_request.dart';
 import 'package:safety_zone/src/domain/usecase/home/add_reciever_river_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/first_screen_shedule_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/main_offer_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/maintainance_report_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/second_and_third_screen_shedule_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/update_reciever_river_use_case.dart';
 
@@ -28,6 +31,7 @@ class FireExtinguishersBloc
   final SecondThirdScreenScheduleUseCase _secondThirdScreenScheduleUseCase;
   final FirstScreenScheduleUseCase _firstScreenScheduleUseCase;
   final MainOfferUseCase _mainOfferUseCase;
+  final MaintainanceReportUseCase _maintainanceReportUseCase;
 
   FireExtinguishersBloc(
     this._updateReceiverDriverUseCase,
@@ -35,12 +39,14 @@ class FireExtinguishersBloc
     this._secondThirdScreenScheduleUseCase,
     this._firstScreenScheduleUseCase,
     this._mainOfferUseCase,
+    this._maintainanceReportUseCase,
   ) : super(FireExtinguishersInitial()) {
     on<GetFirstScreenScheduleEvent>(_getFirstScreenSchedule);
     on<MainOfferFireExtinguishersEvent>(_getMainOfferFireExtinguishers);
     on<AddReceiveToDeliverEvent>(_addReceiveToDeliver);
     on<UpdateStatusToDeliverEvent>(_updateStatusToDeliver);
     on<GetSecondAndThirdScreenScheduleEvent>(_getSecondAndThirdSchedule);
+    on<MaintainanceReportEvent>(_onMaintainanceReportEvent);
   }
 
   FutureOr<void> _getFirstScreenSchedule(GetFirstScreenScheduleEvent event,
@@ -113,6 +119,19 @@ class FireExtinguishersBloc
     } else {
       emit(GetSecondAndThirdScreenScheduleErrorState(
           message: result.message ?? ''));
+    }
+  }
+
+  FutureOr<void> _onMaintainanceReportEvent(MaintainanceReportEvent event,
+      Emitter<FireExtinguishersState> emit) async {
+    emit(MaintainanceReportLoadingState());
+    final result = await _maintainanceReportUseCase(
+        maintenanceReport: event.maintainanceReportRequest);
+    if (result is DataSuccess<RemoteMaintainanceReport>) {
+      emit(MaintainanceReportSuccessState(
+          remoteMaintainanceReport: result.data ?? RemoteMaintainanceReport()));
+    } else {
+      emit(MaintainanceReportErrorState(message: result.message ?? ''));
     }
   }
 }

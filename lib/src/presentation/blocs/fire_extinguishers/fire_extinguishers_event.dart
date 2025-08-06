@@ -37,3 +37,9 @@ final class MainOfferFireExtinguishersEvent extends FireExtinguishersEvent {
 
   MainOfferFireExtinguishersEvent({required this.mainOfferFireExtinguisher});
 }
+
+final class MaintainanceReportEvent extends FireExtinguishersEvent {
+  final MaintainanceReportRequest maintainanceReportRequest;
+
+  MaintainanceReportEvent({required this.maintainanceReportRequest});
+}

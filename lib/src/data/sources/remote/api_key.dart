@@ -26,4 +26,5 @@ class APIKeys {
   static const String firstScreenScheduleJob = "/api/provider/schedule-job/{id}";
   static const String secondAndThirdScreenScheduleJob = "/api/provider/receive-deliver/{id}";
   static const String fireExtinguisherMainOffer = "/api/provider/offer/fire-extinguisher-main-offer";
+  static const String createMaintenanceReport = "/api/provider/maintenance-report/create";
 }

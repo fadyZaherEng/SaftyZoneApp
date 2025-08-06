@@ -6,6 +6,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remot
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_first_screen_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_go_to_location.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_main_offer_fire_extinguisher.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_maintainance_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
@@ -14,6 +15,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remot
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/home_api_services.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/add_recieve_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/main_offer_fire_extinguisher.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/maintainance_report_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/schedule_jop_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
@@ -270,7 +272,7 @@ class HomeRepositoryImplementations extends HomeRepository {
   }) async {
     dynamic httpResponse;
     try {
-        httpResponse = await _homeApiServices.fireExtinguisherMainOffer(
+      httpResponse = await _homeApiServices.fireExtinguisherMainOffer(
         mainOfferFireExtinguisher,
       );
       if (((httpResponse.response.statusCode ?? 400) == 201) ||
@@ -324,6 +326,32 @@ class HomeRepositoryImplementations extends HomeRepository {
     try {
       final httpResponse =
           await _homeApiServices.secondAndThirdScreenScheduleJob(id);
+      if (((httpResponse.response.statusCode ?? 400) == 201) ||
+          (httpResponse.response.statusCode ?? 400) == 200) {
+        return DataSuccess(
+          data: httpResponse.data,
+          message: httpResponse.response.statusMessage ?? "",
+        );
+      }
+
+      return DataFailed(message: httpResponse.response.statusMessage ?? "");
+    } on DioException catch (e) {
+      return DataFailed(
+        error: e,
+        message: S.current.badResponse,
+      );
+    }
+  }
+
+  @override
+  Future<DataState<RemoteMaintainanceReport>> createMaintenanceReport({
+    required MaintainanceReportRequest maintenanceReport,
+  }) async {
+    try {
+      final httpResponse = await _homeApiServices.createMaintenanceReport(
+        GetTokenUseCase(injector())(),
+        maintenanceReport,
+      );
       if (((httpResponse.response.statusCode ?? 400) == 201) ||
           (httpResponse.response.statusCode ?? 400) == 200) {
         return DataSuccess(
