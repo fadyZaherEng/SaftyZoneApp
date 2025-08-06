@@ -72,7 +72,7 @@ Map<String, dynamic> _$FireExtinguisherToJson(FireExtinguisher instance) =>
 
 ItemId _$ItemIdFromJson(Map<String, dynamic> json) => ItemId(
       Id: json['_id'] as String?,
-      itemName: json['itemName'] as String?,
+      itemName: json['itemName'] as ItemName?,
       image: json['image'] as String?,
       type: json['type'] as String?,
       subCategory: json['subCategory'] as String?,

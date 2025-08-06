@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:safety_zone/src/presentation/screens/installation_options/models/installation_fee_model.dart';
 
 part 'remote_second_and_third_schedule.g.dart';
 
@@ -79,7 +80,7 @@ class FireExtinguisher {
 class ItemId {
   @JsonKey(name: '_id')
   final String? Id;
-  final String? itemName;
+  final ItemName? itemName;
   final String? image;
   final String? type;
   final String? subCategory;

@@ -148,7 +148,10 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
             final item = extinguisher.itemId;
 
             return ReviewItems(
-              title: item?.itemName ?? s.powder6Kg,
+              title: (GetLanguageUseCase(injector())() == 'en'
+                      ? item?.itemName?.en
+                      : item?.itemName?.ar) ??
+                  s.powder6Kg,
               numberArrived: extinguisher.receivedQuantity ?? 0,
               totalPrice: 0,
               image: item?.image ?? ImagePaths.firePng1,
@@ -178,7 +181,10 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
             final item = extinguisher.itemId;
 
             return ReviewItems(
-              title: item?.itemName ?? s.powder6Kg,
+              title: (GetLanguageUseCase(injector())() == 'en'
+                      ? item?.itemName?.en
+                      : item?.itemName?.ar) ??
+                  s.powder6Kg,
               numberArrived: extinguisher.receivedQuantity ?? 0,
               totalPrice: 0,
               image: item?.image ?? ImagePaths.firePng1,
@@ -369,7 +375,10 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                                 context,
                                 imagePath: e.value.itemId?.image ??
                                     ImagePaths.firePng2,
-                                title: e.value.itemId?.itemName ?? s.powder6Kg,
+                                title: (GetLanguageUseCase(injector())() == 'en'
+                                        ? e.value?.itemId?.itemName?.en
+                                        : e.value?.itemId?.itemName?.ar) ??
+                                    s.powder6Kg,
                                 receivedCount: 0,
                                 clientCount: e.value.receivedQuantity ?? 0,
                                 controller: _secondPageControllers[e.key],
