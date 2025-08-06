@@ -143,12 +143,14 @@ AlarmItems _$AlarmItemsFromJson(Map<String, dynamic> json) => AlarmItems(
           : ItemId.fromJson(json['item_id'] as Map<String, dynamic>),
       quantity: (json['quantity'] as num?)?.toInt(),
       Id: json['_id'] as String?,
+      malfunctionsNumber: (json['malfunctionsNumber'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$AlarmItemsToJson(AlarmItems instance) =>
     <String, dynamic>{
       'item_id': instance.itemId,
       'quantity': instance.quantity,
+      'malfunctionsNumber': instance.malfunctionsNumber,
       '_id': instance.Id,
     };
 
