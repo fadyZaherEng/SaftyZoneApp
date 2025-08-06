@@ -272,6 +272,17 @@ class _MaintainanceInProgressScreenState
                         builder: (_) => SystemReportsPage(
                           changedItems: changedItems,
                           changeQuantity: changeQuantity,
+                          alarmItemLength: firstScreenSchedule
+                                  .data?.consumerRequest?.alarmItems?.length ??
+                              0,
+                          fireSystemItemLength: firstScreenSchedule.data
+                                  ?.consumerRequest?.fireSystemItem?.length ??
+                              0,
+                          branch: widget.scheduleJop.branch.Id,
+                          consumer: widget.scheduleJop.consumer,
+                          consumerRequest: widget.scheduleJop.consumerRequest,
+                          offer: widget.scheduleJop.offer,
+                          scheduleJob: widget.scheduleJop.Id,
                         ),
                       ),
                     );
@@ -1022,11 +1033,27 @@ class _MaintainanceInProgressScreenState
 class SystemReportsPage extends StatefulWidget {
   final List<AlarmItems> changedItems;
   final Map<String, double> changeQuantity;
+  final int alarmItemLength;
+
+  final int fireSystemItemLength;
+
+  final String scheduleJob;
+  final String consumerRequest;
+  final String consumer;
+  final String branch;
+  final String offer;
 
   const SystemReportsPage({
     super.key,
     required this.changedItems,
     required this.changeQuantity,
+    required this.alarmItemLength,
+    required this.fireSystemItemLength,
+    required this.scheduleJob,
+    required this.consumerRequest,
+    required this.consumer,
+    required this.branch,
+    required this.offer,
   });
 
   @override
@@ -1124,7 +1151,17 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const MaintenanceReportScreen(),
+                  builder: (context) =>   MaintenanceReportScreen(
+                    changedItems: widget.changedItems,
+                    changeQuantity: widget.changeQuantity,
+                    alarmItemLength: widget.alarmItemLength,
+                    fireSystemItemLength: widget.fireSystemItemLength,
+                    scheduleJob: widget.scheduleJob,
+                    consumerRequest: widget.consumerRequest,
+                    consumer: widget.consumer,
+                    branch: widget.branch,
+                    offer: widget.offer,
+                  ),
                 ),
               );
             },
@@ -1257,7 +1294,28 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
 }
 
 class MaintenanceReportScreen extends StatelessWidget {
-  const MaintenanceReportScreen({super.key});
+  final List<AlarmItems> changedItems;
+  final Map<String, double> changeQuantity;
+  final int alarmItemLength;
+  final int fireSystemItemLength;
+  final String scheduleJob;
+  final String consumerRequest;
+  final String consumer;
+  final String branch;
+  final String offer;
+
+  const MaintenanceReportScreen({
+    super.key,
+    required this.changedItems,
+    required this.changeQuantity,
+    required this.alarmItemLength,
+    required this.fireSystemItemLength,
+    required this.scheduleJob,
+    required this.consumerRequest,
+    required this.consumer,
+    required this.branch,
+    required this.offer,
+  });
 
   @override
   Widget build(BuildContext context) {
