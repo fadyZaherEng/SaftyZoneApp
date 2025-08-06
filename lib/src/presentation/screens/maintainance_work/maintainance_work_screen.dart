@@ -1041,23 +1041,23 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                   Row(
-                    children: [
-                      const Icon(
-                        Icons.calendar_month_outlined,
-                        size: 16,
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.calendar_month_outlined,
+                      size: 16,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      "${S.of(context).visitDate}:\n${DateTime.fromMillisecondsSinceEpoch(request.visitDate).toLocal().toString().split(" ").first}",
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12.sp,
                       ),
-                      const SizedBox(width: 4),
-                      Text(
-                        "${S.of(context).visitDate}:\n${request.visitDate}",
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
