@@ -63,7 +63,7 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
     ];
     emergencyExitValue = widget.changeQuantity['Emergency Exit'] ?? 0.0;
     widget.changeQuantity.removeWhere(
-          (key, value) => key == 'Emergency Exit',
+          (key, value) => key == 'Emergency Exit'||value==0.0,
     );
   }
 
@@ -200,19 +200,20 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
                               t.yes,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: isYes
+                                color: needsParts == true
                                     ? ColorSchemes.primary
                                     : ColorSchemes.gray,
                                 fontSize: 16,
                               ),
+                              textAlign: TextAlign.right, // جعل النص يمين
                             ),
-                            value: isYes,
+                            value: true,
                             groupValue: needsParts,
-                            onChanged: (val) =>
-                                setState(() {
-                                  needsParts = val!;
-                                  isYes = isYes;
-                                }),
+                            onChanged: (val) {
+                              setState(() {
+                                needsParts = val!;
+                              });
+                            },
                           ),
                         ),
                         Expanded(
@@ -222,23 +223,25 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
                               t.no,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: isYes
-                                    ? ColorSchemes.gray
-                                    : ColorSchemes.primary,
+                                color: needsParts == false
+                                    ? ColorSchemes.primary
+                                    : ColorSchemes.gray,
                                 fontSize: 16,
                               ),
+                              textAlign: TextAlign.right, // جعل النص يمين
                             ),
-                            value: !isYes,
+                            value: false,
                             groupValue: needsParts,
-                            onChanged: (val) =>
-                                setState(() {
-                                  needsParts = val!;
-                                  isYes = !isYes;
-                                }),
+                            onChanged: (val) {
+                              setState(() {
+                                needsParts = val!;
+                              });
+                            },
                           ),
                         ),
                       ],
                     ),
+
                     if (needsParts) ...[
                       _buildInputField(
                         label: t.part_price,
@@ -469,7 +472,7 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
                       leading: Icon(
                         widget.repairComplete
                             ? Icons.check_box
-                            : Icons.check_box_outline_blank,
+                            : Icons.warning,
                         color: widget.repairComplete
                             ? ColorSchemes.primary
                             : ColorSchemes.border,
@@ -534,7 +537,7 @@ class _RepairEstimateScreenState extends State<RepairEstimateScreen> {
                   color: const Color(0xFF7B0000),
                 ),
                 leading: Icon(
-                  !item.value ? Icons.check_box : Icons.check_box_outline_blank,
+                  !item.value ? Icons.check_box : Icons.warning,
                   color: !item.value
                       ? const Color(0xFF7B0000)
                       : ColorSchemes.border,
