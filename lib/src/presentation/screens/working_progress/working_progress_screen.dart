@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
-import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
-import 'package:safety_zone/src/domain/entities/home/requests.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
@@ -20,7 +17,7 @@ import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_empty_list_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class WorkingProgressScreen extends BaseStatefulWidget {
+class WorkingProgressScreen extends StatefulWidget {
   final bool isAppBar;
 
   const WorkingProgressScreen({
@@ -29,16 +26,16 @@ class WorkingProgressScreen extends BaseStatefulWidget {
   });
 
   @override
-  BaseState<WorkingProgressScreen> baseCreateState() =>
-      _WorkingProgressScreenState();
+  State<WorkingProgressScreen> createState() => _WorkingProgressScreenState();
 }
 
-class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
+class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
 
   List<ScheduleJop> _workingProgress = [];
   List<ScheduleJop> _tempWorkingProgress = [];
   final TextEditingController _searchController = TextEditingController();
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -47,38 +44,36 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
     super.initState();
   }
 
-  bool _isLoading = true;
-
   @override
-  Widget baseBuild(BuildContext context) {
-    return BlocConsumer<RequestsBloc, RequestsState>(
-      listener: (context, state) {
-        if (state is ScheduleJobInProgressLoadingState) {
-          _isLoading = true;
-        } else if (state is ScheduleJobInProgressSuccessState) {
-          _workingProgress = List.from(state.scheduleJob);
-          _tempWorkingProgress = List.from(state.scheduleJob);
-          _isLoading = false;
-        } else if (state is ScheduleJobInProgressErrorState) {
-          _isLoading = false;
-          showSnackBar(
-            context: context,
-            message: state.message,
-            color: ColorSchemes.warning,
-            icon: ImagePaths.error,
-          );
-        }
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        _bloc.add(
+          GetScheduleJobInProgressEvent(
+            status: ScheduleJobStatusEnum.inProgress.name,
+          ),
+        );
       },
-      builder: (context, state) {
-        return RefreshIndicator(
-          onRefresh: () async {
-            _bloc.add(
-              GetScheduleJobInProgressEvent(
-                status: ScheduleJobStatusEnum.inProgress.name,
-              ),
+      child: BlocConsumer<RequestsBloc, RequestsState>(
+        listener: (context, state) {
+          if (state is ScheduleJobInProgressLoadingState) {
+            _isLoading = true;
+          } else if (state is ScheduleJobInProgressSuccessState) {
+            _workingProgress = List.from(state.scheduleJob);
+            _tempWorkingProgress = List.from(state.scheduleJob);
+            _isLoading = false;
+          } else if (state is ScheduleJobInProgressErrorState) {
+            _isLoading = false;
+            showSnackBar(
+              context: context,
+              message: state.message,
+              color: ColorSchemes.warning,
+              icon: ImagePaths.error,
             );
-          },
-          child: Scaffold(
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
             appBar: widget.isAppBar
                 ? AppBar(
                     backgroundColor: ColorSchemes.primary,
@@ -161,9 +156,9 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -384,7 +379,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                             ),
                       const SizedBox(width: 4),
                       Text(
-                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        "${S.of(context).visitDate}:\n${DateTime.fromMillisecondsSinceEpoch(request.visitDate).toLocal().toString().split(" ").first}",
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontWeight: FontWeight.w500,
@@ -615,7 +610,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                             ),
                       const SizedBox(width: 4),
                       Text(
-                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        "${S.of(context).visitDate}:\n${DateTime.fromMillisecondsSinceEpoch(request.visitDate).toLocal().toString().split(" ").first}",
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontWeight: FontWeight.w500,
@@ -839,10 +834,11 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          // DateFormat("yyyy-MM-dd")
-                          //     .format()
-                          //     .toString(),
-                          request.visitDate.toString(),
+                          DateTime.fromMillisecondsSinceEpoch(request.visitDate)
+                              .toLocal()
+                              .toString()
+                              .split(" ")
+                              .first,
                           style: TextStyle(
                             color: Colors.grey[700],
                             fontWeight: FontWeight.w500,
@@ -908,30 +904,30 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              height: 36.h,
-              child: CustomButtonWidget(
-                backgroundColor: ColorSchemes.primary,
-                borderColor: ColorSchemes.primary,
-                text: S.of(context).goToLocation,
-                textColor: ColorSchemes.white,
-                textStyle: TextStyle(
-                  color: ColorSchemes.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16.sp,
-                ),
-                onTap: () => _goToLocation(context, request),
-              ),
-            ),
+            // const SizedBox(height: 8),
+            // SizedBox(
+            //   width: double.infinity,
+            //   height: 36.h,
+            //   child: CustomButtonWidget(
+            //     backgroundColor: ColorSchemes.primary,
+            //     borderColor: ColorSchemes.primary,
+            //     text: S.of(context).goToLocation,
+            //     textColor: ColorSchemes.white,
+            //     textStyle: TextStyle(
+            //       color: ColorSchemes.white,
+            //       fontWeight: FontWeight.w600,
+            //       fontSize: 16.sp,
+            //     ),
+            //     onTap: () => _goToLocation(context, request),
+            //   ),
+            // ),
             const SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
               height: 36.h,
               child: CustomButtonWidget(
                 backgroundColor: ColorSchemes.white,
-                borderColor: ColorSchemes.grey,
+                borderColor: ColorSchemes.primary,
                 text: S.of(context).generateReport,
                 textColor: ColorSchemes.primary,
                 textStyle: TextStyle(
@@ -940,6 +936,24 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   fontSize: 16.sp,
                 ),
                 onTap: () => _generateReport(context, request),
+              ),
+            ),
+
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              height: 36.h,
+              child: CustomButtonWidget(
+                backgroundColor: ColorSchemes.white,
+                borderColor: ColorSchemes.primary,
+                text: S.of(context).submitQuotation,
+                textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: ColorSchemes.primary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
+                onTap: () {},
               ),
             ),
             const SizedBox(height: 8),
@@ -1066,7 +1080,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                           ),
                     const SizedBox(width: 4),
                     Text(
-                      "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                      "${S.of(context).visitDate}:\n${DateTime.fromMillisecondsSinceEpoch(request.visitDate).toLocal().toString().split(" ").first}",
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,

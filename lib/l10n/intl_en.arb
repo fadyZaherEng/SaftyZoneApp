@@ -533,6 +533,8 @@
   "repair_cost": "Total Repair Costs",
   "installation_cost": "Total Installation Cost",
   "tax": "Tax",
-  "total": "Total"
+  "total": "Total",
+  "quantity_exceed": "The quantity entered is greater than the quantity available",
+  "quantity_less": "The quantity entered is less than the quantity available"
 }
 

@@ -5413,6 +5413,26 @@ class S {
       args: [],
     );
   }
+
+  /// `The quantity entered is greater than the quantity available`
+  String get quantity_exceed {
+    return Intl.message(
+      'The quantity entered is greater than the quantity available',
+      name: 'quantity_exceed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The quantity entered is less than the quantity available`
+  String get quantity_less {
+    return Intl.message(
+      'The quantity entered is less than the quantity available',
+      name: 'quantity_less',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

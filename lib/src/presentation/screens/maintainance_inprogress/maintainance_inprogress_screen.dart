@@ -47,6 +47,8 @@ class _MaintainanceInProgressScreenState
   List<TextEditingController> itemsEnterByUserController = [];
   List<TextEditingController> itemsQuantityController = [];
   Map<String, double> changeQuantity = {};
+  List<GlobalKey<FormState>> formKey = [];
+  List<String?> quantityError = [];
 
   FireExtinguishersBloc get _bloc =>
       BlocProvider.of<FireExtinguishersBloc>(context);
@@ -89,6 +91,8 @@ class _MaintainanceInProgressScreenState
           changeQuantity.clear();
 
           for (final item in items) {
+            formKey.add(GlobalKey<FormState>());
+            quantityError.add(null);
             final subCategory = item.itemId?.subCategory ?? "";
             changeQuantity[subCategory] = 0.0;
 
@@ -269,22 +273,23 @@ class _MaintainanceInProgressScreenState
           if (showButton)
             CustomButtonWidget(
               onTap: () {
+                // for (final key in formKey) {
+                //   final formState = key.currentState;
+                //   if (formState == null || !formState.validate()) {
+                //     return;
+                //   }
+                // }
+                for (int i = 0; i < quantityError.length; i++) {
+                  if (quantityError[i] != null) {
+                    return;
+                  }
+                }
                 if (_currentIndex < 3) {
-                  // _counter += widgets.length;
                   _pageController.nextPage(
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.ease);
-                  for (var item in changeQuantity.entries) {
-                    print('${item.key} ${item.value}');
-                  }
                 }
                 if (isLastPage) {
-                  for (var item in changeQuantity.entries) {
-                    print('${item.key} ${item.value}');
-                  }
-                  for (var item in changedItems) {
-                    print('${item.quantity} ${item.itemId?.subCategory}');
-                  }
                   if (widget.isRepair) {
                     Navigator.push(
                       context,
@@ -362,6 +367,9 @@ class _MaintainanceInProgressScreenState
                     isReadOnly: true,
                     controller: itemsQuantityController[index],
                     onChanged: (_) {},
+                    compareValue:
+                        int.parse(itemsQuantityController[index].text),
+                    index: index,
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -383,6 +391,9 @@ class _MaintainanceInProgressScreenState
                         }
                       });
                     },
+                    compareValue:
+                        int.parse(itemsQuantityController[index].text),
+                    index: index,
                   ),
                 ),
               ],
@@ -400,6 +411,8 @@ class _MaintainanceInProgressScreenState
     required bool isReadOnly,
     required TextEditingController controller,
     required void Function(String) onChanged,
+    required int compareValue,
+    required int index,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -414,7 +427,7 @@ class _MaintainanceInProgressScreenState
         ),
         const SizedBox(height: 16),
         SizedBox(
-          height: 34.h,
+          height: quantityError[index] == null ? 34.h : 90.h,
           child: TextFormField(
             controller: controller,
             readOnly: isReadOnly,
@@ -423,15 +436,44 @@ class _MaintainanceInProgressScreenState
               controller.selection = TextSelection.fromPosition(
                   TextPosition(offset: value.length));
               onChanged(value);
+              if (!isReadOnly) {
+                debugPrint('isReadOnly: $isReadOnly');
+                debugPrint('compareValue: $compareValue');
+                debugPrint('controller.text: ${controller.text}');
+                setState(() {
+                  if (controller.text.isNotEmpty) {
+                    if ((int.tryParse(controller.text) ?? 0) > compareValue) {
+                      quantityError[index] = S.of(context).quantity_exceed;
+                    } else if ((int.tryParse(controller.text) ?? 0) < 0) {
+                      quantityError[index] = S.of(context).quantity_less;
+                    } else {
+                      quantityError[index] = null;
+                    }
+                  }
+                });
+              }
             },
-            validator: (value) => (value == null || value.isEmpty)
-                ? 'Please enter quantity'
-                : null,
+            // validator: (value) {
+            //   if (isReadOnly) return null;
+            //   if (value != null && value.isNotEmpty) {
+            //     if ((int.tryParse(value) ?? 0) > compareValue) {
+            //       setState(() {});
+            //       return S.of(context).quantity_exceed;
+            //     } else if ((int.tryParse(value) ?? 0) < 0) {
+            //       setState(() {});
+            //       return S.of(context).quantity_less;
+            //     } else {
+            //       return null;
+            //     }
+            //   }
+            //   return null;
+            // },
             keyboardType: TextInputType.number,
             style: const TextStyle(fontSize: 14),
             decoration: InputDecoration(
               fillColor: ColorSchemes.white,
               filled: true,
+              errorText: isReadOnly ? null : quantityError[index],
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(2),
                 borderSide: const BorderSide(color: Colors.grey),

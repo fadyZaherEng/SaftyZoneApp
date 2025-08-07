@@ -1113,8 +1113,8 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                 ),
               ],
             ),
-            if (!_isComplete) const SizedBox(height: 8),
-            if (!_isComplete)
+            if (!_isComplete && !_isProgress) const SizedBox(height: 8),
+            if (!_isComplete && !_isProgress)
               SizedBox(
                 width: double.infinity,
                 height: 36.h,
@@ -1123,6 +1123,11 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                   borderColor: ColorSchemes.primary,
                   text: S.of(context).goToLocation,
                   textColor: ColorSchemes.white,
+                  textStyle: TextStyle(
+                    color: ColorSchemes.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                  ),
                   onTap: () => _goToLocation(context, request),
                 ),
               ),
@@ -1133,10 +1138,33 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                 height: 36.h,
                 child: CustomButtonWidget(
                   backgroundColor: ColorSchemes.white,
-                  borderColor: ColorSchemes.grey,
+                  borderColor: ColorSchemes.primary,
                   text: S.of(context).generateReport,
                   textColor: ColorSchemes.primary,
+                  textStyle: TextStyle(
+                    color: ColorSchemes.primary,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                  ),
                   onTap: () => _generateReport(context, request),
+                ),
+              ),
+            if (!_isComplete) const SizedBox(height: 8),
+            if (!_isComplete)
+              SizedBox(
+                width: double.infinity,
+                height: 36.h,
+                child: CustomButtonWidget(
+                  backgroundColor: ColorSchemes.white,
+                  borderColor: ColorSchemes.primary,
+                  text: S.of(context).submitQuotation,
+                  textColor: ColorSchemes.primary,
+                  textStyle: TextStyle(
+                    color: ColorSchemes.primary,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                  ),
+                  onTap: () {},
                 ),
               ),
             const SizedBox(height: 8),

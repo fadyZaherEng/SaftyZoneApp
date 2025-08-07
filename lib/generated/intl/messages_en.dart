@@ -587,6 +587,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Quantities Table"),
         "quantity": MessageLookupByLibrary.simpleMessage("Quantity"),
         "quantityPay": MessageLookupByLibrary.simpleMessage("Quantity Pay"),
+        "quantity_exceed": MessageLookupByLibrary.simpleMessage(
+            "The quantity entered is greater than the quantity available"),
+        "quantity_less": MessageLookupByLibrary.simpleMessage(
+            "The quantity entered is less than the quantity available"),
         "quotationSubmission":
             MessageLookupByLibrary.simpleMessage("Quotation Submission"),
         "receiveExtinguishers":
