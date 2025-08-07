@@ -750,14 +750,14 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
                         style: const TextStyle(fontSize: 16)),
                   ],
                 ),
-                trailing: SvgPicture.asset(
-                  ImagePaths.arrowLeft,
-                  width: 24,
-                  height: 24,
-                  color: const Color(0xFF7B0000),
-                ),
+                // trailing: SvgPicture.asset(
+                //   ImagePaths.arrowLeft,
+                //   width: 24,
+                //   height: 24,
+                //   color: const Color(0xFF7B0000),
+                // ),
                 leading: Icon(
-                  !item.value ? Icons.check_box : Icons.check_box_outline_blank,
+                  !item.value ? Icons.check_box : Icons.warning,
                   color: !item.value
                       ? const Color(0xFF7B0000)
                       : ColorSchemes.border,
@@ -1138,49 +1138,65 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
 
   Widget _buildSafetyOptions(t) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
       child: Row(
         children: [
-          Expanded(
-            child: CheckboxListTile(
-              value: selectedSafetyStatus == SafetyStatus.safe.name,
-              contentPadding: EdgeInsets.zero,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onChanged: (_) {
-                setState(() {
-                  selectedSafetyStatus = SafetyStatus.safe.name;
-                });
-              },
-              title: Text(t.very_safe),
-            ),
+          _buildSafetyOption(
+            label: t.very_safe,
+            value: selectedSafetyStatus == SafetyStatus.safe.name,
+            onChanged: () {
+              setState(() {
+                selectedSafetyStatus = SafetyStatus.safe.name;
+              });
+            },
           ),
-          Expanded(
-            child: CheckboxListTile(
-              value: selectedSafetyStatus == SafetyStatus.normal.name,
-              contentPadding: EdgeInsets.zero,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onChanged: (_) {
-                setState(() {
-                  selectedSafetyStatus = SafetyStatus.normal.name;
-                });
-              },
-              title: Text(t.moderate),
-            ),
+          const SizedBox(width: 8),
+          _buildSafetyOption(
+            label: t.moderate,
+            value: selectedSafetyStatus == SafetyStatus.normal.name,
+            onChanged: () {
+              setState(() {
+                selectedSafetyStatus = SafetyStatus.normal.name;
+              });
+            },
           ),
-          Expanded(
-            child: CheckboxListTile(
-              value: selectedSafetyStatus == SafetyStatus.dangerous.name,
-              contentPadding: EdgeInsets.zero,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onChanged: (_) {
-                setState(() {
-                  selectedSafetyStatus = SafetyStatus.dangerous.name;
-                });
-              },
-              title: Text(t.danger),
-            ),
+          const SizedBox(width: 8),
+          _buildSafetyOption(
+            label: t.danger,
+            value: selectedSafetyStatus == SafetyStatus.dangerous.name,
+            onChanged: () {
+              setState(() {
+                selectedSafetyStatus = SafetyStatus.dangerous.name;
+              });
+            },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSafetyOption({
+    required String label,
+    required bool value,
+    required VoidCallback onChanged,
+  }) {
+    return Expanded(
+      child: Container(
+        // padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade300, width: 0),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(label, textAlign: TextAlign.right),
+            Checkbox(
+              value: value,
+              onChanged: (_) => onChanged(),
+            ),
+          ],
+        ),
       ),
     );
   }
