@@ -1244,62 +1244,64 @@ class _SystemErrorScreenState extends State<SystemErrorScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                SvgPicture.asset(
-                  ImagePaths.priceSending,
-                  width: 22,
-                  height: 22,
-                ),
-                const SizedBox(width: 16),
-                Text(
-                  t.post_visit_report,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    ImagePaths.priceSending,
+                    width: 22,
+                    height: 22,
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 80),
-            Image.asset(
-              ImagePaths.systemError,
-              width: 200,
-              height: 200,
-            ),
-            SizedBox(height: 20),
-            Text(
-              t.system_error_detected,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 32),
-            Text(
-              t.navigate_to_maintenance_reports,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey[700]),
-            ),
-            SizedBox(height: 30),
-            CustomButtonWidget(
-              text: t.go_to_maintenance_needed,
-              backgroundColor: ColorSchemes.primary,
-              textColor: ColorSchemes.white,
-              onTap: () {
-                // Navigate to reports page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => RepairEstimateScreen(
-                      repairComplete: false,
-                      changeQuantity: widget.changeQuantity,
+                  const SizedBox(width: 16),
+                  Text(
+                    t.post_visit_report,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                );
-              },
-            ),
-            SizedBox(height: 32),
-          ],
+                ],
+              ),
+              SizedBox(height: 80),
+              Image.asset(
+                ImagePaths.systemError,
+                width: 200,
+                height: 200,
+              ),
+              SizedBox(height: 20),
+              Text(
+                t.system_error_detected,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 32),
+              Text(
+                t.navigate_to_maintenance_reports,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey[700]),
+              ),
+              SizedBox(height: 30),
+              CustomButtonWidget(
+                text: t.go_to_maintenance_needed,
+                backgroundColor: ColorSchemes.primary,
+                textColor: ColorSchemes.white,
+                onTap: () {
+                  // Navigate to reports page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => RepairEstimateScreen(
+                        repairComplete: false,
+                        changeQuantity: widget.changeQuantity,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              SizedBox(height: 32),
+            ],
+          ),
         ),
       ),
     );
