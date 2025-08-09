@@ -2,6 +2,8 @@
 
 Built a provider-side mobile application for managing fire extinguisher service requests, updating job statuses, and tracking work progress. 
 Implemented real-time communication, job assignment, and service history features. Developed using Flutter, Firebase, and REST APIs.
+<img width="1500" height="3248" alt="splash" src="https://github.com/user-attachments/assets/a02949ea-067a-440a-a066-062d6db75f00" />
+
 <img width="1241" height="338" alt="s1" src="https://github.com/user-attachments/assets/8eaec8ac-95c7-4eda-9361-b456d9de399e" />
 <img width="1802" height="522" alt="s3" src="https://github.com/user-attachments/assets/f0b84c35-a27c-4870-a6f6-3f5338bf508f" />
 <img width="1315" height="508" alt="s2" src="https://github.com/user-attachments/assets/b8015320-e46d-4497-9797-f2321cba66b3" />
