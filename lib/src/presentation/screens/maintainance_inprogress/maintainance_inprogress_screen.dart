@@ -273,12 +273,6 @@ class _MaintainanceInProgressScreenState
           if (showButton)
             CustomButtonWidget(
               onTap: () {
-                // for (final key in formKey) {
-                //   final formState = key.currentState;
-                //   if (formState == null || !formState.validate()) {
-                //     return;
-                //   }
-                // }
                 for (int i = 0; i < quantityError.length; i++) {
                   if (quantityError[i] != null) {
                     return;
@@ -835,7 +829,7 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
     super.initState();
     for (var i = 0; i < widget.alarmItemLength; i++) {
       alarmItems.add(maintainance_report_request.AlarmItem(
-        item: widget.changedItems[i].Id,
+        item: widget.changedItems[i].itemId?.Id,
         quantity: widget.changedItems[i].quantity,
         malfunctionsNumber: widget.changedItems[i].malfunctionsNumber,
       ));
@@ -843,7 +837,7 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
 
     for (var i = widget.alarmItemLength; i < widget.changedItems.length; i++) {
       fireSystemItems.add(maintainance_report_request.FireSystemItem(
-        item: widget.changedItems[i].Id,
+        item: widget.changedItems[i].itemId?.Id,
         quantity: widget.changedItems[i].quantity,
         malfunctionsNumber: widget.changedItems[i].malfunctionsNumber,
       ));
