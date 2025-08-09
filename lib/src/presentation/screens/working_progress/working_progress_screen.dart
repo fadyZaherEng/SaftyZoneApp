@@ -4,20 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
-import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
-import 'package:safety_zone/src/domain/entities/home/requests.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_empty_list_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class WorkingProgressScreen extends BaseStatefulWidget {
+class WorkingProgressScreen extends StatefulWidget {
   final bool isAppBar;
 
   const WorkingProgressScreen({
@@ -26,14 +26,16 @@ class WorkingProgressScreen extends BaseStatefulWidget {
   });
 
   @override
-  BaseState<WorkingProgressScreen> baseCreateState() =>
-      _WorkingProgressScreenState();
+  State<WorkingProgressScreen> createState() => _WorkingProgressScreenState();
 }
 
-class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
+class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
 
   List<ScheduleJop> _workingProgress = [];
+  List<ScheduleJop> _tempWorkingProgress = [];
+  final TextEditingController _searchController = TextEditingController();
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -42,37 +44,36 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
     super.initState();
   }
 
-  bool _isLoading = true;
-
   @override
-  Widget baseBuild(BuildContext context) {
-    return BlocConsumer<RequestsBloc, RequestsState>(
-      listener: (context, state) {
-        if (state is ScheduleJobInProgressLoadingState) {
-          _isLoading = true;
-        } else if (state is ScheduleJobInProgressSuccessState) {
-          _workingProgress = List.from(state.scheduleJob);
-          _isLoading = false;
-        } else if (state is ScheduleJobInProgressErrorState) {
-          _isLoading = false;
-          showSnackBar(
-            context: context,
-            message: state.message,
-            color: ColorSchemes.warning,
-            icon: ImagePaths.error,
-          );
-        }
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        _bloc.add(
+          GetScheduleJobInProgressEvent(
+            status: ScheduleJobStatusEnum.inProgress.name,
+          ),
+        );
       },
-      builder: (context, state) {
-        return RefreshIndicator(
-          onRefresh: () async {
-            _bloc.add(
-              GetScheduleJobInProgressEvent(
-                status: ScheduleJobStatusEnum.inProgress.name,
-              ),
+      child: BlocConsumer<RequestsBloc, RequestsState>(
+        listener: (context, state) {
+          if (state is ScheduleJobInProgressLoadingState) {
+            _isLoading = true;
+          } else if (state is ScheduleJobInProgressSuccessState) {
+            _workingProgress = List.from(state.scheduleJob);
+            _tempWorkingProgress = List.from(state.scheduleJob);
+            _isLoading = false;
+          } else if (state is ScheduleJobInProgressErrorState) {
+            _isLoading = false;
+            showSnackBar(
+              context: context,
+              message: state.message,
+              color: ColorSchemes.warning,
+              icon: ImagePaths.error,
             );
-          },
-          child: Scaffold(
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
             appBar: widget.isAppBar
                 ? AppBar(
                     backgroundColor: ColorSchemes.primary,
@@ -89,85 +90,75 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             body: SafeArea(
               child: Skeletonizer(
                 enabled: _isLoading,
-                child: Column(
-                  children: [
-                    _buildSearchSection(context),
-                    if (_workingProgress.isEmpty)
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 40),
-                          child: _isLoading
-                              ? Container(
-                                  height: 200.h,
-                                  width: 200.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade300,
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                )
-                              : CustomEmptyListWidget(
-                                  text: S.of(context).noRequestsFound,
-                                  isRefreshable: true,
-                                  onRefresh: () => _bloc.add(
-                                    GetScheduleJobInProgressEvent(
-                                      status:
-                                          ScheduleJobStatusEnum.inProgress.name,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildSearchSection(context),
+                      if (_workingProgress.isEmpty)
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 40),
+                            child: _isLoading
+                                ? Container(
+                                    height: 200.h,
+                                    width: 200.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      borderRadius: BorderRadius.circular(6),
                                     ),
+                                  )
+                                : CustomEmptyListWidget(
+                                    text: S.of(context).noRequestsFound,
+                                    isRefreshable: true,
+                                    onRefresh: () => _bloc.add(
+                                      GetScheduleJobInProgressEvent(
+                                        status: ScheduleJobStatusEnum
+                                            .inProgress.name,
+                                      ),
+                                    ),
+                                    imagePath: ImagePaths.emptyProject,
                                   ),
-                                  imagePath: ImagePaths.emptyProject,
-                                ),
+                          ),
                         ),
-                      ),
-                    if (_workingProgress.isNotEmpty)
-                      Expanded(
-                        child: ListView.builder(
+                      if (_workingProgress.isNotEmpty)
+                        ListView.builder(
                           padding: const EdgeInsets.symmetric(
                             vertical: 8,
                             horizontal: 16,
                           ),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: _workingProgress.length,
                           itemBuilder: (context, index) {
                             final request = _workingProgress[index];
+                            final key = Key(request.Id.toString());
                             if (request.type ==
                                     RequestType.InstallationCertificate.name ||
                                 request.type ==
                                     RequestType.EngineeringInspection.name) {
                               return _buildFawryRequestCard(
-                                context,
-                                request,
-                                Key(request.Id.toString()),
-                              );
+                                  context, request, key);
                             } else if (request.type ==
                                 RequestType.MaintenanceContract.name) {
                               return _buildMaintenanceRequestCard(
-                                context,
-                                request,
-                                Key(request.Id.toString()),
-                              );
+                                  context, request, key);
                             } else if (request.type ==
                                 RequestType.FireExtinguisher.name) {
                               return _buildFireExtinguisherRequestCard(
-                                context,
-                                request,
-                                Key(request.Id.toString()),
-                              );
+                                  context, request, key);
                             } else {
-                              return _buildRequestCard(
-                                context,
-                                request,
-                                Key(request.Id.toString()),
-                              );
+                              return _buildRequestCard(context, request, key);
                             }
                           },
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -199,7 +190,9 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
           const SizedBox(height: 10),
           SizedBox(
             height: 42.h,
-            child: TextField(
+            child: TextFormField(
+              controller: _searchController,
+              onChanged: _onSearchChanged,
               decoration: InputDecoration(
                 hintText: s.searchHint,
                 prefixIcon: Padding(
@@ -254,6 +247,33 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
     );
   }
 
+  void _onSearchChanged(String value) {
+    final query = value.toLowerCase().trim();
+
+    if (query.isEmpty) {
+      _bloc.add(GetConsumerRequestsEvent());
+      return;
+    }
+
+    final filtered = _tempWorkingProgress.where((element) {
+      final requestNumber = element.requestNumber.toString().toLowerCase();
+      final requestType = element.type.toLowerCase();
+      final branchName = element.branch.branchName.toLowerCase();
+      final status = element.status.toLowerCase();
+      final providerName = element.provider.toLowerCase();
+
+      return requestNumber.contains(query) ||
+          requestType.contains(query) ||
+          branchName.contains(query) ||
+          status.contains(query) ||
+          providerName.contains(query);
+    }).toList();
+
+    setState(() {
+      _workingProgress = filtered;
+    });
+  }
+
   Widget _buildRequestCard(BuildContext context, ScheduleJop request, Key key) {
     return Card(
       key: key,
@@ -275,7 +295,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 const Spacer(),
                 Chip(
                   label: Text(
-                    request.status,
+                    _getStatus(request.status),
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -292,6 +312,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             ),
             const SizedBox(height: 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   request.branch.branchName,
@@ -301,20 +323,27 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     color: Colors.black,
                   ),
                 ),
-                const Spacer(),
-                Row(
-                  children: [
-                    const Icon(Icons.location_pin, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      request.branch.address.split(',').last,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
+                const SizedBox(width: 24),
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.location_pin, size: 16),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          request.branch.address.split(",").first,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -350,7 +379,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                             ),
                       const SizedBox(width: 4),
                       Text(
-                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        "${S.of(context).visitDate}:\n${DateTime.fromMillisecondsSinceEpoch(request.visitDate).toLocal().toString().split(" ").first}",
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontWeight: FontWeight.w500,
@@ -369,7 +398,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.status,
+                    _getStatus(request.status),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -454,7 +483,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
-                onTap: () => _goToLocation(context, request),
+                onTap: () {},
               ),
             ),
             const SizedBox(height: 8),
@@ -462,17 +491,16 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               width: double.infinity,
               height: 36.h,
               child: CustomButtonWidget(
-                backgroundColor: ColorSchemes.white,
-                borderColor: ColorSchemes.grey,
-                text: S.of(context).deliverExtinguishers,
-                textColor: ColorSchemes.primary,
-                textStyle: TextStyle(
-                  color: ColorSchemes.primary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16.sp,
-                ),
-                onTap: () => _goToLocation(context, request),
-              ),
+                  backgroundColor: ColorSchemes.white,
+                  borderColor: ColorSchemes.grey,
+                  text: S.of(context).deliverExtinguishers,
+                  textColor: ColorSchemes.primary,
+                  textStyle: TextStyle(
+                    color: ColorSchemes.primary,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                  ),
+                  onTap: () {}),
             ),
             const SizedBox(height: 8),
           ],
@@ -506,7 +534,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 const Spacer(),
                 Chip(
                   label: Text(
-                    request.status,
+                    _getStatus(request.status),
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -523,6 +551,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             ),
             const SizedBox(height: 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   request.branch.branchName,
@@ -532,41 +562,31 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     color: Colors.black,
                   ),
                 ),
-                const Spacer(),
-                Row(
-                  children: [
-                    _isLoading
-                        ? Container(
-                            width: 16.w,
-                            height: 16.h,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          )
-                        : const Icon(Icons.location_pin, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      request.branch.address.split(",").first,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
+                const SizedBox(width: 24),
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.location_pin, size: 16),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          request.branch.address.split(",").first,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              S.of(context).viewMoreInfo,
-              style: TextStyle(
-                color: ColorSchemes.red,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
-              ),
-            ),
             Divider(),
             const SizedBox(height: 8),
             Row(
@@ -590,7 +610,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                             ),
                       const SizedBox(width: 4),
                       Text(
-                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                        "${S.of(context).visitDate}:\n${DateTime.fromMillisecondsSinceEpoch(request.visitDate).toLocal().toString().split(" ").first}",
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontWeight: FontWeight.w500,
@@ -609,7 +629,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.status,
+                    S.of(context).instantLicense,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -666,7 +686,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 text: S.of(context).uploadLicenseDoc,
                 textColor: Colors.white,
                 textStyle: TextStyle(
-                  color: ColorSchemes.primary,
+                  color: ColorSchemes.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
@@ -722,7 +742,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 const Spacer(),
                 Chip(
                   label: Text(
-                    request.status,
+                    S.of(context).selectAnotherEmployee,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -739,6 +759,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             ),
             const SizedBox(height: 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   request.branch.branchName,
@@ -748,20 +770,27 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     color: Colors.black,
                   ),
                 ),
-                const Spacer(),
-                Row(
-                  children: [
-                    const Icon(Icons.location_pin, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      request.branch.address.split(',').first,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
+                const SizedBox(width: 24),
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.location_pin, size: 16),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          request.branch.address.split(",").first,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -778,25 +807,48 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (SystemType.isExtinguisherType(request.type))
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.calendar_month_outlined,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.sp,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      ImagePaths.calendar,
+                      height: 16.h,
+                      width: 16.w,
+                    ),
+                    const SizedBox(width: 4),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          S.of(context).visitDate,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                        const SizedBox(height: 2),
+                        Text(
+                          DateTime.fromMillisecondsSinceEpoch(request.visitDate)
+                              .toLocal()
+                              .toString()
+                              .split(" ")
+                              .first,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -805,7 +857,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.status,
+                    S.of(context).maintenanceContracts,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -852,30 +904,30 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              height: 36.h,
-              child: CustomButtonWidget(
-                backgroundColor: ColorSchemes.primary,
-                borderColor: ColorSchemes.primary,
-                text: S.of(context).goToLocation,
-                textColor: ColorSchemes.white,
-                textStyle: TextStyle(
-                  color: ColorSchemes.primary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16.sp,
-                ),
-                onTap: () => _goToLocation(context, request),
-              ),
-            ),
+            // const SizedBox(height: 8),
+            // SizedBox(
+            //   width: double.infinity,
+            //   height: 36.h,
+            //   child: CustomButtonWidget(
+            //     backgroundColor: ColorSchemes.primary,
+            //     borderColor: ColorSchemes.primary,
+            //     text: S.of(context).goToLocation,
+            //     textColor: ColorSchemes.white,
+            //     textStyle: TextStyle(
+            //       color: ColorSchemes.white,
+            //       fontWeight: FontWeight.w600,
+            //       fontSize: 16.sp,
+            //     ),
+            //     onTap: () => _goToLocation(context, request),
+            //   ),
+            // ),
             const SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
               height: 36.h,
               child: CustomButtonWidget(
                 backgroundColor: ColorSchemes.white,
-                borderColor: ColorSchemes.grey,
+                borderColor: ColorSchemes.primary,
                 text: S.of(context).generateReport,
                 textColor: ColorSchemes.primary,
                 textStyle: TextStyle(
@@ -883,7 +935,25 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
-                onTap: () => _uploadLicenseDoc(context, request),
+                onTap: () => _generateReport(context, request),
+              ),
+            ),
+
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              height: 36.h,
+              child: CustomButtonWidget(
+                backgroundColor: ColorSchemes.white,
+                borderColor: ColorSchemes.primary,
+                text: S.of(context).submitQuotation,
+                textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: ColorSchemes.primary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
+                onTap: () {},
               ),
             ),
             const SizedBox(height: 8),
@@ -902,6 +972,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
   }
 
   void _goToLocation(BuildContext context, ScheduleJop request) async {
+    await GoToLocationUseCase(injector())(id: request.Id);
+
     // Handle map navigation
     await Navigator.push(
       context,
@@ -914,7 +986,10 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
           },
         ),
       ),
-    );
+    ).then((value) {
+      _bloc.add(GetScheduleJobInProgressEvent(
+          status: ScheduleJobStatusEnum.inProgress.name));
+    });
   }
 
   Widget _buildFireExtinguisherRequestCard(
@@ -939,6 +1014,8 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
             ),
             const SizedBox(height: 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   request.branch.branchName,
@@ -948,29 +1025,27 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     color: Colors.black,
                   ),
                 ),
-                const Spacer(),
-                Row(
-                  children: [
-                    _isLoading
-                        ? Container(
-                            width: 16.w,
-                            height: 16.h,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          )
-                        : const Icon(Icons.location_pin, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      request.branch.address.split(",").first,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
+                const SizedBox(width: 24),
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.location_pin, size: 16),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          request.branch.address.split(",").first,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -1005,7 +1080,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                           ),
                     const SizedBox(width: 4),
                     Text(
-                      "${S.of(context).visitDate}:\n${"12/12/2022"}",
+                      "${S.of(context).visitDate}:\n${DateTime.fromMillisecondsSinceEpoch(request.visitDate).toLocal().toString().split(" ").first}",
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
@@ -1024,7 +1099,7 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.type,
+                    S.of(context).fireSystems,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -1093,16 +1168,70 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
               width: double.infinity,
               height: 36.h,
               child: CustomButtonWidget(
-                backgroundColor: ColorSchemes.primary,
-                borderColor: ColorSchemes.primary,
-                text: S.of(context).startMission,
+                backgroundColor: request.step != "go-location"
+                    ? ColorSchemes.gray
+                    : ColorSchemes.primary,
+                borderColor: request.step != "go-location"
+                    ? ColorSchemes.gray
+                    : ColorSchemes.primary,
+                text: S.of(context).receiveExtinguishers,
                 textColor: Colors.white,
                 textStyle: TextStyle(
                   color: ColorSchemes.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                 ),
-                onTap: () => showStartTaskDialog(context, request),
+                onTap: () => request.step != "go-location"
+                    ? null
+                    : showStartTaskDialog(context, request),
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              height: 36.h,
+              child: CustomButtonWidget(
+                backgroundColor: _showQuotation(request.step)
+                    ? ColorSchemes.white
+                    : ColorSchemes.grey,
+                borderColor: _showQuotation(request.step)
+                    ? ColorSchemes.primary
+                    : ColorSchemes.grey,
+                text: S.of(context).submitQuotation,
+                textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: _showQuotation(request.step)
+                      ? ColorSchemes.primary
+                      : ColorSchemes.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
+                onTap: _showQuotation(request.step)
+                    ? () => showQuotationDialog(context, request)
+                    : () {},
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              height: 36.h,
+              child: CustomButtonWidget(
+                backgroundColor: _showDeliverExtinguishers(request.step)
+                    ? ColorSchemes.white
+                    : ColorSchemes.gray,
+                borderColor: ColorSchemes.grey,
+                text: S.of(context).deliverExtinguishers,
+                textColor: ColorSchemes.primary,
+                textStyle: TextStyle(
+                  color: _showDeliverExtinguishers(request.step)
+                      ? ColorSchemes.primary
+                      : ColorSchemes.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
+                onTap: _showDeliverExtinguishers(request.step)
+                    ? () => showDeliverExtinguishersDialog(context, request)
+                    : () {},
               ),
             ),
             const SizedBox(height: 8),
@@ -1182,7 +1311,82 @@ class _WorkingProgressScreenState extends BaseState<WorkingProgressScreen> {
     Navigator.pushNamed(
       context,
       Routes.fireExtinguishersScreen,
-      arguments: {'scheduleJop': request},
+      arguments: {
+        'scheduleJop': request,
+        'isFirstPage': true,
+        'isSecondPage': false,
+        'isThirdPage': false,
+      },
+    );
+  }
+
+  bool _showQuotation(String step) {
+    if (step == "receive") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool _showDeliverExtinguishers(String step) {
+    if (step == "accept-offer") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  showQuotationDialog(BuildContext context, ScheduleJop request) {
+    Navigator.pushNamed(
+      context,
+      Routes.fireExtinguishersScreen,
+      arguments: {
+        'scheduleJop': request,
+        'isFirstPage': false,
+        'isSecondPage': true,
+        'isThirdPage': false,
+      },
+    );
+  }
+
+  showDeliverExtinguishersDialog(BuildContext context, ScheduleJop request) {
+    Navigator.pushNamed(
+      context,
+      Routes.fireExtinguishersScreen,
+      arguments: {
+        'scheduleJop': request,
+        'isFirstPage': false,
+        'isSecondPage': false,
+        'isThirdPage': true,
+      },
+    );
+  }
+
+  String _getStatus(String status) {
+    if (status.toLowerCase() == "pending") {
+      return S.of(context).pending;
+    } else if (status.toLowerCase() == "accepted") {
+      return S.of(context).accepted;
+    } else if (status.toLowerCase() == "rejected") {
+      return S.of(context).rejected;
+    } else if (status.toLowerCase() == "cancelled") {
+      return S.of(context).cancelled;
+    } else if (status.toLowerCase() == "active") {
+      return S.of(context).active;
+    } else if (status.toLowerCase() == "inProgress") {
+      return S.of(context).inProgress;
+    } else {
+      return S.of(context).rejected;
+    }
+  }
+
+  void _generateReport(BuildContext context, ScheduleJop request) {
+    Navigator.pushNamed(
+      context,
+      Routes.maintainanceInProgressScreen,
+      arguments: {
+        'scheduleJop': request,
+      },
     );
   }
 }

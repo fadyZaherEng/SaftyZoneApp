@@ -13,6 +13,7 @@ import 'package:safety_zone/src/domain/entities/home/request_details.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
+import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
@@ -42,8 +43,7 @@ class _RequestDetailsInstallationScreenState
   bool _isLoading = true;
 
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
-  final List<Items> _itemsAlarm = [];
-  final List<Items> _itemsFire = [];
+
   List<Employee> _employees = [];
   Employee _selectedEmployee = Employee();
 
@@ -78,7 +78,6 @@ class _RequestDetailsInstallationScreenState
           model = state.requestDetails;
         });
         _isLoading = false;
-        _filterItems(model.result.items);
       } else if (state is GetConsumerRequestDetailsErrorState) {
         _showValidationError(state.message, false);
         _isLoading = false;
@@ -157,7 +156,7 @@ class _RequestDetailsInstallationScreenState
               children: [
                 Chip(
                   label: Text(
-                    model.result.requestType,
+                    S.of(context).instantLicense,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -250,7 +249,7 @@ class _RequestDetailsInstallationScreenState
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    model.result.systemType,
+                    _systemType(model.result.systemType),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -300,6 +299,9 @@ class _RequestDetailsInstallationScreenState
                       textColor: Colors.white,
                       text: s.openMap,
                       onTap: () async {
+                        await GoToLocationUseCase(injector())(
+                            id: model.result.Id);
+
                         // Handle map navigation
                         await Navigator.push(
                           context,
@@ -421,7 +423,7 @@ class _RequestDetailsInstallationScreenState
               ),
               const Spacer(),
               Text(
-                model.result.systemType,
+                _systemType(model.result.systemType),
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 15.sp,
@@ -511,12 +513,12 @@ class _RequestDetailsInstallationScreenState
           children: [
             _buildQuantitySection(
               title: s.alarmItems,
-              items: _itemsAlarm,
+              items: model.result.alarmItems,
             ),
             const SizedBox(height: 16),
             _buildQuantitySection(
               title: s.extinguishingItems,
-              items: _itemsFire,
+              items: model.result.fireSystemItem,
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -585,7 +587,9 @@ class _RequestDetailsInstallationScreenState
         const SizedBox(height: 8),
         ...items.asMap().entries.map(
               (item) => _buildQuantityRow(
-                item.value.itemId.itemName,
+                GetLanguageUseCase(injector())() == 'en'
+                    ? item.value.itemId.itemName.en
+                    : item.value.itemId.itemName.ar,
                 item.value.quantity.toString(),
                 item.key == items.length - 1,
               ),
@@ -614,7 +618,6 @@ class _RequestDetailsInstallationScreenState
   }
 
   Widget _buildTermsTab() {
-
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -772,6 +775,14 @@ class _RequestDetailsInstallationScreenState
                     consumerRequest: model.result.Id,
                     responsibleEmployee: _selectedEmployee.Id,
                     price: int.parse(_priceController.text),
+                    is_Primary: false,
+                    item: [
+                      Item(
+                        ItemId: "",
+                        price: int.parse(_priceController.text),
+                        quantity: 1,
+                      )
+                    ],
                   ),
                 ),
               );
@@ -792,16 +803,13 @@ class _RequestDetailsInstallationScreenState
     );
   }
 
-  void _filterItems(List<Items> items) {
-    _itemsAlarm.clear();
-    _itemsFire.clear();
-    for (var item in items) {
-      if (SystemType.isAlarmType(item.itemId.type)) {
-        _itemsAlarm.add(item);
-      } else if (SystemType.isFireType(item.itemId.type)) {
-        _itemsFire.add(item);
-      }
+  String _systemType(String systemType) {
+    if (systemType.toLowerCase() == "zone") {
+      return S.of(context).zone;
+    } else if (systemType.toLowerCase() == "loop") {
+      return S.of(context).loop;
+    } else {
+      return S.of(context).loop;
     }
-    setState(() {});
   }
 }

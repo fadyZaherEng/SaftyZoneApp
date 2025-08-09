@@ -24,11 +24,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetUserLoginDataUseCase _getUserLoginDataUseCase;
 
   List<DashboardItem> dashboardItems = [
-    DashboardItem('30', S.current.newRequests, ImagePaths.news),
+    DashboardItem('0', S.current.newRequests, ImagePaths.news),
     DashboardItem('5', S.current.maintenanceReports, ImagePaths.technical),
-    DashboardItem('10', S.current.pendingRequests, ImagePaths.requests),
+    DashboardItem('0', S.current.pendingRequests, ImagePaths.requests),
     DashboardItem('8', S.current.priceOffers, ImagePaths.work),
-    DashboardItem('12', S.current.todayTasks, ImagePaths.groups),
+    DashboardItem('0', S.current.todayTasks, ImagePaths.groups),
   ];
 
   HomeBloc(

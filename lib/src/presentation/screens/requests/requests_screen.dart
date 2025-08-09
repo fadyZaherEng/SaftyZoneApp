@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,7 +9,9 @@ import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
+import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
@@ -31,15 +32,15 @@ class RequestsScreen extends BaseStatefulWidget {
 
 class _RequestsScreenState extends BaseState<RequestsScreen> {
   List<Requests> _requestsRecent = [];
-
   List<Requests> _requestsOld = [];
+  List<Requests> _tempRequestsRecent = [];
+  List<Requests> _tempRequestsOld = [];
+
   bool _isOld = false;
   bool _isLoading = true;
 
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
-  TextEditingController _price6KiloController = TextEditingController();
-  TextEditingController _price12KiloController = TextEditingController();
-  TextEditingController _priceCo2Controller = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -49,82 +50,101 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
 
   @override
   Widget baseBuild(BuildContext context) {
-    return BlocConsumer<RequestsBloc, RequestsState>(
-      listener: (context, state) {
-        if (state is GetConsumerRequestsLoadingState) {
-          _isLoading = true;
-        } else if (state is GetConsumerRequestsSuccessState) {
-          _requestsRecent = List.from(state.requestsRecent);
-          _requestsOld = List.from(state.requestsOld);
-          _isLoading = false;
-        } else if (state is GetConsumerRequestsErrorState) {
-          _showError(state.message);
-          _isLoading = false;
-        }
+    return RefreshIndicator(
+      onRefresh: () async {
+        _bloc.add(GetConsumerRequestsEvent());
       },
-      builder: (context, state) {
-        return Scaffold(
-          appBar: widget.isAppBar
-              ? AppBar(
-                  backgroundColor: ColorSchemes.primary,
-                  title: Text(
-                    S.of(context).requests,
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
-              : null,
-          body: RefreshIndicator(
-            onRefresh: () async {
-              _bloc.add(GetConsumerRequestsEvent());
-            },
-            child: SafeArea(
+      child: BlocConsumer<RequestsBloc, RequestsState>(
+        listener: (context, state) {
+          if (state is GetConsumerRequestsLoadingState) {
+            _isLoading = true;
+          } else if (state is GetConsumerRequestsSuccessState) {
+            _requestsRecent = List.from(state.requestsRecent);
+            _requestsOld = List.from(state.requestsOld);
+            _tempRequestsRecent = List.from(state.requestsRecent);
+            _tempRequestsOld = List.from(state.requestsOld);
+            _isLoading = false;
+          } else if (state is GetConsumerRequestsErrorState) {
+            _showError(state.message);
+            _isLoading = false;
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            appBar: widget.isAppBar
+                ? AppBar(
+              backgroundColor: ColorSchemes.primary,
+              title: Text(
+                S
+                    .of(context)
+                    .requests,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            )
+                : null,
+            body: SafeArea(
               child: Skeletonizer(
                 enabled: _isLoading,
-                child: Column(
-                  children: [
-                    _buildSearchSection(context),
-                    if (_isOld && _requestsOld.isEmpty)
-                      Center(
-                        child: Padding(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildSearchSection(context),
+                      if (_isOld && _requestsOld.isEmpty)
+                        Center(
+                          child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 40),
+                              child: _isLoading
+                                  ? Container(
+                                height: 200,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  color: ColorSchemes.border,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              )
+                                  : CustomEmptyListWidget(
+                                text: S
+                                    .of(context)
+                                    .noRequestsFound,
+                                isRefreshable: true,
+                                onRefresh: () =>
+                                    _bloc.add(GetConsumerRequestsEvent()),
+                                imagePath: ImagePaths.emptyProject,
+                              )),
+                        ),
+                      if (!_isOld && _requestsRecent.isEmpty)
+                        Center(
+                          child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 40),
-                            child: CustomEmptyListWidget(
-                              text: S.of(context).noRequestsFound,
+                            child: _isLoading
+                                ? Container(
+                              height: 200,
+                              width: 200,
+                              decoration: BoxDecoration(
+                                color: ColorSchemes.border,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            )
+                                : CustomEmptyListWidget(
+                              text: S
+                                  .of(context)
+                                  .noRequestsFound,
                               isRefreshable: true,
                               onRefresh: () =>
                                   _bloc.add(GetConsumerRequestsEvent()),
                               imagePath: ImagePaths.emptyProject,
-                            )),
-                      ),
-                    if (!_isOld && _requestsRecent.isEmpty)
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 40),
-                          child: _isLoading
-                              ? Container(
-                                  height: 200,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    color: ColorSchemes.border,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                )
-                              : CustomEmptyListWidget(
-                                  text: S.of(context).noRequestsFound,
-                                  isRefreshable: true,
-                                  onRefresh: () =>
-                                      _bloc.add(GetConsumerRequestsEvent()),
-                                  imagePath: ImagePaths.emptyProject,
-                                ),
+                            ),
+                          ),
                         ),
-                      ),
-                    if (_isOld && _requestsOld.isNotEmpty ||
-                        !_isOld && _requestsRecent.isNotEmpty)
-                      Expanded(
-                        child: ListView.builder(
+                      if (_isOld && _requestsOld.isNotEmpty ||
+                          !_isOld && _requestsRecent.isNotEmpty)
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           padding: const EdgeInsets.symmetric(
                             vertical: 8,
                             horizontal: 16,
@@ -136,13 +156,14 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                             final request = _isOld
                                 ? _requestsOld[index]
                                 : _requestsRecent[index];
-                            if (SystemType.isExtinguisherType(
-                                request.requestType)) {
-                              return _buildFireExtinguisherCard(
-                                  context,
-                                  request,
-                                  Key(request.requestNumber.toString()));
-                            }
+                            // if (SystemType.isExtinguisherType(
+                            //     request.requestType)) {
+                            //   return _buildFireExtinguisherCard(
+                            //     context,
+                            //     request,
+                            //     Key(request.requestNumber.toString()),
+                            //   );
+                            // }
                             return _buildRequestCard(
                               context,
                               request,
@@ -150,14 +171,14 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                             );
                           },
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -199,7 +220,9 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
           const SizedBox(height: 10),
           SizedBox(
             height: 42.h,
-            child: TextField(
+            child: TextFormField(
+              controller: _searchController,
+              onChanged: _onSearchChanged,
               decoration: InputDecoration(
                 hintText: s.searchHint,
                 prefixIcon: Padding(
@@ -218,19 +241,19 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                     height: 16.h,
                     child: _isLoading
                         ? Container(
-                            width: 32.w,
-                            height: 32.h,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          )
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    )
                         : SvgPicture.asset(
-                            ImagePaths.filter,
-                            color: ColorSchemes.primary,
-                            width: 16.w,
-                            height: 16.h,
-                          ),
+                      ImagePaths.filter,
+                      color: ColorSchemes.primary,
+                      width: 16.w,
+                      height: 16.h,
+                    ),
                   ),
                 ),
                 border: OutlineInputBorder(
@@ -254,13 +277,19 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                   context,
                   s.recently,
                   isActive: !_isOld,
-                  onTap: () => setState(() => _isOld = false),
+                  onTap: () {
+                    setState(() => _isOld = false);
+                    _bloc.add(GetConsumerRequestsEvent());
+                  },
                 ),
                 _statusTab(
                   context,
                   s.pendingApproval,
                   isActive: _isOld,
-                  onTap: () => setState(() => _isOld = true),
+                  onTap: () {
+                    setState(() => _isOld = true);
+                    _bloc.add(GetConsumerRequestsEvent());
+                  },
                 ),
               ],
             ),
@@ -270,12 +299,43 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     );
   }
 
-  Widget _statusTab(
-    BuildContext context,
-    String label, {
-    bool isActive = false,
-    required void Function() onTap,
-  }) {
+  void _onSearchChanged(String value) {
+    final query = value.toLowerCase().trim();
+
+    if (query.isEmpty) {
+      _bloc.add(GetConsumerRequestsEvent());
+      return;
+    }
+
+    final filtered =
+    (_isOld ? _tempRequestsOld : _tempRequestsRecent).where((element) {
+      final requestNumber = element.requestNumber.toString().toLowerCase();
+      final requestType = element.requestType.toLowerCase();
+      final branchName = element.branch.branchName.toLowerCase();
+      final status = element.providers.isNotEmpty
+          ? element.providers.first.status.toLowerCase()
+          : '';
+
+      return requestNumber.contains(query) ||
+          requestType.contains(query) ||
+          branchName.contains(query) ||
+          status.contains(query);
+    }).toList();
+
+    setState(() {
+      if (_isOld) {
+        _requestsOld = filtered;
+      } else {
+        _requestsRecent = filtered;
+      }
+    });
+  }
+
+  Widget _statusTab(BuildContext context,
+      String label, {
+        bool isActive = false,
+        required void Function() onTap,
+      }) {
     return Expanded(
       child: InkWell(
         onTap: onTap,
@@ -316,7 +376,8 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
               children: [
                 Chip(
                   label: Text(
-                    request.requestType,
+                    _getTitle(request.requestType),
+                    // request.requestType,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -359,7 +420,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        "Visit:8 ",
+                        "${S.of(context).visits}:${request.numberOfVisits} ",
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontWeight: FontWeight.w500,
@@ -377,9 +438,12 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () => _openMap(
-                        request.branch.location.coordinates.first,
-                        request.branch.location.coordinates.last),
+                    onTap: () =>
+                        _openMap(
+                          request.branch.location.coordinates.first,
+                          request.branch.location.coordinates.last,
+                          request.Id,
+                        ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -404,7 +468,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                 // const SizedBox(width: 8),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   decoration: BoxDecoration(
                     color: _isLoading
                         ? Colors.grey.shade300
@@ -412,7 +476,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.providers.first.status.toUpperCase(),
+                    _getStatus(request.providers.first.status),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -429,7 +493,9 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
               child: CustomButtonWidget(
                 backgroundColor: ColorSchemes.primary,
                 borderColor: ColorSchemes.primary,
-                text: S.of(context).sendPriceOffer,
+                text: S
+                    .of(context)
+                    .sendPriceOffer,
                 textColor: Colors.white,
                 onTap: () => _acceptRequest(context, request),
               ),
@@ -463,443 +529,69 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     }
   }
 
-  void _openMap(double first, double last) async {
+  void _openMap(double first, double last, String id) async {
+    await GoToLocationUseCase(injector())(id: id);
+
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => MapSearchScreen(
-          initialLatitude: first,
-          initialLongitude: last,
-          onLocationSelected: (lat, lng, address) {
-            setState(() {});
-          },
-        ),
+        builder: (_) =>
+            MapSearchScreen(
+              initialLatitude: first,
+              initialLongitude: last,
+              onLocationSelected: (lat, lng, address) {
+                setState(() {});
+              },
+            ),
       ),
     );
   }
 
-  Widget _buildFireExtinguisherCard(
-      BuildContext context, Requests request, Key key) {
-    final s = S.of(context);
-    return Card(
-      key: key,
-      elevation: 2,
-      margin: const EdgeInsets.only(bottom: 12),
-      color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildCardHeader(s, request),
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset(
-                      ImagePaths.priceSending,
-                      height: 24.h,
-                      width: 24.w,
-                      color: ColorSchemes.primary,
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      S.of(context).submitOfferTitle,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.sp,
-                        color: ColorSchemes.black,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                _buildFireItem(
-                  title: S.of(context).fireExtinguisher6kg,
-                  hint: S.of(context).example3,
-                  controller: _price6KiloController,
-                  iconDescription: ImagePaths.price,
-                  color: ColorSchemes.black,
-                  iconTitle: ImagePaths.fire,
-                ),
-                const SizedBox(height: 12),
-                Divider(),
-                const SizedBox(height: 12),
-                _buildFireItem(
-                  title: S.of(context).fireExtinguisher12kg,
-                  hint: S.of(context).example350,
-                  controller: _price12KiloController,
-                  iconDescription: ImagePaths.price,
-                  color: ColorSchemes.black,
-                  iconTitle: ImagePaths.fire,
-                ),
-                const SizedBox(height: 12),
-                Divider(),
-                const SizedBox(height: 12),
-                _buildFireItem(
-                  title: S.of(context).fireExtinguisherCO2,
-                  hint: S.of(context).example350,
-                  controller: _priceCo2Controller,
-                  iconDescription: ImagePaths.price,
-                  color: ColorSchemes.black,
-                  iconTitle: ImagePaths.fire,
-                ),
-                const SizedBox(height: 12),
-                Divider(),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    S.of(context).noteText,
-                    style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-                  ),
-                ),
-                Text(
-                  S.of(context).finalPrice,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15.sp,
-                    color: ColorSchemes.black,
-                  ),
-                ),
-                const SizedBox(height: 8),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: CustomButtonWidget(
-              text: S.of(context).sendPriceOffer,
-              backgroundColor: ColorSchemes.primary,
-              textColor: Colors.white,
-              onTap: () {},
-            ),
-          ),
-          const SizedBox(height: 16),
-        ],
-      ),
-    );
+  String _getTitle(String requestType) {
+    if (RequestType.FireExtinguisher.name == requestType) {
+      return S
+          .of(context)
+          .fireSystems;
+    } else if (RequestType.MaintenanceContract.name == requestType) {
+      return S
+          .of(context)
+          .maintenanceContracts;
+    } else {
+      return S
+          .of(context)
+          .instantLicense;
+    }
   }
 
-  Widget _buildFireItem({
-    required String title,
-    required String hint,
-    required String iconTitle,
-    required String iconDescription,
-    required TextEditingController controller,
-    Color? color,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SvgPicture.asset(
-                iconTitle,
-                width: 24,
-                height: 24,
-                color: color ?? ColorSchemes.black,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                title,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.sp,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SvgPicture.asset(
-                iconDescription,
-                width: 24,
-                height: 24,
-                color: color ?? ColorSchemes.black,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                S.of(context).maintenancePricePerKilo,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: controller,
-            keyboardType: TextInputType.number,
-            style: const TextStyle(
-              fontSize: 14,
-              color: ColorSchemes.black,
-              fontWeight: FontWeight.normal,
-            ),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
-            ],
-            decoration: InputDecoration(
-              hintText: hint,
-              fillColor: Colors.white,
-              filled: true,
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2.r),
-                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2.r),
-                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-              hintStyle: const TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2.r),
-                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2.r),
-                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2.r),
-                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCardHeader(S s, Requests model) {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Chip(
-                label: Text(
-                  model.requestType,
-                  style: const TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                backgroundColor:
-                    _isLoading ? Colors.grey.shade300 : ColorSchemes.black,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
-              ),
-              const Spacer(),
-              Text(
-                model.requestNumber,
-                style: TextStyle(color: Colors.grey[700]),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(
-                  model.branch.branchName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Row(
-                children: [
-                  const Icon(Icons.location_pin, size: 16),
-                  const SizedBox(width: 4),
-                  Text(
-                    model.branch.address.split(" ").last,
-                    style: TextStyle(
-                      color: Colors.grey[700],
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  _isLoading
-                      ? Container(
-                          width: 16.w,
-                          height: 16.h,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        )
-                      : SvgPicture.asset(
-                          ImagePaths.activity,
-                          width: 16,
-                          height: 16,
-                          color: Colors.grey[700],
-                        ),
-                  const SizedBox(width: 4),
-                  Text(
-                    S.of(context).typeOfActivity,
-                    style: TextStyle(
-                      color: Colors.grey[700],
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15.sp,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                decoration: BoxDecoration(
-                  color: _isLoading
-                      ? Colors.grey.shade300
-                      : ColorSchemes.secondary,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  model.branch.location.type,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14.sp,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            s.locationOnMap,
-            style: TextStyle(
-              color: Colors.grey,
-              fontWeight: FontWeight.normal,
-              fontSize: 15.sp,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-            decoration: BoxDecoration(
-              color: ColorSchemes.white,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: ColorSchemes.white,
-                width: 1,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: CustomButtonWidget(
-                    height: 42,
-                    backgroundColor: ColorSchemes.red,
-                    textColor: Colors.white,
-                    text: s.openMap,
-                    onTap: () async {
-                      // Handle map navigation
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => MapSearchScreen(
-                            initialLatitude:
-                                model.branch.location.coordinates.first,
-                            initialLongitude:
-                                model.branch.location.coordinates.last,
-                            onLocationSelected: (lat, lng, address) {
-                              setState(() {});
-                              _showValidationError(
-                                S.of(context).locationSelected,
-                                false,
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  flex: 3,
-                  child: Center(
-                    child: Text(
-                      model.branch.address,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showValidationError(String locationSelected, bool bool) {
-    showSnackBar(
-      context: context,
-      message: locationSelected,
-      color: !bool ? ColorSchemes.warning : ColorSchemes.success,
-      icon: !bool ? ImagePaths.error : ImagePaths.success,
-    );
+  String _getStatus(String status) {
+    if (status.toLowerCase() == "pending") {
+      return S
+          .of(context)
+          .pending;
+    } else if (status.toLowerCase() == "accepted") {
+      return S
+          .of(context)
+          .accepted;
+    } else if (status.toLowerCase() == "rejected") {
+      return S
+          .of(context)
+          .rejected;
+    } else if (status.toLowerCase() == "cancelled") {
+      return S
+          .of(context)
+          .cancelled;
+    } else if (status.toLowerCase() == "active") {
+      return S
+          .of(context)
+          .active;
+    } else if (status.toLowerCase() == "inProgress") {
+      return S
+          .of(context)
+          .inProgress;
+    } else {
+      return S
+          .of(context)
+          .rejected;
+    }
   }
 }

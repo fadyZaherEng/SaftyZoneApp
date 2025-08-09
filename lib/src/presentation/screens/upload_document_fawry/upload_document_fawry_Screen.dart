@@ -12,6 +12,7 @@ import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/permission_service_handler.dart';
 import 'package:safety_zone/src/core/utils/show_action_dialog_widget.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
@@ -37,6 +38,7 @@ class _UploadDocumentFawryScreenState
   bool _dotsOpen = false;
   bool _isExpandedUpload = false;
   String? imageFile;
+  String? finalPath;
   String? fileSize;
 
   UploadDocBloc get uploadDocBloc => BlocProvider.of<UploadDocBloc>(context);
@@ -46,8 +48,10 @@ class _UploadDocumentFawryScreenState
     return BlocConsumer<UploadDocBloc, UploadDocState>(
       listener: (context, state) {
         if (state is UploadDocSuccessState) {
+          hideLoading();
           _isExpandedUpload = true;
           imageFile = state.url;
+          finalPath = state.url;
           showSnackBar(
             context: context,
             message: state.url,
@@ -55,6 +59,7 @@ class _UploadDocumentFawryScreenState
             icon: ImagePaths.success,
           );
         } else if (state is UploadDocErrorState) {
+          hideLoading();
           showSnackBar(
             context: context,
             message: state.message,
@@ -62,6 +67,7 @@ class _UploadDocumentFawryScreenState
             icon: ImagePaths.error,
           );
         } else if (state is UploadDocDeleteSuccessState) {
+          hideLoading();
           imageFile = null;
           _isExpandedUpload = false;
           _dotsOpen = false;
@@ -71,6 +77,23 @@ class _UploadDocumentFawryScreenState
             color: ColorSchemes.success,
             icon: ImagePaths.success,
           );
+        } else if (state is UploadDocDeleteErrorState) {
+          hideLoading();
+          showSnackBar(
+            context: context,
+            message: state.message,
+            color: ColorSchemes.warning,
+            icon: ImagePaths.error,
+          );
+        } else if (state is UploadDocApiSuccessState) {
+          hideLoading();
+          showSnackBar(
+            context: context,
+            message: S.of(context).uploadDocumentSuccess,
+            color: ColorSchemes.success,
+            icon: ImagePaths.success,
+          );
+          Navigator.pop(context);
         }
       },
       builder: (context, state) {
@@ -279,11 +302,8 @@ class _UploadDocumentFawryScreenState
                                         height: 48.h,
                                         child: InkWell(
                                           onTap: () {
-                                            uploadDocBloc.add(
-                                              DeleteDocEvent(
-                                                docPath: imageFile ?? '',
-                                              ),
-                                            );
+                                            uploadDocBloc.add(DeleteDocEvent(
+                                                docPath: imageFile ?? ''));
                                             setState(() {
                                               _dotsOpen = false;
                                               _isExpandedUpload = false;
@@ -334,9 +354,13 @@ class _UploadDocumentFawryScreenState
                     child: CustomButtonWidget(
                       backgroundColor: ColorSchemes.primary,
                       borderColor: ColorSchemes.primary,
-                      text: S.of(context).uploadLicenseDoc,
+                      text: finalPath == null
+                          ? S.of(context).uploadLicenseDoc
+                          : S.of(context).submit,
                       textColor: ColorSchemes.white,
-                      onTap: () => _uploadLicenseDoc(context, widget.request),
+                      onTap: () => finalPath != null
+                          ? _uploadApiDoc(context, widget.request)
+                          : _uploadLicenseDoc(context, widget.request),
                     ),
                   ),
                   SizedBox(height: 88.h),
@@ -369,7 +393,7 @@ class _UploadDocumentFawryScreenState
                 const Spacer(),
                 Chip(
                   label: Text(
-                    request.status,
+                    _getStatus(request.status),
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -411,14 +435,14 @@ class _UploadDocumentFawryScreenState
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              S.of(context).fireTitle,
-              style: TextStyle(
-                color: ColorSchemes.red,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
-              ),
-            ),
+            // Text(
+            //   S.of(context).fireTitle,
+            //   style: TextStyle(
+            //     color: ColorSchemes.red,
+            //     fontWeight: FontWeight.bold,
+            //     fontSize: 14.sp,
+            //   ),
+            // ),
             Divider(),
             const SizedBox(height: 8),
             Row(
@@ -451,7 +475,7 @@ class _UploadDocumentFawryScreenState
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    request.type,
+                    _getTitle(request.type),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -521,7 +545,6 @@ class _UploadDocumentFawryScreenState
         // ToDO: Upload File in Server
         uploadDocBloc.add(UploadDocumentEvent(docPath: imageFile.path));
       }
-      hideLoading();
     } else {
       hideLoading();
       _dialogMessage(
@@ -558,5 +581,47 @@ class _UploadDocumentFawryScreenState
       return await file.length() / 1024;
     }
     return 0;
+  }
+
+  _uploadApiDoc(BuildContext context, ScheduleJop request) {
+    showLoading();
+    uploadDocBloc.add(
+      UploadDocumentAPiEvent(
+        request: RequestCertificateInstallation(
+          branch: widget.request.branch.Id,
+          consumer: widget.request.consumer,
+          scheduleJob: widget.request.Id,
+          file: finalPath,
+        ),
+      ),
+    );
+  }
+
+  String _getTitle(String requestType) {
+    if (RequestType.FireExtinguisher.name == requestType) {
+      return S.of(context).fireSystems;
+    } else if (RequestType.MaintenanceContract.name == requestType) {
+      return S.of(context).maintenanceContracts;
+    } else {
+      return S.of(context).instantLicense;
+    }
+  }
+
+  String _getStatus(String status) {
+    if (status.toLowerCase() == "pending") {
+      return S.of(context).pending;
+    } else if (status.toLowerCase() == "accepted") {
+      return S.of(context).accepted;
+    } else if (status.toLowerCase() == "rejected") {
+      return S.of(context).rejected;
+    } else if (status.toLowerCase() == "cancelled") {
+      return S.of(context).cancelled;
+    } else if (status.toLowerCase() == "active") {
+      return S.of(context).active;
+    } else if (status.toLowerCase() == "inProgress") {
+      return S.of(context).inProgress;
+    } else {
+      return S.of(context).rejected;
+    }
   }
 }

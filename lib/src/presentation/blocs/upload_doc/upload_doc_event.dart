@@ -16,6 +16,14 @@ final class UploadDocumentEvent extends UploadDocEvent {
 
   UploadDocumentEvent({
     required this.docPath,
+   });
+}
+
+final class UploadDocumentAPiEvent extends UploadDocEvent {
+   final RequestCertificateInstallation request;
+
+   UploadDocumentAPiEvent({
+     required this.request,
   });
 }
 

@@ -34,13 +34,23 @@ RemoteResult _$RemoteResultFromJson(Map<String, dynamic> json) => RemoteResult(
       requestNumber: json['requestNumber'] as String? ?? "",
       systemType: json['systemType'] as String? ?? "",
       space: (json['space'] as num?)?.toInt() ?? 0,
-      items: (json['items'] as List<dynamic>?)
-              ?.map((e) => RemoteItems.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
       requestType: json['requestType'] as String? ?? "",
       status: json['status'] as String? ?? "",
       createdAt: (json['createdAt'] as num?)?.toInt() ?? 0,
+      alarmItems: (json['alarmItems'] as List<dynamic>?)
+              ?.map((e) => RemoteItems.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      fireExtinguisherItem: (json['fireExtinguisherItem'] as List<dynamic>?)
+              ?.map((e) => RemoteItems.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      fireSystemItem: (json['fireSystemItem'] as List<dynamic>?)
+              ?.map((e) => RemoteItems.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      numberOfVisits: (json['numberOfVisits'] as num?)?.toInt() ?? 0,
+      duration: (json['duration'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$RemoteResultToJson(RemoteResult instance) =>
@@ -49,12 +59,16 @@ Map<String, dynamic> _$RemoteResultToJson(RemoteResult instance) =>
       'consumer': instance.consumer,
       'branch': instance.branch,
       'requestNumber': instance.requestNumber,
+      'numberOfVisits': instance.numberOfVisits,
+      'duration': instance.duration,
       'systemType': instance.systemType,
       'space': instance.space,
-      'items': instance.items,
       'requestType': instance.requestType,
       'status': instance.status,
       'createdAt': instance.createdAt,
+      'alarmItems': instance.alarmItems,
+      'fireExtinguisherItem': instance.fireExtinguisherItem,
+      'fireSystemItem': instance.fireSystemItem,
     };
 
 RemoteItems _$RemoteItemsFromJson(Map<String, dynamic> json) => RemoteItems(
@@ -62,19 +76,21 @@ RemoteItems _$RemoteItemsFromJson(Map<String, dynamic> json) => RemoteItems(
           ? const RemoteItemId()
           : RemoteItemId.fromJson(json['item_id'] as Map<String, dynamic>),
       quantity: (json['quantity'] as num?)?.toInt() ?? 0,
-      Id: json['_id'] as String? ?? "",
+      id: json['_id'] as String? ?? "",
     );
 
 Map<String, dynamic> _$RemoteItemsToJson(RemoteItems instance) =>
     <String, dynamic>{
       'item_id': instance.itemId,
       'quantity': instance.quantity,
-      '_id': instance.Id,
+      '_id': instance.id,
     };
 
 RemoteItemId _$RemoteItemIdFromJson(Map<String, dynamic> json) => RemoteItemId(
       Id: json['_id'] as String? ?? "",
-      itemName: json['itemName'] as String? ?? "",
+      itemName: json['itemName'] == null
+          ? const ItemName()
+          : ItemName.fromJson(json['itemName'] as Map<String, dynamic>),
       type: json['type'] as String? ?? "",
     );
 

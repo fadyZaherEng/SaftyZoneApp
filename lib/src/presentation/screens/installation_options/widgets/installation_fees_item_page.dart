@@ -5,6 +5,8 @@ import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
+import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import '../models/installation_fee_model.dart';
 import '../services/installation_fee_service.dart';
 
@@ -342,7 +344,9 @@ class _InstallationFeesItemPageState extends State<InstallationFeesItemPage> {
                       // Item name
                       Expanded(
                         child: Text(
-                          (item['itemName'] ?? '') +
+                          (GetLanguageUseCase(injector())() == 'en'
+                                  ? item['itemName']['en']
+                                  : item['itemName']['ar']) +
                               ((item['subCategory'] != null &&
                                       (item['subCategory'] as String)
                                           .isNotEmpty)

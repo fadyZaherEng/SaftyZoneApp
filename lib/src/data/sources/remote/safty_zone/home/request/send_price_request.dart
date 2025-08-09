@@ -7,11 +7,20 @@ class SendPriceRequest {
   final String? consumerRequest;
   final String? responsibleEmployee;
   final int? price;
+  final List<Item>? item;
+  final bool? is_Primary;
+
+  final int? visitPrice;
+  final int? emergencyVisitPrice;
 
   const SendPriceRequest({
-    this.consumerRequest,
-    this.responsibleEmployee,
-    this.price,
+    required this.consumerRequest,
+    required this.responsibleEmployee,
+    required this.price,
+    required this.item,
+    required this.is_Primary,
+    this.visitPrice = 0,
+    this.emergencyVisitPrice = 0,
   });
 
   factory SendPriceRequest.fromJson(Map<String, dynamic> json) =>
@@ -19,3 +28,21 @@ class SendPriceRequest {
 
   Map<String, dynamic> toJson() => _$SendPriceRequestToJson(this);
 }
+
+@JsonSerializable()
+class Item {
+  final String? ItemId;
+  final int? price;
+  final int? quantity;
+
+  const Item({
+    required this.ItemId,
+    required this.price,
+    required this.quantity,
+  });
+
+  factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ItemToJson(this);
+}
+

@@ -3438,10 +3438,10 @@ class S {
     );
   }
 
-  /// `View more information (Same list for receiving the request but ends with contract)`
+  /// `View more information `
   String get maintainanceTitle {
     return Intl.message(
-      'View more information (Same list for receiving the request but ends with contract)',
+      'View more information ',
       name: 'maintainanceTitle',
       desc: '',
       args: [],
@@ -4649,6 +4649,786 @@ class S {
     return Intl.message(
       'Engineering Report For Company',
       name: 'engineeringReportForCompany',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit`
+  String get submit {
+    return Intl.message(
+      'Submit',
+      name: 'submit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Document uploaded successfully`
+  String get uploadDocumentSuccess {
+    return Intl.message(
+      'Document uploaded successfully',
+      name: 'uploadDocumentSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Repair Cost`
+  String get repairCost {
+    return Intl.message(
+      'Repair Cost',
+      name: 'repairCost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number Of Maintainance Completed`
+  String get numberOfMaintainanceCompleted {
+    return Intl.message(
+      'Number Of Maintainance Completed',
+      name: 'numberOfMaintainanceCompleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number Arrived For Client`
+  String get numberArrivedForClient {
+    return Intl.message(
+      'Number Arrived For Client',
+      name: 'numberArrivedForClient',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Systems`
+  String get fireSystems {
+    return Intl.message(
+      'Fire Systems',
+      name: 'fireSystems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get success {
+    return Intl.message(
+      'Success',
+      name: 'success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a number less than or equal to`
+  String get pleaseEnterANumberLessThanOrEqualTo {
+    return Intl.message(
+      'Please enter a number less than or equal to',
+      name: 'pleaseEnterANumberLessThanOrEqualTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Price`
+  String get totalPrice {
+    return Intl.message(
+      'Total Price',
+      name: 'totalPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accepted`
+  String get accepted {
+    return Intl.message(
+      'Accepted',
+      name: 'accepted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancelled`
+  String get cancelled {
+    return Intl.message(
+      'Cancelled',
+      name: 'cancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In Progress`
+  String get inProgress {
+    return Intl.message(
+      'In Progress',
+      name: 'inProgress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Zone`
+  String get zone {
+    return Intl.message(
+      'Zone',
+      name: 'zone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loop`
+  String get loop {
+    return Intl.message(
+      'Loop',
+      name: 'loop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `select another employee`
+  String get selectAnotherEmployee {
+    return Intl.message(
+      'select another employee',
+      name: 'selectAnotherEmployee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Early Warning Report`
+  String get report_title {
+    return Intl.message(
+      'Early Warning Report',
+      name: 'report_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Control Panel`
+  String get control_panel {
+    return Intl.message(
+      'Control Panel',
+      name: 'control_panel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Control Panel (Zone-loop)`
+  String get zone_loop {
+    return Intl.message(
+      'Control Panel (Zone-loop)',
+      name: 'zone_loop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conventional Fire Detector`
+  String get fire_detector {
+    return Intl.message(
+      'Conventional Fire Detector',
+      name: 'fire_detector',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Alarm Bell`
+  String get alarm_bell {
+    return Intl.message(
+      'Alarm Bell',
+      name: 'alarm_bell',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `External Fire Alarm`
+  String get external_bell {
+    return Intl.message(
+      'External Fire Alarm',
+      name: 'external_bell',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `External Fire Alarm with Flasher`
+  String get bell_with_flasher {
+    return Intl.message(
+      'External Fire Alarm with Flasher',
+      name: 'bell_with_flasher',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internal Glass Breaker`
+  String get internal_glass {
+    return Intl.message(
+      'Internal Glass Breaker',
+      name: 'internal_glass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `External Glass Breaker`
+  String get external_glass {
+    return Intl.message(
+      'External Glass Breaker',
+      name: 'external_glass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Emergency Lighting`
+  String get emergency_lights {
+    return Intl.message(
+      'Emergency Lighting',
+      name: 'emergency_lights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internal Emergency Light`
+  String get internal_light {
+    return Intl.message(
+      'Internal Emergency Light',
+      name: 'internal_light',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Emergency Exit`
+  String get emergency_exit {
+    return Intl.message(
+      'Emergency Exit',
+      name: 'emergency_exit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Suppression Report`
+  String get fire_extinguish {
+    return Intl.message(
+      'Fire Suppression Report',
+      name: 'fire_extinguish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Pumps`
+  String get pumps {
+    return Intl.message(
+      'Fire Pumps',
+      name: 'pumps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Water Sprinklers`
+  String get sprinklers {
+    return Intl.message(
+      'Water Sprinklers',
+      name: 'sprinklers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `American Sprinkler`
+  String get sprinkler_amer {
+    return Intl.message(
+      'American Sprinkler',
+      name: 'sprinkler_amer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internal Box`
+  String get internal_box {
+    return Intl.message(
+      'Internal Box',
+      name: 'internal_box',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Foam Fire Box`
+  String get foam_box {
+    return Intl.message(
+      'Foam Fire Box',
+      name: 'foam_box',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available`
+  String get available {
+    return Intl.message(
+      'Available',
+      name: 'available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number of not working`
+  String get required {
+    return Intl.message(
+      'Number of not working',
+      name: 'required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In Progress`
+  String get in_progress {
+    return Intl.message(
+      'In Progress',
+      name: 'in_progress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Broken Glass`
+  String get broken_glass {
+    return Intl.message(
+      'Broken Glass',
+      name: 'broken_glass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `External Sprinkler`
+  String get external_sprinkler {
+    return Intl.message(
+      'External Sprinkler',
+      name: 'external_sprinkler',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System Reports`
+  String get systemReportsTitle {
+    return Intl.message(
+      'System Reports',
+      name: 'systemReportsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter maintenance reports in the early warning system`
+  String get earlyWarningSystem {
+    return Intl.message(
+      'Enter maintenance reports in the early warning system',
+      name: 'earlyWarningSystem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter maintenance reports in the fire extinguishing system`
+  String get fireExtinguisherSystem {
+    return Intl.message(
+      'Enter maintenance reports in the fire extinguishing system',
+      name: 'fireExtinguisherSystem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Smoke Detector`
+  String get smokeDetector {
+    return Intl.message(
+      'Smoke Detector',
+      name: 'smokeDetector',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Emergency Light`
+  String get emergencyLight {
+    return Intl.message(
+      'Emergency Light',
+      name: 'emergencyLight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extinguishing Systems`
+  String get extinguishingSystems {
+    return Intl.message(
+      'Extinguishing Systems',
+      name: 'extinguishingSystems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Boxes`
+  String get fireBoxes {
+    return Intl.message(
+      'Fire Boxes',
+      name: 'fireBoxes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintenance Report`
+  String get maintenance_report {
+    return Intl.message(
+      'Maintenance Report',
+      name: 'maintenance_report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintenance Report After Visit`
+  String get post_visit_report {
+    return Intl.message(
+      'Maintenance Report After Visit',
+      name: 'post_visit_report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System & Site Safety - Flammable Materials`
+  String get system_safety_status {
+    return Intl.message(
+      'System & Site Safety - Flammable Materials',
+      name: 'system_safety_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Very Safe`
+  String get very_safe {
+    return Intl.message(
+      'Very Safe',
+      name: 'very_safe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Moderate`
+  String get moderate {
+    return Intl.message(
+      'Moderate',
+      name: 'moderate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Danger`
+  String get danger {
+    return Intl.message(
+      'Danger',
+      name: 'danger',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add any technical notes or site condition`
+  String get add_notes {
+    return Intl.message(
+      'Add any technical notes or site condition',
+      name: 'add_notes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What is the type of early alarm system?`
+  String get alarm_type {
+    return Intl.message(
+      'What is the type of early alarm system?',
+      name: 'alarm_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report prepared by`
+  String get report_prepared_by {
+    return Intl.message(
+      'Report prepared by',
+      name: 'report_prepared_by',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit Report`
+  String get submit_report {
+    return Intl.message(
+      'Submit Report',
+      name: 'submit_report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System errors have been detected.`
+  String get system_error_detected {
+    return Intl.message(
+      'System errors have been detected.',
+      name: 'system_error_detected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please go to the 'Reports Requiring Maintenance' page to provide a repair estimate to the customer.`
+  String get navigate_to_maintenance_reports {
+    return Intl.message(
+      'Please go to the \'Reports Requiring Maintenance\' page to provide a repair estimate to the customer.',
+      name: 'navigate_to_maintenance_reports',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reports Requiring Maintenance`
+  String get go_to_maintenance_needed {
+    return Intl.message(
+      'Reports Requiring Maintenance',
+      name: 'go_to_maintenance_needed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System Repair Price`
+  String get system_repair_price {
+    return Intl.message(
+      'System Repair Price',
+      name: 'system_repair_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System Repair Price`
+  String get system_repair_price_title {
+    return Intl.message(
+      'System Repair Price',
+      name: 'system_repair_price_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Detailed cost estimation for the repair based on the maintenance report.`
+  String get repair_description {
+    return Intl.message(
+      'Detailed cost estimation for the repair based on the maintenance report.',
+      name: 'repair_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you need spare parts for the repair?`
+  String get need_spare_parts {
+    return Intl.message(
+      'Do you need spare parts for the repair?',
+      name: 'need_spare_parts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message(
+      'Yes',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get no {
+    return Intl.message(
+      'No',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Part Price`
+  String get part_price {
+    return Intl.message(
+      'Part Price',
+      name: 'part_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload Spare Part Invoice`
+  String get upload_invoice {
+    return Intl.message(
+      'Upload Spare Part Invoice',
+      name: 'upload_invoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Glass Breaker`
+  String get glass_breaker {
+    return Intl.message(
+      'Glass Breaker',
+      name: 'glass_breaker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Pumps`
+  String get fire_pumps {
+    return Intl.message(
+      'Fire Pumps',
+      name: 'fire_pumps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning Labels`
+  String get warning_labels {
+    return Intl.message(
+      'Warning Labels',
+      name: 'warning_labels',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fire Boxes`
+  String get fire_boxes {
+    return Intl.message(
+      'Fire Boxes',
+      name: 'fire_boxes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Costs After the Report:`
+  String get total_after_report {
+    return Intl.message(
+      'Total Costs After the Report:',
+      name: 'total_after_report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Material Purchase Cost`
+  String get materials_cost {
+    return Intl.message(
+      'Total Material Purchase Cost',
+      name: 'materials_cost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Repair Costs`
+  String get repair_cost {
+    return Intl.message(
+      'Total Repair Costs',
+      name: 'repair_cost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Installation Cost`
+  String get installation_cost {
+    return Intl.message(
+      'Total Installation Cost',
+      name: 'installation_cost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tax`
+  String get tax {
+    return Intl.message(
+      'Tax',
+      name: 'tax',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total`
+  String get total {
+    return Intl.message(
+      'Total',
+      name: 'total',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The quantity entered is greater than the quantity available`
+  String get quantity_exceed {
+    return Intl.message(
+      'The quantity entered is greater than the quantity available',
+      name: 'quantity_exceed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The quantity entered is less than the quantity available`
+  String get quantity_less {
+    return Intl.message(
+      'The quantity entered is less than the quantity available',
+      name: 'quantity_less',
       desc: '',
       args: [],
     );

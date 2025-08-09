@@ -11,6 +11,7 @@ import 'package:safety_zone/src/presentation/screens/installation_options/instal
 import 'package:safety_zone/src/presentation/screens/language/language_screen.dart';
 import 'package:safety_zone/src/presentation/screens/login/login_screen.dart';
 import 'package:safety_zone/src/presentation/screens/main/main_screen.dart';
+import 'package:safety_zone/src/presentation/screens/maintainance_inprogress/maintainance_inprogress_screen.dart';
 import 'package:safety_zone/src/presentation/screens/maintainance_work/maintainance_work_screen.dart';
 import 'package:safety_zone/src/presentation/screens/notifications/notifications_screen.dart';
 import 'package:safety_zone/src/presentation/screens/onboarding/onboarding_screen.dart';
@@ -73,6 +74,8 @@ class Routes {
   static const String notificationsScreen = '/notifications-screen';
   static const String fireExtinguishersScreen = '/fire-extinguishers-screen';
   static const String invoiceScreen = '/invoiceScreen';
+  static const String maintainanceInProgressScreen =
+      '/maintainanceInProgressScreen';
 }
 
 class RoutesManager {
@@ -191,6 +194,17 @@ class RoutesManager {
             routeSettings.arguments as Map<String, dynamic>?;
         return _materialRoute(FireExtinguishersScreen(
           scheduleJop: args?['scheduleJop'] as ScheduleJop,
+          isFirstPage: args?['isFirstPage'] as bool,
+          isSecondPage: args?['isSecondPage'] as bool,
+          isThirdPage: args?['isThirdPage'] as bool,
+        ));
+
+      case Routes.maintainanceInProgressScreen:
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        return _materialRoute(MaintainanceInProgressScreen(
+          scheduleJop: args?['scheduleJop'] as ScheduleJop,
+          isRepair: args?['isRepair'] as bool? ?? false,
         ));
 
       case Routes.invoiceScreen:

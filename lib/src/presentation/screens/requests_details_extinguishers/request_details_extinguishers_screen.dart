@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
-import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart';
 import 'package:safety_zone/src/domain/entities/home/request_details.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
+import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class RequestDetailsExtinguishersScreen extends StatefulWidget {
+class RequestDetailsExtinguishersScreen extends BaseStatefulWidget {
   final String requestId;
 
   const RequestDetailsExtinguishersScreen({
@@ -25,12 +28,12 @@ class RequestDetailsExtinguishersScreen extends StatefulWidget {
   });
 
   @override
-  State<RequestDetailsExtinguishersScreen> createState() =>
+  BaseState<RequestDetailsExtinguishersScreen> baseCreateState() =>
       _RequestDetailsExtinguishersScreenState();
 }
 
 class _RequestDetailsExtinguishersScreenState
-    extends State<RequestDetailsExtinguishersScreen>
+    extends BaseState<RequestDetailsExtinguishersScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _priceController = TextEditingController();
@@ -39,14 +42,15 @@ class _RequestDetailsExtinguishersScreenState
   bool _isPriceSending = false;
   bool _isLoading = false;
 
+  final List<TextEditingController> _priceKiloController = [];
+
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
-  final List<Items> _itemsExtinguishers = [];
   List<Employee> _employees = [];
-  Employee? _selectedEmployee = Employee();
+  Employee _selectedEmployee = Employee();
 
   @override
   void initState() {
-    // _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
+    _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
     _bloc.add(GetEmployeesEvent());
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
@@ -64,7 +68,7 @@ class _RequestDetailsExtinguishersScreenState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget baseBuild(BuildContext context) {
     final s = S.of(context);
     return BlocConsumer<RequestsBloc, RequestsState>(
         listener: (context, state) {
@@ -75,7 +79,9 @@ class _RequestDetailsExtinguishersScreenState
           model = state.requestDetails;
         });
         _isLoading = false;
-        _filterItems(model.result.items);
+        for (var element in model.result.fireExtinguisherItem) {
+          _priceKiloController.add(TextEditingController());
+        }
       } else if (state is GetConsumerRequestDetailsErrorState) {
         _showValidationError(state.message, false);
         _isLoading = false;
@@ -84,6 +90,15 @@ class _RequestDetailsExtinguishersScreenState
         _selectedEmployee = _employees.first;
       } else if (state is GetEmployeesErrorState) {
         _showValidationError(state.message, false);
+      } else if (state is SendPriceOfferSuccessState) {
+        _showValidationError(S.of(context).sendPriceOfferSuccess, true);
+        hideLoading();
+        Navigator.pop(context);
+      } else if (state is SendPriceOfferErrorState) {
+        _showValidationError(state.message, false);
+        hideLoading();
+      } else if (state is SendPriceOfferLoadingState) {
+        showLoading();
       }
     }, builder: (context, state) {
       return Scaffold(
@@ -97,17 +112,33 @@ class _RequestDetailsExtinguishersScreenState
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: Skeletonizer(
             enabled: _isLoading,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildCardHeader(s),
-                const SizedBox(height: 12),
-                if (!_isPriceSending) _buildTabBar(s),
-                if (!_isPriceSending) const SizedBox(height: 16),
-                if (!_isPriceSending) Expanded(child: _buildTabContent(s)),
-                if (_isPriceSending) _buildPriceSending(s),
-              ],
-            ),
+            child: _isPriceSending
+                ? SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildCardHeader(s),
+                        const SizedBox(height: 12),
+                        if (!_isPriceSending) _buildTabBar(s),
+                        if (!_isPriceSending) const SizedBox(height: 16),
+                        if (!_isPriceSending)
+                          Expanded(child: _buildTabContent(s)),
+                        if (_isPriceSending) _buildPriceSending(s),
+                      ],
+                    ),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildCardHeader(s),
+                      const SizedBox(height: 12),
+                      if (!_isPriceSending) _buildTabBar(s),
+                      if (!_isPriceSending) const SizedBox(height: 16),
+                      if (!_isPriceSending)
+                        Expanded(child: _buildTabContent(s)),
+                      if (_isPriceSending) _buildPriceSending(s),
+                    ],
+                  ),
           ),
         ),
       );
@@ -129,7 +160,7 @@ class _RequestDetailsExtinguishersScreenState
               children: [
                 Chip(
                   label: Text(
-                    model.result.requestType,
+                    S.of(context).fireSystems,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -155,7 +186,7 @@ class _RequestDetailsExtinguishersScreenState
               children: [
                 Expanded(
                   child: Text(
-                    model.termsAndConditions.company,
+                    model.result.branch.branchName,
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
@@ -222,7 +253,7 @@ class _RequestDetailsExtinguishersScreenState
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    model.result.systemType,
+                    _systemType(model.result.systemType),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -272,6 +303,9 @@ class _RequestDetailsExtinguishersScreenState
                       textColor: Colors.white,
                       text: s.openMap,
                       onTap: () async {
+                        await GoToLocationUseCase(injector())(
+                            id: model.result.Id);
+
                         // Handle map navigation
                         await Navigator.push(
                           context,
@@ -393,7 +427,7 @@ class _RequestDetailsExtinguishersScreenState
               ),
               const Spacer(),
               Text(
-                model.result.systemType,
+                _systemType(model.result.systemType),
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 15.sp,
@@ -443,7 +477,7 @@ class _RequestDetailsExtinguishersScreenState
           children: [
             _buildQuantitySection(
               title: s.fireExtinguishers,
-              items: _itemsExtinguishers,
+              items: model.result.fireExtinguisherItem,
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -512,7 +546,9 @@ class _RequestDetailsExtinguishersScreenState
         const SizedBox(height: 8),
         ...items.asMap().entries.map(
               (item) => _buildQuantityRow(
-                item.value.itemId.itemName,
+                GetLanguageUseCase(injector())() == 'en'
+                    ? item.value.itemId.itemName.en
+                    : item.value.itemId.itemName.ar,
                 item.value.quantity.toString(),
                 item.key == items.length - 1,
               ),
@@ -603,76 +639,38 @@ class _RequestDetailsExtinguishersScreenState
             children: [
               SvgPicture.asset(
                 ImagePaths.priceSending,
+                height: 24.h,
                 width: 24.w,
-                height: 24.w,
                 color: ColorSchemes.primary,
               ),
-              SizedBox(width: 8.w),
-              Expanded(
-                child: Text(
-                  S.of(context).sendPriceOffer,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: ColorSchemes.black,
-                  ),
+              const SizedBox(width: 12),
+              Text(
+                S.of(context).submitOfferTitle,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
+                  color: ColorSchemes.black,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 8.h),
-          Row(
-            children: [
-              SvgPicture.asset(
-                ImagePaths.price,
-                width: 24.w,
-                height: 24.w,
-                color: ColorSchemes.black,
-              ),
-              SizedBox(width: 16.h),
-              Expanded(
-                child: Text(
-                  S.of(context).maintenancePrice,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: ColorSchemes.black,
-                  ),
+          const SizedBox(height: 12),
+          for (int i = 0; i < model.result.fireExtinguisherItem.length; i++)
+            Column(
+              children: [
+                _buildFireItem(
+                  title: GetLanguageUseCase(injector())() == 'en'
+                      ? model.result.fireExtinguisherItem[i].itemId.itemName.en
+                      : model.result.fireExtinguisherItem[i].itemId.itemName.ar,
+                  hint: S.of(context).example3,
+                  controller: _priceKiloController[i],
+                  iconDescription: ImagePaths.price,
+                  color: ColorSchemes.black,
+                  iconTitle: ImagePaths.fire,
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16.h),
-          SizedBox(
-            height: 38.h,
-            child: TextField(
-              controller: _priceController,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(
-                hintText: S
-                    .of(context)
-                    .theMaintenanceCostWillBeDeterminedAfterReceiptAndServiceCompletion,
-                hintStyle: TextStyle(
-                  fontSize: 12.sp,
-                  color: const Color(0xFFCCCCCC),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: const BorderSide(color: Color(0xFF8B0000)),
-                ),
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-              ),
-              onChanged: (value) {
-                setState(() {});
-              },
+                const SizedBox(height: 12),
+              ],
             ),
-          ),
           SizedBox(height: 32.h),
           CustomButtonWidget(
             backgroundColor: ColorSchemes.primary,
@@ -680,6 +678,29 @@ class _RequestDetailsExtinguishersScreenState
             text: S.of(context).send,
             onTap: () {
               debugPrint('Saved Model: $model');
+              List<Item> items = [];
+              int totalPrice = 0;
+              for (int i = 0;
+                  i < model.result.fireExtinguisherItem.length;
+                  i++) {
+                items.add(Item(
+                  ItemId: model.result.fireExtinguisherItem[i].itemId.Id,
+                  quantity: 1,
+                  price: int.parse(_priceKiloController[i].text),
+                ));
+                totalPrice += int.parse(_priceKiloController[i].text) * 1;
+              }
+              _bloc.add(
+                SendPriceOfferEvent(
+                  request: SendPriceRequest(
+                    consumerRequest: model.result.Id,
+                    responsibleEmployee: _selectedEmployee.Id,
+                    price: totalPrice,
+                    is_Primary: true,
+                    item: items,
+                  ),
+                ),
+              );
             },
           ),
           const SizedBox(height: 32),
@@ -697,13 +718,122 @@ class _RequestDetailsExtinguishersScreenState
     );
   }
 
-  void _filterItems(List<Items> items) {
-    _itemsExtinguishers.clear();
-    for (var item in items) {
-      if (SystemType.isExtinguisherType(item.itemId.type)) {
-        _itemsExtinguishers.add(item);
-      }
+  Widget _buildFireItem({
+    required String title,
+    required String hint,
+    required String iconTitle,
+    required String iconDescription,
+    required TextEditingController controller,
+    Color? color,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SvgPicture.asset(
+                iconTitle,
+                width: 24,
+                height: 24,
+                color: color ?? ColorSchemes.black,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SvgPicture.asset(
+                iconDescription,
+                width: 24,
+                height: 24,
+                color: color ?? ColorSchemes.black,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                S.of(context).maintenancePricePerKilo,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            style: const TextStyle(
+              fontSize: 14,
+              color: ColorSchemes.black,
+              fontWeight: FontWeight.normal,
+            ),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+            ],
+            decoration: InputDecoration(
+              hintText: hint,
+              fillColor: Colors.white,
+              filled: true,
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(2.r),
+                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(2.r),
+                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+              hintStyle: const TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(2.r),
+                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(2.r),
+                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(2.r),
+                borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _systemType(String systemType) {
+    if (systemType.toLowerCase() == "zone") {
+      return S.of(context).zone;
+    } else if (systemType.toLowerCase() == "loop") {
+      return S.of(context).loop;
+    } else {
+      return S.of(context).loop;
     }
-    setState(() {});
   }
 }

@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
-import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart';
 import 'package:safety_zone/src/domain/entities/home/request_details.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
+import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class RequestDetailsMaintainanceScreen extends StatefulWidget {
+class RequestDetailsMaintainanceScreen extends BaseStatefulWidget {
   final String requestId;
 
   const RequestDetailsMaintainanceScreen({
@@ -25,12 +27,12 @@ class RequestDetailsMaintainanceScreen extends StatefulWidget {
   });
 
   @override
-  State<RequestDetailsMaintainanceScreen> createState() =>
+  BaseState<RequestDetailsMaintainanceScreen> baseCreateState() =>
       _RequestDetailsMaintainanceScreenState();
 }
 
 class _RequestDetailsMaintainanceScreenState
-    extends State<RequestDetailsMaintainanceScreen>
+    extends BaseState<RequestDetailsMaintainanceScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _visitValueController = TextEditingController();
@@ -42,15 +44,13 @@ class _RequestDetailsMaintainanceScreenState
   bool _isLoading = false;
 
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
-  final List<Items> _itemsAlarm = [];
-  final List<Items> _itemsFire = [];
-  final List<Items> _itemsExtinguishers = [];
+
   List<Employee> _employees = [];
-  Employee? _selectedEmployee = Employee();
+  Employee _selectedEmployee = Employee();
 
   @override
   void initState() {
-    // _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
+    _bloc.add(GetConsumerRequestsDetailsEvent(requestId: widget.requestId));
     _bloc.add(GetEmployeesEvent());
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
@@ -68,7 +68,7 @@ class _RequestDetailsMaintainanceScreenState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget baseBuild(BuildContext context) {
     final s = S.of(context);
     return BlocConsumer<RequestsBloc, RequestsState>(
         listener: (context, state) {
@@ -79,7 +79,6 @@ class _RequestDetailsMaintainanceScreenState
           model = state.requestDetails;
         });
         _isLoading = false;
-        _filterItems(model.result.items);
       } else if (state is GetConsumerRequestDetailsErrorState) {
         _showValidationError(state.message, false);
         _isLoading = false;
@@ -88,6 +87,16 @@ class _RequestDetailsMaintainanceScreenState
         _selectedEmployee = _employees.first;
       } else if (state is GetEmployeesErrorState) {
         _showValidationError(state.message, false);
+      } else if (state is SendPriceOfferSuccessState) {
+        _showValidationError(S.of(context).sendPriceOfferSuccess, true);
+        hideLoading();
+        Navigator.pop(context);
+      } else if (state is SendPriceOfferErrorState) {
+        _showValidationError(state.message, false);
+        hideLoading();
+        Navigator.pop(context);
+      } else if (state is SendPriceOfferLoadingState) {
+        showLoading();
       }
     }, builder: (context, state) {
       return Scaffold(
@@ -101,17 +110,33 @@ class _RequestDetailsMaintainanceScreenState
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: Skeletonizer(
             enabled: _isLoading,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildCardHeader(s),
-                const SizedBox(height: 12),
-                if (!_isPriceSending) _buildTabBar(s),
-                if (!_isPriceSending) const SizedBox(height: 16),
-                if (!_isPriceSending) Expanded(child: _buildTabContent(s)),
-                if (_isPriceSending) _buildPriceSending(s),
-              ],
-            ),
+            child: _isPriceSending
+                ? SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildCardHeader(s),
+                        const SizedBox(height: 12),
+                        if (!_isPriceSending) _buildTabBar(s),
+                        if (!_isPriceSending) const SizedBox(height: 16),
+                        if (!_isPriceSending)
+                          Expanded(child: _buildTabContent(s)),
+                        if (_isPriceSending) _buildPriceSending(s),
+                      ],
+                    ),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildCardHeader(s),
+                      const SizedBox(height: 12),
+                      if (!_isPriceSending) _buildTabBar(s),
+                      if (!_isPriceSending) const SizedBox(height: 16),
+                      if (!_isPriceSending)
+                        Expanded(child: _buildTabContent(s)),
+                      if (_isPriceSending) _buildPriceSending(s),
+                    ],
+                  ),
           ),
         ),
       );
@@ -133,7 +158,7 @@ class _RequestDetailsMaintainanceScreenState
               children: [
                 Chip(
                   label: Text(
-                    model.result.requestType,
+                    S.of(context).maintenanceContracts,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -160,7 +185,7 @@ class _RequestDetailsMaintainanceScreenState
               children: [
                 Expanded(
                   child: Text(
-                    model.termsAndConditions.company,
+                    model.result.branch.branchName,
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
@@ -227,7 +252,7 @@ class _RequestDetailsMaintainanceScreenState
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    model.result.systemType,
+                    _systemType(model.result.systemType),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -277,6 +302,9 @@ class _RequestDetailsMaintainanceScreenState
                       textColor: Colors.white,
                       text: s.openMap,
                       onTap: () async {
+                        await GoToLocationUseCase(injector())(
+                            id: model.result.Id);
+
                         // Handle map navigation
                         await Navigator.push(
                           context,
@@ -399,7 +427,7 @@ class _RequestDetailsMaintainanceScreenState
                 ),
                 const Spacer(),
                 Text(
-                  model.result.systemType,
+                  _systemType(model.result.systemType),
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 15.sp,
@@ -480,7 +508,7 @@ class _RequestDetailsMaintainanceScreenState
                 ),
                 const Spacer(),
                 Text(
-                  "5 ${s.visits}",
+                  "${model.result.numberOfVisits} ${s.visits}",
                   style: const TextStyle(
                     fontWeight: FontWeight.normal,
                   ),
@@ -520,7 +548,7 @@ class _RequestDetailsMaintainanceScreenState
                 ),
                 const Spacer(),
                 Text(
-                  "5 ${s.hours}",
+                  "${model.result.duration} ${s.hours}",
                   style: const TextStyle(
                     fontWeight: FontWeight.normal,
                   ),
@@ -570,17 +598,17 @@ class _RequestDetailsMaintainanceScreenState
           children: [
             _buildQuantitySection(
               title: s.alarmItems,
-              items: _itemsAlarm,
+              items: model.result.alarmItems,
             ),
             const SizedBox(height: 16),
             _buildQuantitySection(
               title: s.extinguishingItems,
-              items: _itemsFire,
+              items: model.result.fireExtinguisherItem,
             ),
             const SizedBox(height: 24),
             _buildQuantitySection(
               title: s.fireExtinguishers,
-              items: _itemsExtinguishers,
+              items: model.result.fireSystemItem,
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -649,7 +677,9 @@ class _RequestDetailsMaintainanceScreenState
         const SizedBox(height: 8),
         ...items.asMap().entries.map(
               (item) => _buildQuantityRow(
-                item.value.itemId.itemName,
+                GetLanguageUseCase(injector())() == 'en'
+                    ? item.value.itemId.itemName.en
+                    : item.value.itemId.itemName.ar,
                 item.value.quantity.toString(),
                 item.key == items.length - 1,
               ),
@@ -678,13 +708,12 @@ class _RequestDetailsMaintainanceScreenState
   }
 
   Widget _buildTermsTab() {
-
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Row(
+          Row(
             children: [
               SvgPicture.asset(
                 ImagePaths.technical,
@@ -707,7 +736,7 @@ class _RequestDetailsMaintainanceScreenState
                 value: _selectedEmployee,
                 onChanged: (value) {
                   setState(() {
-                    _selectedEmployee = value;
+                    _selectedEmployee = value ?? _selectedEmployee;
                   });
                 },
                 items: _employees.map((emp) {
@@ -803,7 +832,7 @@ class _RequestDetailsMaintainanceScreenState
               ),
               const Spacer(),
               Text(
-                "5 ${s.visits}",
+                "${model.result.numberOfVisits} ${s.visits}",
                 style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 16,
@@ -954,6 +983,21 @@ class _RequestDetailsMaintainanceScreenState
             text: S.of(context).send,
             onTap: () {
               debugPrint('Saved Model: $model');
+              _bloc.add(
+                SendPriceOfferEvent(
+                  request: SendPriceRequest(
+                    consumerRequest: model.result.Id,
+                    responsibleEmployee: _selectedEmployee.Id,
+                    price: int.parse(_visitValueController.text) *
+                        model.result.numberOfVisits,
+                    visitPrice: int.parse(_visitValueController.text),
+                    emergencyVisitPrice:
+                        int.parse(_emergencyVisitFeeController.text),
+                    is_Primary: false,
+                    item: [],
+                  ),
+                ),
+              );
             },
           ),
           const SizedBox(height: 32),
@@ -971,19 +1015,13 @@ class _RequestDetailsMaintainanceScreenState
     );
   }
 
-  void _filterItems(List<Items> items) {
-    _itemsAlarm.clear();
-    _itemsFire.clear();
-    _itemsExtinguishers.clear();
-    for (var item in items) {
-      if (SystemType.isAlarmType(item.itemId.type)) {
-        _itemsAlarm.add(item);
-      } else if (SystemType.isFireType(item.itemId.type)) {
-        _itemsFire.add(item);
-      }else if (SystemType.isExtinguisherType(item.itemId.type)) {
-        _itemsExtinguishers.add(item);
-      }
+  String _systemType(String systemType) {
+    if (systemType.toLowerCase() == "zone") {
+      return S.of(context).zone;
+    } else if (systemType.toLowerCase() == "loop") {
+      return S.of(context).loop;
+    } else {
+      return S.of(context).loop;
     }
-    setState(() {});
   }
 }

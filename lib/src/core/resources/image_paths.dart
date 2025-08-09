@@ -136,4 +136,16 @@ class ImagePaths {
   static const String firePng3 = "assets/images/fire_png3.png";
   static const String inovoice = "assets/images/inovoice.png";
   static const String quality = "assets/images/quality.svg";
+
+  static String controlPanel = "assets/images/contol.svg";
+  static String alarmBell = "assets/images/bell.svg";
+  static String lighting = "assets/images/lighting.svg";
+  static String fireHydrant = "assets/images/fire-hydrant.svg";
+  static String breakGlass = "assets/images/break-glass.svg";
+  static String smokeDetector = "assets/images/smoke-detector.svg";
+  static String irrigation = "assets/images/irrigation-system.svg";
+  static String fireBox = "assets/images/fire-box.svg";
+  static String riskManagement = "assets/images/risk-management.svg";
+  static String fireExtinguishers = "assets/images/fire-extinguishers.svg";
+  static String systemError = "assets/images/error.png";
  }

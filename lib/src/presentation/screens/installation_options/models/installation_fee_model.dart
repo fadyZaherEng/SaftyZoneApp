@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 enum SystemType {
   earlyWarning,
   fireSuppression,
@@ -63,7 +65,7 @@ class SystemComponent {
 // New models for API response
 class ItemDetail {
   final String id;
-  final String itemName;
+  final ItemName itemName;
   final String itemCode;
   final String image;
   final String supplierName;
@@ -95,7 +97,7 @@ class ItemDetail {
   factory ItemDetail.fromJson(Map<String, dynamic> json) {
     return ItemDetail(
       id: json['_id'] ?? '',
-      itemName: json['itemName'] ?? '',
+      itemName: ItemName.fromJson(json['itemName']),
       itemCode: json['itemCode'] ?? '',
       image: json['image'] ?? '',
       supplierName: json['supplierName'] ?? '',
@@ -110,6 +112,33 @@ class ItemDetail {
       updatedAt:
       DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
     );
+  }
+}
+
+class ItemName  extends Equatable{
+  final String en;
+  final String ar;
+
+  const ItemName({
+     this.en="",
+     this.ar="",
+  });
+
+  @override
+  List<Object?> get props => [en, ar];
+  //from json
+  factory ItemName.fromJson(Map<String, dynamic> json) {
+    return ItemName(
+      en: json['en'] ?? '',
+      ar: json['ar'] ?? '',
+    );
+  }
+  //to json
+  Map<String, dynamic> toJson() {
+    return {
+      'en': en,
+      'ar': ar,
+    };
   }
 }
 
