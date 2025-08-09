@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ import 'package:safety_zone/src/core/utils/network_connectivity.dart';
 import 'package:safety_zone/src/core/utils/notifications/firebase_notification_services.dart';
 import 'package:safety_zone/src/core/utils/show_no_internet_dialog_widget.dart';
 import 'package:safety_zone/src/di/injector.dart';
-import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/src/domain/usecase/get_firebase_notification_token_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/blocs/fire_extinguishers/fire_extinguishers_bloc.dart';
@@ -27,7 +25,6 @@ import 'package:safety_zone/src/presentation/blocs/term_conditions/term_conditio
 import 'package:safety_zone/src/presentation/blocs/theme/theme_cubit.dart';
 import 'package:safety_zone/src/presentation/blocs/upload_doc/upload_doc_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/working_progress/working_progress_bloc.dart';
-import 'package:safety_zone/src/presentation/screens/maintainance_inprogress/maintainance_inprogress_screen.dart';
 import 'package:safety_zone/src/presentation/screens/splash/splash_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
 import 'package:huawei_hmsavailability/huawei_hmsavailability.dart';
@@ -114,7 +111,7 @@ class _MyAppState extends State<MyApp> {
                       theme: AppTheme(locale.languageCode).light,
                       themeMode: themeState,
                       locale: locale,
-                       builder: (context, child) {
+                      builder: (context, child) {
                         return _buildInitialScreen(context, child);
                       },
                     ),
@@ -186,7 +183,7 @@ Future<void> initFirebaseService() async {
         await _initializeFirebaseServices();
       } else {
         final int resultCode =
-        await HmsApiAvailability().isHMSAvailableWithApkVersion(28);
+            await HmsApiAvailability().isHMSAvailableWithApkVersion(28);
         if (resultCode == 1) {
           await _initializeFirebaseServices();
         } else {
