@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/maintainance_reports.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_add_recieve.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_certificate_insatllation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_first_screen_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_go_to_location.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_main_offer_fire_extinguisher.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_maintainance_item_prices_offer.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_maintainance_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
@@ -14,6 +16,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remot
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_send_price.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/home_api_services.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/add_recieve_request.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/create_maintainance_offer_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/main_offer_fire_extinguisher.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/maintainance_report_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
@@ -351,6 +354,80 @@ class HomeRepositoryImplementations extends HomeRepository {
       final httpResponse = await _homeApiServices.createMaintenanceReport(
         GetTokenUseCase(injector())(),
         maintenanceReport,
+      );
+      if (((httpResponse.response.statusCode ?? 400) == 201) ||
+          (httpResponse.response.statusCode ?? 400) == 200) {
+        return DataSuccess(
+          data: httpResponse.data,
+          message: httpResponse.response.statusMessage ?? "",
+        );
+      }
+
+      return DataFailed(message: httpResponse.response.statusMessage ?? "");
+    } on DioException catch (e) {
+      return DataFailed(
+        error: e,
+        message: S.current.badResponse,
+      );
+    }
+  }
+
+  @override
+  Future<DataState> createMaintenanceOffer({
+    required CreateMaintainanceOfferRequest createMaintainanceOfferRequest,
+  }) async {
+    try {
+      final httpResponse = await _homeApiServices.createMaintenanceOffer(
+        createMaintainanceOfferRequest,
+      );
+      if (((httpResponse.response.statusCode ?? 400) == 201) ||
+          (httpResponse.response.statusCode ?? 400) == 200) {
+        return DataSuccess(
+          data: httpResponse.data,
+          message: httpResponse.response.statusMessage ?? "",
+        );
+      }
+
+      return DataFailed(message: httpResponse.response.statusMessage ?? "");
+    } on DioException catch (e) {
+      return DataFailed(
+        error: e,
+        message: S.current.badResponse,
+      );
+    }
+  }
+
+  @override
+  Future<DataState<List<MaintainanceReports>>> getMaintenanceReports() async {
+    try {
+      final httpResponse = await _homeApiServices.maintenanceReports(
+        GetTokenUseCase(injector())(),
+      );
+      if (((httpResponse.response.statusCode ?? 400) == 201) ||
+          (httpResponse.response.statusCode ?? 400) == 200) {
+        return DataSuccess(
+          data: httpResponse.data,
+          message: httpResponse.response.statusMessage ?? "",
+        );
+      }
+
+      return DataFailed(message: httpResponse.response.statusMessage ?? "");
+    } on DioException catch (e) {
+      return DataFailed(
+        error: e,
+        message: S.current.badResponse,
+      );
+    }
+  }
+
+  @override
+  Future<DataState<RemoteMaintainanceItemPricesOffer>> maintenanceReportItems({
+    required String id,
+  }) async {
+    try {
+      final httpResponse = await _homeApiServices.maintenanceReportItems(
+        id,
+        GetTokenUseCase(injector())(),
       );
       if (((httpResponse.response.statusCode ?? 400) == 201) ||
           (httpResponse.response.statusCode ?? 400) == 200) {

@@ -96,3 +96,51 @@ final class MaintainanceReportErrorState extends FireExtinguishersState {
 
   MaintainanceReportErrorState({required this.message});
 }
+
+final class CreateMaintainanceReportLoadingState
+    extends FireExtinguishersState {}
+
+final class CreateMaintainanceReportSuccessState
+    extends FireExtinguishersState {
+  final String message;
+
+  CreateMaintainanceReportSuccessState({required this.message});
+}
+
+final class CreateMaintainanceReportErrorState extends FireExtinguishersState {
+  final String message;
+
+  CreateMaintainanceReportErrorState({required this.message});
+}
+
+final class MaintainanceRequestOfferLoadingState
+    extends FireExtinguishersState {}
+
+final class MaintainanceRequestOfferSuccessState
+    extends FireExtinguishersState {
+  final RemoteMaintainanceItemPricesOffer remoteMaintainanceItemPricesOffer;
+
+  MaintainanceRequestOfferSuccessState({
+    required this.remoteMaintainanceItemPricesOffer,
+  });
+}
+
+final class MaintainanceRequestOfferErrorState extends FireExtinguishersState {
+  final String message;
+
+  MaintainanceRequestOfferErrorState({required this.message});
+}
+
+final class MaintainanceReportsLoadingState extends FireExtinguishersState {}
+
+final class MaintainanceReportsSuccessState extends FireExtinguishersState {
+  final List<MaintainanceReports> maintainanceReports;
+
+  MaintainanceReportsSuccessState({required this.maintainanceReports});
+}
+
+final class MaintainanceReportsErrorState extends FireExtinguishersState {
+  final String message;
+
+  MaintainanceReportsErrorState({required this.message});
+}

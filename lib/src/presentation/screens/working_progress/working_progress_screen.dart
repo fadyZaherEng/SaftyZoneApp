@@ -939,23 +939,23 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
               ),
             ),
 
-            const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              height: 36.h,
-              child: CustomButtonWidget(
-                backgroundColor: ColorSchemes.white,
-                borderColor: ColorSchemes.primary,
-                text: S.of(context).submitQuotation,
-                textColor: ColorSchemes.primary,
-                textStyle: TextStyle(
-                  color: ColorSchemes.primary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16.sp,
-                ),
-                onTap: () {},
-              ),
-            ),
+            // const SizedBox(height: 8),
+            // SizedBox(
+            //   width: double.infinity,
+            //   height: 36.h,
+            //   child: CustomButtonWidget(
+            //     backgroundColor: ColorSchemes.white,
+            //     borderColor: ColorSchemes.primary,
+            //     text: S.of(context).submitQuotation,
+            //     textColor: ColorSchemes.primary,
+            //     textStyle: TextStyle(
+            //       color: ColorSchemes.primary,
+            //       fontWeight: FontWeight.w600,
+            //       fontSize: 16.sp,
+            //     ),
+            //     onTap: () {},
+            //   ),
+            // ),
             const SizedBox(height: 8),
           ],
         ),

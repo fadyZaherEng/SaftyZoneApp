@@ -1,71 +1,74 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'remote_maintainance_request.dart';
+part of 'maintainance_reports.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RemoteMaintainanceReport _$RemoteMaintainanceReportFromJson(
-        Map<String, dynamic> json) =>
-    RemoteMaintainanceReport(
-      scheduleJob: json['scheduleJob'] as String?,
-      consumerRequest: json['consumerRequest'] as String?,
+MaintainanceReports _$MaintainanceReportsFromJson(Map<String, dynamic> json) =>
+    MaintainanceReports(
+      Id: json['_id'] as String?,
+      provider: json['provider'] as String?,
       consumer: json['consumer'] as String?,
+      consumerRequest: json['consumerRequest'] as String?,
       branch: json['branch'] as String?,
       offer: json['offer'] as String?,
+      responsibleEmployee: json['responsibleEmployee'] as String?,
+      scheduleJob: json['scheduleJob'] as String?,
       alarmItem: (json['alarmItem'] as List<dynamic>?)
           ?.map((e) => AlarmItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       fireSystemItem: (json['fireSystemItem'] as List<dynamic>?)
           ?.map((e) => FireSystemItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      maintenanceOfferStatus: json['maintenanceOfferStatus'] as String?,
       safetyStatus: json['safetyStatus'] as String?,
       details: json['details'] as String?,
       description: json['description'] as String?,
-      provider: json['provider'] as String?,
-      responsibleEmployee: json['responsibleEmployee'] as String?,
+      maintenanceOfferStatus: json['maintenanceOfferStatus'] as String?,
+      MaintenanceOffer: json['MaintenanceOffer'],
       visitDate: (json['visitDate'] as num?)?.toInt(),
       createdAt: (json['createdAt'] as num?)?.toInt(),
-      id: json['_id'] as String?,
-      v: (json['__v'] as num?)?.toInt(),
-      MaintenanceOffer: json['MaintenanceOffer'] as String?,
+      V: (json['__v'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$RemoteMaintainanceReportToJson(
-        RemoteMaintainanceReport instance) =>
+Map<String, dynamic> _$MaintainanceReportsToJson(
+        MaintainanceReports instance) =>
     <String, dynamic>{
-      'scheduleJob': instance.scheduleJob,
-      'consumerRequest': instance.consumerRequest,
+      '_id': instance.Id,
+      'provider': instance.provider,
       'consumer': instance.consumer,
+      'consumerRequest': instance.consumerRequest,
       'branch': instance.branch,
       'offer': instance.offer,
+      'responsibleEmployee': instance.responsibleEmployee,
+      'scheduleJob': instance.scheduleJob,
       'alarmItem': instance.alarmItem,
       'fireSystemItem': instance.fireSystemItem,
-      'maintenanceOfferStatus': instance.maintenanceOfferStatus,
       'safetyStatus': instance.safetyStatus,
       'details': instance.details,
       'description': instance.description,
-      'provider': instance.provider,
-      'responsibleEmployee': instance.responsibleEmployee,
+      'maintenanceOfferStatus': instance.maintenanceOfferStatus,
       'MaintenanceOffer': instance.MaintenanceOffer,
       'visitDate': instance.visitDate,
       'createdAt': instance.createdAt,
-      '_id': instance.id,
-      '__v': instance.v,
+      '__v': instance.V,
     };
 
 AlarmItem _$AlarmItemFromJson(Map<String, dynamic> json) => AlarmItem(
       item: json['item'] as String?,
       quantity: (json['quantity'] as num?)?.toInt(),
       malfunctionsNumber: (json['malfunctionsNumber'] as num?)?.toInt(),
+      Id: json['_id'] as String?,
+      status: json['status'] as bool?,
     );
 
 Map<String, dynamic> _$AlarmItemToJson(AlarmItem instance) => <String, dynamic>{
       'item': instance.item,
       'quantity': instance.quantity,
       'malfunctionsNumber': instance.malfunctionsNumber,
+      '_id': instance.Id,
+      'status': instance.status,
     };
 
 FireSystemItem _$FireSystemItemFromJson(Map<String, dynamic> json) =>
@@ -73,6 +76,8 @@ FireSystemItem _$FireSystemItemFromJson(Map<String, dynamic> json) =>
       item: json['item'] as String?,
       quantity: (json['quantity'] as num?)?.toInt(),
       malfunctionsNumber: (json['malfunctionsNumber'] as num?)?.toInt(),
+      Id: json['_id'] as String?,
+      status: json['status'] as bool?,
     );
 
 Map<String, dynamic> _$FireSystemItemToJson(FireSystemItem instance) =>
@@ -80,4 +85,6 @@ Map<String, dynamic> _$FireSystemItemToJson(FireSystemItem instance) =>
       'item': instance.item,
       'quantity': instance.quantity,
       'malfunctionsNumber': instance.malfunctionsNumber,
+      '_id': instance.Id,
+      'status': instance.status,
     };

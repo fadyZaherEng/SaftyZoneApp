@@ -140,15 +140,17 @@ class ContractCard extends StatelessWidget {
                     text: S.of(context).sendPriceOffer,
                     backgroundColor: ColorSchemes.primary,
                     textColor: Colors.white,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RepairEstimateScreen(
-                          repairComplete: true,
-                          changeQuantity: {},
-                        ),
-                      ),
-                    ),
+                    onTap: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const RepairEstimateScreen(
+                      //       repairComplete: true,
+                      //       changeQuantity: {},
+                      //     ),
+                      //   ),
+                      // );
+                    },
                   ),
                 ),
                 SizedBox(width: 24),

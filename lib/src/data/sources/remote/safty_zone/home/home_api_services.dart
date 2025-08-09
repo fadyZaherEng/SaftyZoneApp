@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/maintainance_reports.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_add_recieve.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_certificate_insatllation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_first_screen_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_go_to_location.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_main_offer_fire_extinguisher.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_maintainance_item_prices_offer.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_maintainance_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
@@ -14,6 +16,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remot
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_send_price.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_update_status_deliver.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/add_recieve_request.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/create_maintainance_offer_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/main_offer_fire_extinguisher.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/maintainance_report_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
@@ -104,4 +107,20 @@ abstract class HomeApiServices {
     @Header("Authorization") String token,
     @Body() MaintainanceReportRequest maintenanceReport,
   );
+
+  @GET(APIKeys.maintenanceReports)
+  Future<HttpResponse<List<MaintainanceReports>>> maintenanceReports(
+    @Header("Authorization") String token,
+  );
+
+  @GET(APIKeys.createMaintenanceOffer)
+  Future<HttpResponse> createMaintenanceOffer(
+     @Body() CreateMaintainanceOfferRequest createMaintainanceOfferRequest,
+  );
+
+  @GET(APIKeys.maintenanceReportItems)
+  Future<HttpResponse<RemoteMaintainanceItemPricesOffer>> maintenanceReportItems(
+      @Path("id") String id,
+      @Header("Authorization") String token,
+      );
 }

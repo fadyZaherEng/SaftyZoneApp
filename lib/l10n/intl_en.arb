@@ -535,6 +535,7 @@
   "tax": "Tax",
   "total": "Total",
   "quantity_exceed": "The quantity entered is greater than the quantity available",
-  "quantity_less": "The quantity entered is less than the quantity available"
+  "quantity_less": "The quantity entered is less than the quantity available",
+  "costRepair": "Repair Cost"
 }
 

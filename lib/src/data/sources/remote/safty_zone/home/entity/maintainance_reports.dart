@@ -1,57 +1,55 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'remote_maintainance_request.g.dart';
+part 'maintainance_reports.g.dart';
+
 @JsonSerializable()
-class RemoteMaintainanceReport {
-  final String? scheduleJob;
-  final String? consumerRequest;
+class MaintainanceReports {
+  @JsonKey(name: '_id')
+  final String? Id;
+  final String? provider;
   final String? consumer;
+  final String? consumerRequest;
   final String? branch;
   final String? offer;
+  final String? responsibleEmployee;
+  final String? scheduleJob;
   final List<AlarmItem>? alarmItem;
   final List<FireSystemItem>? fireSystemItem;
-  final String? maintenanceOfferStatus;
   final String? safetyStatus;
   final String? details;
   final String? description;
-  final String? provider;
-  final String? responsibleEmployee;
-  final String? MaintenanceOffer;
-  @JsonKey(name: 'visitDate')
+  final String? maintenanceOfferStatus;
+  final dynamic MaintenanceOffer;
   final int? visitDate;
-  @JsonKey(name: 'createdAt')
   final int? createdAt;
-  @JsonKey(name: '_id')
-  final String? id;
   @JsonKey(name: '__v')
-  final int? v;
+  final int? V;
 
-
-  const RemoteMaintainanceReport({
-    this.scheduleJob,
-    this.consumerRequest,
+  const MaintainanceReports({
+    this.Id,
+    this.provider,
     this.consumer,
+    this.consumerRequest,
     this.branch,
     this.offer,
+    this.responsibleEmployee,
+    this.scheduleJob,
     this.alarmItem,
     this.fireSystemItem,
-    this.maintenanceOfferStatus,
     this.safetyStatus,
     this.details,
     this.description,
-    this.provider,
-    this.responsibleEmployee,
+    this.maintenanceOfferStatus,
+    this.MaintenanceOffer,
     this.visitDate,
     this.createdAt,
-    this.id,
-    this.v,
-    this.MaintenanceOffer,
+    this.V,
   });
 
-  factory RemoteMaintainanceReport.fromJson(Map<String, dynamic> json) =>
-      _$RemoteMaintainanceReportFromJson(json);
+  factory MaintainanceReports.fromJson(Map<String, dynamic> json) =>
+      _$MaintainanceReportsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RemoteMaintainanceReportToJson(this);
+  Map<String, dynamic> toJson() => _$MaintainanceReportsToJson(this);
 }
 
 @JsonSerializable()
@@ -59,11 +57,16 @@ class AlarmItem {
   final String? item;
   final int? quantity;
   final int? malfunctionsNumber;
+  @JsonKey(name: '_id')
+  final String? Id;
+  final bool? status;
 
   const AlarmItem({
     this.item,
     this.quantity,
     this.malfunctionsNumber,
+    this.Id,
+    this.status,
   });
 
   factory AlarmItem.fromJson(Map<String, dynamic> json) =>
@@ -77,11 +80,16 @@ class FireSystemItem {
   final String? item;
   final int? quantity;
   final int? malfunctionsNumber;
+  @JsonKey(name: '_id')
+  final String? Id;
+  final bool? status;
 
   const FireSystemItem({
     this.item,
     this.quantity,
     this.malfunctionsNumber,
+    this.Id,
+    this.status,
   });
 
   factory FireSystemItem.fromJson(Map<String, dynamic> json) =>

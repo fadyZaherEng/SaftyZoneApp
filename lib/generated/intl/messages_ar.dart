@@ -148,6 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تكاليف نظام معنون"),
         "costOfNormalSystem":
             MessageLookupByLibrary.simpleMessage("تكاليف نظام عادي"),
+        "costRepair": MessageLookupByLibrary.simpleMessage("تكلفة التصليح"),
         "crDocumentRequired":
             MessageLookupByLibrary.simpleMessage("وثيقة السجل التجاري مطلوبة"),
         "crExpiryDateLabel":

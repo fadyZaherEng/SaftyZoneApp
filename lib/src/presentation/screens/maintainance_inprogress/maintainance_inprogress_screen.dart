@@ -291,6 +291,11 @@ class _MaintainanceInProgressScreenState
                         builder: (_) => RepairEstimateScreen(
                           repairComplete: true,
                           changeQuantity: {},
+                          consumerRequest: "",
+                          maintenanceOffer: "",
+                          scheduleJob: "",
+                          responsibleEmployee: "",
+                          maintainanceReportId: "",
                         ),
                       ),
                     );
@@ -312,6 +317,8 @@ class _MaintainanceInProgressScreenState
                           consumerRequest: widget.scheduleJop.consumerRequest,
                           offer: widget.scheduleJop.offer,
                           scheduleJob: widget.scheduleJop.Id,
+                          responsibleEmployee:
+                              widget.scheduleJop.responseEmployee.Id,
                         ),
                       ),
                     );
@@ -518,6 +525,7 @@ class SystemReportsPage extends StatefulWidget {
   final String consumer;
   final String branch;
   final String offer;
+  final String responsibleEmployee;
 
   const SystemReportsPage({
     super.key,
@@ -530,6 +538,7 @@ class SystemReportsPage extends StatefulWidget {
     required this.consumer,
     required this.branch,
     required this.offer,
+    required this.responsibleEmployee,
   });
 
   @override
@@ -637,6 +646,7 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
                     consumer: widget.consumer,
                     branch: widget.branch,
                     offer: widget.offer,
+                    responsibleEmployee: widget.responsibleEmployee,
                   ),
                 ),
               );
@@ -779,6 +789,7 @@ class MaintenanceReportScreen extends BaseStatefulWidget {
   final String consumer;
   final String branch;
   final String offer;
+  final String responsibleEmployee;
 
   const MaintenanceReportScreen({
     super.key,
@@ -791,6 +802,7 @@ class MaintenanceReportScreen extends BaseStatefulWidget {
     required this.consumer,
     required this.branch,
     required this.offer,
+    required this.responsibleEmployee,
   });
 
   @override
@@ -871,6 +883,14 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
             MaterialPageRoute(
               builder: (_) => SystemErrorScreen(
                 changeQuantity: widget.changeQuantity,
+                consumerRequest:
+                    state.remoteMaintainanceReport.consumerRequest ?? "",
+                maintenanceOffer:
+                    state.remoteMaintainanceReport.MaintenanceOffer ?? "",
+                scheduleJob: state.remoteMaintainanceReport.scheduleJob ?? "",
+                responsibleEmployee:
+                    state.remoteMaintainanceReport.responsibleEmployee ?? "",
+                maintainanceReportId: state.remoteMaintainanceReport.id ?? "",
               ),
             ),
           );
@@ -1176,7 +1196,6 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
   }) {
     return Expanded(
       child: Container(
-        // padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.shade300, width: 0),
           borderRadius: BorderRadius.circular(8),
@@ -1216,10 +1235,20 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
 
 class SystemErrorScreen extends StatefulWidget {
   final Map<String, double> changeQuantity;
+  final String maintenanceOffer;
+  final String scheduleJob;
+  final String consumerRequest;
+  final String responsibleEmployee;
+  final String maintainanceReportId;
 
   const SystemErrorScreen({
     super.key,
     required this.changeQuantity,
+    required this.maintenanceOffer,
+    required this.scheduleJob,
+    required this.consumerRequest,
+    required this.responsibleEmployee,
+    required this.maintainanceReportId,
   });
 
   @override
@@ -1288,6 +1317,11 @@ class _SystemErrorScreenState extends State<SystemErrorScreen> {
                       builder: (_) => RepairEstimateScreen(
                         repairComplete: false,
                         changeQuantity: widget.changeQuantity,
+                        maintenanceOffer: widget.maintenanceOffer,
+                        scheduleJob: widget.scheduleJob,
+                        consumerRequest: widget.consumerRequest,
+                        responsibleEmployee: widget.responsibleEmployee,
+                        maintainanceReportId: widget.maintainanceReportId,
                       ),
                     ),
                   );

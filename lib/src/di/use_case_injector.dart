@@ -20,11 +20,14 @@ import 'package:safety_zone/src/domain/usecase/get_user_verification_data_use_ca
 import 'package:safety_zone/src/domain/usecase/getauthenticate_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/add_reciever_river_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/certificate_installation_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/create_mainatinace_offer_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/first_screen_shedule_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_details_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/main_offer_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/mainatinace_reports_offers_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/mainatinace_reports_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/maintainance_report_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/schedule_all_jop_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/schedule_jop_use_case.dart';
@@ -116,4 +119,7 @@ Future<void> initializeUseCaseDependencies() async {
   injector.registerFactory<FirstScreenScheduleUseCase>(() => FirstScreenScheduleUseCase(injector()));
   injector.registerFactory<MainOfferUseCase>(() => MainOfferUseCase(injector()));
   injector.registerFactory<MaintainanceReportUseCase>(() => MaintainanceReportUseCase(injector()));
+  injector.registerFactory<CreateMaintainanceOfferUseCase>(() => CreateMaintainanceOfferUseCase(injector()));
+  injector.registerFactory<MaintainanceRequestOfferUseCase>(() => MaintainanceRequestOfferUseCase(injector()));
+  injector.registerFactory<MaintainanceReportsUseCase>(() => MaintainanceReportsUseCase(injector()));
 }
