@@ -13,14 +13,15 @@ CreateMaintainanceOfferRequest _$CreateMaintainanceOfferRequestFromJson(
       scheduleJob: json['scheduleJob'] as String? ?? '',
       consumerRequest: json['consumerRequest'] as String? ?? '',
       responsibleEmployee: json['responsibleEmployee'] as String? ?? '',
-      item:
-          (json['item'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              const [],
-      price: json['price'] as String? ?? '',
+      item: (json['item'] as List<dynamic>?)
+              ?.map((e) => ItemOffer.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      price: (json['price'] as num?)?.toInt() ?? 0,
       billURL: json['billURL'] as String? ?? '',
-      offerNumber: json['offerNumber'] as String? ?? '',
-      itemSupplyPrice: json['itemSupplyPrice'] as String? ?? '',
-      installationPrice: json['installationPrice'] as String? ?? '',
+      offerNumber: (json['offerNumber'] as num?)?.toInt() ?? 1,
+      itemSupplyPrice: (json['itemSupplyPrice'] as num?)?.toInt() ?? 0,
+      installationPrice: (json['installationPrice'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$CreateMaintainanceOfferRequestToJson(
@@ -36,4 +37,16 @@ Map<String, dynamic> _$CreateMaintainanceOfferRequestToJson(
       'offerNumber': instance.offerNumber,
       'itemSupplyPrice': instance.itemSupplyPrice,
       'installationPrice': instance.installationPrice,
+    };
+
+ItemOffer _$ItemOfferFromJson(Map<String, dynamic> json) => ItemOffer(
+      ItemId: json['ItemId'] as String? ?? '',
+      price: (json['price'] as num?)?.toInt() ?? 0,
+      quantity: (json['quantity'] as num?)?.toInt() ?? 0,
+    );
+
+Map<String, dynamic> _$ItemOfferToJson(ItemOffer instance) => <String, dynamic>{
+      'ItemId': instance.ItemId,
+      'price': instance.price,
+      'quantity': instance.quantity,
     };

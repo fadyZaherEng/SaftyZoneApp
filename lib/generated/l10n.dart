@@ -5443,6 +5443,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Total Cost After Report:`
+  String get totalCostAfterReport {
+    return Intl.message(
+      'Total Cost After Report:',
+      name: 'totalCostAfterReport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Supply Cost`
+  String get supplyCost {
+    return Intl.message(
+      'Supply Cost',
+      name: 'supplyCost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Additional Cost`
+  String get additionalCost {
+    return Intl.message(
+      'Additional Cost',
+      name: 'additionalCost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SAR`
+  String get currency {
+    return Intl.message(
+      'SAR',
+      name: 'currency',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

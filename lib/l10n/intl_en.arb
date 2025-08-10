@@ -536,6 +536,13 @@
   "total": "Total",
   "quantity_exceed": "The quantity entered is greater than the quantity available",
   "quantity_less": "The quantity entered is less than the quantity available",
-  "costRepair": "Repair Cost"
+  "costRepair": "Repair Cost",
+  "totalCostAfterReport": "Total Cost After Report:",
+  "supplyCost": "Supply Cost",
+  "repairCost": "Repair Cost",
+  "additionalCost": "Additional Cost",
+  "tax": "Tax",
+  "total": "Total",
+  "currency": "SAR"
 }
 

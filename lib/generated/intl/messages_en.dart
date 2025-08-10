@@ -35,6 +35,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addOtherTerm": MessageLookupByLibrary.simpleMessage("Add other term"),
         "add_notes": MessageLookupByLibrary.simpleMessage(
             "Add any technical notes or site condition"),
+        "additionalCost":
+            MessageLookupByLibrary.simpleMessage("Additional Cost"),
         "addressedInstallationFee":
             MessageLookupByLibrary.simpleMessage("Addressed installation fee"),
         "alarmBell": MessageLookupByLibrary.simpleMessage("Alarm Bell"),
@@ -170,6 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
         "createEmployeeProfile":
             MessageLookupByLibrary.simpleMessage("Create Employee Profile"),
+        "currency": MessageLookupByLibrary.simpleMessage("SAR"),
         "currentBalance":
             MessageLookupByLibrary.simpleMessage("Pending Amount"),
         "current_wallet_amount":
@@ -752,6 +755,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "submit_report": MessageLookupByLibrary.simpleMessage("Submit Report"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
         "sunday": MessageLookupByLibrary.simpleMessage("Sunday"),
+        "supplyCost": MessageLookupByLibrary.simpleMessage("Supply Cost"),
         "systemAdministrator":
             MessageLookupByLibrary.simpleMessage("System Administrator"),
         "systemManager": MessageLookupByLibrary.simpleMessage("System Manager"),
@@ -807,6 +811,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "todayTasks":
             MessageLookupByLibrary.simpleMessage("Today’s Scheduled Tasks"),
         "total": MessageLookupByLibrary.simpleMessage("Total"),
+        "totalCostAfterReport":
+            MessageLookupByLibrary.simpleMessage("Total Cost After Report:"),
         "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price"),
         "total_after_report": MessageLookupByLibrary.simpleMessage(
             "Total Costs After the Report:"),

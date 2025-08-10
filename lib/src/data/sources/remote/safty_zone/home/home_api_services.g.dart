@@ -485,7 +485,7 @@ class _HomeApiServices implements HomeApiServices {
     _data.addAll(createMaintainanceOfferRequest.toJson());
     final _result =
         await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
-      method: 'GET',
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )

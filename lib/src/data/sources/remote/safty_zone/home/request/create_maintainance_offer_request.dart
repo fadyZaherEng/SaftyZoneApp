@@ -8,42 +8,43 @@ class CreateMaintainanceOfferRequest {
   final String? scheduleJob;
   final String? consumerRequest;
   final String? responsibleEmployee;
-  final List<String>? item;
-  final String? price;
+  final List<ItemOffer>? item;
+  final int? price;
   final String? billURL;
-  final String? offerNumber;
-  final String? itemSupplyPrice;
-  final String? installationPrice;
+  final int? offerNumber;
+  final int? itemSupplyPrice;
+  final int? installationPrice;
 
   const CreateMaintainanceOfferRequest({
-    this.maintenanceOffer='',
-    this.scheduleJob='',
-    this.consumerRequest='',
-    this.responsibleEmployee='',
-    this.item=const [],
-    this.price='',
-    this.billURL='',
-    this.offerNumber='',
-    this.itemSupplyPrice='',
-    this.installationPrice='',
+    this.maintenanceOffer = '',
+    this.scheduleJob = '',
+    this.consumerRequest = '',
+    this.responsibleEmployee = '',
+    this.item = const [],
+    this.price = 0,
+    this.billURL = '',
+    this.offerNumber = 1,
+    this.itemSupplyPrice = 0,
+    this.installationPrice = 0,
   });
 
   factory CreateMaintainanceOfferRequest.fromJson(Map<String, dynamic> json) =>
       _$CreateMaintainanceOfferRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$CreateMaintainanceOfferRequestToJson(this);
+
   //copyWith
   CreateMaintainanceOfferRequest copyWith({
     String? maintenanceOffer,
     String? scheduleJob,
     String? consumerRequest,
     String? responsibleEmployee,
-    List<String>? item,
-    String? price,
+    List<ItemOffer>? item,
+    int? price,
     String? billURL,
-    String? offerNumber,
-    String? itemSupplyPrice,
-    String? installationPrice,
+    int? offerNumber,
+    int? itemSupplyPrice,
+    int? installationPrice,
   }) {
     return CreateMaintainanceOfferRequest(
       maintenanceOffer: maintenanceOffer ?? this.maintenanceOffer,
@@ -59,3 +60,21 @@ class CreateMaintainanceOfferRequest {
     );
   }
 }
+
+@JsonSerializable()
+class ItemOffer {
+  final String? ItemId;
+  final int? price;
+  final int? quantity;
+
+  const ItemOffer({
+    this.ItemId = '',
+    this.price = 0,
+    this.quantity = 0,
+  });
+
+  factory ItemOffer.fromJson(Map<String, dynamic> json) => _$ItemOfferFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ItemOfferToJson(this);
+}
+

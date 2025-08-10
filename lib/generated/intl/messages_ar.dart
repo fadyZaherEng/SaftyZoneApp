@@ -35,6 +35,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addOtherTerm": MessageLookupByLibrary.simpleMessage("إضافة بند آخر"),
         "add_notes": MessageLookupByLibrary.simpleMessage(
             "أضف أي ملاحظات فنية بخصوص الصيانة أو حالة الموقع"),
+        "additionalCost":
+            MessageLookupByLibrary.simpleMessage("التكلفة الإجمالية"),
         "addressedInstallationFee":
             MessageLookupByLibrary.simpleMessage("تكاليف التثبيت المعرفة"),
         "alarmBell": MessageLookupByLibrary.simpleMessage("صوت التنبيه"),
@@ -166,6 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "createEmployeeProfile":
             MessageLookupByLibrary.simpleMessage("أنشئ ملف الموظف"),
+        "currency": MessageLookupByLibrary.simpleMessage("ر.س"),
         "currentBalance": MessageLookupByLibrary.simpleMessage("مبلغ معلق"),
         "current_wallet_amount":
             MessageLookupByLibrary.simpleMessage("مبلغ المحفظة الحالي"),
@@ -591,7 +594,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "rememberMe": MessageLookupByLibrary.simpleMessage("تذكرني"),
         "rememberme": MessageLookupByLibrary.simpleMessage("تذكرني"),
         "renewContract": MessageLookupByLibrary.simpleMessage("تجديد العقد"),
-        "repairCost": MessageLookupByLibrary.simpleMessage("تكلفة الاصلاح"),
+        "repairCost":
+            MessageLookupByLibrary.simpleMessage("إجمالي تكاليف الإصلاح"),
         "repair_cost":
             MessageLookupByLibrary.simpleMessage("إجمالي تكاليف الإصلاح"),
         "repair_description": MessageLookupByLibrary.simpleMessage(
@@ -724,6 +728,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الموافقة على التقرير"),
         "success": MessageLookupByLibrary.simpleMessage("تم بنجاح"),
         "sunday": MessageLookupByLibrary.simpleMessage("الاحد"),
+        "supplyCost":
+            MessageLookupByLibrary.simpleMessage("إجمالي تكاليف توريد الموارد"),
         "systemAdministrator":
             MessageLookupByLibrary.simpleMessage("مدير النظام"),
         "systemManager": MessageLookupByLibrary.simpleMessage("مدير النظام"),
@@ -779,6 +785,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "todayTasks":
             MessageLookupByLibrary.simpleMessage("المهام المجدولة اليوم"),
         "total": MessageLookupByLibrary.simpleMessage("المجموع"),
+        "totalCostAfterReport": MessageLookupByLibrary.simpleMessage(
+            "إجمالي التكاليف بعد التقرير:"),
         "totalPrice": MessageLookupByLibrary.simpleMessage("السعر الكلي"),
         "total_after_report": MessageLookupByLibrary.simpleMessage(
             "إجمالي التكاليف بعد التقرير:"),

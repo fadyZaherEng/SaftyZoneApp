@@ -113,7 +113,7 @@ abstract class HomeApiServices {
     @Header("Authorization") String token,
   );
 
-  @GET(APIKeys.createMaintenanceOffer)
+  @POST(APIKeys.createMaintenanceOffer)
   Future<HttpResponse> createMaintenanceOffer(
      @Body() CreateMaintainanceOfferRequest createMaintainanceOfferRequest,
   );

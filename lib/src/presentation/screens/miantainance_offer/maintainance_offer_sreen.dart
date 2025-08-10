@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -147,102 +149,119 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
         }
       },
       builder: (context, state) {
-        if (state is! MaintainanceRequestOfferLoadingState &&
-            (_maintainanceItemPricesOffer.result?.isEmpty ?? [].isEmpty)) {
-          return CustomEmptyListWidget(
-            imagePath: ImagePaths.emptyProject,
-            text: S.of(context).noRequestsFound,
-            onRefresh: () {
-              _bloc.add(MaintainanceRequestOfferEvent(
-                maintainanceReportId: widget.maintainanceReportId,
-              ));
-            },
-          );
-        }
+        final hasFirstPageItems = controlPanellist.isNotEmpty ||
+            fireDetectorList.isNotEmpty ||
+            alarmBellList.isNotEmpty ||
+            glassBreakerList.isNotEmpty;
+
+        final hasSecondPageItems = emergencyLightList.isNotEmpty ||
+            firePumpList.isNotEmpty ||
+            autoSprinklerList.isNotEmpty ||
+            fireBoxList.isNotEmpty;
+        // Calculate values once
+        final double supplyCost =
+            double.tryParse(widget.itemSupplyPrice) ?? 0.0;
+        final double repairCost = double.tryParse(
+                _maintainanceItemPricesOffer.totalPrice.toString()) ??
+            0.0;
+
+        // Tax is only on repair cost
+        final double tax = 0.15 * repairCost + supplyCost;
+
+        // Additional cost is repair + supply
+        final double additionalCost = repairCost + supplyCost;
+
+        // Total is repair + supply + tax
+        final double total = repairCost + supplyCost + tax;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: ColorSchemes.primary,
             title: Text(S.of(context).report_title),
             centerTitle: true,
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
-                  buildPageIndicator(),
-                  const SizedBox(height: 16),
-                  buildFirstPage(),
-                  if (controlPanellist.isNotEmpty ||
-                      fireDetectorList.isNotEmpty ||
-                      alarmBellList.isNotEmpty ||
-                      glassBreakerList.isNotEmpty)
-                    const SizedBox(height: 32),
-                  if ((controlPanellist.isNotEmpty ||
-                          fireDetectorList.isNotEmpty ||
-                          alarmBellList.isNotEmpty ||
-                          glassBreakerList.isNotEmpty) &&
-                      _isFirst)
-                    CustomButtonWidget(
-                      text: (emergencyLightList.isEmpty &&
-                              firePumpList.isEmpty &&
-                              autoSprinklerList.isEmpty &&
-                              fireBoxList.isEmpty)
-                          ? S.of(context).confirm
-                          : S.of(context).next,
-                      onTap: () {
-                        (emergencyLightList.isEmpty &&
-                                firePumpList.isEmpty &&
-                                autoSprinklerList.isEmpty &&
-                                fireBoxList.isEmpty)
-                            ? setState(() {
-                                //Todo create offer
-                                _createOffer();
-                              })
-                            : setState(() {
-                                _isSecond = true;
-                                _isFirst = false;
-                              });
-                      },
-                      backgroundColor: ColorSchemes.primary,
-                      textColor: ColorSchemes.white,
+          body: (state is! MaintainanceRequestOfferLoadingState &&
+                  (_maintainanceItemPricesOffer.result?.isEmpty ?? [].isEmpty))
+              ? CustomEmptyListWidget(
+                  imagePath: ImagePaths.emptyProject,
+                  text: S.of(context).noRequestsFound,
+                  onRefresh: () {
+                    _bloc.add(MaintainanceRequestOfferEvent(
+                      maintainanceReportId: widget.maintainanceReportId,
+                    ));
+                  },
+                )
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 16),
+                        if (hasSecondPageItems) buildPageIndicator(),
+                        const SizedBox(height: 16),
+
+                        // الصفحة الأولى
+                        buildFirstPage(),
+
+                        if (hasFirstPageItems) const SizedBox(height: 32),
+                        if (hasFirstPageItems && _isFirst)
+                          Column(
+                            children: [
+                              if (!hasSecondPageItems)
+                                const SizedBox(height: 32),
+                              if (!hasSecondPageItems)
+                                TotalCostSection(
+                                  tax: tax,
+                                  supplyCost: supplyCost,
+                                  repairCost: repairCost,
+                                  additionalCost: additionalCost,
+                                  total: total,
+                                ),
+                              if (!hasSecondPageItems)
+                                const SizedBox(height: 32),
+                              CustomButtonWidget(
+                                text: hasSecondPageItems
+                                    ? S.of(context).next
+                                    : S.of(context).confirm,
+                                onTap: () {
+                                  if (!hasSecondPageItems) {
+                                    _createOffer();
+                                  } else {
+                                    setState(() {
+                                      _isSecond = true;
+                                      _isFirst = false;
+                                    });
+                                  }
+                                },
+                                backgroundColor: ColorSchemes.primary,
+                                textColor: ColorSchemes.white,
+                              ),
+                            ],
+                          ),
+
+                        // الصفحة الثانية
+                        if (!hasFirstPageItems || _isSecond) ...[
+                          buildSecondPage(),
+                          const SizedBox(height: 32),
+                          TotalCostSection(
+                            tax: tax,
+                            supplyCost: supplyCost,
+                            repairCost: repairCost,
+                            additionalCost: additionalCost,
+                            total: total,
+                          ),
+                          const SizedBox(height: 32),
+                          if (hasSecondPageItems)
+                            CustomButtonWidget(
+                              text: S.of(context).confirm,
+                              onTap: _createOffer,
+                              backgroundColor: ColorSchemes.primary,
+                              textColor: ColorSchemes.white,
+                            ),
+                        ],
+                      ],
                     ),
-                  if ((controlPanellist.isEmpty &&
-                          fireDetectorList.isEmpty &&
-                          alarmBellList.isEmpty &&
-                          glassBreakerList.isEmpty) ||
-                      _isSecond)
-                    buildSecondPage(),
-                  if ((controlPanellist.isEmpty &&
-                          fireDetectorList.isEmpty &&
-                          alarmBellList.isEmpty &&
-                          glassBreakerList.isEmpty) ||
-                      _isSecond)
-                    const SizedBox(height: 32),
-                  if (emergencyLightList.isNotEmpty ||
-                      firePumpList.isNotEmpty ||
-                      autoSprinklerList.isNotEmpty ||
-                      fireBoxList.isNotEmpty) ...[
-                    if ((controlPanellist.isEmpty &&
-                            fireDetectorList.isEmpty &&
-                            alarmBellList.isEmpty &&
-                            glassBreakerList.isEmpty) ||
-                        _isSecond)
-                      CustomButtonWidget(
-                        text: S.of(context).confirm,
-                        onTap: () {
-                          //Todo create offer
-                          _createOffer();
-                        },
-                        backgroundColor: ColorSchemes.primary,
-                        textColor: ColorSchemes.white,
-                      ),
-                  ]
-                ],
-              ),
-            ),
-          ),
+                  ),
+                ),
         );
       },
     );
@@ -680,11 +699,115 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
           consumerRequest: widget.consumerRequest,
           responsibleEmployee: widget.responsibleEmployee,
           billURL: widget.billURL,
-          itemSupplyPrice: widget.itemSupplyPrice,
+          itemSupplyPrice: int.parse(widget.itemSupplyPrice),
           maintenanceOffer: widget.maintenanceOffer,
           scheduleJob: widget.scheduleJob,
-          installationPrice: _maintainanceItemPricesOffer.totalPrice.toString(),
+          installationPrice: _maintainanceItemPricesOffer.totalPrice,
+          price: ((_maintainanceItemPricesOffer.totalPrice ?? 0) +
+              int.parse(widget.itemSupplyPrice)),
         ),
+      ),
+    );
+  }
+}
+
+class TotalCostSection extends StatelessWidget {
+  final double supplyCost;
+  final double repairCost;
+  final double additionalCost;
+  final double tax;
+  final double total;
+
+  const TotalCostSection({
+    super.key,
+    required this.supplyCost,
+    required this.repairCost,
+    required this.additionalCost,
+    required this.tax,
+    required this.total,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final t = S.of(context);
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Title
+          Row(
+            children: [
+              Transform.rotate(
+                angle: -pi / 2,
+                child: SvgPicture.asset(
+                  ImagePaths.priceTag,
+                  height: 18.h,
+                  width: 18.w,
+                  color: ColorSchemes.secondary,
+                ),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                t.totalCostAfterReport,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+
+          _buildRow(context, t.supplyCost, supplyCost),
+          _buildRow(context, t.repairCost, repairCost),
+          _buildRow(context, t.additionalCost, additionalCost),
+          _buildRow(context, t.tax, tax),
+
+          const Divider(height: 16, thickness: 1),
+
+          // Total
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                t.total,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: ColorSchemes.secondary,
+                ),
+              ),
+              Text(
+                "${total.toStringAsFixed(2)} ${t.currency}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: ColorSchemes.primary,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRow(BuildContext context, String title, double amount) {
+    final t = S.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title, style: const TextStyle(color: Colors.black87)),
+          Text("${amount.toStringAsFixed(2)} ${t.currency}"),
+        ],
       ),
     );
   }
