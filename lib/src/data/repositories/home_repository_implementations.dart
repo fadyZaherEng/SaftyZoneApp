@@ -392,7 +392,7 @@ class HomeRepositoryImplementations extends HomeRepository {
     } on DioException catch (e) {
       return DataFailed(
         error: e,
-        message: S.current.badResponse,
+        message: S.current.thisProviderHasAlreadyMadeAnOfferForThisRequest,
       );
     }
   }

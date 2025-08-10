@@ -885,8 +885,7 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
                 changeQuantity: widget.changeQuantity,
                 consumerRequest:
                     state.remoteMaintainanceReport.consumerRequest ?? "",
-                maintenanceOffer:
-                    state.remoteMaintainanceReport.MaintenanceOffer ?? "",
+                maintenanceOffer: state.remoteMaintainanceReport.id ?? "",
                 scheduleJob: state.remoteMaintainanceReport.scheduleJob ?? "",
                 responsibleEmployee:
                     state.remoteMaintainanceReport.responsibleEmployee ?? "",

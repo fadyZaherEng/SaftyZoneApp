@@ -100,7 +100,7 @@ class FireExtinguishersBloc
     emit(CreateMaintainanceReportLoadingState());
     final result = await _createMaintainanceOfferUseCase(
         request: event.createMaintainanceOfferRequest);
-    if (result is DataSuccess<RemoteMaintainanceItemPricesOffer>) {
+    if (result is DataSuccess) {
       emit(CreateMaintainanceReportSuccessState(message: S.current.success));
     } else {
       emit(CreateMaintainanceReportErrorState(

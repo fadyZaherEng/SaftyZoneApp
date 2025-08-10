@@ -143,9 +143,18 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
         } else if (state is CreateMaintainanceReportErrorState) {
           hideLoading();
           _showValidationError(state.message, false);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
         }
       },
       builder: (context, state) {
@@ -208,7 +217,9 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
                             children: [
                               if (!hasSecondPageItems)
                                 const SizedBox(height: 32),
-                              if (!hasSecondPageItems)
+                              if (!hasSecondPageItems &&
+                                  state
+                                      is! MaintainanceRequestOfferLoadingState)
                                 TotalCostSection(
                                   tax: tax,
                                   supplyCost: supplyCost,
@@ -242,13 +253,14 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
                         if (!hasFirstPageItems || _isSecond) ...[
                           buildSecondPage(),
                           const SizedBox(height: 32),
-                          TotalCostSection(
-                            tax: tax,
-                            supplyCost: supplyCost,
-                            repairCost: repairCost,
-                            additionalCost: additionalCost,
-                            total: total,
-                          ),
+                          if (state is! MaintainanceRequestOfferLoadingState)
+                            TotalCostSection(
+                              tax: tax,
+                              supplyCost: supplyCost,
+                              repairCost: repairCost,
+                              additionalCost: additionalCost,
+                              total: total,
+                            ),
                           const SizedBox(height: 32),
                           if (hasSecondPageItems)
                             CustomButtonWidget(
