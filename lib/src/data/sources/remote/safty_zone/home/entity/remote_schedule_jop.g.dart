@@ -28,6 +28,7 @@ RemoteScheduleJop _$RemoteScheduleJopFromJson(Map<String, dynamic> json) =>
       step: json['step'] as String? ?? "",
       receiveItem: json['receiveItem'] as String? ?? "",
       consumerRequest: json['consumerRequest'] as String? ?? "",
+          numberOfVisits: json['numberOfVisits'] as int? ?? 0
     );
 
 Map<String, dynamic> _$RemoteScheduleJopToJson(RemoteScheduleJop instance) =>
@@ -47,4 +48,5 @@ Map<String, dynamic> _$RemoteScheduleJopToJson(RemoteScheduleJop instance) =>
       'visitDate': instance.visitDate,
       'createdAt': instance.createdAt,
       '__v': instance.V,
+      'numberOfVisits': instance.numberOfVisits,
     };

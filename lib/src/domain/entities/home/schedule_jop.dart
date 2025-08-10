@@ -14,6 +14,7 @@ class ScheduleJop extends Equatable {
   final String status;
   final int visitDate;
   final int createdAt;
+  final int numberOfVisits;
   final int V;
   final String step;
   final String receiveItem;
@@ -34,6 +35,7 @@ class ScheduleJop extends Equatable {
     this.step = "",
     this.receiveItem = "",
     this.consumerRequest = "",
+    this.numberOfVisits = 0,
   });
 
   @override
@@ -53,5 +55,6 @@ class ScheduleJop extends Equatable {
         step,
         receiveItem,
         consumerRequest,
+        numberOfVisits,
       ];
 }

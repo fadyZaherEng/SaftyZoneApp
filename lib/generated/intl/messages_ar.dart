@@ -138,11 +138,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تأكيد كلمة المرور"),
         "contactUs": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
         "continues": MessageLookupByLibrary.simpleMessage("متابعة"),
+        "contractClauses": MessageLookupByLibrary.simpleMessage("بنود العقد"),
         "contractList": MessageLookupByLibrary.simpleMessage("قائمة العقود"),
         "contractSignature":
             MessageLookupByLibrary.simpleMessage("توقيع العقد"),
         "contractTerms": MessageLookupByLibrary.simpleMessage("بنود العقد"),
-        "contractTime": MessageLookupByLibrary.simpleMessage("وقت العقد"),
+        "contractTime": MessageLookupByLibrary.simpleMessage("مدة العقد"),
         "contractsList": MessageLookupByLibrary.simpleMessage("قائمة العقود"),
         "controlPanel": MessageLookupByLibrary.simpleMessage("لوحة التحكم"),
         "control_panel": MessageLookupByLibrary.simpleMessage("لوحة التحكم"),
@@ -860,6 +861,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("رقم الواتساب مطلوب"),
         "workingInProgress":
             MessageLookupByLibrary.simpleMessage("أعمال قيد التنفيذ"),
+        "years": MessageLookupByLibrary.simpleMessage("سنوات"),
         "yes": MessageLookupByLibrary.simpleMessage("نعم"),
         "youCannot": MessageLookupByLibrary.simpleMessage("لا "),
         "youShouldHaveCameraPermission": MessageLookupByLibrary.simpleMessage(

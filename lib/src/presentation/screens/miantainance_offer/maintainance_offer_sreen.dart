@@ -20,6 +20,7 @@ import 'package:safety_zone/src/presentation/widgets/custom_empty_list_widget.da
 class MaintainanceOfferScreen extends BaseStatefulWidget {
   final String maintenanceOffer;
   final String scheduleJob;
+  final int offerNumber;
   final String consumerRequest;
   final String responsibleEmployee;
   final String maintainanceReportId;
@@ -35,6 +36,7 @@ class MaintainanceOfferScreen extends BaseStatefulWidget {
     required this.maintainanceReportId,
     required this.billURL,
     required this.itemSupplyPrice,
+    required this.offerNumber,
   });
 
   @override
@@ -717,6 +719,7 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
           installationPrice: _maintainanceItemPricesOffer.totalPrice,
           price: ((_maintainanceItemPricesOffer.totalPrice ?? 0) +
               int.parse(widget.itemSupplyPrice)),
+          offerNumber: widget.offerNumber,
         ),
       ),
     );

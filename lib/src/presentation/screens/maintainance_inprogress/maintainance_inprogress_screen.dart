@@ -296,6 +296,7 @@ class _MaintainanceInProgressScreenState
                           scheduleJob: "",
                           responsibleEmployee: "",
                           maintainanceReportId: "",
+                          offerNumber: 0,
                         ),
                       ),
                     );
@@ -319,6 +320,7 @@ class _MaintainanceInProgressScreenState
                           scheduleJob: widget.scheduleJop.Id,
                           responsibleEmployee:
                               widget.scheduleJop.responseEmployee.Id,
+                          offerNumber: widget.scheduleJop.numberOfVisits,
                         ),
                       ),
                     );
@@ -454,21 +456,6 @@ class _MaintainanceInProgressScreenState
                 });
               }
             },
-            // validator: (value) {
-            //   if (isReadOnly) return null;
-            //   if (value != null && value.isNotEmpty) {
-            //     if ((int.tryParse(value) ?? 0) > compareValue) {
-            //       setState(() {});
-            //       return S.of(context).quantity_exceed;
-            //     } else if ((int.tryParse(value) ?? 0) < 0) {
-            //       setState(() {});
-            //       return S.of(context).quantity_less;
-            //     } else {
-            //       return null;
-            //     }
-            //   }
-            //   return null;
-            // },
             keyboardType: TextInputType.number,
             style: const TextStyle(fontSize: 14),
             decoration: InputDecoration(
@@ -526,6 +513,7 @@ class SystemReportsPage extends StatefulWidget {
   final String branch;
   final String offer;
   final String responsibleEmployee;
+  final int offerNumber;
 
   const SystemReportsPage({
     super.key,
@@ -539,6 +527,7 @@ class SystemReportsPage extends StatefulWidget {
     required this.branch,
     required this.offer,
     required this.responsibleEmployee,
+    required this.offerNumber,
   });
 
   @override
@@ -647,6 +636,7 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
                     branch: widget.branch,
                     offer: widget.offer,
                     responsibleEmployee: widget.responsibleEmployee,
+                    offerNumber: widget.offerNumber,
                   ),
                 ),
               );
@@ -790,6 +780,7 @@ class MaintenanceReportScreen extends BaseStatefulWidget {
   final String branch;
   final String offer;
   final String responsibleEmployee;
+  final int offerNumber;
 
   const MaintenanceReportScreen({
     super.key,
@@ -803,6 +794,7 @@ class MaintenanceReportScreen extends BaseStatefulWidget {
     required this.branch,
     required this.offer,
     required this.responsibleEmployee,
+    required this.offerNumber,
   });
 
   @override
@@ -890,6 +882,7 @@ class _MaintenanceReportScreenState extends BaseState<MaintenanceReportScreen> {
                 responsibleEmployee:
                     state.remoteMaintainanceReport.responsibleEmployee ?? "",
                 maintainanceReportId: state.remoteMaintainanceReport.id ?? "",
+                offerNumber: widget.offerNumber,
               ),
             ),
           );
@@ -1239,6 +1232,7 @@ class SystemErrorScreen extends StatefulWidget {
   final String consumerRequest;
   final String responsibleEmployee;
   final String maintainanceReportId;
+  final int offerNumber;
 
   const SystemErrorScreen({
     super.key,
@@ -1248,6 +1242,7 @@ class SystemErrorScreen extends StatefulWidget {
     required this.consumerRequest,
     required this.responsibleEmployee,
     required this.maintainanceReportId,
+    required this.offerNumber,
   });
 
   @override
@@ -1321,6 +1316,7 @@ class _SystemErrorScreenState extends State<SystemErrorScreen> {
                         consumerRequest: widget.consumerRequest,
                         responsibleEmployee: widget.responsibleEmployee,
                         maintainanceReportId: widget.maintainanceReportId,
+                        offerNumber: widget.offerNumber,
                       ),
                     ),
                   );

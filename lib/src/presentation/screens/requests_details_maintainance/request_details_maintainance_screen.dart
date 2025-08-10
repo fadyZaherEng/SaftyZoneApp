@@ -548,7 +548,7 @@ class _RequestDetailsMaintainanceScreenState
                 ),
                 const Spacer(),
                 Text(
-                  "${model.result.duration} ${s.hours}",
+                  "${model.result.duration} ${s.years}",
                   style: const TextStyle(
                     fontWeight: FontWeight.normal,
                   ),
@@ -713,6 +713,9 @@ class _RequestDetailsMaintainanceScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          ContractClausesSection(
+            clauses: model.termsAndConditions.clauses,
+          ),
           Row(
             children: [
               SvgPicture.asset(
@@ -1023,5 +1026,71 @@ class _RequestDetailsMaintainanceScreenState
     } else {
       return S.of(context).loop;
     }
+  }
+}
+
+class ContractClausesSection extends StatelessWidget {
+  final List<Clauses> clauses;
+
+  const ContractClausesSection({super.key, required this.clauses});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = S.of(context);
+
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          right: BorderSide(color: Colors.blue.shade200, width: 3),
+        ),
+      ),
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Title with icon
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.info_outline,
+                color: ColorSchemes.secondary,
+              ),
+              const SizedBox(width: 5),
+              Text(
+                t.contractClauses,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+
+          // Clause list
+          ...List.generate(clauses.length, (index) {
+            final clause = clauses[index].text ?? "";
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("${index + 1}. ",
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Expanded(
+                    child: Text(
+                      clause,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
+    );
   }
 }

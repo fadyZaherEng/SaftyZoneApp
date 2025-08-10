@@ -776,11 +776,11 @@ class _RequestDetailsInstallationScreenState
                     price: int.parse(_priceController.text),
                     is_Primary: false,
                     item: [
-                      Item(
-                        ItemId: "",
-                        price: int.parse(_priceController.text),
-                        quantity: 1,
-                      )
+                      // Item(
+                      //   ItemId: "",
+                      //   price: int.parse(_priceController.text),
+                      //   quantity: 1,
+                      // )
                     ],
                   ),
                 ),

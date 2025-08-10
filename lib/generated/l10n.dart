@@ -5294,6 +5294,26 @@ class S {
     );
   }
 
+  /// `Years`
+  String get years {
+    return Intl.message(
+      'Years',
+      name: 'years',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contract Clauses`
+  String get contractClauses {
+    return Intl.message(
+      'Contract Clauses',
+      name: 'contractClauses',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Part Price`
   String get part_price {
     return Intl.message(

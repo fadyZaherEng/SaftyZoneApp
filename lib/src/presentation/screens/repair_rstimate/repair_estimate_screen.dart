@@ -28,6 +28,7 @@ class RepairEstimateScreen extends BaseStatefulWidget {
   final String consumerRequest;
   final String responsibleEmployee;
   final String maintainanceReportId;
+  final int offerNumber;
 
   const RepairEstimateScreen({
     super.key,
@@ -38,6 +39,7 @@ class RepairEstimateScreen extends BaseStatefulWidget {
     required this.consumerRequest,
     required this.responsibleEmployee,
     required this.maintainanceReportId,
+    required this.offerNumber,
   });
 
   @override
@@ -682,6 +684,7 @@ class _RepairEstimateScreenState extends BaseState<RepairEstimateScreen> {
               maintainanceReportId: widget.maintainanceReportId,
               billURL: finalPath ?? "",
               itemSupplyPrice: priceController.text,
+              offerNumber: widget.offerNumber,
             ),
           ),
         );

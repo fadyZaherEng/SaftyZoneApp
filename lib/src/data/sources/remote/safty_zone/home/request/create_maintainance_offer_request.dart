@@ -23,7 +23,7 @@ class CreateMaintainanceOfferRequest {
     this.item = const [],
     this.price = 0,
     this.billURL = '',
-    this.offerNumber = 1,
+    this.offerNumber = 0,
     this.itemSupplyPrice = 0,
     this.installationPrice = 0,
   });

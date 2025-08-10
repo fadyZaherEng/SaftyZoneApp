@@ -140,6 +140,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "continues": MessageLookupByLibrary.simpleMessage("Continue"),
+        "contractClauses":
+            MessageLookupByLibrary.simpleMessage("Contract Clauses"),
         "contractList": MessageLookupByLibrary.simpleMessage("Contracts List"),
         "contractSignature":
             MessageLookupByLibrary.simpleMessage("Contract Signature"),
@@ -888,6 +890,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("WhatsApp number is required"),
         "workingInProgress":
             MessageLookupByLibrary.simpleMessage("Working In Progress"),
+        "years": MessageLookupByLibrary.simpleMessage("Years"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "youCannot": MessageLookupByLibrary.simpleMessage("You "),
         "youShouldHaveCameraPermission": MessageLookupByLibrary.simpleMessage(

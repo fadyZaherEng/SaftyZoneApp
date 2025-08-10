@@ -522,6 +522,8 @@
   "need_spare_parts": "Do you need spare parts for the repair?",
   "yes": "Yes",
   "no": "No",
+  "years": "Years",
+  "contractClauses": "Contract Clauses",
   "part_price": "Part Price",
   "upload_invoice": "Upload Spare Part Invoice",
   "glass_breaker": "Glass Breaker",
