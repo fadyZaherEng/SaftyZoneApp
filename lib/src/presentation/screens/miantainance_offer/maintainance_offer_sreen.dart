@@ -8,10 +8,12 @@ import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_maintainance_item_prices_offer.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/create_maintainance_offer_request.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/fire_extinguishers/fire_extinguishers_bloc.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
+import 'package:safety_zone/src/presentation/widgets/custom_empty_list_widget.dart';
 
 class MaintainanceOfferScreen extends BaseStatefulWidget {
   final String maintenanceOffer;
@@ -131,9 +133,32 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
         } else if (state is MaintainanceRequestOfferErrorState) {
           hideLoading();
           _showValidationError(state.message, false);
+        } else if (state is CreateMaintainanceReportLoadingState) {
+          hideLoading();
+        } else if (state is CreateMaintainanceReportSuccessState) {
+          hideLoading();
+          _showValidationError(S.of(context).success, true);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+        } else if (state is CreateMaintainanceReportErrorState) {
+          hideLoading();
+          _showValidationError(state.message, false);
         }
       },
       builder: (context, state) {
+        if (state is! MaintainanceRequestOfferLoadingState &&
+            (_maintainanceItemPricesOffer.result?.isEmpty ?? [].isEmpty)) {
+          return CustomEmptyListWidget(
+            imagePath: ImagePaths.emptyProject,
+            text: S.of(context).noRequestsFound,
+            onRefresh: () {
+              _bloc.add(MaintainanceRequestOfferEvent(
+                maintainanceReportId: widget.maintainanceReportId,
+              ));
+            },
+          );
+        }
         return Scaffold(
           appBar: AppBar(
             backgroundColor: ColorSchemes.primary,
@@ -173,6 +198,7 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
                                 fireBoxList.isEmpty)
                             ? setState(() {
                                 //Todo create offer
+                                _createOffer();
                               })
                             : setState(() {
                                 _isSecond = true;
@@ -207,6 +233,7 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
                         text: S.of(context).confirm,
                         onTap: () {
                           //Todo create offer
+                          _createOffer();
                         },
                         backgroundColor: ColorSchemes.primary,
                         textColor: ColorSchemes.white,
@@ -644,5 +671,21 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
     }
 
     return const SizedBox.shrink();
+  }
+
+  void _createOffer() {
+    _bloc.add(
+      CreateMaintainanceOfferEvent(
+        createMaintainanceOfferRequest: CreateMaintainanceOfferRequest(
+          consumerRequest: widget.consumerRequest,
+          responsibleEmployee: widget.responsibleEmployee,
+          billURL: widget.billURL,
+          itemSupplyPrice: widget.itemSupplyPrice,
+          maintenanceOffer: widget.maintenanceOffer,
+          scheduleJob: widget.scheduleJob,
+          installationPrice: _maintainanceItemPricesOffer.totalPrice.toString(),
+        ),
+      ),
+    );
   }
 }

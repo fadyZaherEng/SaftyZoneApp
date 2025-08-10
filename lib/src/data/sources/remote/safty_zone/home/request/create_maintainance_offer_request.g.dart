@@ -9,16 +9,18 @@ part of 'create_maintainance_offer_request.dart';
 CreateMaintainanceOfferRequest _$CreateMaintainanceOfferRequestFromJson(
         Map<String, dynamic> json) =>
     CreateMaintainanceOfferRequest(
-      maintenanceOffer: json['maintenanceOffer'] as String?,
-      scheduleJob: json['scheduleJob'] as String?,
-      consumerRequest: json['consumerRequest'] as String?,
-      responsibleEmployee: json['responsibleEmployee'] as String?,
-      item: json['item'] as String?,
-      price: json['price'] as String?,
-      billURL: json['billURL'] as String?,
-      offerNumber: json['offerNumber'] as String?,
-      itemSupplyPrice: json['itemSupplyPrice'] as String?,
-      installationPrice: json['installationPrice'] as String?,
+      maintenanceOffer: json['maintenanceOffer'] as String? ?? '',
+      scheduleJob: json['scheduleJob'] as String? ?? '',
+      consumerRequest: json['consumerRequest'] as String? ?? '',
+      responsibleEmployee: json['responsibleEmployee'] as String? ?? '',
+      item:
+          (json['item'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              const [],
+      price: json['price'] as String? ?? '',
+      billURL: json['billURL'] as String? ?? '',
+      offerNumber: json['offerNumber'] as String? ?? '',
+      itemSupplyPrice: json['itemSupplyPrice'] as String? ?? '',
+      installationPrice: json['installationPrice'] as String? ?? '',
     );
 
 Map<String, dynamic> _$CreateMaintainanceOfferRequestToJson(

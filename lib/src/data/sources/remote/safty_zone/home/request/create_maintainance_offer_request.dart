@@ -8,7 +8,7 @@ class CreateMaintainanceOfferRequest {
   final String? scheduleJob;
   final String? consumerRequest;
   final String? responsibleEmployee;
-  final String? item;
+  final List<String>? item;
   final String? price;
   final String? billURL;
   final String? offerNumber;
@@ -16,16 +16,16 @@ class CreateMaintainanceOfferRequest {
   final String? installationPrice;
 
   const CreateMaintainanceOfferRequest({
-    this.maintenanceOffer,
-    this.scheduleJob,
-    this.consumerRequest,
-    this.responsibleEmployee,
-    this.item,
-    this.price,
-    this.billURL,
-    this.offerNumber,
-    this.itemSupplyPrice,
-    this.installationPrice,
+    this.maintenanceOffer='',
+    this.scheduleJob='',
+    this.consumerRequest='',
+    this.responsibleEmployee='',
+    this.item=const [],
+    this.price='',
+    this.billURL='',
+    this.offerNumber='',
+    this.itemSupplyPrice='',
+    this.installationPrice='',
   });
 
   factory CreateMaintainanceOfferRequest.fromJson(Map<String, dynamic> json) =>
@@ -38,7 +38,7 @@ class CreateMaintainanceOfferRequest {
     String? scheduleJob,
     String? consumerRequest,
     String? responsibleEmployee,
-    String? item,
+    List<String>? item,
     String? price,
     String? billURL,
     String? offerNumber,
