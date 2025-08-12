@@ -38,7 +38,7 @@ class _MapSearchScreenState extends State<MapSearchScreen> {
   Set<Marker> markers = {};
   List<dynamic> _predictions = [];
   String address = '';
-   bool _isSearch = true;
+  bool _isSearch = true;
 
   @override
   void initState() {
@@ -91,6 +91,8 @@ class _MapSearchScreenState extends State<MapSearchScreen> {
               ),
               onMapCreated: _onMapCreated,
               onTap: (argument) {
+                debugPrint("Latitude: ${argument.latitude}");
+                debugPrint("Longitude: ${argument.longitude}");
                 markers.clear();
                 markers.add(
                   Marker(
@@ -107,36 +109,36 @@ class _MapSearchScreenState extends State<MapSearchScreen> {
               },
               markers: markers,
             ),
-            if(false)
-            Positioned(
-              top: 40,
-              right: 10,
-              left: 10,
-              child: HeaderWidget(
-                predictions: _predictions,
-                searchController: _searchController,
-                getPredictions: (value) async {
-                  if (_isSearch) {
-                    _isSearch = false;
-                    _getPredictions(value).then((predictionsList) {
-                      setState(() {
-                        _predictions = predictionsList;
+            if (false)
+              Positioned(
+                top: 40,
+                right: 10,
+                left: 10,
+                child: HeaderWidget(
+                  predictions: _predictions,
+                  searchController: _searchController,
+                  getPredictions: (value) async {
+                    if (_isSearch) {
+                      _isSearch = false;
+                      _getPredictions(value).then((predictionsList) {
+                        setState(() {
+                          _predictions = predictionsList;
+                        });
                       });
+                      Future.delayed(const Duration(milliseconds: 1300))
+                          .then((value) {
+                        _isSearch = true;
+                      });
+                    }
+                  },
+                  clearSearch: () {
+                    _searchController.clear();
+                    setState(() {
+                      _predictions.clear();
                     });
-                    Future.delayed(const Duration(milliseconds: 1300))
-                        .then((value) {
-                      _isSearch = true;
-                    });
-                  }
-                },
-                clearSearch: () {
-                  _searchController.clear();
-                  setState(() {
-                    _predictions.clear();
-                  });
-                },
+                  },
+                ),
               ),
-            ),
             if (_predictions.isNotEmpty)
               Positioned(
                 bottom: 125,
@@ -259,7 +261,7 @@ class _MapSearchScreenState extends State<MapSearchScreen> {
     gmCompleter.complete(controller);
     gmCompleter.future.then((gmController) {
       _currentMapController = gmController;
-     });
+    });
   }
 
   void _setCurrentLocation(LatLng currentPosition) {
@@ -280,23 +282,21 @@ class _MapSearchScreenState extends State<MapSearchScreen> {
     try {
       Position? currentPosition = await _determinePosition(context);
       _setCurrentLocation(
-        LatLng(
-          currentPosition?.latitude ?? widget.initialLatitude,
-          currentPosition?.longitude ?? widget.initialLongitude,
-        ),
+        LatLng(24.71255509881504, 46.67422581464052
+            // currentPosition?.latitude ?? widget.initialLatitude,
+            // currentPosition?.longitude ?? widget.initialLongitude,
+            ),
       );
       _addMarkerToMap(
-        LatLng(
-          currentPosition?.latitude ?? widget.initialLatitude,
-          currentPosition?.longitude ?? widget.initialLongitude,
-        ),
+        LatLng(24.71255509881504, 46.67422581464052
+            // currentPosition?.latitude ?? widget.initialLatitude,
+            // currentPosition?.longitude ?? widget.initialLongitude,
+            ),
       );
     } catch (e) {
-      _setCurrentLocation(
-          LatLng(widget.initialLatitude, widget.initialLongitude));
-      _addMarkerToMap(LatLng(widget.initialLatitude, widget.initialLongitude));
-      _changeLocation(
-          10, LatLng(widget.initialLatitude, widget.initialLongitude));
+      _setCurrentLocation(LatLng(24.71255509881504, 46.67422581464052));
+      _addMarkerToMap(LatLng(24.71255509881504, 46.67422581464052));
+      _changeLocation(10, LatLng(24.71255509881504, 46.67422581464052));
     }
   }
 
@@ -338,7 +338,8 @@ class _MapSearchScreenState extends State<MapSearchScreen> {
     }
 
     Position position = await Geolocator.getCurrentPosition();
-    _setAddress(position.latitude, position.longitude);
+    // _setAddress(position.latitude, position.longitude);
+    _setAddress(24.71255509881504, 46.67422581464052);
 
     return position;
   }

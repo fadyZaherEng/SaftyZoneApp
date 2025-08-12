@@ -183,6 +183,7 @@ class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
                       // Civil Defense Permit Expiry Date Section
                       _buildDocumentSection(
                         context: context,
+                        isDatePickerVisible: true,
                         title: S.of(context).civilDefenseExpiryDateLabel,
                         date: _civilDefensePermitExpiryDate,
                         onDateSelected: (date) {
@@ -255,49 +256,52 @@ class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
     required bool hasDoc,
     required VoidCallback onDocumentUploaded,
     required DocumentType documentType,
+    bool isDatePickerVisible = false,
   }) {
     THelperFunctions.isDarkMode(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-            color: ColorSchemes.textDark,
+        if (isDatePickerVisible)
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.bold,
+              color: ColorSchemes.textDark,
+            ),
           ),
-        ),
-        SizedBox(height: 12.h),
+        if (isDatePickerVisible) SizedBox(height: 12.h),
+        if (isDatePickerVisible)
 
-        // Date picker field
-        InkWell(
-          onTap: () => _selectDate(context, date, onDateSelected),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  date != null
-                      ? dateFormat.format(date)
-                      : S.of(context).selectDate,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: date != null ? ColorSchemes.textDark : Colors.grey,
+          // Date picker field
+          InkWell(
+            onTap: () => _selectDate(context, date, onDateSelected),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    date != null
+                        ? dateFormat.format(date)
+                        : S.of(context).selectDate,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: date != null ? ColorSchemes.textDark : Colors.grey,
+                    ),
                   ),
-                ),
-                Icon(Icons.calendar_today, color: ColorSchemes.primary),
-              ],
+                  Icon(Icons.calendar_today, color: ColorSchemes.primary),
+                ],
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 16.h),
+        if (isDatePickerVisible) SizedBox(height: 16.h),
 
         // Document upload button - Redesigned
         Row(
@@ -631,10 +635,10 @@ class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
 
   void _validateAndContinue() {
     // Check if dates are selected and documents are uploaded
-    if (_commercialRegistrationExpiryDate == null) {
-      _showValidationError(context, S.of(context).crExpiryDateRequired);
-      return;
-    }
+    // if (_commercialRegistrationExpiryDate == null) {
+    //   _showValidationError(context, S.of(context).crExpiryDateRequired);
+    //   return;
+    // }
 
     if (!_hasCommercialDoc) {
       _showValidationError(context, S.of(context).crDocumentRequired);

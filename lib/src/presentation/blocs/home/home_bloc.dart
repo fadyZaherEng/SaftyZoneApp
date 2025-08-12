@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:safety_zone/generated/l10n.dart';
@@ -25,9 +24,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   List<DashboardItem> dashboardItems = [
     DashboardItem('0', S.current.newRequests, ImagePaths.news),
-    DashboardItem('5', S.current.maintenanceReports, ImagePaths.technical),
+    DashboardItem('0', S.current.maintenanceReports, ImagePaths.technical),
     DashboardItem('0', S.current.pendingRequests, ImagePaths.requests),
-    DashboardItem('8', S.current.priceOffers, ImagePaths.work),
+    DashboardItem('0', S.current.priceOffers, ImagePaths.work),
     DashboardItem('0', S.current.todayTasks, ImagePaths.groups),
   ];
 
@@ -59,12 +58,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       dashboardItems = [
         DashboardItem(S.current.newRequests,
             result.data?.length.toString() ?? '0', ImagePaths.news),
-        DashboardItem(S.current.maintenanceReports, '5', ImagePaths.technical),
+        DashboardItem(S.current.maintenanceReports, '0', ImagePaths.technical),
         DashboardItem(
             S.current.pendingRequests,
             pendingRequests.data?.length.toString() ?? '0',
             ImagePaths.requests),
-        DashboardItem(S.current.priceOffers, '8', ImagePaths.work),
+        DashboardItem(S.current.priceOffers, '0', ImagePaths.work),
         DashboardItem(S.current.todayTasks,
             result2.data?.length.toString() ?? '0', ImagePaths.groups),
       ];

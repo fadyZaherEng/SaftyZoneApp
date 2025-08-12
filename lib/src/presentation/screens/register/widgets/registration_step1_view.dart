@@ -288,7 +288,7 @@ class _RegistrationStep1ViewState extends State<RegistrationStep1View> {
                             vertical: 16.h,
                             horizontal: 16.w,
                           ),
-                          prefixIcon: _buildCountryDropdown(dark),
+                          suffixIcon: _buildCountryDropdown(dark),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12.r),
                           ),
