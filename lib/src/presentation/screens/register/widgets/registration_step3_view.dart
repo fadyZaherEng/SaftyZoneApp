@@ -11,6 +11,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/auth/request/requ
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/register.dart';
 import 'package:safety_zone/src/domain/usecase/auth/register_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_token_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
@@ -18,6 +19,54 @@ import 'package:safety_zone/src/presentation/widgets/custom_textfield.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../domain/entities/vendor_registration_model.dart';
 import 'registration_success_view.dart';
+
+// بيانات البنوك باللغتين
+final List<Map<String, String>> banks = [
+  {
+    'ar': 'البنك الأهلي السعودي',
+    'en': 'The Saudi National Bank',
+  },
+  {
+    'ar': 'مصرف الراجحي',
+    'en': 'Al Rajhi Bank',
+  },
+  {
+    'ar': 'بنك الرياض',
+    'en': 'Riyad Bank',
+  },
+  {
+    'ar': 'البنك السعودي الفرنسي',
+    'en': 'Banque Saudi Fransi',
+  },
+  {
+    'ar': 'البنك العربي الوطني',
+    'en': 'Arab National Bank',
+  },
+  {
+    'ar': 'البنك السعودي للاستثمار',
+    'en': 'The Saudi Investment Bank',
+  },
+  {
+    'ar': 'بنك البلاد',
+    'en': 'Bank Albilad',
+  },
+  {
+    'ar': 'بنك الجزيرة',
+    'en': 'Bank AlJazira',
+  },
+  {
+    'ar': 'مصرف الإنماء',
+    'en': 'Alinma Bank',
+  },
+  {
+    'ar': 'بنك ساب',
+    'en': 'SABB (Saudi British Bank)',
+  },
+  {
+    'ar': 'بنك الأول',
+    'en': 'Alawwal Bank',
+  },
+];
 
 class RegistrationStep3View extends StatefulWidget {
   final VendorRegistrationModel vendorData;
@@ -33,9 +82,11 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
   final _locationController = TextEditingController();
   final _bankAccountNameController = TextEditingController();
   final _bankAccountNumberController = TextEditingController();
+  String selectedBank = "";
 
   bool _confirmationChecked = false;
   bool _termsChecked = false;
+  String lang = "ar";
 
   static const Color darkRed = Color(0xFF8B0000);
   static const Color darkBlue = Color(0xFF003366);
@@ -49,6 +100,8 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
         widget.vendorData.bankAccountNumber ?? '';
     _confirmationChecked = widget.vendorData.confirmationChecked ?? false;
     _termsChecked = widget.vendorData.termsChecked ?? false;
+    lang = GetLanguageUseCase(injector())();
+    selectedBank = lang == "ar" ? banks[0]['ar']! : banks[0]['en']!;
   }
 
   @override
@@ -286,20 +339,55 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
                       Text(S.of(context).bankAccountNameLabel,
                           style: titleStyle),
                       SizedBox(height: 8.h),
-                      CustomTextField(
-                        controller: _bankAccountNameController,
-                        hintText: S.of(context).bankAccountNamePlaceholder,
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return S.of(context).bankAccountNameRequired;
-                          }
-                          if (RegExp(r'[0-9]').hasMatch(value)) {
-                            return S.of(context).bankAccountNameAlphabetical;
-                          }
-                          return null;
-                        },
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(
+                            color: const Color(0xFFD9D9D9),
+                          ),
+                        ),
+                        child: DropdownButton<String>(
+                          elevation: 0,
+                          // dropdownColor: Colors.transparent,
+                          isExpanded: true,
+                          // itemHeight: 20.h,
+                          menuMaxHeight: 300.h,
+                          underline: SizedBox.shrink(),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 4,
+                          ),
+                          hint: Text(lang == 'ar' ? 'اختر بنك' : 'Choose Bank'),
+                          value: selectedBank,
+                          items: banks.map((bank) {
+                            return DropdownMenuItem<String>(
+                              value: bank[lang],
+                              child: Text(bank[lang]!),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              selectedBank = value!;
+                            });
+                          },
+                        ),
                       ),
+                      // CustomTextField(
+                      //   controller: _bankAccountNameController,
+                      //   hintText: S.of(context).bankAccountNamePlaceholder,
+                      //   keyboardType: TextInputType.text,
+                      //   validator: (value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return S.of(context).bankAccountNameRequired;
+                      //     }
+                      //     if (RegExp(r'[0-9]').hasMatch(value)) {
+                      //       return S.of(context).bankAccountNameAlphabetical;
+                      //     }
+                      //     return null;
+                      //   },
+                      // ),
                       SizedBox(height: 20.h),
                       Text(S.of(context).bankAccountNumberLabel,
                           style: titleStyle),
@@ -465,7 +553,7 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
 
     widget.vendorData
       ..address = _locationController.text
-      ..bankName = _bankAccountNameController.text
+      ..bankName = selectedBank
       ..bankAccountNumber = _bankAccountNumberController.text
       ..confirmationChecked = _confirmationChecked
       ..termsChecked = _termsChecked
