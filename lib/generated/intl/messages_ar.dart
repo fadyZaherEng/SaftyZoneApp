@@ -160,8 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "تاريخ انتهاء السجل التجاري مطلوب"),
         "crNumberHint": MessageLookupByLibrary.simpleMessage(
             "قدم رقم السجل التجاري الصادر عن الهيئة التنظيمية في بلدك"),
-        "crNumberLabel":
-            MessageLookupByLibrary.simpleMessage("رقم السجل التجاري"),
+        "crNumberLabel": MessageLookupByLibrary.simpleMessage("الرقم الموحد"),
         "crNumberPlaceholder":
             MessageLookupByLibrary.simpleMessage("أدخل رقم السجل التجاري"),
         "crNumberRequired":
@@ -193,7 +192,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "earlyWarningSystem": MessageLookupByLibrary.simpleMessage(
             "ادخل تقارير الصيانة في نظام الإنذار المبكر"),
         "earlyWarningSystemFees":
-            MessageLookupByLibrary.simpleMessage("رسوم نظام الإنذار المبكر"),
+            MessageLookupByLibrary.simpleMessage("أجور نظام الإنذار المبكر"),
         "easySubtitle": MessageLookupByLibrary.simpleMessage(
             "إدارة احتياجات الأمن الخاصة بك مع واجهتنا البديهية"),
         "easyTitle": MessageLookupByLibrary.simpleMessage("إدارة سهلة"),
@@ -311,7 +310,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("عرض إصلاح طفايات الحريق"),
         "firePumps": MessageLookupByLibrary.simpleMessage("بومبات الحريق"),
         "fireSuppressionSystemFees":
-            MessageLookupByLibrary.simpleMessage("رسوم نظام إخماد الحرائق"),
+            MessageLookupByLibrary.simpleMessage("أجور نظام أطفاء الحرائق"),
         "fireSystems": MessageLookupByLibrary.simpleMessage("طفايات الحريق"),
         "fireTitle": MessageLookupByLibrary.simpleMessage(
             "عرض المزيد من المعلومات (لكن بدون عقد)"),

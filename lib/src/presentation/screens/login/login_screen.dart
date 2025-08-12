@@ -163,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         vertical: 16.h,
                         horizontal: 16.w,
                       ),
-                      prefixIcon: _buildCountryDropdown(dark),
+                      suffixIcon: _buildCountryDropdown(dark),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.r),
                       ),

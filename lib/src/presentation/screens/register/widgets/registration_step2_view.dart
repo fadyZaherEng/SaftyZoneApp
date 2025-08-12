@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
+import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/helpers/helper_functions.dart';
@@ -23,7 +24,7 @@ import 'registration_step3_view.dart';
 
 enum DocumentType { commercial, civilDefense }
 
-class RegistrationStep2View extends StatefulWidget {
+class RegistrationStep2View extends BaseStatefulWidget {
   final VendorRegistrationModel vendorData;
 
   const RegistrationStep2View({
@@ -32,14 +33,14 @@ class RegistrationStep2View extends StatefulWidget {
   });
 
   @override
-  State<RegistrationStep2View> createState() => _RegistrationStep2ViewState();
+  BaseState<RegistrationStep2View> baseCreateState() => _RegistrationStep2ViewState();
 }
 
-class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
+class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
   final _formKey = GlobalKey<FormState>();
   final dateFormat = DateFormat('dd/MM/yyyy');
 
-  DateTime? _commercialRegistrationExpiryDate;
+  // DateTime? _commercialRegistrationExpiryDate;
   DateTime? _civilDefensePermitExpiryDate;
   bool _hasCommercialDoc = false;
   bool _hasCivilDefenseDoc = false;
@@ -51,8 +52,8 @@ class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
   @override
   void initState() {
     super.initState();
-    _commercialRegistrationExpiryDate =
-        widget.vendorData.commercialRegistrationExpiryDate;
+    // _commercialRegistrationExpiryDate =
+    //     widget.vendorData.commercialRegistrationExpiryDate;
     _civilDefensePermitExpiryDate =
         widget.vendorData.civilDefensePermitExpiryDate;
     _hasCommercialDoc =
@@ -62,7 +63,7 @@ class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget baseBuild(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
 
     return Scaffold(
@@ -159,11 +160,11 @@ class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
                       _buildDocumentSection(
                         context: context,
                         title: S.of(context).crExpiryDateLabel,
-                        date: _commercialRegistrationExpiryDate,
+                        date:DateTime.now(), // _commercialRegistrationExpiryDate,
                         onDateSelected: (date) {
-                          setState(() {
-                            _commercialRegistrationExpiryDate = date;
-                          });
+                          // setState(() {
+                          //   _commercialRegistrationExpiryDate = date;
+                          // });
                         },
                         hasDoc: _hasCommercialDoc,
                         onDocumentUploaded: () {
@@ -532,6 +533,7 @@ class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
     ImageSource? result,
     DocumentType documentType,
   ) async {
+    showLoading();
     try {
       if (result != null) {
         final XFile? image = await _picker.pickImage(
@@ -585,6 +587,7 @@ class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
         icon: ImagePaths.error,
       );
     }
+    hideLoading();
   }
 
   Future<void> _uploadCivilDefenseDoc(File file) async {
@@ -609,6 +612,7 @@ class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
         icon: ImagePaths.error,
       );
     }
+    hideLoading();
   }
 
   Future<void> _selectDate(BuildContext context, DateTime? initialDate,
@@ -657,8 +661,8 @@ class _RegistrationStep2ViewState extends State<RegistrationStep2View> {
     }
 
     // Save data to model
-    widget.vendorData.commercialRegistrationExpiryDate =
-        _commercialRegistrationExpiryDate;
+    // widget.vendorData.commercialRegistrationExpiryDate =
+    //     _commercialRegistrationExpiryDate;
     widget.vendorData.civilDefensePermitExpiryDate =
         _civilDefensePermitExpiryDate;
 

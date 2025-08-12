@@ -80,7 +80,7 @@ class RegistrationStep3View extends StatefulWidget {
 class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
   final _formKey = GlobalKey<FormState>();
   final _locationController = TextEditingController();
-  final _bankAccountNameController = TextEditingController();
+  // final _bankAccountNameController = TextEditingController();
   final _bankAccountNumberController = TextEditingController();
   String selectedBank = "";
 
@@ -95,7 +95,7 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
   void initState() {
     super.initState();
     _locationController.text = widget.vendorData.address ?? '';
-    _bankAccountNameController.text = widget.vendorData.bankName ?? '';
+    // _bankAccountNameController.text = widget.vendorData.bankName ?? '';
     _bankAccountNumberController.text =
         widget.vendorData.bankAccountNumber ?? '';
     _confirmationChecked = widget.vendorData.confirmationChecked ?? false;
@@ -107,7 +107,7 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
   @override
   void dispose() {
     _locationController.dispose();
-    _bankAccountNameController.dispose();
+    // _bankAccountNameController.dispose();
     _bankAccountNumberController.dispose();
     super.dispose();
   }
@@ -193,7 +193,7 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
         _confirmationChecked &&
         _termsChecked &&
         _locationController.text.isNotEmpty &&
-        _bankAccountNameController.text.isNotEmpty &&
+        // _bankAccountNameController.text.isNotEmpty &&
         _bankAccountNumberController.text.isNotEmpty;
   }
 
@@ -350,9 +350,7 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
                         ),
                         child: DropdownButton<String>(
                           elevation: 0,
-                          // dropdownColor: Colors.transparent,
                           isExpanded: true,
-                          // itemHeight: 20.h,
                           menuMaxHeight: 300.h,
                           underline: SizedBox.shrink(),
                           padding: const EdgeInsets.symmetric(
