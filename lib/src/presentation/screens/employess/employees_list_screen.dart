@@ -248,7 +248,7 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
             ),
             SizedBox(width: 4.w),
             Flexible(
-              child:Container(
+              child: Container(
                 padding: EdgeInsets.symmetric(vertical: 6.h),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -256,7 +256,7 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                 ),
                 child: Text(
                   (emp['permission'] as List<dynamic>?)?.join(', ') ?? '',
-                   style: TextStyle(
+                  style: TextStyle(
                     color: const Color(0xFF8C0000),
                     fontWeight: FontWeight.bold,
                     fontSize: 12.sp,
@@ -266,8 +266,7 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
               ),
             ),
           ],
-        )
-        ,
+        ),
       ),
     );
   }

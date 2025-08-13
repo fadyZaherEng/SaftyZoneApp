@@ -16,7 +16,6 @@ class AddEmployeeAssignRole extends StatefulWidget {
 
 class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
   final _functionalTitleController = TextEditingController();
-  final _notesController = TextEditingController();
 
   Map<String, String> get _roleMapping => {
         'SystemAdministrator': 'System administrator',
@@ -104,27 +103,6 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
                       .toList(),
             ),
             SizedBox(height: 24.h),
-            Text(
-              S.of(context).notes,
-              style: TextStyle(
-                color: const Color(0xFF333333),
-                fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
-                fontFamily: 'SF Pro',
-              ),
-            ),
-            SizedBox(height: 4.h),
-            Text(
-              S.of(context).notesHint,
-              style: TextStyle(
-                color: const Color(0xFF888888),
-                fontWeight: FontWeight.normal,
-                fontSize: 12.sp,
-                fontFamily: 'SF Pro',
-              ),
-            ),
-            SizedBox(height: 8.h),
-            _buildNotesInput(),
             SizedBox(height: 32.h),
             Row(
               children: [
@@ -147,22 +125,9 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
                     textColor: Colors.white,
                     onTap: _selectedTaskCodes.isNotEmpty
                         ? () async {
-                            // if (GetLanguageUseCase(injector())() == 'ar') {
-                            //   //get selected tasks indexes then get the values from english map
-                            //   for (int i = 0;
-                            //       i < _selectedTaskCodes.length;
-                            //       i++) {
-                            //     if(_roleMappingAr.containsValue(_selectedTaskCodes[i])){
-                            //       //get the key
-                            //       String key=_roleMappingAr.entries.firstWhere((element) => element.value==_selectedTaskCodes[i]).key;
-                            //       _selectedTaskCodes[i] = _roleMapping[key]!;
-                            //     }
-                            //   }
-                            // }
                             await cubit.updateRole(
                               functionalTitle: _functionalTitleController.text,
                               tasks: _selectedTaskCodes,
-                              notes: _notesController.text,
                             );
                             cubit.nextStep();
                           }
@@ -177,7 +142,6 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
                 onPressed: () {
                   cubit.reset();
                   _functionalTitleController.clear();
-                  _notesController.clear();
                   setState(() => _selectedTaskCodes = []);
                 },
                 icon: Icon(Icons.add_circle, color: Color(0xFF1C3D80)),
@@ -301,41 +265,6 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
     );
   }
 
-  Widget _buildNotesInput() {
-    return TextFormField(
-      controller: _notesController,
-      minLines: 3,
-      maxLines: 6,
-      style: TextStyle(
-        color: const Color(0xFF333333),
-        fontWeight: FontWeight.w500,
-        fontSize: 16.sp,
-        fontFamily: 'SF Pro',
-      ),
-      decoration: InputDecoration(
-        hintText: S.of(context).enterYourNotes,
-        hintStyle: TextStyle(
-          color: const Color(0xFF999999),
-          fontSize: 14.sp,
-          fontFamily: 'SF Pro',
-        ),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: const BorderSide(color: Color(0xFFA50000)),
-        ),
-      ),
-    );
-  }
-
   Widget _buildButton({
     required String label,
     required bool enabled,
@@ -360,7 +289,6 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
     cubit.updateRole(
       functionalTitle: _functionalTitleController.text,
       tasks: _selectedTaskCodes,
-      notes: _notesController.text,
     );
   }
 }
