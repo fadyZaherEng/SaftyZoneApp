@@ -39,7 +39,7 @@ class AddEmployeeScreen extends StatelessWidget {
                             left: 16.w,
                             right: 16.w,
                             top: 20.h,
-                            bottom: 0,
+                            bottom: 0.h,
                           ),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,

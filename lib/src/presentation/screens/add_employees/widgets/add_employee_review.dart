@@ -8,6 +8,7 @@ import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
+import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
@@ -16,13 +17,12 @@ import 'dart:convert';
 
 import '../cubit/add_employee_cubit.dart';
 
-const Map<String, String> taskKeyToBackendRole = {
-  'systemAdministrator': 'System administrator',
-  'contractSigning': 'Contract Signing',
-  'quotationSubmission': 'Quotation Submission',
-  'reportWriting': 'Report Writing',
-  "fawryService": "Fawry Service",
-};
+Map<String, String> get _roleMappingAr => {
+      'SystemAdministrator': "أدارة النظام",
+      'ContractSigning': 'توقيع العقد',
+      'QuotationSubmission': 'تقديم السعر',
+      'ReportWriting': 'كتابة التقرير',
+    };
 
 class AddEmployeeReview extends StatelessWidget {
   const AddEmployeeReview({super.key});
@@ -169,8 +169,8 @@ class AddEmployeeReview extends StatelessWidget {
       'Contract Signing': S.of(context).contractSigning,
       'Quotation Submission': S.of(context).quotationSubmission,
       'Report Writing': S.of(context).reportWriting,
-      'Fawry Service': S.of(context).fawryService
     };
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(20.w),
@@ -303,7 +303,9 @@ class AddEmployeeReview extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16.r),
                                 ),
                                 child: Text(
-                                  taskKeyToLabel[t] ?? t,
+                                  GetLanguageUseCase(injector())() == 'en'
+                                      ? taskKeyToLabel[t] ?? t
+                                      : _roleMappingAr[t] ?? t,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.sp,

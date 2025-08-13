@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
+import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import '../cubit/add_employee_cubit.dart';
 
@@ -21,7 +23,13 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
         'ContractSigning': 'Contract Signing',
         'QuotationSubmission': 'Quotation Submission',
         'ReportWriting': 'Report Writing',
-        'InstallationCertificate': 'Installation Certificate',
+      };
+
+  Map<String, String> get _roleMappingAr => {
+        'SystemAdministrator': "أدارة النظام",
+        'ContractSigning': 'توقيع العقد',
+        'QuotationSubmission': 'تقديم السعر',
+        'ReportWriting': 'كتابة التقرير',
       };
 
   List<String> _selectedTaskCodes = [];
@@ -83,10 +91,17 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
             Wrap(
               spacing: 12.w,
               runSpacing: 12.h,
-              children: _roleMapping.entries
-                  .where((entry) => !_selectedTaskCodes.contains(entry.value))
-                  .map((entry) => _buildTag(entry.key, entry.value))
-                  .toList(),
+              children: GetLanguageUseCase(injector())() == 'ar'
+                  ? _roleMappingAr.entries
+                      .where(
+                          (entry) => !_selectedTaskCodes.contains(entry.value))
+                      .map((entry) => _buildTag(entry.value, entry.key))
+                      .toList()
+                  : _roleMapping.entries
+                      .where(
+                          (entry) => !_selectedTaskCodes.contains(entry.value))
+                      .map((entry) => _buildTag(entry.value, entry.key))
+                      .toList(),
             ),
             SizedBox(height: 24.h),
             Text(
@@ -127,14 +142,24 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
                 Expanded(
                   child: _buildButton(
                     label: S.of(context).next,
-                    enabled: _functionalTitleController.text.isNotEmpty &&
-                        _selectedTaskCodes.isNotEmpty,
+                    enabled: _selectedTaskCodes.isNotEmpty,
                     color: const Color(0xFFA50000),
                     textColor: Colors.white,
-                    onTap: _functionalTitleController.text.isNotEmpty &&
-                            _selectedTaskCodes.isNotEmpty
-                        ? () async{
-                           await cubit.updateRole(
+                    onTap: _selectedTaskCodes.isNotEmpty
+                        ? () async {
+                            // if (GetLanguageUseCase(injector())() == 'ar') {
+                            //   //get selected tasks indexes then get the values from english map
+                            //   for (int i = 0;
+                            //       i < _selectedTaskCodes.length;
+                            //       i++) {
+                            //     if(_roleMappingAr.containsValue(_selectedTaskCodes[i])){
+                            //       //get the key
+                            //       String key=_roleMappingAr.entries.firstWhere((element) => element.value==_selectedTaskCodes[i]).key;
+                            //       _selectedTaskCodes[i] = _roleMapping[key]!;
+                            //     }
+                            //   }
+                            // }
+                            await cubit.updateRole(
                               functionalTitle: _functionalTitleController.text,
                               tasks: _selectedTaskCodes,
                               notes: _notesController.text,
@@ -253,7 +278,7 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          _selectedTaskCodes.add(code);
+          _selectedTaskCodes.add(translationKey);
         });
       },
       child: Container(

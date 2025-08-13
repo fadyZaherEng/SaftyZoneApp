@@ -6,6 +6,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/auth/entity/remot
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart';
 import 'package:safety_zone/src/domain/usecase/auth/generate_image_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 import 'add_employee_state.dart';
 import 'dart:convert';
@@ -49,7 +50,8 @@ class AddEmployeeCubit extends Cubit<AddEmployeeState> {
   }
 
   void updatePhoto(String photoPath) async {
-    DataState<List<RemoteGenerateUrl>> result = await _generateImageUrlUseCase();
+    DataState<List<RemoteGenerateUrl>> result =
+        await _generateImageUrlUseCase();
     bool isSuccess = await uploadImageToServer(
       File(photoPath),
       result.data?.first.presignedURL ?? '',
@@ -139,6 +141,19 @@ class AddEmployeeCubit extends Cubit<AddEmployeeState> {
     return false;
   }
 
+  Map<String, String> get _roleMappingAr => {
+        'SystemAdministrator': "أدارة النظام",
+        'ContractSigning': 'توقيع العقد',
+        'QuotationSubmission': 'تقديم السعر',
+        'ReportWriting': 'كتابة التقرير',
+      };
+  final _roleMapping = {
+    'SystemAdministrator': 'System administrator',
+    'ContractSigning': 'Contract Signing',
+    'QuotationSubmission': 'Quotation Submission',
+    'ReportWriting': 'Report Writing',
+  };
+
   Future<void> saveEmployee({
     required bool isFirstEmployee,
     required String baseUrl,
@@ -151,14 +166,27 @@ class AddEmployeeCubit extends Cubit<AddEmployeeState> {
     if (emp.tasks.isNotEmpty) {
       permission = emp.tasks.first;
     }
+    if (GetLanguageUseCase(injector())() == 'ar') {
+      //get selected tasks indexes then get the values from english map
+      for (int i = 0; i < emp.tasks.length; i++) {
+        if (_roleMappingAr.containsValue(emp.tasks[i])) {
+          //get the key
+          String key = _roleMappingAr.entries
+              .firstWhere((element) => element.value == emp.tasks[i])
+              .key;
+          emp.tasks[i] = _roleMapping[key]!;
+        }
+      }
+    }
     final data = {
       "fullName": emp.fullName,
       "phoneNumber": emp.phoneNumber,
-      "permission": permission,
+      "permission": emp.tasks,
       "profileImage": emp.photoPath,
       "jobTitle": emp.jobTitle,
     };
     debugPrint("\n===== [AddEmployeeCubit] Sending employee data =====");
+    debugPrint("Permission: ${emp.tasks}");
     debugPrint(const JsonEncoder.withIndent('  ').convert(data));
     try {
       final response = await http.post(
