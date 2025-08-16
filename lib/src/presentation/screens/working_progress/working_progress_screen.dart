@@ -1428,17 +1428,17 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
   }
 
   String _getStatus(String status) {
-    if (status.toLowerCase() == "pending") {
+    if (status == "pending") {
       return S.of(context).pending;
-    } else if (status.toLowerCase() == "accepted") {
+    } else if (status == "accepted") {
       return S.of(context).accepted;
-    } else if (status.toLowerCase() == "rejected") {
+    } else if (status == "rejected") {
       return S.of(context).rejected;
-    } else if (status.toLowerCase() == "cancelled") {
+    } else if (status == "cancelled") {
       return S.of(context).cancelled;
-    } else if (status.toLowerCase() == "active") {
+    } else if (status == "active") {
       return S.of(context).active;
-    } else if (status.toLowerCase() == "inProgress") {
+    } else if (status == "inProgress") {
       return S.of(context).inProgress;
     } else {
       return S.of(context).rejected;

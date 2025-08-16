@@ -547,6 +547,8 @@
   "total": "Total",
   "currency": "SAR",
   "enterValidPriceForAllItems": "Please enter a valid price for all items.",
-  "allInstallationFeesSavedSuccessfully": "All Installation Fees Saved Successfully"
+  "allInstallationFeesSavedSuccessfully": "All Installation Fees Saved Successfully",
+  "commercialRegistration": "Commercial Registration"
+
 }
 

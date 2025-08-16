@@ -111,6 +111,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "طفاية حريق ثاني أكسيد الكربون"),
         "codeSentTo":
             MessageLookupByLibrary.simpleMessage("تم ارسال الرمز الى"),
+        "commercialRegistration":
+            MessageLookupByLibrary.simpleMessage("السجل التجاري"),
         "companyActivityHint": MessageLookupByLibrary.simpleMessage(
             "صف نوع العمل الذي تديره أو الخدمات/المنتجات التي تقدمها"),
         "companyActivityLabel":

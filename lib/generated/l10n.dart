@@ -5523,6 +5523,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Commercial Registration`
+  String get commercialRegistration {
+    return Intl.message(
+      'Commercial Registration',
+      name: 'commercialRegistration',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

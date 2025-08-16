@@ -545,8 +545,10 @@
   "additionalCost": "التكلفة الإجمالية",
   "tax": "ضريبة",
   "total": "المجموع",
+  
   "currency": "ر.س",
   "enterValidPriceForAllItems": "الرجاء إدخال سعر صالح لجميع العناصر",
-  "allInstallationFeesSavedSuccessfully": "تم حفظ جميع تكاليف التثبيت بنجاح"
+  "allInstallationFeesSavedSuccessfully": "تم حفظ جميع تكاليف التثبيت بنجاح",
+  "commercialRegistration": "السجل التجاري"
 
 }

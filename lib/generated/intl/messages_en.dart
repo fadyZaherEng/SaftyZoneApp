@@ -111,6 +111,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "co2Extinguisher":
             MessageLookupByLibrary.simpleMessage("CO₂ Fire Extinguisher"),
         "codeSentTo": MessageLookupByLibrary.simpleMessage("Code sent to"),
+        "commercialRegistration":
+            MessageLookupByLibrary.simpleMessage("Commercial Registration"),
         "companyActivityHint": MessageLookupByLibrary.simpleMessage(
             "Describe the type of business you operate or the services/products you offer"),
         "companyActivityLabel":
