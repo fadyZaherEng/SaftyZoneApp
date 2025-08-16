@@ -288,6 +288,7 @@ class _InstallationFeesItemPageState
       // _isExpanded[id] = false;
     });
   }
+
   Future<void> _saveAllInstallationFees() async {
     final List<InstallationFees> feesList = [];
     debugPrint('Saving all installation fees...');
