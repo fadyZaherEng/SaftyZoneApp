@@ -90,8 +90,18 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
             child: SafeArea(
               child: Skeletonizer(
                 enabled: _isLoading,
-                child: SingleChildScrollView(
-                  child: Column(
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    _bloc.add(
+                      GetScheduleJobInProgressEvent(
+                        status: ScheduleJobStatusEnum.inProgress.name,
+                      ),
+                    );
+                  },
+                  child: ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    // مهم عشان يشتغل
+                    padding: const EdgeInsets.all(16),
                     children: [
                       _buildSearchSection(context),
                       if (_workingProgress.isEmpty)
@@ -121,39 +131,94 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
                           ),
                         ),
                       if (_workingProgress.isNotEmpty)
-                        ListView.builder(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 8,
-                            horizontal: 16,
-                          ),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: _workingProgress.length,
-                          itemBuilder: (context, index) {
-                            final request = _workingProgress[index];
-                            final key = Key(request.Id.toString());
-                            if (request.type ==
-                                    RequestType.InstallationCertificate.name ||
-                                request.type ==
-                                    RequestType.EngineeringInspection.name) {
-                              return _buildFawryRequestCard(
-                                  context, request, key);
-                            } else if (request.type ==
-                                RequestType.MaintenanceContract.name) {
-                              return _buildMaintenanceRequestCard(
-                                  context, request, key);
-                            } else if (request.type ==
-                                RequestType.FireExtinguisher.name) {
-                              return _buildFireExtinguisherRequestCard(
-                                  context, request, key);
-                            } else {
-                              return _buildRequestCard(context, request, key);
-                            }
-                          },
-                        ),
+                        ..._workingProgress.map((request) {
+                          final key = Key(request.Id.toString());
+                          if (request.type ==
+                                  RequestType.InstallationCertificate.name ||
+                              request.type ==
+                                  RequestType.EngineeringInspection.name) {
+                            return _buildFawryRequestCard(
+                                context, request, key);
+                          } else if (request.type ==
+                              RequestType.MaintenanceContract.name) {
+                            return _buildMaintenanceRequestCard(
+                                context, request, key);
+                          } else if (request.type ==
+                              RequestType.FireExtinguisher.name) {
+                            return _buildFireExtinguisherRequestCard(
+                                context, request, key);
+                          } else {
+                            return _buildRequestCard(context, request, key);
+                          }
+                        }).toList(),
                     ],
                   ),
                 ),
+
+                // SingleChildScrollView(
+                //   child: Column(
+                //     children: [
+                //       _buildSearchSection(context),
+                //       if (_workingProgress.isEmpty)
+                //         Center(
+                //           child: Padding(
+                //             padding: const EdgeInsets.symmetric(vertical: 40),
+                //             child: _isLoading
+                //                 ? Container(
+                //                     height: 200.h,
+                //                     width: 200.w,
+                //                     decoration: BoxDecoration(
+                //                       color: Colors.grey.shade300,
+                //                       borderRadius: BorderRadius.circular(6),
+                //                     ),
+                //                   )
+                //                 : CustomEmptyListWidget(
+                //                     text: S.of(context).noRequestsFound,
+                //                     isRefreshable: true,
+                //                     onRefresh: () => _bloc.add(
+                //                       GetScheduleJobInProgressEvent(
+                //                         status: ScheduleJobStatusEnum
+                //                             .inProgress.name,
+                //                       ),
+                //                     ),
+                //                     imagePath: ImagePaths.emptyProject,
+                //                   ),
+                //           ),
+                //         ),
+                //       if (_workingProgress.isNotEmpty)
+                //         ListView.builder(
+                //           padding: const EdgeInsets.symmetric(
+                //             vertical: 8,
+                //             horizontal: 16,
+                //           ),
+                //           shrinkWrap: true,
+                //           physics: const NeverScrollableScrollPhysics(),
+                //           itemCount: _workingProgress.length,
+                //           itemBuilder: (context, index) {
+                //             final request = _workingProgress[index];
+                //             final key = Key(request.Id.toString());
+                //             if (request.type ==
+                //                     RequestType.InstallationCertificate.name ||
+                //                 request.type ==
+                //                     RequestType.EngineeringInspection.name) {
+                //               return _buildFawryRequestCard(
+                //                   context, request, key);
+                //             } else if (request.type ==
+                //                 RequestType.MaintenanceContract.name) {
+                //               return _buildMaintenanceRequestCard(
+                //                   context, request, key);
+                //             } else if (request.type ==
+                //                 RequestType.FireExtinguisher.name) {
+                //               return _buildFireExtinguisherRequestCard(
+                //                   context, request, key);
+                //             } else {
+                //               return _buildRequestCard(context, request, key);
+                //             }
+                //           },
+                //         ),
+                //     ],
+                //   ),
+                // ),
               ),
             ),
           ),
