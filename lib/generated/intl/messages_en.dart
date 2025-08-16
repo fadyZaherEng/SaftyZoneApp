@@ -45,6 +45,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "alarm_type": MessageLookupByLibrary.simpleMessage(
             "What is the type of early alarm system?"),
         "all": MessageLookupByLibrary.simpleMessage("All"),
+        "allInstallationFeesSavedSuccessfully":
+            MessageLookupByLibrary.simpleMessage(
+                "All Installation Fees Saved Successfully"),
         "amount_received":
             MessageLookupByLibrary.simpleMessage("Amounts Received"),
         "arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
@@ -262,6 +265,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterTerm": MessageLookupByLibrary.simpleMessage("Enter Term"),
         "enterValidPrice":
             MessageLookupByLibrary.simpleMessage("Please enter a valid price."),
+        "enterValidPriceForAllItems": MessageLookupByLibrary.simpleMessage(
+            "Please enter a valid price for all items."),
         "enterVerificationCode":
             MessageLookupByLibrary.simpleMessage("Enter the verification code"),
         "enterWhatsappNumber":

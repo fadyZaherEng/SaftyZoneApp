@@ -526,7 +526,6 @@
   "no": "لا",
   "part_price": "سعر القطع",
   "upload_invoice": "تحميل فاتورة قطع الغيار",
-
   "glass_breaker": "كاسر زجاج",
    "fire_pumps": "ضخات الحريق",
   "warning_labels": "اللافتات التحذيرية",
@@ -546,6 +545,8 @@
   "additionalCost": "التكلفة الإجمالية",
   "tax": "ضريبة",
   "total": "المجموع",
-  "currency": "ر.س"
+  "currency": "ر.س",
+  "enterValidPriceForAllItems": "الرجاء إدخال سعر صالح لجميع العناصر",
+  "allInstallationFeesSavedSuccessfully": "تم حفظ جميع تكاليف التثبيت بنجاح"
 
 }

@@ -45,6 +45,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "alarm_type": MessageLookupByLibrary.simpleMessage(
             "ما هو نوع النظام الانذار المبكر؟"),
         "all": MessageLookupByLibrary.simpleMessage("الكل"),
+        "allInstallationFeesSavedSuccessfully":
+            MessageLookupByLibrary.simpleMessage(
+                "تم حفظ جميع تكاليف التثبيت بنجاح"),
         "amount_received":
             MessageLookupByLibrary.simpleMessage("المبالغ التي تم استلامها"),
         "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
@@ -250,6 +253,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterTerm": MessageLookupByLibrary.simpleMessage("ادخل البند"),
         "enterValidPrice":
             MessageLookupByLibrary.simpleMessage("يرجى ادخال سعر صحيح."),
+        "enterValidPriceForAllItems": MessageLookupByLibrary.simpleMessage(
+            "الرجاء إدخال سعر صالح لجميع العناصر"),
         "enterVerificationCode":
             MessageLookupByLibrary.simpleMessage("ادخل رمز التحقق"),
         "enterWhatsappNumber":

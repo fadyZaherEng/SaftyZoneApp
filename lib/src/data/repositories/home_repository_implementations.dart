@@ -19,6 +19,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/add_
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/create_maintainance_offer_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/main_offer_fire_extinguisher.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/maintainance_report_request.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_bulk.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/schedule_jop_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
@@ -428,6 +429,30 @@ class HomeRepositoryImplementations extends HomeRepository {
       final httpResponse = await _homeApiServices.maintenanceReportItems(
         id,
         GetTokenUseCase(injector())(),
+      );
+      if (((httpResponse.response.statusCode ?? 400) == 201) ||
+          (httpResponse.response.statusCode ?? 400) == 200) {
+        return DataSuccess(
+          data: httpResponse.data,
+          message: httpResponse.response.statusMessage ?? "",
+        );
+      }
+
+      return DataFailed(message: httpResponse.response.statusMessage ?? "");
+    } on DioException catch (e) {
+      return DataFailed(
+        error: e,
+        message: S.current.badResponse,
+      );
+    }
+  }
+
+  @override
+  Future<DataState> installationFeeBulk({required RequestBulk request}) async {
+    try {
+      final httpResponse = await _homeApiServices.installationFeesBulk(
+        GetTokenUseCase(injector())(),
+        request,
       );
       if (((httpResponse.response.statusCode ?? 400) == 201) ||
           (httpResponse.response.statusCode ?? 400) == 200) {

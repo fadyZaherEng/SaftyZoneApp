@@ -13,6 +13,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/add_
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/create_maintainance_offer_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/main_offer_fire_extinguisher.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/maintainance_report_request.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_bulk.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/schedule_jop_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
@@ -86,5 +87,9 @@ abstract class HomeRepository {
 
   Future<DataState<RemoteMaintainanceItemPricesOffer>> maintenanceReportItems({
     required String id,
+  });
+
+  Future<DataState> installationFeeBulk({
+    required RequestBulk request,
   });
 }

@@ -545,6 +545,8 @@
   "additionalCost": "Additional Cost",
   "tax": "Tax",
   "total": "Total",
-  "currency": "SAR"
+  "currency": "SAR",
+  "enterValidPriceForAllItems": "Please enter a valid price for all items.",
+  "allInstallationFeesSavedSuccessfully": "All Installation Fees Saved Successfully"
 }
 

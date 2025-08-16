@@ -30,4 +30,5 @@ class APIKeys {
   static const String maintenanceReportItems = "/api/provider/maintenance-report/item-price/{id}";
   static const String maintenanceReports = "/api/provider/maintenance-report";
   static const String createMaintenanceOffer = "/api/provider/offer/maintenance-offer";
+  static const String installationFeesBulk = "/api/provider/installation-fees/bulk";
 }

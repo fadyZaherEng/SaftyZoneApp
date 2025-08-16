@@ -29,6 +29,7 @@ import 'package:safety_zone/src/domain/usecase/home/main_offer_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/mainatinace_reports_offers_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/mainatinace_reports_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/maintainance_report_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/request_bulk_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/schedule_all_jop_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/schedule_jop_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/second_and_third_screen_shedule_use_case.dart';
@@ -122,4 +123,5 @@ Future<void> initializeUseCaseDependencies() async {
   injector.registerFactory<CreateMaintainanceOfferUseCase>(() => CreateMaintainanceOfferUseCase(injector()));
   injector.registerFactory<MaintainanceRequestOfferUseCase>(() => MaintainanceRequestOfferUseCase(injector()));
   injector.registerFactory<MaintainanceReportsUseCase>(() => MaintainanceReportsUseCase(injector()));
+  injector.registerFactory<RequestBulkUseCase>(() => RequestBulkUseCase(injector()));
 }

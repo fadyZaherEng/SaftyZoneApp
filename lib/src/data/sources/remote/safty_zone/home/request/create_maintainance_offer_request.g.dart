@@ -19,7 +19,7 @@ CreateMaintainanceOfferRequest _$CreateMaintainanceOfferRequestFromJson(
           const [],
       price: (json['price'] as num?)?.toInt() ?? 0,
       billURL: json['billURL'] as String? ?? '',
-      offerNumber: (json['offerNumber'] as  num?)?.toInt() ?? 0,
+      offerNumber: (json['offerNumber'] as num?)?.toInt() ?? 0,
       itemSupplyPrice: (json['itemSupplyPrice'] as num?)?.toInt() ?? 0,
       installationPrice: (json['installationPrice'] as num?)?.toInt() ?? 0,
     );

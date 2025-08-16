@@ -5503,6 +5503,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Please enter a valid price for all items.`
+  String get enterValidPriceForAllItems {
+    return Intl.message(
+      'Please enter a valid price for all items.',
+      name: 'enterValidPriceForAllItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Installation Fees Saved Successfully`
+  String get allInstallationFeesSavedSuccessfully {
+    return Intl.message(
+      'All Installation Fees Saved Successfully',
+      name: 'allInstallationFeesSavedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

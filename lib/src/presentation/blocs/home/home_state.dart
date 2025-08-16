@@ -18,3 +18,17 @@ final class GetHomeDashboardSuccessState extends HomeState {
 }
 
 final class GetHomeDashboardLoadingState extends HomeState {}
+
+final class InstallationFeeBulkLoadingState extends HomeState {}
+
+final class InstallationFeeBulkSuccessState extends HomeState {
+  final String message;
+
+  InstallationFeeBulkSuccessState({required this.message});
+}
+
+final class InstallationFeeBulkErrorState extends HomeState {
+  final String message;
+
+  InstallationFeeBulkErrorState(this.message);
+}
