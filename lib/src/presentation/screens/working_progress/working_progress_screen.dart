@@ -46,48 +46,48 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        _bloc.add(
-          GetScheduleJobInProgressEvent(
-            status: ScheduleJobStatusEnum.inProgress.name,
-          ),
-        );
+    return BlocConsumer<RequestsBloc, RequestsState>(
+      listener: (context, state) {
+        if (state is ScheduleJobInProgressLoadingState) {
+          _isLoading = true;
+        } else if (state is ScheduleJobInProgressSuccessState) {
+          _workingProgress = List.from(state.scheduleJob);
+          _tempWorkingProgress = List.from(state.scheduleJob);
+          _isLoading = false;
+        } else if (state is ScheduleJobInProgressErrorState) {
+          _isLoading = false;
+          showSnackBar(
+            context: context,
+            message: state.message,
+            color: ColorSchemes.warning,
+            icon: ImagePaths.error,
+          );
+        }
       },
-      child: BlocConsumer<RequestsBloc, RequestsState>(
-        listener: (context, state) {
-          if (state is ScheduleJobInProgressLoadingState) {
-            _isLoading = true;
-          } else if (state is ScheduleJobInProgressSuccessState) {
-            _workingProgress = List.from(state.scheduleJob);
-            _tempWorkingProgress = List.from(state.scheduleJob);
-            _isLoading = false;
-          } else if (state is ScheduleJobInProgressErrorState) {
-            _isLoading = false;
-            showSnackBar(
-              context: context,
-              message: state.message,
-              color: ColorSchemes.warning,
-              icon: ImagePaths.error,
-            );
-          }
-        },
-        builder: (context, state) {
-          return Scaffold(
-            appBar: widget.isAppBar
-                ? AppBar(
-                    backgroundColor: ColorSchemes.primary,
-                    title: Text(
-                      S.of(context).workingInProgress,
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+      builder: (context, state) {
+        return Scaffold(
+          appBar: widget.isAppBar
+              ? AppBar(
+                  backgroundColor: ColorSchemes.primary,
+                  title: Text(
+                    S.of(context).workingInProgress,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                  )
-                : null,
-            body: SafeArea(
+                  ),
+                )
+              : null,
+          body: RefreshIndicator(
+            onRefresh: () async {
+              _bloc.add(
+                GetScheduleJobInProgressEvent(
+                  status: ScheduleJobStatusEnum.inProgress.name,
+                ),
+              );
+            },
+            child: SafeArea(
               child: Skeletonizer(
                 enabled: _isLoading,
                 child: SingleChildScrollView(
@@ -156,9 +156,9 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 

@@ -37,7 +37,8 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
   bool _isLoading = true;
   bool _isComplete = false;
   bool _isAll = true;
-  bool _isProgress = false;
+
+  // bool _isProgress = false;
   final TextEditingController _searchController = TextEditingController();
 
   RequestsBloc get _bloc => BlocProvider.of<RequestsBloc>(context);
@@ -257,29 +258,29 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                   onTap: () {
                     setState(() {
                       _isAll = true;
-                      _isProgress = false;
+                      // _isProgress = false;
                       _isComplete = false;
                     });
                     _bloc.add(GetScheduleJobEvent(status: ""));
                   },
                 ),
-                _statusTab(
-                  context,
-                  s.progress,
-                  isActive: _isProgress,
-                  onTap: () {
-                    setState(() {
-                      _isAll = false;
-                      _isProgress = true;
-                      _isComplete = false;
-                    });
-                    _bloc.add(
-                      GetScheduleJobEvent(
-                        status: ScheduleJobStatusEnum.inProgress.name,
-                      ),
-                    );
-                  },
-                ),
+                // _statusTab(
+                //   context,
+                //   s.progress,
+                //   isActive: _isProgress,
+                //   onTap: () {
+                //     setState(() {
+                //       _isAll = false;
+                //       _isProgress = true;
+                //       _isComplete = false;
+                //     });
+                //     _bloc.add(
+                //       GetScheduleJobEvent(
+                //         status: ScheduleJobStatusEnum.inProgress.name,
+                //       ),
+                //     );
+                //   },
+                // ),
                 _statusTab(
                   context,
                   s.completed,
@@ -287,7 +288,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                   onTap: () {
                     setState(() {
                       _isAll = false;
-                      _isProgress = false;
+                      // _isProgress = false;
                       _isComplete = true;
                     });
                     _bloc.add(
@@ -1113,8 +1114,13 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                 ),
               ],
             ),
-            if (!_isComplete && !_isProgress) const SizedBox(height: 8),
-            if (!_isComplete && !_isProgress)
+            if (!_isComplete
+                // && !_isProgress
+                )
+              const SizedBox(height: 8),
+            if (!_isComplete
+                // && !_isProgress
+                )
               SizedBox(
                 width: double.infinity,
                 height: 36.h,

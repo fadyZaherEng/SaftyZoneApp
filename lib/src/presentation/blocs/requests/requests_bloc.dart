@@ -76,7 +76,7 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
     final result = await _getConsumerRequestDetailsUseCase(
       id: event.requestId,
     );
-    if (result is DataSuccess<RequestDetails>) {
+    if (result is DataSuccess) {
       emit(GetConsumerRequestDetailsSuccessState(
           result.data ?? RequestDetails()));
     } else {
@@ -86,7 +86,7 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
 
   FutureOr<void> _onGetEmployeesEvent(
       GetEmployeesEvent event, Emitter<RequestsState> emit) async {
-    try {
+    // try {
       final url = Uri.parse(
           '${APIKeys.baseUrl}/api/provider/employee/permission/Contract Signing?page=1&limit=10');
       final token = GetTokenUseCase(injector())();
@@ -108,9 +108,9 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
       } else {
         emit(GetEmployeesErrorState('Failed to load employees'));
       }
-    } catch (e) {
-      emit(GetEmployeesErrorState(e.toString()));
-    }
+    // } catch (e) {
+    //   emit(GetEmployeesErrorState(e.toString()));
+    // }
   }
 
   FutureOr<void> _onSendPriceOfferEvent(

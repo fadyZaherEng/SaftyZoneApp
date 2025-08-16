@@ -9,7 +9,7 @@ class Employee extends Equatable {
   final int createdAt;
   final String Id;
   final String employeeType;
-  final String permission;
+  final List<dynamic> permission;
   final String company;
   final int V;
   final String photoPath;
@@ -26,7 +26,7 @@ class Employee extends Equatable {
     this.createdAt = 0,
     this.Id = '',
     this.employeeType = '',
-    this.permission = '',
+    this.permission = const[],
     this.company = '',
     this.V = 0,
     this.photoPath = '',
@@ -64,7 +64,7 @@ class Employee extends Equatable {
     int? createdAt,
     String? Id,
     String? employeeType,
-    String? permission,
+      List<dynamic>? permission,
     String? company,
     int? V,
     String? photoPath,
@@ -102,7 +102,9 @@ class Employee extends Equatable {
       createdAt: json['createdAt'],
       Id: json['_id'] ?? json['Id'],
       employeeType: json['employeeType'],
-      permission: json['permission'],
+      permission: json['permission'] is List
+          ? json['permission']
+          : [json['permission']],
       company: json['company'],
       V: json['__v'],
       photoPath: json['photoPath'],
@@ -122,7 +124,10 @@ class Employee extends Equatable {
       createdAt: json['createdAt'],
       Id: json['_id'],
       employeeType: json['employeeType'],
-      permission: json['permission'],
+      //make list
+      permission: json['permission'] is List
+          ? json['permission']
+          : [json['permission']],
       company: json['company'],
       V: json['__v'],
     );

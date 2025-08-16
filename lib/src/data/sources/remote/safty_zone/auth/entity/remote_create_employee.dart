@@ -14,7 +14,7 @@ class RemoteCreateEmployee {
   @JsonKey(name: '_id')
   final String? Id;
   final String? employeeType;
-  final String? permission;
+  final List<dynamic>? permission;
   final String? company;
   @JsonKey(name: '__v')
   final int? V;
@@ -28,7 +28,7 @@ class RemoteCreateEmployee {
     this.createdAt = 0,
     this.Id = '',
     this.employeeType = '',
-    this.permission = '',
+    this.permission = const [],
     this.company = '',
     this.V = 0,
   });
@@ -49,7 +49,7 @@ extension RemoteCreateEmployeeExt on RemoteCreateEmployee {
         createdAt: createdAt ?? 0,
         Id: Id ?? '',
         employeeType: employeeType ?? '',
-        permission: permission ?? '',
+        permission: permission ?? const [],
         company: company ?? '',
         V: V ?? 0,
       );

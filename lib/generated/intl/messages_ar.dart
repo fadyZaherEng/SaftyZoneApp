@@ -40,7 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addressedInstallationFee":
             MessageLookupByLibrary.simpleMessage("تكاليف التثبيت المعرفة"),
         "alarmBell": MessageLookupByLibrary.simpleMessage("صوت التنبيه"),
-        "alarmItems": MessageLookupByLibrary.simpleMessage("بنود الإنذار:"),
+        "alarmItems":
+            MessageLookupByLibrary.simpleMessage("بنود الإنذار المبكر:"),
         "alarm_bell": MessageLookupByLibrary.simpleMessage("جرس إنذار"),
         "alarm_type": MessageLookupByLibrary.simpleMessage(
             "ما هو نوع النظام الانذار المبكر؟"),
@@ -280,7 +281,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "extinguishersDetails": MessageLookupByLibrary.simpleMessage(
             "تفاصيل الطفايات المراد إصلاحها"),
         "extinguishingItems":
-            MessageLookupByLibrary.simpleMessage("بنود الإطفاء:"),
+            MessageLookupByLibrary.simpleMessage("بنود الإطفاء الحريق:"),
         "extinguishingSystems":
             MessageLookupByLibrary.simpleMessage("أنظمة الإطفاء"),
         "fawryService": MessageLookupByLibrary.simpleMessage("خدمة فورية"),

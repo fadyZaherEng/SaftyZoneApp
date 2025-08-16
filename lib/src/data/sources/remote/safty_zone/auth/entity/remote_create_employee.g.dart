@@ -17,7 +17,7 @@ RemoteCreateEmployee _$RemoteCreateEmployeeFromJson(
       createdAt: (json['createdAt'] as num?)?.toInt() ?? 0,
       Id: json['_id'] as String? ?? '',
       employeeType: json['employeeType'] as String? ?? '',
-      permission: json['permission'] as String? ?? '',
+      permission: json['permission'] as List<dynamic>? ?? const [],
       company: json['company'] as String? ?? '',
       V: (json['__v'] as num?)?.toInt() ?? 0,
     );

@@ -710,69 +710,71 @@ class _RequestDetailsMaintainanceScreenState
   Widget _buildTermsTab() {
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ContractClausesSection(
-            clauses: model.termsAndConditions.clauses,
-          ),
-          Row(
-            children: [
-              SvgPicture.asset(
-                ImagePaths.technical,
-                color: ColorSchemes.secondary,
-                width: 16,
-                height: 16,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  "${S.of(context).theEmployeeResponsibleForExecutingTheRequest} : ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15.sp,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ContractClausesSection(
+              clauses: model.termsAndConditions.clauses,
+            ),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  ImagePaths.technical,
+                  color: ColorSchemes.secondary,
+                  width: 16,
+                  height: 16,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    "${S.of(context).theEmployeeResponsibleForExecutingTheRequest} : ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15.sp,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              DropdownButton<Employee>(
-                value: _selectedEmployee,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedEmployee = value ?? _selectedEmployee;
-                  });
-                },
-                items: _employees.map((emp) {
-                  return DropdownMenuItem(
-                    value: emp,
-                    child: Text(
-                      emp.fullName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15.sp,
-                        color: ColorSchemes.black,
+                const SizedBox(width: 8),
+                DropdownButton<Employee>(
+                  value: _selectedEmployee,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedEmployee = value ?? _selectedEmployee;
+                    });
+                  },
+                  items: _employees.map((emp) {
+                    return DropdownMenuItem(
+                      value: emp,
+                      child: Text(
+                        emp.fullName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15.sp,
+                          color: ColorSchemes.black,
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
-                underline: const SizedBox(),
-              ),
-            ],
-          ),
-          const SizedBox(height: 64),
-          CustomButtonWidget(
-            backgroundColor: ColorSchemes.primary,
-            textColor: Colors.white,
-            text: S.of(context).sendPriceOffer,
-            onTap: () {
-              debugPrint('Saved Model: $model');
-              setState(() {
-                _isPriceSending = true;
-              });
-            },
-          ),
-          const SizedBox(height: 32),
-        ],
+                    );
+                  }).toList(),
+                  underline: const SizedBox(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 64),
+            CustomButtonWidget(
+              backgroundColor: ColorSchemes.primary,
+              textColor: Colors.white,
+              text: S.of(context).sendPriceOffer,
+              onTap: () {
+                debugPrint('Saved Model: $model');
+                setState(() {
+                  _isPriceSending = true;
+                });
+              },
+            ),
+            const SizedBox(height: 32),
+          ],
+        ),
       ),
     );
   }
