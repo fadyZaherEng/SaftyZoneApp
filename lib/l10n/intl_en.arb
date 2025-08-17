@@ -548,7 +548,10 @@
   "currency": "SAR",
   "enterValidPriceForAllItems": "Please enter a valid price for all items.",
   "allInstallationFeesSavedSuccessfully": "All Installation Fees Saved Successfully",
-  "commercialRegistration": "Commercial Registration"
+  "commercialRegistration": "Commercial Registration",
+  "branchEmployee": "Branch Employee",
+  "createdAt": "Created At",
+  "steps": "Step"
 
 }
 

@@ -17,11 +17,13 @@ import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/upload_doc/upload_doc_bloc.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:intl/intl.dart';
 
 class UploadDocumentFawryScreen extends BaseStatefulWidget {
   final ScheduleJop request;
@@ -384,29 +386,27 @@ class _UploadDocumentFawryScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /// --- رقم الطلب + الحالة ---
             Row(
               children: [
                 Text(
-                  request.Id,
+                  request.requestNumber, // 👈 بدل Id
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 const Spacer(),
                 Chip(
                   label: Text(
                     _getStatus(request.status),
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   backgroundColor: ColorSchemes.secondary,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 4),
+
+            const SizedBox(height: 8),
+
+            /// --- الفرع + العنوان ---
             Row(
               children: [
                 Text(
@@ -427,46 +427,28 @@ class _UploadDocumentFawryScreenState
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            // Text(
-            //   S.of(context).fireTitle,
-            //   style: TextStyle(
-            //     color: ColorSchemes.red,
-            //     fontWeight: FontWeight.bold,
-            //     fontSize: 14.sp,
-            //   ),
-            // ),
+
             Divider(),
-            const SizedBox(height: 8),
+
+            /// --- النوع + الخطوة الحالية ---
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (SystemType.isExtinguisherType(request.type))
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.calendar_month_outlined,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        "${S.of(context).visitDate}:\n${"12/12/2022"}",
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                if (!SystemType.isExtinguisherType(request.type)) Spacer(),
+                // Text(
+                //   "${S.of(context).steps}: ${request.step}",
+                //   style: TextStyle(
+                //     color: Colors.grey[700],
+                //     fontWeight: FontWeight.w500,
+                //     fontSize: 14.sp,
+                //   ),
+                // ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -485,14 +467,43 @@ class _UploadDocumentFawryScreenState
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+
+            const SizedBox(height: 12),
+
+            /// --- تاريخ الزيارة + عدد الزيارات ---
+            if (request.numberOfVisits >
+                0) // Show only if number of visits is greater than 0
+              Row(
+                children: [
+                  const Icon(Icons.calendar_month_outlined, size: 16),
+                  const SizedBox(width: 4),
+                  Text(
+                    "${S.of(context).visitDate}: ${DateFormat('dd/MM/yyyy').format(
+                      DateTime.fromMillisecondsSinceEpoch(request.visitDate),
+                    )}",
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    "${S.of(context).numberOfVisits}: ${request.numberOfVisits}",
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+
+            const SizedBox(height: 12),
+
+            /// --- الموظف المسؤول عن الرد ---
             Row(
               children: [
-                SvgPicture.asset(
-                  ImagePaths.technical,
-                  height: 16.h,
-                  width: 16.w,
-                ),
+                SvgPicture.asset(ImagePaths.technical,
+                    height: 16.h, width: 16.w),
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
@@ -504,18 +515,54 @@ class _UploadDocumentFawryScreenState
                     ),
                   ),
                 ),
-                const SizedBox(width: 4),
                 Text(
                   request.responseEmployee.fullName,
                   style: TextStyle(
-                    color: Colors.grey[700],
-                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w600,
                     fontSize: 15.sp,
                   ),
                 ),
               ],
             ),
+
             const SizedBox(height: 8),
+
+            /// --- موظف الفرع ---
+            Row(
+              children: [
+                const Icon(Icons.person, size: 16),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    S.of(context).branchEmployee,
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ),
+                Text(
+                  request.branch.employee.fullName,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15.sp,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 12),
+
+            /// --- تاريخ الإنشاء ---
+            Text(
+              "${S.of(context).createdAt}: ${DateFormat('dd/MM/yyyy HH:mm').format(
+                DateTime.fromMillisecondsSinceEpoch(request.createdAt),
+              )}",
+              style: TextStyle(color: Colors.grey[600], fontSize: 12.sp),
+            ),
           ],
         ),
       ),

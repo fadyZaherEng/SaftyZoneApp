@@ -248,6 +248,7 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
                                 backgroundColor: ColorSchemes.primary,
                                 textColor: ColorSchemes.white,
                               ),
+                              const SizedBox(height: 64),
                             ],
                           ),
 
@@ -271,6 +272,7 @@ class _MaintainanceOfferScreenState extends BaseState<MaintainanceOfferScreen> {
                               backgroundColor: ColorSchemes.primary,
                               textColor: ColorSchemes.white,
                             ),
+                          const SizedBox(height: 64),
                         ],
                       ],
                     ),

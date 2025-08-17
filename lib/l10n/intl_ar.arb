@@ -549,6 +549,9 @@
   "currency": "ر.س",
   "enterValidPriceForAllItems": "الرجاء إدخال سعر صالح لجميع العناصر",
   "allInstallationFeesSavedSuccessfully": "تم حفظ جميع تكاليف التثبيت بنجاح",
-  "commercialRegistration": "السجل التجاري"
+  "commercialRegistration": "السجل التجاري",
+  "branchEmployee": "موظف الفرع",
+  "createdAt": "تم الإنشاء في",
+  "steps": "الخطوه"
 
 }

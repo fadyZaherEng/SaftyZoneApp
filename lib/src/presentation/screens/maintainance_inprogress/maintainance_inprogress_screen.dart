@@ -251,6 +251,15 @@ class _MaintainanceInProgressScreenState
       return buildItem(itemName, i,
           subCategory: item.itemId?.subCategory ?? '');
     }).toList();
+    // if (widgets.isEmpty) {
+    //   Future.delayed(
+    //     const Duration(seconds: 10),
+    //     () => _pageController.nextPage(
+    //       duration: const Duration(milliseconds: 300),
+    //       curve: Curves.ease,
+    //     ),
+    //   );
+    // }
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -331,7 +340,7 @@ class _MaintainanceInProgressScreenState
               backgroundColor: ColorSchemes.primary,
               textColor: Colors.white,
             ),
-          if (showButton) const SizedBox(height: 40),
+          if (showButton) const SizedBox(height: 64),
         ],
       ),
     );
@@ -750,12 +759,19 @@ class _SystemReportsPageState extends State<SystemReportsPage> {
                 //   height: 24,
                 //   color: const Color(0xFF7B0000),
                 // ),
-                leading: Icon(
-                  !item.value ? Icons.check_box : Icons.warning,
-                  color: !item.value
-                      ? const Color(0xFF7B0000)
-                      : ColorSchemes.border,
-                ),
+                leading: item.value
+                    ? Text(
+                        "X",
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.red,
+                        ),
+                      )
+                    : Icon(
+                        !item.value ? Icons.check_box : Icons.block,
+                        color:
+                            !item.value ? const Color(0xFF7B0000) : Colors.grey,
+                      ),
               ),
             );
 
@@ -1322,7 +1338,7 @@ class _SystemErrorScreenState extends State<SystemErrorScreen> {
                   );
                 },
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 64),
             ],
           ),
         ),

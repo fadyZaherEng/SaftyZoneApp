@@ -87,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("المعلومات الاساسية"),
         "bell_with_flasher":
             MessageLookupByLibrary.simpleMessage("جرس إنذار خارجي مع فلاش"),
+        "branchEmployee": MessageLookupByLibrary.simpleMessage("موظف الفرع"),
         "broken_glass": MessageLookupByLibrary.simpleMessage("كاسر زجاج "),
         "camera": MessageLookupByLibrary.simpleMessage("الكاميرا"),
         "cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
@@ -174,6 +175,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "createEmployeeProfile":
             MessageLookupByLibrary.simpleMessage("أنشئ ملف الموظف"),
+        "createdAt": MessageLookupByLibrary.simpleMessage("تم الإنشاء في"),
         "currency": MessageLookupByLibrary.simpleMessage("ر.س"),
         "currentBalance": MessageLookupByLibrary.simpleMessage("مبلغ معلق"),
         "current_wallet_amount":
@@ -717,6 +719,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates":
             MessageLookupByLibrary.simpleMessage(
                 "استمر في متابعة المهام الخدمية الخاصة بك مع جداول موقرة وموظفين تمتيز وتحديثات حالة الخدمة في الوقت الحالي"),
+        "steps": MessageLookupByLibrary.simpleMessage("الخطوه"),
         "storagePermissionIsRequiredToProceed":
             MessageLookupByLibrary.simpleMessage(
                 "تحتاج الى صلاحية المخزن للمتابعة"),

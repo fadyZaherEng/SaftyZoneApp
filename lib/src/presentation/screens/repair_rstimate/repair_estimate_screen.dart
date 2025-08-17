@@ -50,7 +50,7 @@ class _RepairEstimateScreenState extends BaseState<RepairEstimateScreen> {
   List<String> itemsSectionIcon = [];
   double emergencyExitValue = 0.0;
   bool needsParts = true;
-  TextEditingController priceController = TextEditingController(text: "2000");
+  TextEditingController priceController = TextEditingController(text: "0");
   List<String> itemsFirstSectionIcon = [];
   List<String> itemsSecondSectionIcon = [];
   List<String> items = [];
@@ -288,7 +288,7 @@ class _RepairEstimateScreenState extends BaseState<RepairEstimateScreen> {
                             label: t.part_price,
                             path: "",
                             isReadOnly: false,
-                            value: 2000,
+                            value: 0,
                           ),
                           SizedBox(height: 10),
                           InkWell(
@@ -355,6 +355,7 @@ class _RepairEstimateScreenState extends BaseState<RepairEstimateScreen> {
                 if (widget.repairComplete) _buildPriceSection(),
                 const SizedBox(height: 48),
                 _buildNextButton(),
+                const SizedBox(height: 64),
               ],
             ),
           ),
@@ -566,12 +567,20 @@ class _RepairEstimateScreenState extends BaseState<RepairEstimateScreen> {
                 //   height: 24,
                 //   color: const Color(0xFF7B0000),
                 // ),
-                leading: Icon(
-                  !item.value ? Icons.check_box : Icons.warning,
-                  color: !item.value
-                      ? const Color(0xFF7B0000)
-                      : ColorSchemes.border,
-                ),
+                leading: item.value
+                    ? Text(
+                        "X",
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: ColorSchemes.redError,
+                        ),
+                      )
+                    : Icon(
+                        !item.value ? Icons.check_box : Icons.warning,
+                        color: !item.value
+                            ? const Color(0xFF7B0000)
+                            : ColorSchemes.border,
+                      ),
               ),
             );
 
@@ -584,10 +593,10 @@ class _RepairEstimateScreenState extends BaseState<RepairEstimateScreen> {
     );
   }
 
-  final double materialCost = 1000;
-  final double repairCost = 2000;
-  final double installCost = 3000;
-  final double tax = 500;
+  final double materialCost = 0;
+  final double repairCost = 0;
+  final double installCost = 0;
+  final double tax = 0;
 
   _buildPriceSection() {
     double total = materialCost + repairCost + installCost + tax;

@@ -87,6 +87,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Basic Information"),
         "bell_with_flasher": MessageLookupByLibrary.simpleMessage(
             "External Fire Alarm with Flasher"),
+        "branchEmployee":
+            MessageLookupByLibrary.simpleMessage("Branch Employee"),
         "broken_glass": MessageLookupByLibrary.simpleMessage("Broken Glass"),
         "camera": MessageLookupByLibrary.simpleMessage("Camera"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
@@ -179,6 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
         "createEmployeeProfile":
             MessageLookupByLibrary.simpleMessage("Create Employee Profile"),
+        "createdAt": MessageLookupByLibrary.simpleMessage("Created At"),
         "currency": MessageLookupByLibrary.simpleMessage("SAR"),
         "currentBalance":
             MessageLookupByLibrary.simpleMessage("Pending Amount"),
@@ -745,6 +748,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "stayOnTopOfYourServiceTasksWithClearSchedulesAssignedTechniciansAndRealTimeStatusUpdates":
             MessageLookupByLibrary.simpleMessage(
                 "Stay on top of your service tasks with clear schedules, assigned technicians, and real-time status updates"),
+        "steps": MessageLookupByLibrary.simpleMessage("Step"),
         "storagePermissionIsRequiredToProceed":
             MessageLookupByLibrary.simpleMessage(
                 "Storage permission is required to proceed"),

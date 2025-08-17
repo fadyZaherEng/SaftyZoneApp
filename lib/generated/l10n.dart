@@ -5533,6 +5533,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Branch Employee`
+  String get branchEmployee {
+    return Intl.message(
+      'Branch Employee',
+      name: 'branchEmployee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Created At`
+  String get createdAt {
+    return Intl.message(
+      'Created At',
+      name: 'createdAt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Step`
+  String get steps {
+    return Intl.message(
+      'Step',
+      name: 'steps',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
