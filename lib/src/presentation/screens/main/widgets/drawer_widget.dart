@@ -44,10 +44,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 width: 50,
                 height: 50,
                 errorBuilder: (context, error, stackTrace) =>
-                const Icon(
-                  Icons.person,
-                  size: 50,
-                ),
+                const Icon(Icons.person, size: 50),
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
                   return const Center(child: CircularProgressIndicator());
