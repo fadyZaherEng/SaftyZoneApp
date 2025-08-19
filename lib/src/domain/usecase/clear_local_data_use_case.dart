@@ -11,6 +11,21 @@ class ClearLocalDataUseCase {
   Future<bool> call() async {
     final languageValue = GetLanguageUseCase(injector())();
     bool cleared = await sharedPreferences.clear();
+    try {
+      // Clear the SharedPreferences
+      cleared = await sharedPreferences.clear();
+      SharedPreferences prefs = injector<SharedPreferences>();
+      // Clear specific keys if needed
+      await prefs.remove('remember_me');
+      await prefs.remove('auth_token');
+      await prefs.remove('employee_details');
+      await prefs.remove('reports');
+      await prefs.remove('language');
+      await prefs.remove('is_dark_mode');
+      await prefs.clear();
+    } catch (e) {
+      cleared = false;
+    }
 
     if (cleared) {
       await SetLanguageUseCase(injector())(languageValue);
