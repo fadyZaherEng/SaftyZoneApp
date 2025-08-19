@@ -42,11 +42,11 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     _bloc.add(GetHomeDashboardEvent());
     super.initState();
     _dashboardItems = [
-      DashboardItem('30', S.current.newRequests, ImagePaths.news),
-      DashboardItem('5', S.current.maintenanceReports, ImagePaths.technical),
-      DashboardItem('10', S.current.pendingRequests, ImagePaths.requests),
-      DashboardItem('8', S.current.priceOffers, ImagePaths.work),
-      DashboardItem('12', S.current.todayTasks, ImagePaths.groups),
+      DashboardItem('0', S.current.newRequests, ImagePaths.news),
+      DashboardItem('0', S.current.maintenanceReports, ImagePaths.technical),
+      DashboardItem('0', S.current.pendingRequests, ImagePaths.requests),
+      DashboardItem('0', S.current.priceOffers, ImagePaths.work),
+      DashboardItem('0', S.current.todayTasks, ImagePaths.groups),
     ];
   }
 

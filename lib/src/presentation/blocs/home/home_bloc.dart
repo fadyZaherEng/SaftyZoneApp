@@ -47,12 +47,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       GetHomeDashboardEvent event, Emitter<HomeState> emit) async {
     emit(GetHomeDashboardLoadingState());
     final result = await _getConsumerRequestsUseCase(
-        providerStatus: RequestStatus.active.name);
+      providerStatus: RequestStatus.active.name,
+    );
     final result2 = await _scheduleJobAllUseCase(
-        request: ScheduleJopRequest(
-      phoneNumber: (await GetUserLoginDataUseCase(injector())())?.phone ?? '',
-      code: (await GetUserLoginDataUseCase(injector())())?.code ?? '',
-    ));
+      request: ScheduleJopRequest(
+        phoneNumber: (await GetUserLoginDataUseCase(injector())())?.phone ?? '',
+        code: (await GetUserLoginDataUseCase(injector())())?.code ?? '',
+      ),
+    );
     final pendingRequests = await _scheduleJobAllUseCase(
       request: ScheduleJopRequest(
         code: (await _getUserLoginDataUseCase())?.code ?? '',
@@ -61,16 +63,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
     if (result is DataSuccess<List<Requests>>) {
       dashboardItems = [
-        DashboardItem(S.current.newRequests,
-            result.data?.length.toString() ?? '0', ImagePaths.news),
-        DashboardItem(S.current.maintenanceReports, '0', ImagePaths.technical),
         DashboardItem(
-            S.current.pendingRequests,
-            pendingRequests.data?.length.toString() ?? '0',
-            ImagePaths.requests),
+          S.current.newRequests,
+          result.data?.length.toString() ?? '0',
+          ImagePaths.news,
+        ),
+        DashboardItem(
+          S.current.maintenanceReports,
+          '0',
+          ImagePaths.technical,
+        ),
+        DashboardItem(
+          S.current.pendingRequests,
+          pendingRequests.data?.length.toString() ?? '0',
+          ImagePaths.requests,
+        ),
         DashboardItem(S.current.priceOffers, '0', ImagePaths.work),
-        DashboardItem(S.current.todayTasks,
-            result2.data?.length.toString() ?? '0', ImagePaths.groups),
+        DashboardItem(
+          S.current.todayTasks,
+          result2.data?.length.toString() ?? '0',
+          ImagePaths.groups,
+        ),
       ];
       emit(GetHomeDashboardSuccessState(dashboardItems));
     } else {
