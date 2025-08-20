@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
@@ -12,8 +13,8 @@ import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/core/utils/permission_service_handler.dart';
 import 'package:safety_zone/src/core/utils/show_action_dialog_widget.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
-import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_job_details.dart'
-    as RemoteScheduleJobDetails;
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_first_screen_schedule.dart';
+
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
@@ -50,8 +51,7 @@ class _UploadDocumentFawryScreenState
   int _currentIndex = 0;
   List<employee.Employee> _employees = [];
   employee.Employee _selectedEmployee = employee.Employee();
-  RemoteScheduleJobDetails.RemoteScheduleJobDetails model =
-      RemoteScheduleJobDetails.RemoteScheduleJobDetails();
+  RemoteFirstScreenSchedule model = RemoteFirstScreenSchedule();
 
   late TabController _tabController;
 
@@ -60,8 +60,7 @@ class _UploadDocumentFawryScreenState
 
   @override
   void initState() {
-    uploadDocBloc
-        .add(GetConsumerRequestsDetailsEvent(requestId: widget.request.Id));
+    uploadDocBloc.add(GetScheduleJopDetailsEvent(requestId: widget.request.Id));
     uploadDocBloc.add(GetEmployeesEvent());
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
@@ -123,14 +122,14 @@ class _UploadDocumentFawryScreenState
             icon: ImagePaths.success,
           );
           Navigator.pop(context);
-        } else if (state is GetConsumerRequestsDetailsLoadingState) {
+        } else if (state is GetScheduleJopDetailsLoadingState) {
           _isLoading = true;
-        } else if (state is GetConsumerRequestsDetailsSuccessState) {
+        } else if (state is GetScheduleJopDetailsSuccessState) {
           model = state.request;
           print(
-              "Consumer Request Details: ${model.consumerRequest?.alarmItems?.length}");
+              "Consumer Request Details: ${model.data?.consumerRequest?.alarmItems?.length}");
           _isLoading = false;
-        } else if (state is GetConsumerRequestsDetailsErrorState) {
+        } else if (state is GetScheduleJopDetailsErrorState) {
           _showValidationError(state.message, false);
           _isLoading = false;
         } else if (state is GetEmployeesSuccessState) {
@@ -188,13 +187,29 @@ class _UploadDocumentFawryScreenState
                       child: _buildRequestCard(context, widget.request),
                     ),
                     const SizedBox(height: 12),
-                    _buildTabBar(s),
+                    if (_isLoading)
+                      Center(
+                        child: SpinKitDoubleBounce(
+                          color: ColorSchemes.primary,
+                        ),
+                      )
+                    else
+                      _buildTabBar(s),
                     const SizedBox(height: 16),
-
-                    SizedBox(
-                      height: 250.h,
-                      child: _buildTabContent(s),
-                    ),
+                    if (_isLoading)
+                      SizedBox(
+                        height: 250.h,
+                        child: Center(
+                          child: SpinKitDoubleBounce(
+                            color: ColorSchemes.primary,
+                          ),
+                        ),
+                      )
+                    else
+                      SizedBox(
+                        height: 250.h,
+                        child: _buildTabContent(s),
+                      ),
                     SizedBox(height: 16.h),
                     if (_isExpandedUpload)
                       Text(
@@ -313,7 +328,7 @@ class _UploadDocumentFawryScreenState
               ),
               const Spacer(),
               Text(
-                _systemType(model.type.toString()),
+                _systemType(model.data?.type?.toLowerCase() ?? ''),
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 15.sp,
@@ -354,7 +369,7 @@ class _UploadDocumentFawryScreenState
               ),
               const Spacer(),
               Text(
-                model.consumerRequest?.space ?? '',
+                model.data?.consumerRequest?.space?.toString() ?? '',
                 style: const TextStyle(
                   fontWeight: FontWeight.normal,
                 ),
@@ -413,7 +428,8 @@ class _UploadDocumentFawryScreenState
 
   Widget _buildQuantitiesTab() {
     final s = S.of(context);
-    print("Consumer Request: ${model.consumerRequest?.alarmItems?.length}");
+    print(
+        "Consumer Request: ${model.data?.consumerRequest?.alarmItems?.length}");
     return Padding(
       padding: const EdgeInsets.all(12),
       child: SingleChildScrollView(
@@ -422,44 +438,18 @@ class _UploadDocumentFawryScreenState
           children: [
             _buildQuantitySection(
               title: s.alarmItems,
-              items: model.consumerRequest?.alarmItems ?? [],
+              items: model.data?.consumerRequest?.alarmItems ?? [],
             ),
             const SizedBox(height: 16),
             _buildQuantitySection(
               title: s.extinguishingItems,
-              items: model.consumerRequest?.fireExtinguisherItem ?? [],
+              items: model.data?.consumerRequest?.fireExtinguisherItem ?? [],
             ),
             const SizedBox(height: 16),
             _buildQuantitySection(
               title: s.fireSystems,
-              items: model.consumerRequest?.fireSystemItem ?? [],
+              items: model.data?.consumerRequest?.fireSystemItem ?? [],
             ),
-            // const SizedBox(height: 24),
-            // SizedBox(
-            //   width: double.infinity,
-            //   child: ElevatedButton(
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: ColorSchemes.red,
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(8),
-            //       ),
-            //       padding: const EdgeInsets.symmetric(vertical: 14),
-            //     ),
-            //     onPressed: () {
-            //       debugPrint('Saved Model: $model');
-            //       if (_currentIndex < 3 && _currentIndex >= 0) {
-            //         if (_currentIndex == 2) {
-            //           _currentIndex = 0;
-            //         } else {
-            //           _currentIndex++;
-            //         }
-            //         _tabController.animateTo(_currentIndex);
-            //       }
-            //     },
-            //     child: Text(s.next),
-            //   ),
-            // ),
-            // const SizedBox(height: 64),
           ],
         ),
       ),
@@ -468,7 +458,7 @@ class _UploadDocumentFawryScreenState
 
   Widget _buildQuantitySection({
     required String title,
-    required List<RemoteScheduleJobDetails.AlarmItems> items,
+    required List<AlarmItems> items,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -503,7 +493,7 @@ class _UploadDocumentFawryScreenState
               (item) => _buildQuantityRow(
                 GetLanguageUseCase(injector())() == 'en'
                     ? item.value.itemId?.itemName?.en.toString() ?? ''
-                    : item.value.itemId?.itemName?.ar?.toString() ?? '',
+                    : item.value.itemId?.itemName?.ar.toString() ?? '',
                 item.value.quantity.toString(),
                 item.key == items.length - 1,
               ),
@@ -653,14 +643,6 @@ class _UploadDocumentFawryScreenState
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Text(
-                //   "${S.of(context).steps}: ${request.step}",
-                //   style: TextStyle(
-                //     color: Colors.grey[700],
-                //     fontWeight: FontWeight.w500,
-                //     fontSize: 14.sp,
-                //   ),
-                // ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),

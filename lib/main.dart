@@ -30,8 +30,8 @@ import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
 import 'package:huawei_hmsavailability/huawei_hmsavailability.dart';
 
 void main() async {
-  ChuckerFlutter.showOnRelease = false;
-  ChuckerFlutter.showNotification = false;
+  ChuckerFlutter.showOnRelease = true;
+  ChuckerFlutter.showNotification = true;
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDependencies();
   await initFirebaseService();

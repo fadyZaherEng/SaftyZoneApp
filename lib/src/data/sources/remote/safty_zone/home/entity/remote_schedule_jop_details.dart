@@ -1,64 +1,161 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:safety_zone/src/presentation/screens/installation_options/models/installation_fee_model.dart';
 
-part 'remote_first_screen_schedule.g.dart';
-
-@JsonSerializable()
-class RemoteFirstScreenSchedule {
-  final String? message;
-  final Data? data;
-
-  const RemoteFirstScreenSchedule({
-    this.message,
-    this.data,
-  });
-
-  factory RemoteFirstScreenSchedule.fromJson(Map<String, dynamic> json) =>
-      _$RemoteFirstScreenScheduleFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RemoteFirstScreenScheduleToJson(this);
-}
+part 'remote_schedule_jop_details.g.dart';
 
 @JsonSerializable()
-class Data {
+class RemoteScheduleJopDetails {
   @JsonKey(name: '_id')
   final String? Id;
   final String? provider;
   final String? consumer;
+  final ConsumerRequest? consumerRequest;
   final Branch? branch;
   final String? offer;
   final String? responseEmployee;
+  final dynamic receiveItem;
   final String? requestNumber;
   final String? type;
   final String? status;
   final String? step;
   final int? visitDate;
+  final int? numberOfVisits;
   final int? createdAt;
   @JsonKey(name: '__v')
   final int? V;
-  final ConsumerRequest? consumerRequest;
 
-  const Data({
+  const RemoteScheduleJopDetails({
     this.Id,
     this.provider,
     this.consumer,
+    this.consumerRequest,
     this.branch,
     this.offer,
     this.responseEmployee,
+    this.receiveItem,
     this.requestNumber,
     this.type,
     this.status,
     this.step,
     this.visitDate,
+    this.numberOfVisits,
     this.createdAt,
     this.V,
-    this.consumerRequest,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) =>
-      _$DataFromJson(json);
+  factory RemoteScheduleJopDetails.fromJson(Map<String, dynamic> json) =>
+      _$RemoteScheduleJopDetailsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DataToJson(this);
+  Map<String, dynamic> toJson() => _$RemoteScheduleJopDetailsToJson(this);
+}
+
+@JsonSerializable()
+class ConsumerRequest {
+  @JsonKey(name: '_id')
+  final String? Id;
+  final String? requestNumber;
+  final String? systemType;
+  final int? space;
+  final List<AlarmItems>? alarmItems;
+  final List<AlarmItems>? fireExtinguisherItem;
+  final List<AlarmItems>? fireSystemItem;
+  final String? requestType;
+  final String? status;
+
+  const ConsumerRequest({
+    this.Id,
+    this.requestNumber,
+    this.systemType,
+    this.space,
+    this.alarmItems,
+    this.fireExtinguisherItem,
+    this.fireSystemItem,
+    this.requestType,
+    this.status,
+  });
+
+  factory ConsumerRequest.fromJson(Map<String, dynamic> json) =>
+      _$ConsumerRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ConsumerRequestToJson(this);
+}
+
+@JsonSerializable()
+class AlarmItems {
+  @JsonKey(name: 'item_id')
+  final ItemId? itemId;
+  final int? quantity;
+  @JsonKey(name: '_id')
+  final String? Id;
+
+  const AlarmItems({
+    this.itemId,
+    this.quantity,
+    this.Id,
+  });
+
+  factory AlarmItems.fromJson(Map<String, dynamic> json) =>
+      _$AlarmItemsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AlarmItemsToJson(this);
+}
+
+@JsonSerializable()
+class ItemId {
+  @JsonKey(name: '_id')
+  final String? Id;
+  final ItemName? itemName;
+  final String? image;
+  final String? type;
+  final String? subCategory;
+
+  const ItemId({
+    this.Id,
+    this.itemName,
+    this.image,
+    this.type,
+    this.subCategory,
+  });
+
+  factory ItemId.fromJson(Map<String, dynamic> json) =>
+      _$ItemIdFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ItemIdToJson(this);
+}
+
+@JsonSerializable()
+class ItemName {
+  final String? en;
+  final String? ar;
+
+  const ItemName({
+    this.en,
+    this.ar,
+  });
+
+  factory ItemName.fromJson(Map<String, dynamic> json) =>
+      _$ItemNameFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ItemNameToJson(this);
+}
+
+@JsonSerializable()
+class FireSystemItem {
+  @JsonKey(name: 'item_id')
+  final ItemId? itemId;
+  final int? quantity;
+  @JsonKey(name: '_id')
+  final String? Id;
+
+  const FireSystemItem({
+    this.itemId,
+    this.quantity,
+    this.Id,
+  });
+
+  factory FireSystemItem.fromJson(Map<String, dynamic> json) =>
+      _$FireSystemItemFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FireSystemItemToJson(this);
 }
 
 @JsonSerializable()
@@ -121,113 +218,4 @@ class Employee {
       _$EmployeeFromJson(json);
 
   Map<String, dynamic> toJson() => _$EmployeeToJson(this);
-}
-
-@JsonSerializable()
-class ConsumerRequest {
-  @JsonKey(name: '_id')
-  final String? Id;
-  final String? requestNumber;
-  final List<AlarmItems>? alarmItems;
-  final List<AlarmItems>? fireExtinguisherItem;
-  final List<AlarmItems>? fireSystemItem;
-  final String? requestType;
-  final String? status;
-  final int? space;
-
-  const ConsumerRequest({
-    this.Id,
-    this.requestNumber,
-    this.alarmItems,
-    this.fireExtinguisherItem,
-    this.fireSystemItem,
-    this.requestType,
-    this.status,
-    this.space,
-  });
-
-  factory ConsumerRequest.fromJson(Map<String, dynamic> json) =>
-      _$ConsumerRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ConsumerRequestToJson(this);
-}
-
-@JsonSerializable()
-class AlarmItems {
-  @JsonKey(name: 'item_id')
-  final ItemId? itemId;
-  final int? quantity;
-  final int? malfunctionsNumber;
-  @JsonKey(name: '_id')
-  final String? Id;
-
-  const AlarmItems({
-    this.itemId,
-    this.quantity,
-    this.Id,
-    this.malfunctionsNumber=0,
-  });
-
-  factory AlarmItems.fromJson(Map<String, dynamic> json) =>
-      _$AlarmItemsFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AlarmItemsToJson(this);
-
-  //copy with
-  AlarmItems copyWith({
-    ItemId? itemId,
-    int? quantity,
-    String? Id,
-    int? malfunctionsNumber,
-  }) {
-    return AlarmItems(
-      itemId: itemId ?? this.itemId,
-      quantity: quantity ?? this.quantity,
-      Id: Id ?? this.Id,
-      malfunctionsNumber: malfunctionsNumber ?? this.malfunctionsNumber,
-    );
-  }
-}
-
-@JsonSerializable()
-class ItemId {
-  @JsonKey(name: '_id')
-  final String? Id;
-  final ItemName? itemName;
-  final String? image;
-  final String? type;
-  final String? subCategory;
-
-  const ItemId({
-    this.Id,
-    this.itemName=const ItemName(en: '', ar: ''),
-    this.image,
-    this.type,
-    this.subCategory,
-  });
-
-  factory ItemId.fromJson(Map<String, dynamic> json) =>
-      _$ItemIdFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ItemIdToJson(this);
-}
-
-@JsonSerializable()
-class FireSystemItem {
-  @JsonKey(name: 'item_id')
-  final ItemId? itemId;
-  final int? quantity;
-  @JsonKey(name: '_id')
-  final String? Id;
-
-  const FireSystemItem({
-    this.itemId,
-    this.quantity,
-    this.Id,
-  });
-
-  factory FireSystemItem.fromJson(Map<String, dynamic> json) =>
-      _$FireSystemItemFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FireSystemItemToJson(this);
 }

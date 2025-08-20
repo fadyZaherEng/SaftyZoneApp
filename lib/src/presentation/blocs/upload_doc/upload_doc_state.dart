@@ -61,16 +61,16 @@ final class UploadDocUpdateErrorState extends UploadDocState {
 }
 
 //get details
-final class GetConsumerRequestsDetailsLoadingState extends UploadDocState {}
-final class GetConsumerRequestsDetailsSuccessState extends UploadDocState {
-  final RemoteScheduleJobDetails request;
+final class GetScheduleJopDetailsLoadingState extends UploadDocState {}
+final class GetScheduleJopDetailsSuccessState extends UploadDocState {
+  final RemoteFirstScreenSchedule request;
 
-  GetConsumerRequestsDetailsSuccessState({required this.request});
+  GetScheduleJopDetailsSuccessState({required this.request});
 }
-final class GetConsumerRequestsDetailsErrorState extends UploadDocState {
+final class GetScheduleJopDetailsErrorState extends UploadDocState {
   final String message;
 
-  GetConsumerRequestsDetailsErrorState({required this.message});
+  GetScheduleJopDetailsErrorState({required this.message});
 }
 final class GetEmployeesLoadingState extends UploadDocState {}
 

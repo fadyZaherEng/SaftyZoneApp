@@ -124,6 +124,7 @@ ConsumerRequest _$ConsumerRequestFromJson(Map<String, dynamic> json) =>
           .toList(),
       requestType: json['requestType'] as String?,
       status: json['status'] as String?,
+      space: (json['space'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ConsumerRequestToJson(ConsumerRequest instance) =>
@@ -135,6 +136,7 @@ Map<String, dynamic> _$ConsumerRequestToJson(ConsumerRequest instance) =>
       'fireSystemItem': instance.fireSystemItem,
       'requestType': instance.requestType,
       'status': instance.status,
+      'space': instance.space,
     };
 
 AlarmItems _$AlarmItemsFromJson(Map<String, dynamic> json) => AlarmItems(

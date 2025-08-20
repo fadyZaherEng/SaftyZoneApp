@@ -134,6 +134,6 @@ Future<void> initializeUseCaseDependencies() async {
       () => MaintainanceReportsUseCase(injector()));
   injector.registerFactory<RequestBulkUseCase>(
       () => RequestBulkUseCase(injector()));
-  injector.registerFactory<GetScheduleJopDetailsDetailsUseCase>(
-      () => GetScheduleJopDetailsDetailsUseCase(injector()));
+  // injector.registerFactory<GetScheduleJopDetailsUseCase>(
+  //     () => GetScheduleJopDetailsUseCase(injector()));
 }

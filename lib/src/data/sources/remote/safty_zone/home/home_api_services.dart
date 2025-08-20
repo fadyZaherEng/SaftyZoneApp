@@ -11,8 +11,8 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remot
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_maintainance_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
-import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_job_details.dart';
-import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
+ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_second_and_third_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_send_price.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_update_status_deliver.dart';
@@ -42,10 +42,12 @@ abstract class HomeApiServices {
   Future<HttpResponse<RemoteRequestDetails>> getConsumerRequestDetails(
     @Path("id") String id,
   );
-  @GET(APIKeys.getScheduleJobDetails)
-  Future<HttpResponse<RemoteScheduleJobDetails>> getScheduleJobDetails(
-    @Path("id") String id,
-  );
+
+  // @GET(APIKeys.getScheduleJobDetails)
+  // Future<HttpResponse<RemoteScheduleJopDetails>> getScheduleJobDetails(
+  //   @Path("id") String id,
+  //   @Header("Authorization") String token,
+  // );
 
   @POST(APIKeys.sendPriceOffer)
   Future<HttpResponse<RemoteSendPrice>> sendPrice(
