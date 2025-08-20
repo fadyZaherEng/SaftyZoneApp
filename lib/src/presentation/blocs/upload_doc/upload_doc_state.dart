@@ -59,3 +59,29 @@ final class UploadDocUpdateErrorState extends UploadDocState {
 
   UploadDocUpdateErrorState({required this.message});
 }
+
+//get details
+final class GetConsumerRequestsDetailsLoadingState extends UploadDocState {}
+final class GetConsumerRequestsDetailsSuccessState extends UploadDocState {
+  final RemoteScheduleJobDetails request;
+
+  GetConsumerRequestsDetailsSuccessState({required this.request});
+}
+final class GetConsumerRequestsDetailsErrorState extends UploadDocState {
+  final String message;
+
+  GetConsumerRequestsDetailsErrorState({required this.message});
+}
+final class GetEmployeesLoadingState extends UploadDocState {}
+
+final class GetEmployeesSuccessState extends UploadDocState {
+  final List<employee.Employee> employees;
+
+  GetEmployeesSuccessState(this.employees);
+}
+
+final class GetEmployeesErrorState extends UploadDocState {
+  final String message;
+
+  GetEmployeesErrorState(this.message);
+}

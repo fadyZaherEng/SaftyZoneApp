@@ -34,3 +34,9 @@ final class DeleteDocEvent extends UploadDocEvent {
     required this.docPath,
   });
 }
+final class GetConsumerRequestsDetailsEvent extends UploadDocEvent {
+  final String requestId;
+
+  GetConsumerRequestsDetailsEvent({required this.requestId});
+}
+final class GetEmployeesEvent extends UploadDocEvent {}

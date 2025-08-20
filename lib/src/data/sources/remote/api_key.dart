@@ -16,6 +16,7 @@ class APIKeys {
   static const String generateFileUrl = "/api/media/generate-url?type=file&count=1";
   static const String consumerRequests = "/api/provider/consumer-requests";
   static const String getConsumerRequestDetails = "/api/provider/consumer-requests/{id}";
+  static const String getScheduleJobDetails = "/api/provider/schedule-job/{id}";
   static const String sendPriceOffer = "/api/provider/offer";
   static const String scheduleJob = "/api/provider/schedule-job";
   static const String certificateOfEquipmentInstallations = "/api/provider/certificate-of-equipment-installations";
