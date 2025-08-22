@@ -19,6 +19,8 @@ class APIKeys {
   // static const String getScheduleJobDetails = "/api/provider/schedule-job/{id}";
   static const String sendPriceOffer = "/api/provider/offer";
   static const String scheduleJob = "/api/provider/schedule-job";
+  static const String scheduleJobByStatusDate = "/api/provider/schedule-job/by-status-date";
+  static const String maintenanceAndExtinguisher = "/api/provider/schedule-job/maintenance-and-extinguisher";
   static const String certificateOfEquipmentInstallations = "/api/provider/certificate-of-equipment-installations";
   static const String goToLocation = "/api/provider/schedule-job/go-to-location/{id}";
   static const String receiveDeliver = "/api/provider/receive-deliver";

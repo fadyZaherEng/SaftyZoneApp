@@ -473,31 +473,104 @@ class HomeRepositoryImplementations extends HomeRepository {
     }
   }
 
-  // @override
-  // Future<DataState<RemoteScheduleJopDetails>> getScheduleJobDetails({
-  //   required String id,
-  // }) async {
-  //   try {
-  //     HttpResponse<RemoteScheduleJopDetails> httpResponse = await _homeApiServices.getScheduleJobDetails(
-  //       id,
-  //       GetTokenUseCase(injector())(),
-  //     );
-  //     if (((httpResponse.response.statusCode ?? 400) == 201) ||
-  //         (httpResponse.response.statusCode ?? 400) == 200) {
-  //       print("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
-  //       print("getScheduleJobDetails: ${httpResponse.data.consumer}");
-  //       return DataSuccess(
-  //         data: httpResponse.data,
-  //         message: httpResponse.response.statusMessage ?? "",
-  //       );
-  //     }
-  //
-  //     return DataFailed(message: httpResponse.response.statusMessage ?? "");
-  //   } on DioException catch (e) {
-  //     return DataFailed(
-  //       error: e,
-  //       message: S.current.badResponse,
-  //     );
-  //   }
-  // }
+  @override
+  Future<DataState<List<ScheduleJop>>> getScheduleJobByStatusDate({
+    required String status,
+    required int limit,
+    required int page,
+  }) async {
+    try {
+      print(
+          "getScheduleJobByStatusDate: status: $status, limit: $limit, page: $page");
+      final httpResponse =
+          await _homeApiServices.scheduleJobByStatusDate(status, limit, page);
+
+      if ((httpResponse.response.statusCode ?? 400) == 200 ||
+          (httpResponse.response.statusCode ?? 400) == 201) {
+        final jobs = httpResponse.data.data
+            .map((e) => RemoteScheduleJop.fromJson(e).mapToScheduleJop())
+            .toList();
+        final pagination = httpResponse.data.pagination;
+
+        return DataSuccess(
+          data: jobs,
+          message: httpResponse.data.message ?? "",
+        );
+      }
+
+      print("Error: ${httpResponse.response.statusMessage}");
+      return DataFailed(message: httpResponse.response.statusMessage ?? "");
+    } on DioException catch (e) {
+      print("Errormmmmmmmmmmmmmmmmmm: ${e.message}");
+      return DataFailed(
+        error: e,
+        message: S.current.badResponse,
+      );
+    }
+  }
+
+  @override
+  Future<DataState<List<ScheduleJop>>> maintenanceAndExtinguisherDetails({
+    required String? status,
+    required int limit,
+    required int page,
+  }) async {
+    try {
+      print(
+          "getScheduleJobByStatusDate: status: $status, limit: $limit, page: $page");
+      final httpResponse = await _homeApiServices.maintenanceAndExtinguisher(
+          status, limit, page);
+
+      if ((httpResponse.response.statusCode ?? 400) == 200 ||
+          (httpResponse.response.statusCode ?? 400) == 201) {
+        final jobs = httpResponse.data.data
+            .map((e) => RemoteScheduleJop.fromJson(e).mapToScheduleJop())
+            .toList();
+        // httpResponse.data.data.mapToScheduleJop(); // 👈 خد الـ data
+        final pagination = httpResponse.data.pagination;
+
+        return DataSuccess(
+          data: jobs,
+          message: httpResponse.data.message ?? "",
+        );
+      }
+
+      print("Error: ${httpResponse.response.statusMessage}");
+      return DataFailed(message: httpResponse.response.statusMessage ?? "");
+    } on DioException catch (e) {
+      print("Errormmmmmmmmmmmmmmmmmm: ${e.message}");
+      return DataFailed(
+        error: e,
+        message: S.current.badResponse,
+      );
+    }
+  }
+
+// @override
+// Future<DataState<RemoteScheduleJopDetails>> getScheduleJobDetails({
+//   required String id,
+// }) async {
+//   try {
+//     HttpResponse<RemoteScheduleJopDetails> httpResponse = await _homeApiServices.getScheduleJobDetails(
+//       id,
+//       GetTokenUseCase(injector())(),
+//     );
+//     if (((httpResponse.response.statusCode ?? 400) == 201) ||
+//         (httpResponse.response.statusCode ?? 400) == 200) {
+//       print("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+//       print("getScheduleJobDetails: ${httpResponse.data.consumer}");
+//       return DataSuccess(
+//         data: httpResponse.data,
+//         message: httpResponse.response.statusMessage ?? "",
+//       );
+//     }
+//
+//     return DataFailed(message: httpResponse.response.statusMessage ?? "");
+//   } on DioException catch (e) {
+//     return DataFailed(
+//       error: e,
+//       message: S.current.badResponse,
+//     );
+//   }
+// }
 }

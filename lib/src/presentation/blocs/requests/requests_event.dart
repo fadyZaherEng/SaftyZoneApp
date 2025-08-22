@@ -12,18 +12,33 @@ final class GetConsumerRequestsDetailsEvent extends RequestsEvent {
 }
 
 final class GetEmployeesEvent extends RequestsEvent {}
+
 final class SendPriceOfferEvent extends RequestsEvent {
   final SendPriceRequest request;
 
   SendPriceOfferEvent({required this.request});
 }
-final class GetScheduleJobEvent extends RequestsEvent {
-   final String status;
 
-  GetScheduleJobEvent({required this.status});
+final class GetScheduleJobEvent extends RequestsEvent {
+  final String status;
+  final int limit;
+  final int page;
+
+  GetScheduleJobEvent({
+   required this.status,
+    required this.limit,
+    required this.page,
+  });
 }
+
 final class GetScheduleJobInProgressEvent extends RequestsEvent {
   final String status;
+  final int limit;
+  final int page;
 
-  GetScheduleJobInProgressEvent({required this.status});
+  GetScheduleJobInProgressEvent({
+    required this.status,
+    required this.limit,
+    required this.page,
+  });
 }

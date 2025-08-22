@@ -11,7 +11,7 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remot
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_maintainance_request.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
- import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_second_and_third_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_send_price.dart';
@@ -59,6 +59,20 @@ abstract class HomeApiServices {
   Future<HttpResponse<List<RemoteScheduleJop>>> scheduleJob(
     @Query("status") String status,
     @Body() ScheduleJopRequest request,
+  );
+
+  @GET(APIKeys.scheduleJobByStatusDate)
+  Future<HttpResponse<ScheduleJobResponse>> scheduleJobByStatusDate(
+    @Query("status") String status,
+    @Query("limit") int limit,
+    @Query("page") int page,
+  );
+
+  @GET(APIKeys.maintenanceAndExtinguisher)
+  Future<HttpResponse<ScheduleJobResponse>> maintenanceAndExtinguisher(
+    @Query("status") String? status,
+    @Query("limit") int limit,
+    @Query("page") int page,
   );
 
   @GET(APIKeys.scheduleJob)

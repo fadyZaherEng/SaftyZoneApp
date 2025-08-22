@@ -31,6 +31,8 @@ Future<void> initializeBlocDependencies() async {
         injector(),
         injector(),
         injector(),
+        injector(),
+        injector(),
       ));
   injector.registerFactory<TermConditionsBloc>(() => TermConditionsBloc(
         injector(),
@@ -43,6 +45,8 @@ Future<void> initializeBlocDependencies() async {
         injector(),
       ));
   injector.registerFactory<RequestsBloc>(() => RequestsBloc(
+        injector(),
+        injector(),
         injector(),
         injector(),
         injector(),

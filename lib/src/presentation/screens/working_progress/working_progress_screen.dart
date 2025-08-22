@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
@@ -35,13 +37,47 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
   List<ScheduleJop> _workingProgress = [];
   List<ScheduleJop> _tempWorkingProgress = [];
   final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   bool _isLoading = true;
+  bool _isFetchingMore = false;
+  int _limit = 10;
+  int _page = 1;
+  bool _hasMore = true; // لو في صفحات لسة متبقية
 
   @override
   void initState() {
-    _bloc.add(GetScheduleJobInProgressEvent(
-        status: ScheduleJobStatusEnum.inProgress.name));
     super.initState();
+    _fetchData();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent - 200 &&
+          !_isFetchingMore &&
+          _hasMore) {
+        _loadMore();
+      }
+    });
+  }
+
+  void _fetchData({bool isRefresh = false}) {
+    if (isRefresh) {
+      _page = 1;
+      _hasMore = true;
+      _workingProgress.clear();
+    }
+    _bloc.add(
+      GetScheduleJobInProgressEvent(
+        status: ScheduleJobStatusEnum.inProgress.name,
+        page: _page,
+        limit: _limit,
+      ),
+    );
+  }
+
+  void _loadMore() {
+    setState(() => _isFetchingMore = true);
+    _page++;
+    _fetchData();
   }
 
   @override
@@ -49,13 +85,24 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
     return BlocConsumer<RequestsBloc, RequestsState>(
       listener: (context, state) {
         if (state is ScheduleJobInProgressLoadingState) {
-          _isLoading = true;
+          if (_page == 1) _isLoading = true;
         } else if (state is ScheduleJobInProgressSuccessState) {
-          _workingProgress = List.from(state.scheduleJob);
-          _tempWorkingProgress = List.from(state.scheduleJob);
+          if (state.scheduleJob.isEmpty) {
+            _hasMore = false; // مفيش بيانات تاني
+          } else {
+            if (_page == 1) {
+              _workingProgress = List.from(state.scheduleJob);
+              _tempWorkingProgress = List.from(state.scheduleJob);
+            } else {
+              _workingProgress.addAll(state.scheduleJob);
+              _tempWorkingProgress.addAll(state.scheduleJob);
+            }
+          }
           _isLoading = false;
+          _isFetchingMore = false;
         } else if (state is ScheduleJobInProgressErrorState) {
           _isLoading = false;
+          _isFetchingMore = false;
           showSnackBar(
             context: context,
             message: state.message,
@@ -80,147 +127,70 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
                 )
               : null,
           body: RefreshIndicator(
-            onRefresh: () async {
-              _bloc.add(
-                GetScheduleJobInProgressEvent(
-                  status: ScheduleJobStatusEnum.inProgress.name,
-                ),
-              );
-            },
-            child: SafeArea(
-              child: Skeletonizer(
-                enabled: _isLoading,
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    _bloc.add(
-                      GetScheduleJobInProgressEvent(
-                        status: ScheduleJobStatusEnum.inProgress.name,
-                      ),
-                    );
-                  },
-                  child: ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    // مهم عشان يشتغل
-                    padding: const EdgeInsets.all(16),
+            onRefresh: () async => _fetchData(isRefresh: true),
+            child: _isLoading
+                ? const Center(
+                    child: SpinKitDoubleBounce(
+                    color: ColorSchemes.primary,
+                  ))
+                : Column(
                     children: [
                       _buildSearchSection(context),
+                      const SizedBox(height: 16),
                       if (_workingProgress.isEmpty)
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 40),
-                            child: _isLoading
-                                ? Container(
-                                    height: 200.h,
-                                    width: 200.w,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade300,
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                  )
-                                : CustomEmptyListWidget(
-                                    text: S.of(context).noRequestsFound,
-                                    isRefreshable: true,
-                                    onRefresh: () => _bloc.add(
-                                      GetScheduleJobInProgressEvent(
-                                        status: ScheduleJobStatusEnum
-                                            .inProgress.name,
-                                      ),
-                                    ),
-                                    imagePath: ImagePaths.emptyProject,
-                                  ),
+                        CustomEmptyListWidget(
+                          text: S.of(context).noRequestsFound,
+                          imagePath: ImagePaths.emptyProject,
+                          onRefresh: () => _fetchData(isRefresh: true),
+                        )
+                      else
+                        Expanded(
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(16),
+                            itemCount: _workingProgress.length + 1,
+                            itemBuilder: (context, index) {
+                              if (index < _workingProgress.length) {
+                                final request = _workingProgress[index];
+                                final key = Key(request.Id.toString());
+
+                                if (request.type ==
+                                        RequestType
+                                            .InstallationCertificate.name ||
+                                    request.type ==
+                                        RequestType
+                                            .EngineeringInspection.name) {
+                                  return _buildFawryRequestCard(
+                                      context, request, key);
+                                } else if (request.type ==
+                                    RequestType.MaintenanceContract.name) {
+                                  return _buildMaintenanceRequestCard(
+                                      context, request, key);
+                                } else if (request.type ==
+                                    RequestType.FireExtinguisher.name) {
+                                  return _buildFireExtinguisherRequestCard(
+                                      context, request, key);
+                                } else {
+                                  return _buildRequestCard(
+                                      context, request, key);
+                                }
+                              } else {
+                                return _isFetchingMore
+                                    ? const Padding(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Center(
+                                            child: SpinKitDoubleBounce(
+                                          color: ColorSchemes.primary,
+                                        )),
+                                      )
+                                    : const SizedBox.shrink();
+                              }
+                            },
                           ),
                         ),
-                      if (_workingProgress.isNotEmpty)
-                        ..._workingProgress.map((request) {
-                          final key = Key(request.Id.toString());
-                          if (request.type ==
-                                  RequestType.InstallationCertificate.name ||
-                              request.type ==
-                                  RequestType.EngineeringInspection.name) {
-                            return _buildFawryRequestCard(
-                                context, request, key);
-                          } else if (request.type ==
-                              RequestType.MaintenanceContract.name) {
-                            return _buildMaintenanceRequestCard(
-                                context, request, key);
-                          } else if (request.type ==
-                              RequestType.FireExtinguisher.name) {
-                            return _buildFireExtinguisherRequestCard(
-                                context, request, key);
-                          } else {
-                            return _buildRequestCard(context, request, key);
-                          }
-                        }).toList(),
                     ],
                   ),
-                ),
-
-                // SingleChildScrollView(
-                //   child: Column(
-                //     children: [
-                //       _buildSearchSection(context),
-                //       if (_workingProgress.isEmpty)
-                //         Center(
-                //           child: Padding(
-                //             padding: const EdgeInsets.symmetric(vertical: 40),
-                //             child: _isLoading
-                //                 ? Container(
-                //                     height: 200.h,
-                //                     width: 200.w,
-                //                     decoration: BoxDecoration(
-                //                       color: Colors.grey.shade300,
-                //                       borderRadius: BorderRadius.circular(6),
-                //                     ),
-                //                   )
-                //                 : CustomEmptyListWidget(
-                //                     text: S.of(context).noRequestsFound,
-                //                     isRefreshable: true,
-                //                     onRefresh: () => _bloc.add(
-                //                       GetScheduleJobInProgressEvent(
-                //                         status: ScheduleJobStatusEnum
-                //                             .inProgress.name,
-                //                       ),
-                //                     ),
-                //                     imagePath: ImagePaths.emptyProject,
-                //                   ),
-                //           ),
-                //         ),
-                //       if (_workingProgress.isNotEmpty)
-                //         ListView.builder(
-                //           padding: const EdgeInsets.symmetric(
-                //             vertical: 8,
-                //             horizontal: 16,
-                //           ),
-                //           shrinkWrap: true,
-                //           physics: const NeverScrollableScrollPhysics(),
-                //           itemCount: _workingProgress.length,
-                //           itemBuilder: (context, index) {
-                //             final request = _workingProgress[index];
-                //             final key = Key(request.Id.toString());
-                //             if (request.type ==
-                //                     RequestType.InstallationCertificate.name ||
-                //                 request.type ==
-                //                     RequestType.EngineeringInspection.name) {
-                //               return _buildFawryRequestCard(
-                //                   context, request, key);
-                //             } else if (request.type ==
-                //                 RequestType.MaintenanceContract.name) {
-                //               return _buildMaintenanceRequestCard(
-                //                   context, request, key);
-                //             } else if (request.type ==
-                //                 RequestType.FireExtinguisher.name) {
-                //               return _buildFireExtinguisherRequestCard(
-                //                   context, request, key);
-                //             } else {
-                //               return _buildRequestCard(context, request, key);
-                //             }
-                //           },
-                //         ),
-                //     ],
-                //   ),
-                // ),
-              ),
-            ),
           ),
         );
       },
@@ -1052,8 +1022,7 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
         ),
       ),
     ).then((value) {
-      _bloc.add(GetScheduleJobInProgressEvent(
-          status: ScheduleJobStatusEnum.inProgress.name));
+      _fetchData(isRefresh: true);
     });
   }
 

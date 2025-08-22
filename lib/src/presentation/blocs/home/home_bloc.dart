@@ -13,6 +13,8 @@ import 'package:safety_zone/src/domain/usecase/get_user_login_data_use_case.dart
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/request_bulk_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/schedule_all_jop_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/schedule_jop_inprogress_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/schedule_jop_maintaince_use_case.dart';
 import 'package:safety_zone/src/presentation/screens/home/home_screen.dart';
 
 part 'home_event.dart';
@@ -25,6 +27,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetUserLoginDataUseCase _getUserLoginDataUseCase;
   final RequestBulkUseCase _requestBulkUseCase;
 
+  final ScheduleJopInProgressUseCase _scheduleJopInProgressUseCase;
+  final ScheduleJopInMaintainanceUseCase _scheduleJopInMaintainanceUseCase;
   List<DashboardItem> dashboardItems = [
     DashboardItem('0', S.current.newRequests, ImagePaths.news),
     DashboardItem('0', S.current.maintenanceReports, ImagePaths.technical),
@@ -38,6 +42,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     this._scheduleJobAllUseCase,
     this._getUserLoginDataUseCase,
     this._requestBulkUseCase,
+    this._scheduleJopInProgressUseCase,
+    this._scheduleJopInMaintainanceUseCase,
   ) : super(HomeInitial()) {
     on<GetHomeDashboardEvent>(_onGetHomeDashboardEvent);
     on<InstallationFeeBulkEvent>(_onInstallationFeeBulkEvent);
@@ -49,17 +55,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final result = await _getConsumerRequestsUseCase(
       providerStatus: RequestStatus.active.name,
     );
-    final result2 = await _scheduleJobAllUseCase(
-      request: ScheduleJopRequest(
-        phoneNumber: (await GetUserLoginDataUseCase(injector())())?.phone ?? '',
-        code: (await GetUserLoginDataUseCase(injector())())?.code ?? '',
-      ),
+    final result2 = await _scheduleJopInMaintainanceUseCase(
+      // request: ScheduleJopRequest(
+      //   phoneNumber: (await GetUserLoginDataUseCase(injector())())?.phone ?? '',
+      //   code: (await GetUserLoginDataUseCase(injector())())?.code ?? '',
+      // ),
+      limit: 10,
+      page: 1,
+      status: null,
     );
-    final pendingRequests = await _scheduleJobAllUseCase(
-      request: ScheduleJopRequest(
-        code: (await _getUserLoginDataUseCase())?.code ?? '',
-        phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
-      ),
+    final pendingRequests = await _scheduleJopInProgressUseCase(
+      // request: ScheduleJopRequest(
+      // code: (await _getUserLoginDataUseCase())?.code ?? '',
+      // phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
+      limit: 10,
+      page: 1,
+      status: "inProgress",
     );
     if (result is DataSuccess<List<Requests>>) {
       dashboardItems = [

@@ -76,3 +76,48 @@ extension ScheduleJopListMapper on List<RemoteScheduleJop> {
   List<ScheduleJop> mapToScheduleJop() =>
       map((e) => e.mapToScheduleJop()).toList();
 }
+
+class ScheduleJobResponse {
+  final String? message;
+  final List<dynamic> data; // أو List<Map<String, dynamic>>
+  final Pagination? pagination;
+
+  ScheduleJobResponse({
+    this.message,
+    required this.data,
+    this.pagination,
+  });
+
+  factory ScheduleJobResponse.fromJson(Map<String, dynamic> json) {
+    return ScheduleJobResponse(
+      message: json["message"],
+      data: json["data"] ?? [],
+      pagination: json["pagination"] != null
+          ? Pagination.fromJson(json["pagination"])
+          : null,
+    );
+  }
+}
+
+class Pagination {
+  final int currentPage;
+  final int totalPages;
+  final int totalItems;
+  final int itemsPerPage;
+
+  Pagination({
+    required this.currentPage,
+    required this.totalPages,
+    required this.totalItems,
+    required this.itemsPerPage,
+  });
+
+  factory Pagination.fromJson(Map<String, dynamic> json) {
+    return Pagination(
+      currentPage: json["currentPage"] ?? 1,
+      totalPages: json["totalPages"] ?? 0,
+      totalItems: json["totalItems"] ?? 0,
+      itemsPerPage: json["itemsPerPage"] ?? 10,
+    );
+  }
+}

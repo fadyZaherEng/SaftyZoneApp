@@ -21,6 +21,8 @@ import 'package:http/http.dart' as http;
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart'
     as employee;
 import 'package:safety_zone/src/domain/usecase/home/schedule_all_jop_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/schedule_jop_inprogress_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/home/schedule_jop_maintaince_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/schedule_jop_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/send_offer_price_use_case.dart';
 
@@ -35,6 +37,8 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
   final ScheduleJopUseCase _scheduleJopUseCase;
   final GetUserLoginDataUseCase _getUserLoginDataUseCase;
   final ScheduleJobAllUseCase _scheduleJobAllUseCase;
+  final ScheduleJopInProgressUseCase _scheduleJopInProgressUseCase;
+  final ScheduleJopInMaintainanceUseCase _scheduleJopInMaintainanceUseCase;
 
   RequestsBloc(
     this._getConsumerRequestDetailsUseCase,
@@ -43,6 +47,8 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
     this._scheduleJopUseCase,
     this._getUserLoginDataUseCase,
     this._scheduleJobAllUseCase,
+    this._scheduleJopInProgressUseCase,
+    this._scheduleJopInMaintainanceUseCase,
   ) : super(RequestsInitial()) {
     on<GetConsumerRequestsEvent>(_onGetConsumerRequestsEvent);
     on<GetConsumerRequestsDetailsEvent>(_onGetConsumerRequestsDetailsEvent);
@@ -87,27 +93,27 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
   FutureOr<void> _onGetEmployeesEvent(
       GetEmployeesEvent event, Emitter<RequestsState> emit) async {
     // try {
-      final url = Uri.parse(
-          '${APIKeys.baseUrl}/api/provider/employee/permission/Contract Signing?page=1&limit=10');
-      final token = GetTokenUseCase(injector())();
-      final response = await http.get(
-        url,
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-      );
-      print('Fetching employees from: ${response.body}');
-      print('response.statusCode: ${response.statusCode}');
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final data = json.decode(response.body);
-        final List<employee.Employee> employees = (data['result'] as List)
-            .map((e) => employee.Employee.fromJsonTerms(e))
-            .toList();
-        emit(GetEmployeesSuccessState(employees));
-      } else {
-        emit(GetEmployeesErrorState('Failed to load employees'));
-      }
+    final url = Uri.parse(
+        '${APIKeys.baseUrl}/api/provider/employee/permission/Contract Signing?page=1&limit=10');
+    final token = GetTokenUseCase(injector())();
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+    print('Fetching employees from: ${response.body}');
+    print('response.statusCode: ${response.statusCode}');
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = json.decode(response.body);
+      final List<employee.Employee> employees = (data['result'] as List)
+          .map((e) => employee.Employee.fromJsonTerms(e))
+          .toList();
+      emit(GetEmployeesSuccessState(employees));
+    } else {
+      emit(GetEmployeesErrorState('Failed to load employees'));
+    }
     // } catch (e) {
     //   emit(GetEmployeesErrorState(e.toString()));
     // }
@@ -130,26 +136,31 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
       GetScheduleJobEvent event, Emitter<RequestsState> emit) async {
     emit(ScheduleJobLoadingState());
     if (event.status.isEmpty) {
-      final result = await _scheduleJobAllUseCase(
-        request: ScheduleJopRequest(
-          code: (await _getUserLoginDataUseCase())?.code ?? '',
-          phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
-        ),
+      final result = await _scheduleJopInMaintainanceUseCase(
+        // request: ScheduleJopRequest(
+        //   code: (await _getUserLoginDataUseCase())?.code ?? '',
+        //   phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
+        // ),
+        status: event.status.isEmpty ? null : event.status,
+        limit: event.limit,
+        page: event.page,
       );
-      if (result is DataSuccess<List<ScheduleJop>>) {
+      if (result is DataSuccess) {
         emit(ScheduleJobSuccessState(result.data ?? []));
       } else {
         emit(ScheduleJobErrorState(result.message ?? ''));
       }
     } else {
-      final result = await _scheduleJopUseCase(
-        request: ScheduleJopRequest(
-          code: (await _getUserLoginDataUseCase())?.code ?? '',
-          phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
-        ),
+      final result = await _scheduleJopInMaintainanceUseCase(
+        // request: ScheduleJopRequest(
+        //   code: (await _getUserLoginDataUseCase())?.code ?? '',
+        //   phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
+        // ),
         status: event.status,
+        limit: event.limit,
+        page: event.page,
       );
-      if (result is DataSuccess<List<ScheduleJop>>) {
+      if (result is DataSuccess) {
         emit(ScheduleJobSuccessState(result.data ?? []));
       } else {
         emit(ScheduleJobErrorState(result.message ?? ''));
@@ -160,14 +171,17 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
   FutureOr<void> _onScheduleJopInProgressEvent(
       GetScheduleJobInProgressEvent event, Emitter<RequestsState> emit) async {
     emit(ScheduleJobInProgressLoadingState());
-    final result = await _scheduleJopUseCase(
-      request: ScheduleJopRequest(
-        code: (await _getUserLoginDataUseCase())?.code ?? '',
-        phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
-      ),
+    final result = await _scheduleJopInProgressUseCase(
+      // request: ScheduleJopRequest(
+      //   code: (await _getUserLoginDataUseCase())?.code ?? '',
+      //   phoneNumber: (await _getUserLoginDataUseCase())?.phone ?? '',
+      // ),
       status: event.status,
+      limit: event.limit,
+      page: event.page,
     );
-    if (result is DataSuccess<List<ScheduleJop>>) {
+    print('result: $result');
+    if (result is DataSuccess) {
       emit(ScheduleJobInProgressSuccessState(result.data ?? []));
     } else {
       emit(ScheduleJobInProgressErrorState(result.message ?? ''));

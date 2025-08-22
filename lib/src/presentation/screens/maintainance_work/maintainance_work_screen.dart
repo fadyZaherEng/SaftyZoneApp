@@ -33,10 +33,15 @@ class MaintainanceWorkScreen extends BaseStatefulWidget {
 
 class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
   List<ScheduleJop> _workingProgress = [];
-  final List<ScheduleJop> _tempWorkingProgress = [];
+  List<ScheduleJop> _tempWorkingProgress = [];
   bool _isLoading = true;
   bool _isComplete = false;
   bool _isAll = true;
+  final ScrollController _scrollController = ScrollController();
+  bool _isFetchingMore = false;
+  int _limit = 10;
+  int _page = 1;
+  bool _hasMore = true; // لو في صفحات لسة متبقية
 
   // bool _isProgress = false;
   final TextEditingController _searchController = TextEditingController();
@@ -45,28 +50,72 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
 
   @override
   void initState() {
-    _bloc.add(GetScheduleJobEvent(status: ""));
     super.initState();
+    _fetchData();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent - 200 &&
+          !_isFetchingMore &&
+          _hasMore) {
+        _loadMore();
+      }
+    });
+  }
+
+  void _fetchData({bool isRefresh = false}) {
+    if (isRefresh) {
+      _page = 1;
+      _hasMore = true;
+      _workingProgress.clear();
+      _tempWorkingProgress.clear();
+    }
+    _bloc.add(
+      GetScheduleJobEvent(
+        status: "",
+        page: _page,
+        limit: _limit,
+      ),
+    );
+  }
+
+  void _loadMore() {
+    setState(() => _isFetchingMore = true);
+    _page++;
+    _fetchData();
   }
 
   @override
   Widget baseBuild(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        _bloc.add(GetScheduleJobEvent(status: ""));
+        _page = 1;
+        _hasMore = true;
+        _workingProgress.clear();
+        _tempWorkingProgress.clear();
+        _fetchData(isRefresh: true);
       },
       child:
           BlocConsumer<RequestsBloc, RequestsState>(listener: (context, state) {
         if (state is ScheduleJobLoadingState) {
-          _isLoading = true;
+          if (_page == 1) _isLoading = true;
         } else if (state is ScheduleJobSuccessState) {
-          _workingProgress.clear();
-          _workingProgress.addAll(state.scheduleJob);
-          _tempWorkingProgress.clear();
-          _tempWorkingProgress.addAll(state.scheduleJob);
+          if (state.scheduleJob.isEmpty) {
+            _hasMore = false; // مفيش بيانات تاني
+          } else {
+            if (_page == 1) {
+              _workingProgress = List.from(state.scheduleJob);
+              _tempWorkingProgress = List.from(state.scheduleJob);
+            } else {
+              _workingProgress.addAll(state.scheduleJob);
+              _tempWorkingProgress.addAll(state.scheduleJob);
+            }
+          }
           _isLoading = false;
+          _isFetchingMore = false;
         } else if (state is ScheduleJobErrorState) {
           _isLoading = false;
+          _isFetchingMore = false;
           showSnackBar(
             context: context,
             message: state.message,
@@ -112,8 +161,13 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                               : CustomEmptyListWidget(
                                   text: S.of(context).noRequestsFound,
                                   isRefreshable: true,
-                                  onRefresh: () => _bloc
-                                      .add(GetScheduleJobEvent(status: "")),
+                                  onRefresh: () {
+                                    _page = 1;
+                                    _hasMore = true;
+                                    _workingProgress.clear();
+                                    _tempWorkingProgress.clear();
+                                    _fetchData(isRefresh: true);
+                                  },
                                   imagePath: ImagePaths.emptyProject,
                                 ),
                         ),
@@ -123,32 +177,44 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       padding: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 16),
-                      itemCount: _workingProgress.length,
-                      itemBuilder: (context, index) {
-                        final request = _workingProgress[index];
+                      // itemCount: _workingProgress.length,
+                      itemCount: _workingProgress.length + 1,
 
-                        if (request.type ==
-                                RequestType.InstallationCertificate.name ||
-                            request.type ==
-                                RequestType.EngineeringInspection.name) {
-                          return _buildFawryRequestCard(
-                            context,
-                            request,
-                            Key(request.Id.toString()),
-                          );
-                        } else if (request.type ==
-                            RequestType.MaintenanceContract.name) {
-                          return _buildMaintenanceRequestCard(
-                            context,
-                            request,
-                            Key(request.Id.toString()),
-                          );
+                      itemBuilder: (context, index) {
+                        if (index < _workingProgress.length) {
+                          final request = _workingProgress[index];
+
+                          if (request.type ==
+                                  RequestType.InstallationCertificate.name ||
+                              request.type ==
+                                  RequestType.EngineeringInspection.name) {
+                            return _buildFawryRequestCard(
+                              context,
+                              request,
+                              Key(request.Id.toString()),
+                            );
+                          } else if (request.type ==
+                              RequestType.MaintenanceContract.name) {
+                            return _buildMaintenanceRequestCard(
+                              context,
+                              request,
+                              Key(request.Id.toString()),
+                            );
+                          } else {
+                            return _buildRequestCard(
+                              context,
+                              request,
+                              Key(request.Id.toString()),
+                            );
+                          }
                         } else {
-                          return _buildRequestCard(
-                            context,
-                            request,
-                            Key(request.Id.toString()),
-                          );
+                          return _isFetchingMore
+                              ? const Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Center(
+                                      child: CircularProgressIndicator()),
+                                )
+                              : const SizedBox.shrink();
                         }
                       },
                     ),
@@ -261,7 +327,10 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       // _isProgress = false;
                       _isComplete = false;
                     });
-                    _bloc.add(GetScheduleJobEvent(status: ""));
+
+                    _fetchData(
+                      isRefresh: true,
+                    );
                   },
                 ),
                 // _statusTab(
@@ -291,9 +360,17 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                       // _isProgress = false;
                       _isComplete = true;
                     });
+                    _page = 1; // Reset page for completed jobs
+                    _hasMore = true; // Reset hasMore for completed jobs
+                    _workingProgress.clear();
+                    _tempWorkingProgress.clear();
+                    // Fetch completed jobs with pagination
+
                     _bloc.add(
                       GetScheduleJobEvent(
                         status: ScheduleJobStatusEnum.completed.name,
+                        limit: _limit,
+                        page: _page,
                       ),
                     );
                   },
@@ -1203,7 +1280,13 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
         ),
       ),
     ).then((_) {
-      _bloc.add(GetScheduleJobEvent(status: ""));
+      // Refresh the data after returning from the map screen
+      _page = 1; // Reset page for new data
+      _hasMore = true; // Reset hasMore for new data
+      _workingProgress.clear(); // Clear existing data
+      _tempWorkingProgress.clear(); // Clear temporary data
+
+      _fetchData(isRefresh: true);
     });
   }
 
