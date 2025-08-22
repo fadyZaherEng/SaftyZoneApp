@@ -323,7 +323,7 @@ class _MaintainanceInProgressScreenState
                                   ?.consumerRequest?.fireSystemItem?.length ??
                               0,
                           branch: widget.scheduleJop.branch.Id,
-                          consumer: widget.scheduleJop.consumer,
+                          consumer: widget.scheduleJop.consumer.id ?? "",
                           consumerRequest: widget.scheduleJop.consumerRequest,
                           offer: widget.scheduleJop.offer,
                           scheduleJob: widget.scheduleJop.Id,

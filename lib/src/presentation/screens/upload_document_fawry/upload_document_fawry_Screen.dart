@@ -830,7 +830,7 @@ class _UploadDocumentFawryScreenState
       UploadDocumentAPiEvent(
         request: RequestCertificateInstallation(
           branch: widget.request.branch.Id,
-          consumer: widget.request.consumer,
+          consumer: widget.request.consumer.id,
           scheduleJob: widget.request.Id,
           file: finalPath,
         ),

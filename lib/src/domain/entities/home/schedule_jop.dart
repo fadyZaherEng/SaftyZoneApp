@@ -1,10 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
 
 class ScheduleJop extends Equatable {
   final String Id;
   final String provider;
-  final String consumer;
+  final RemoteConsumer consumer;
   final String consumerRequest;
   final Branch branch;
   final String offer;
@@ -22,7 +23,7 @@ class ScheduleJop extends Equatable {
   const ScheduleJop({
     this.Id = "",
     this.provider = "",
-    this.consumer = "",
+    this.consumer = const RemoteConsumer(),
     this.branch = const Branch(),
     this.offer = "",
     this.responseEmployee = const Employee(),

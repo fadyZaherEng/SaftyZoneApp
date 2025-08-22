@@ -10,7 +10,7 @@ class RemoteScheduleJop {
   @JsonKey(name: '_id')
   final String? Id;
   final String? provider;
-  final String? consumer;
+  final RemoteConsumer? consumer;
   final String? consumerRequest;
   final RemoteBranch? branch;
   final String? offer;
@@ -29,7 +29,7 @@ class RemoteScheduleJop {
   const RemoteScheduleJop({
     this.Id = "",
     this.provider = "",
-    this.consumer = "",
+    this.consumer = const RemoteConsumer(),
     this.branch = const RemoteBranch(),
     this.offer = "",
     this.responseEmployee = const RemoteEmployee(),
@@ -50,12 +50,24 @@ class RemoteScheduleJop {
 
   Map<String, dynamic> toJson() => _$RemoteScheduleJopToJson(this);
 }
+@JsonSerializable()
+class RemoteConsumer{
+  @JsonKey(name: '_id')
+  final String? id;
+  final String? phoneNumber;
+  const RemoteConsumer({
+    this.id = "",
+    this.phoneNumber = "",
+  });
+  factory RemoteConsumer.fromJson(Map<String, dynamic> json) => _$RemoteConsumerFromJson(json);
+  Map<String, dynamic> toJson() => _$RemoteConsumerToJson(this);
+}
 
 extension ScheduleJopMapper on RemoteScheduleJop {
   ScheduleJop mapToScheduleJop() => ScheduleJop(
         Id: Id ?? "",
         provider: provider ?? "",
-        consumer: consumer ?? "",
+        consumer: consumer ?? const RemoteConsumer(),
         branch: branch?.mapToDomain() ?? const Branch(),
         offer: offer ?? "",
         responseEmployee: responseEmployee?.mapToDomain() ?? const Employee(),

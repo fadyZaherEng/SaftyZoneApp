@@ -10,7 +10,9 @@ RemoteScheduleJop _$RemoteScheduleJopFromJson(Map<String, dynamic> json) =>
     RemoteScheduleJop(
       Id: json['_id'] as String? ?? "",
       provider: json['provider'] as String? ?? "",
-      consumer: json['consumer'] as String? ?? "",
+      consumer: json['consumer'] == null
+          ? const RemoteConsumer()
+          : RemoteConsumer.fromJson(json['consumer'] as Map<String, dynamic>),
       branch: json['branch'] == null
           ? const RemoteBranch()
           : RemoteBranch.fromJson(json['branch'] as Map<String, dynamic>),
@@ -49,4 +51,16 @@ Map<String, dynamic> _$RemoteScheduleJopToJson(RemoteScheduleJop instance) =>
       'numberOfVisits': instance.numberOfVisits,
       'createdAt': instance.createdAt,
       '__v': instance.V,
+    };
+
+RemoteConsumer _$RemoteConsumerFromJson(Map<String, dynamic> json) =>
+    RemoteConsumer(
+      id: json['_id'] as String? ?? "",
+      phoneNumber: json['phoneNumber'] as String? ?? "",
+    );
+
+Map<String, dynamic> _$RemoteConsumerToJson(RemoteConsumer instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'phoneNumber': instance.phoneNumber,
     };
