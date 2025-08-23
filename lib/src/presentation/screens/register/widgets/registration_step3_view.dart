@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
@@ -120,9 +121,10 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
         context,
         MaterialPageRoute(
           builder: (_) => MapSearchScreen(
-            initialLatitude: widget.vendorData.latitude ?? 24.774265,
-            initialLongitude: widget.vendorData.longitude ?? 46.738586,
+            initialLatitude: widget.vendorData.latitude ?? 24.71255509881504,
+            initialLongitude: widget.vendorData.longitude ?? 46.67422581464052,
             onLocationSelected: (lat, lng, address) {
+              print("lat: $lat, lng: $lng, address: $address");
               setState(() {
                 widget.vendorData.latitude = lat;
                 widget.vendorData.longitude = lng;
@@ -555,15 +557,16 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
       ..bankAccountNumber = _bankAccountNumberController.text
       ..confirmationChecked = _confirmationChecked
       ..termsChecked = _termsChecked
-      ..latitude ??= 24.774265
-      ..longitude ??= 46.738586;
+      ..latitude ??= 24.71255509881504
+      ..longitude ??= 46.67422581464052;
+    print("la: ${widget.vendorData.latitude}, lng: ${widget.vendorData.longitude}");
 
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) => Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation(darkRed),
+        child: SpinKitDoubleBounce(
+          color:ColorSchemes.primary,
         ),
       ),
     );
@@ -583,8 +586,8 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
           phoneNumber: widget.vendorData.whatsappNumber ?? 'null',
           companyName: widget.vendorData.companyName ?? 'null',
           location: Location(type: 'Point', coordinates: [
-            widget.vendorData.longitude ?? 30.123456,
-            widget.vendorData.latitude ?? -97.654321
+            widget.vendorData.latitude ?? 24.71255509881504,
+            widget.vendorData.longitude ?? 46.67422581464052
           ]),
           civilDefensePermit: CivilDefensePermit(
             filePath: widget.vendorData.civilDefensePermitDocumentPath,
