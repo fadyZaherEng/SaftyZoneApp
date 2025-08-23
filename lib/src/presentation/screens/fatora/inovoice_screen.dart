@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
- import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 
 class InvoiceScreen extends StatelessWidget {

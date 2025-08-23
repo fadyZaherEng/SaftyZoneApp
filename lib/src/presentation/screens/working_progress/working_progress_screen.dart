@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
@@ -17,7 +16,6 @@ import 'package:safety_zone/src/presentation/blocs/requests/requests_bloc.dart';
 import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_empty_list_widget.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class WorkingProgressScreen extends StatefulWidget {
   final bool isAppBar;
@@ -40,7 +38,7 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _isLoading = true;
   bool _isFetchingMore = false;
-  int _limit = 10;
+  final int _limit = 10;
   int _page = 1;
   bool _hasMore = true; // لو في صفحات لسة متبقية
 
@@ -1042,9 +1040,29 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              request.requestNumber,
-              style: TextStyle(color: Colors.grey[700]),
+            Row(
+              children: [
+                Text(
+                  request.requestNumber,
+                  style: TextStyle(color: Colors.grey[700]),
+                ),
+                const Spacer(),
+                Chip(
+                  label: Text(
+                    _getStatus(request.status),
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  backgroundColor: _isLoading
+                      ? Colors.grey.shade300
+                      : ColorSchemes.secondary,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 4),
             Row(

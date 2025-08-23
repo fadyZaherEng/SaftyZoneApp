@@ -44,7 +44,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 width: 50,
                 height: 50,
                 errorBuilder: (context, error, stackTrace) =>
-                const Icon(Icons.person, size: 50),
+                    const Icon(Icons.person, size: 50),
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
                   return const Center(child: CircularProgressIndicator());
@@ -53,10 +53,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             title: Text(
               widget.employeeDetails.fullName,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .titleMedium,
+              style: Theme.of(context).textTheme.titleMedium,
               textDirection: TextDirection.rtl,
             ),
             subtitle: Text(
@@ -203,7 +200,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               await Navigator.pushNamedAndRemoveUntil(
                 context,
                 Routes.languageSelection,
-                    (route) => false,
+                (route) => false,
               );
             },
           ),
@@ -214,12 +211,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
-  Widget _drawerItem(BuildContext context,
-      String icon,
-      String title, {
-        bool isColor = false,
-        required VoidCallback onTap,
-      }) {
+  Widget _drawerItem(
+    BuildContext context,
+    String icon,
+    String title, {
+    bool isColor = false,
+    required VoidCallback onTap,
+  }) {
     return ListTile(
       leading: SvgPicture.asset(
         icon,

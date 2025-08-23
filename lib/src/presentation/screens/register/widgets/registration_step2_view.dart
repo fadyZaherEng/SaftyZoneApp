@@ -73,9 +73,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
         backgroundColor: ColorSchemes.primary,
         foregroundColor: Colors.white,
         title: Text(
-          S
-              .of(context)
-              .signup,
+          S.of(context).signup,
           style: TextStyle(
             fontSize: 18.sp,
             color: Colors.white,
@@ -106,14 +104,10 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
                       ),
                       children: [
                         TextSpan(
-                          text: "${S
-                              .of(context)
-                              .newRegistrationAs} ",
+                          text: "${S.of(context).newRegistrationAs} ",
                         ),
                         TextSpan(
-                          text: S
-                              .of(context)
-                              .serviceProvider,
+                          text: S.of(context).serviceProvider,
                           style: TextStyle(
                             color: ColorSchemes.secondary,
                             fontWeight: FontWeight.bold,
@@ -164,20 +158,18 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Commercial Registration Expiry Date Section
-                      Text(S
-                          .of(context)
-                          .commercialRegistration,
+                      Text(
+                        S.of(context).commercialRegistration,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                           color: ColorSchemes.textDark,
-                        ),),
+                        ),
+                      ),
                       SizedBox(height: 12.h),
                       _buildDocumentSection(
                         context: context,
-                        title: S
-                            .of(context)
-                            .crExpiryDateLabel,
+                        title: S.of(context).crExpiryDateLabel,
                         date: DateTime.now(),
                         // _commercialRegistrationExpiryDate,
                         onDateSelected: (date) {
@@ -191,8 +183,8 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
                           setState(() {
                             _hasCommercialDoc = true;
                             widget.vendorData
-                                .commercialRegistrationDocumentPath =
-                            'path/to/document';
+                                    .commercialRegistrationDocumentPath =
+                                'path/to/document';
                           });
                         },
                         documentType: DocumentType.commercial,
@@ -204,9 +196,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
                       _buildDocumentSection(
                         context: context,
                         isDatePickerVisible: true,
-                        title: S
-                            .of(context)
-                            .civilDefenseExpiryDateLabel,
+                        title: S.of(context).civilDefenseExpiryDateLabel,
                         date: _civilDefensePermitExpiryDate,
                         onDateSelected: (date) {
                           setState(() {
@@ -219,7 +209,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
                           setState(() {
                             _hasCivilDefenseDoc = true;
                             widget.vendorData.civilDefensePermitDocumentPath =
-                            'path/to/document';
+                                'path/to/document';
                           });
                         },
                         documentType: DocumentType.civilDefense,
@@ -258,9 +248,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
                     ),
                   ),
                   child: Text(
-                    S
-                        .of(context)
-                        .continues,
+                    S.of(context).continues,
                     style: TextStyle(fontSize: 16.sp),
                   ),
                 ),
@@ -299,7 +287,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
         if (isDatePickerVisible) SizedBox(height: 12.h),
         if (isDatePickerVisible)
 
-        // Date picker field
+          // Date picker field
           InkWell(
             onTap: () => _selectDate(context, date, onDateSelected),
             child: Container(
@@ -314,9 +302,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
                   Text(
                     date != null
                         ? dateFormat.format(date)
-                        : S
-                        .of(context)
-                        .selectDate,
+                        : S.of(context).selectDate,
                     style: TextStyle(
                       fontSize: 16.sp,
                       color: date != null ? ColorSchemes.textDark : Colors.grey,
@@ -336,12 +322,8 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
             Expanded(
               child: Text(
                 hasDoc
-                    ? S
-                    .of(context)
-                    .documentUploaded
-                    : S
-                    .of(context)
-                    .uploadDocumentHint,
+                    ? S.of(context).documentUploaded
+                    : S.of(context).uploadDocumentHint,
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: hasDoc ? ColorSchemes.success : ColorSchemes.textGrey,
@@ -390,12 +372,8 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
                         Expanded(
                           child: Text(
                             hasDoc
-                                ? S
-                                .of(context)
-                                .changeDocument
-                                : S
-                                .of(context)
-                                .uploadDocument,
+                                ? S.of(context).changeDocument
+                                : S.of(context).uploadDocument,
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500,
@@ -442,33 +420,32 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
     void showZoomDialog(ImageProvider imageProvider) {
       showDialog(
         context: context,
-        builder: (_) =>
-            Dialog(
-              backgroundColor: Colors.black,
-              insetPadding: EdgeInsets.all(16),
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12.r),
-                    child: PhotoView(
-                      imageProvider: imageProvider,
-                      backgroundDecoration:
+        builder: (_) => Dialog(
+          backgroundColor: Colors.black,
+          insetPadding: EdgeInsets.all(16),
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12.r),
+                child: PhotoView(
+                  imageProvider: imageProvider,
+                  backgroundDecoration:
                       const BoxDecoration(color: Colors.black),
-                      loadingBuilder: (context, event) =>
+                  loadingBuilder: (context, event) =>
                       const Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: IconButton(
-                      icon: const Icon(Icons.close, color: Colors.white),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  )
-                ],
+                ),
               ),
-            ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: Colors.white),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              )
+            ],
+          ),
+        ),
       );
     }
 
@@ -496,9 +473,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
       return buildImageView(FileImage(file));
     } else if (path != null &&
         path.isNotEmpty &&
-        Uri
-            .tryParse(path)
-            ?.isAbsolute == true) {
+        Uri.tryParse(path)?.isAbsolute == true) {
       return buildImageView(NetworkImage(path));
     }
 
@@ -529,15 +504,9 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
             onSecondaryAction: () {
               Navigator.pop(context);
             },
-            primaryText: S
-                .of(context)
-                .ok,
-            secondaryText: S
-                .of(context)
-                .cancel,
-            text: S
-                .of(context)
-                .youShouldHaveCameraPermission,
+            primaryText: S.of(context).ok,
+            secondaryText: S.of(context).cancel,
+            text: S.of(context).youShouldHaveCameraPermission,
           );
         }
       },
@@ -562,23 +531,19 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
             onSecondaryAction: () {
               Navigator.pop(context);
             },
-            primaryText: S
-                .of(context)
-                .ok,
-            secondaryText: S
-                .of(context)
-                .cancel,
-            text: S
-                .of(context)
-                .youShouldHaveCameraPermission,
+            primaryText: S.of(context).ok,
+            secondaryText: S.of(context).cancel,
+            text: S.of(context).youShouldHaveCameraPermission,
           );
         }
       },
     );
   }
 
-  Future<void> _pickDocument(ImageSource? result,
-      DocumentType documentType,) async {
+  Future<void> _pickDocument(
+    ImageSource? result,
+    DocumentType documentType,
+  ) async {
     showLoading();
     try {
       if (result != null) {
@@ -603,9 +568,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
       if (mounted) {
         showSnackBar(
           context: context,
-          message: S
-              .of(context)
-              .imagePickError,
+          message: S.of(context).imagePickError,
           color: ColorSchemes.warning,
           icon: ImagePaths.error,
         );
@@ -615,7 +578,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
 
   Future<void> _uploadCommercialRegDoc(File file) async {
     DataState<List<RemoteGenerateUrl>> result =
-    await GenerateImageUrlUseCase(injector())();
+        await GenerateImageUrlUseCase(injector())();
     bool isSuccess = await uploadImageToServer(
       file,
       result.data?.first.presignedURL ?? '',
@@ -630,9 +593,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
     } else {
       showSnackBar(
         context: context,
-        message: S
-            .of(context)
-            .imageUploadError,
+        message: S.of(context).imageUploadError,
         color: ColorSchemes.warning,
         icon: ImagePaths.error,
       );
@@ -642,7 +603,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
 
   Future<void> _uploadCivilDefenseDoc(File file) async {
     DataState<List<RemoteGenerateUrl>> result =
-    await GenerateImageUrlUseCase(injector())();
+        await GenerateImageUrlUseCase(injector())();
     bool isSuccess = await uploadImageToServer(
       file,
       result.data?.first.presignedURL ?? '',
@@ -657,9 +618,7 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
     } else {
       showSnackBar(
         context: context,
-        message: S
-            .of(context)
-            .imageUploadError,
+        message: S.of(context).imageUploadError,
         color: ColorSchemes.warning,
         icon: ImagePaths.error,
       );
@@ -670,18 +629,14 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
   Future<void> _selectDate(BuildContext context, DateTime? initialDate,
       Function(DateTime) onDateSelected) async {
     final DateTime? picked = await showDatePicker(
-      builder: (context, child) =>
-          Theme(
-            data: Theme.of(context).copyWith(
-              colorScheme: Theme
-                  .of(context)
-                  .colorScheme
-                  .copyWith(
+      builder: (context, child) => Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: Theme.of(context).colorScheme.copyWith(
                 primary: ColorSchemes.primary,
               ),
-            ),
-            child: child!,
-          ),
+        ),
+        child: child!,
+      ),
       context: context,
       initialDate: initialDate ?? DateTime.now(),
       firstDate: DateTime.now(),
@@ -701,24 +656,18 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
     // }
 
     if (!_hasCommercialDoc) {
-      _showValidationError(context, S
-          .of(context)
-          .crDocumentRequired);
+      _showValidationError(context, S.of(context).crDocumentRequired);
       return;
     }
 
     if (_civilDefensePermitExpiryDate == null) {
       _showValidationError(
-          context, S
-          .of(context)
-          .civilDefenseExpiryDateRequired);
+          context, S.of(context).civilDefenseExpiryDateRequired);
       return;
     }
 
     if (!_hasCivilDefenseDoc) {
-      _showValidationError(context, S
-          .of(context)
-          .civilDefenseDocumentRequired);
+      _showValidationError(context, S.of(context).civilDefenseDocumentRequired);
       return;
     }
 
@@ -741,10 +690,9 @@ class _RegistrationStep2ViewState extends BaseState<RegistrationStep2View> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            RegistrationStep3View(
-              vendorData: widget.vendorData,
-            ),
+        builder: (context) => RegistrationStep3View(
+          vendorData: widget.vendorData,
+        ),
       ),
     );
   }

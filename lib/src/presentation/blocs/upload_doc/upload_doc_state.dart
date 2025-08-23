@@ -12,7 +12,7 @@ final class UploadDocSuccessState extends UploadDocState {
 
   UploadDocSuccessState({
     required this.url,
-   });
+  });
 }
 
 final class UploadDocApiSuccessState extends UploadDocState {
@@ -53,7 +53,6 @@ final class UploadDocUpdateSuccessState extends UploadDocState {
   UploadDocUpdateSuccessState({required this.url});
 }
 
-
 final class UploadDocUpdateErrorState extends UploadDocState {
   final String message;
 
@@ -62,16 +61,19 @@ final class UploadDocUpdateErrorState extends UploadDocState {
 
 //get details
 final class GetScheduleJopDetailsLoadingState extends UploadDocState {}
+
 final class GetScheduleJopDetailsSuccessState extends UploadDocState {
   final RemoteFirstScreenSchedule request;
 
   GetScheduleJopDetailsSuccessState({required this.request});
 }
+
 final class GetScheduleJopDetailsErrorState extends UploadDocState {
   final String message;
 
   GetScheduleJopDetailsErrorState({required this.message});
 }
+
 final class GetEmployeesLoadingState extends UploadDocState {}
 
 final class GetEmployeesSuccessState extends UploadDocState {

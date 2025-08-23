@@ -159,7 +159,7 @@ class _SubmitInvoiceSectionState extends State<SubmitInvoiceSection> {
                 backgroundColor: ColorSchemes.primary,
                 textColor: ColorSchemes.white,
               ),
-             ],
+            ],
           ),
         ),
       ],

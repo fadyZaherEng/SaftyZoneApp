@@ -206,14 +206,15 @@ class _RegistrationStep1ViewState extends State<RegistrationStep1View> {
                           }
                           return null;
                         },
-                        onChanged: (value){
-                          if(value.isEmpty){
+                        onChanged: (value) {
+                          if (value.isEmpty) {
                             setState(() {
-                              _companyNameErrorMessage=S.of(context).thisFieldIsRequired;
+                              _companyNameErrorMessage =
+                                  S.of(context).thisFieldIsRequired;
                             });
-                          }else{
+                          } else {
                             setState(() {
-                              _companyNameErrorMessage=null;
+                              _companyNameErrorMessage = null;
                             });
                           }
                         },
@@ -240,14 +241,15 @@ class _RegistrationStep1ViewState extends State<RegistrationStep1View> {
                           }
                           return null;
                         },
-                        onChanged: (value){
-                          if(value.isEmpty){
+                        onChanged: (value) {
+                          if (value.isEmpty) {
                             setState(() {
-                              _crNumberErrorMessage=S.of(context).thisFieldIsRequired;
+                              _crNumberErrorMessage =
+                                  S.of(context).thisFieldIsRequired;
                             });
-                          }else{
+                          } else {
                             setState(() {
-                              _crNumberErrorMessage=null;
+                              _crNumberErrorMessage = null;
                             });
                           }
                         },
@@ -296,7 +298,8 @@ class _RegistrationStep1ViewState extends State<RegistrationStep1View> {
                         onChanged: (value) {
                           if (value.length < 8) {
                             setState(() {
-                              _whatsappErrorMessage = S.of(context).thisFieldIsRequired;
+                              _whatsappErrorMessage =
+                                  S.of(context).thisFieldIsRequired;
                             });
                           } else {
                             setState(() {

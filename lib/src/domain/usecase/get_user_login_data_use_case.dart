@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:safety_zone/src/core/resources/shared_preferences_keys.dart';
-import 'package:safety_zone/src/domain/entities/auth/verify_otp.dart';
 import 'package:safety_zone/src/domain/entities/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

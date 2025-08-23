@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
-import 'package:safety_zone/generated/l10n.dart';
 
 class BottomSheetWidget extends StatelessWidget {
   final Widget content;

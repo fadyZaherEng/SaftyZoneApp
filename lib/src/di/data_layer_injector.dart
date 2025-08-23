@@ -36,6 +36,8 @@ Future<void> initializeDataDependencies() async {
       await SharedPreferences.getInstance();
 
   injector.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
-  injector.registerLazySingleton<AuthApiServices>(() => AuthApiServices(injector()));
-  injector.registerLazySingleton<HomeApiServices>(() => HomeApiServices(injector()));
+  injector.registerLazySingleton<AuthApiServices>(
+      () => AuthApiServices(injector()));
+  injector.registerLazySingleton<HomeApiServices>(
+      () => HomeApiServices(injector()));
 }

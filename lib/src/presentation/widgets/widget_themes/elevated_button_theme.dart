@@ -17,7 +17,9 @@ class TElevatedButtonTheme {
       side: const BorderSide(color: ColorSchemes.primary),
       padding: const EdgeInsets.symmetric(vertical: TSizes.buttonHeight),
       textStyle: const TextStyle(
-          fontSize: 16, color: ColorSchemes.textLight, fontWeight: FontWeight.w600),
+          fontSize: 16,
+          color: ColorSchemes.textLight,
+          fontWeight: FontWeight.w600),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(TSizes.buttonRadius)),
     ),
@@ -34,7 +36,9 @@ class TElevatedButtonTheme {
       side: const BorderSide(color: ColorSchemes.primary),
       padding: const EdgeInsets.symmetric(vertical: TSizes.buttonHeight),
       textStyle: const TextStyle(
-          fontSize: 16, color: ColorSchemes.textLight, fontWeight: FontWeight.w600),
+          fontSize: 16,
+          color: ColorSchemes.textLight,
+          fontWeight: FontWeight.w600),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(TSizes.buttonRadius)),
     ),

@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 part 'remote_maintainance_request.g.dart';
+
 @JsonSerializable()
 class RemoteMaintainanceReport {
   final String? scheduleJob;
@@ -25,7 +26,6 @@ class RemoteMaintainanceReport {
   final String? id;
   @JsonKey(name: '__v')
   final int? v;
-
 
   const RemoteMaintainanceReport({
     this.scheduleJob,

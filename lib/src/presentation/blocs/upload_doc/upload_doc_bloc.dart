@@ -9,11 +9,10 @@ import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/auth/entity/remote_generate_url.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_certificate_insatllation.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_first_screen_schedule.dart';
- import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
+import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_certificate_installation.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/usecase/auth/generate_file_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/auth/generate_image_use_case.dart';
-import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart'
     as employee;
@@ -130,7 +129,7 @@ class UploadDocBloc extends Bloc<UploadDocEvent, UploadDocState> {
     );
     if (result is DataSuccess<RemoteFirstScreenSchedule>) {
       emit(GetScheduleJopDetailsSuccessState(
-          request: result?.data ?? RemoteFirstScreenSchedule()));
+          request: result.data ?? RemoteFirstScreenSchedule()));
     } else {
       emit(GetScheduleJopDetailsErrorState(message: result.message ?? ''));
     }

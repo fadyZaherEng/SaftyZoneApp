@@ -24,7 +24,6 @@ import 'package:safety_zone/src/domain/usecase/home/create_mainatinace_offer_use
 import 'package:safety_zone/src/domain/usecase/home/first_screen_shedule_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_details_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_use_case.dart';
-import 'package:safety_zone/src/domain/usecase/home/get_schedule_jop_details_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/go_to_location_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/main_offer_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/mainatinace_reports_offers_use_case.dart';
@@ -134,9 +133,12 @@ Future<void> initializeUseCaseDependencies() async {
       () => MaintainanceRequestOfferUseCase(injector()));
   injector.registerFactory<MaintainanceReportsUseCase>(
       () => MaintainanceReportsUseCase(injector()));
-  injector.registerFactory<RequestBulkUseCase>(() => RequestBulkUseCase(injector()));
-  injector.registerFactory<ScheduleJopInProgressUseCase>(() => ScheduleJopInProgressUseCase(injector()));
-  injector.registerFactory<ScheduleJopInMaintainanceUseCase>(() => ScheduleJopInMaintainanceUseCase(injector()));
+  injector.registerFactory<RequestBulkUseCase>(
+      () => RequestBulkUseCase(injector()));
+  injector.registerFactory<ScheduleJopInProgressUseCase>(
+      () => ScheduleJopInProgressUseCase(injector()));
+  injector.registerFactory<ScheduleJopInMaintainanceUseCase>(
+      () => ScheduleJopInMaintainanceUseCase(injector()));
   // injector.registerFactory<GetScheduleJopDetailsUseCase>(
   //     () => GetScheduleJopDetailsUseCase(injector()));
 }

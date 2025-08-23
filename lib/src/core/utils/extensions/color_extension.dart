@@ -1,5 +1,5 @@
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 extension ColorExtension on String {
   Color toColor() {

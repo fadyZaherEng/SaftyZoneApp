@@ -35,7 +35,7 @@ class CustomInterceptors extends InterceptorsWrapper {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) async {
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
     debugPrint(
       "ERROR [${err.response?.statusCode}] \n${err.response.toString()} \nHEADERS: ${err.requestOptions.headers}",
     );
@@ -56,10 +56,10 @@ class CustomInterceptors extends InterceptorsWrapper {
         return handler.resolve(response); // ✅ نعيد النتيجة للمستدعي
       } catch (e) {
         // لو فشل التجديد أو التنفيذ
-        return handler.reject(DioError(
+        return handler.reject(DioException(
           requestOptions: err.requestOptions,
           error: e,
-          type: DioErrorType.unknown,
+          type: DioExceptionType.unknown,
         ));
       }
     }

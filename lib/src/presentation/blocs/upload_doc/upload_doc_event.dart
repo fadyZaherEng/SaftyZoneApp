@@ -16,14 +16,14 @@ final class UploadDocumentEvent extends UploadDocEvent {
 
   UploadDocumentEvent({
     required this.docPath,
-   });
+  });
 }
 
 final class UploadDocumentAPiEvent extends UploadDocEvent {
-   final RequestCertificateInstallation request;
+  final RequestCertificateInstallation request;
 
-   UploadDocumentAPiEvent({
-     required this.request,
+  UploadDocumentAPiEvent({
+    required this.request,
   });
 }
 
@@ -34,9 +34,11 @@ final class DeleteDocEvent extends UploadDocEvent {
     required this.docPath,
   });
 }
+
 final class GetScheduleJopDetailsEvent extends UploadDocEvent {
   final String requestId;
 
   GetScheduleJopDetailsEvent({required this.requestId});
 }
+
 final class GetEmployeesEvent extends UploadDocEvent {}

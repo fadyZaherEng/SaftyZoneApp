@@ -25,7 +25,7 @@ final class GetScheduleJobEvent extends RequestsEvent {
   final int page;
 
   GetScheduleJobEvent({
-   required this.status,
+    required this.status,
     required this.limit,
     required this.page,
   });

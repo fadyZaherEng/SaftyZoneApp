@@ -6,7 +6,6 @@ import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
-import 'package:safety_zone/src/presentation/screens/contract/contract_screen.dart';
 import 'package:safety_zone/src/presentation/screens/wallet/widgets/submit_widget.dart';
 
 class WalletScreen extends BaseStatefulWidget {

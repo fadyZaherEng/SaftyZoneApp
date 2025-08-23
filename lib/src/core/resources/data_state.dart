@@ -17,10 +17,9 @@ abstract class DataState<T> {
 }
 
 class DataSuccess<T> extends DataState<T> {
-  DataSuccess({T? data, String? message}) : super(data: data, message: message);
+  DataSuccess({super.data, super.message});
 }
 
 class DataFailed<T> extends DataState<T> {
-  DataFailed({DioException? error, String? message})
-      : super(error: error, message: message);
+  DataFailed({super.error, super.message});
 }

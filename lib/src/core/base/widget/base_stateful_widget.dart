@@ -19,7 +19,6 @@ abstract class BaseStatefulWidget extends StatefulWidget {
 
 abstract class BaseState<W extends BaseStatefulWidget> extends State<W>
     with LoadingManager {
-
   @override
   Widget build(BuildContext context) {
     return baseWidget();

@@ -23,13 +23,6 @@ class InstallationFeeService {
         'http://safty-zone-env.eba-rhpc9ydc.us-east-1.elasticbeanstalk.com/api/provider/installation-fees');
     final token = GetTokenUseCase(injector())();
 
-    if (token == null) {
-      return {
-        'success': false,
-        'message': 'No authentication token found',
-      };
-    }
-
     try {
       final response = await _client.post(
         url,
@@ -75,13 +68,6 @@ class InstallationFeeService {
         'http://safty-zone-env.eba-rhpc9ydc.us-east-1.elasticbeanstalk.com/api/provider/installation-fees');
     final token = GetTokenUseCase(injector())();
 
-    if (token == null) {
-      return {
-        'success': false,
-        'message': 'No authentication token found',
-      };
-    }
-
     try {
       final response = await _client.get(
         url,
@@ -123,13 +109,6 @@ class InstallationFeeService {
     debugPrint(
         '${APIKeys.baseUrl}/api/provider/item-management/${systemComponentCode == "earlyWarning" ? "alarm-item" : "fire-system-item"}/$alarmType?alarmType=loop&page=1&limit=100');
     final token = GetTokenUseCase(injector())();
-
-    if (token == null) {
-      return {
-        'success': false,
-        'message': 'No authentication token found',
-      };
-    }
 
     try {
       final response = await _client.get(
@@ -180,13 +159,6 @@ class InstallationFeeService {
   }) async {
     final url = Uri.parse('$baseUrl/api/provider/installation-fees');
     final token = GetTokenUseCase(injector())();
-
-    if (token == null) {
-      return {
-        'success': false,
-        'message': 'No authentication token found',
-      };
-    }
 
     final requestBody = {
       "provider": providerId,
@@ -242,13 +214,6 @@ class InstallationFeeService {
   }) async {
     final url = Uri.parse('$baseUrl/api/provider/installation-fees');
     final token = GetTokenUseCase(injector())();
-
-    if (token == null) {
-      return {
-        'success': false,
-        'message': 'No authentication token found',
-      };
-    }
 
     final requestBody = {
       "item": itemId,

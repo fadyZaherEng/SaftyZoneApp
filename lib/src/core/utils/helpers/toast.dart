@@ -4,9 +4,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ShowToast {
   ShowToast._();
 
-  static showCustomSnackBar({required String message, required bool dark, required BuildContext context}) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
+  static showCustomSnackBar(
+      {required String message,
+      required bool dark,
+      required BuildContext context}) {
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [
@@ -29,9 +31,11 @@ class ShowToast {
     );
   }
 
-  static showSuccessSnackBar({required String message, required bool dark,required BuildContext context}) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
+  static showSuccessSnackBar(
+      {required String message,
+      required bool dark,
+      required BuildContext context}) {
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [

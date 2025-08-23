@@ -7,6 +7,7 @@ class GetFirebaseNotificationTokenUseCase {
   GetFirebaseNotificationTokenUseCase(this.sharedPreferences);
 
   String call() {
-    return sharedPreferences.getString(SharedPreferenceKeys.firebaseToken) ?? '';
+    return sharedPreferences.getString(SharedPreferenceKeys.firebaseToken) ??
+        '';
   }
 }

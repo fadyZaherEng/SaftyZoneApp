@@ -61,6 +61,7 @@ final class SendPriceOfferErrorState extends RequestsState {
 
   SendPriceOfferErrorState(this.message);
 }
+
 final class ScheduleJobLoadingState extends RequestsState {}
 
 final class ScheduleJobSuccessState extends RequestsState {
@@ -74,6 +75,7 @@ final class ScheduleJobErrorState extends RequestsState {
 
   ScheduleJobErrorState(this.message);
 }
+
 final class ScheduleJobInProgressLoadingState extends RequestsState {}
 
 final class ScheduleJobInProgressSuccessState extends RequestsState {

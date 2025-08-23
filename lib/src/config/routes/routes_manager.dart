@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:safety_zone/src/domain/entities/home/schedule_jop.dart';
-import 'package:safety_zone/src/domain/entities/main/requests/request.dart';
 import 'package:safety_zone/src/presentation/screens/complete_info/complete_info_view.dart';
 import 'package:safety_zone/src/presentation/screens/contract/contract_screen.dart';
 import 'package:safety_zone/src/presentation/screens/employess/employees_list_screen.dart';

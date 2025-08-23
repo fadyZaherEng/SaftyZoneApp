@@ -70,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
       final isShowOnboarding = GetIsBoardingUseCase(injector())();
 
       if (isAuthenticated &&
-           result?.data?.status == RegisterStatus.Home_Page.name) {
+          result?.data?.status == RegisterStatus.Home_Page.name) {
         Navigator.pushReplacementNamed(context, Routes.main);
       } else if (_isAuthenticated()) {
         Navigator.pushReplacementNamed(context, Routes.completeInfo);

@@ -196,6 +196,7 @@ class InstallationFeeProvider extends ChangeNotifier {
         return S.current.fireSuppressionSystemFees;
     }
   }
+
   String getSystemComponentNameLocalized(String id, BuildContext context) {
     debugPrint('id: $id');
     switch (id) {
@@ -223,5 +224,4 @@ class InstallationFeeProvider extends ChangeNotifier {
         return '';
     }
   }
-
 }

@@ -73,18 +73,16 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
           return Scaffold(
             appBar: widget.isAppBar
                 ? AppBar(
-              backgroundColor: ColorSchemes.primary,
-              title: Text(
-                S
-                    .of(context)
-                    .requests,
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            )
+                    backgroundColor: ColorSchemes.primary,
+                    title: Text(
+                      S.of(context).requests,
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
                 : null,
             body: SafeArea(
               child: Skeletonizer(
@@ -99,22 +97,20 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 40),
                               child: _isLoading
                                   ? Container(
-                                height: 200,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  color: ColorSchemes.border,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              )
+                                      height: 200,
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                        color: ColorSchemes.border,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    )
                                   : CustomEmptyListWidget(
-                                text: S
-                                    .of(context)
-                                    .noRequestsFound,
-                                isRefreshable: true,
-                                onRefresh: () =>
-                                    _bloc.add(GetConsumerRequestsEvent()),
-                                imagePath: ImagePaths.emptyProject,
-                              )),
+                                      text: S.of(context).noRequestsFound,
+                                      isRefreshable: true,
+                                      onRefresh: () =>
+                                          _bloc.add(GetConsumerRequestsEvent()),
+                                      imagePath: ImagePaths.emptyProject,
+                                    )),
                         ),
                       if (!_isOld && _requestsRecent.isEmpty)
                         Center(
@@ -122,22 +118,20 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 40),
                             child: _isLoading
                                 ? Container(
-                              height: 200,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                color: ColorSchemes.border,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            )
+                                    height: 200,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      color: ColorSchemes.border,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  )
                                 : CustomEmptyListWidget(
-                              text: S
-                                  .of(context)
-                                  .noRequestsFound,
-                              isRefreshable: true,
-                              onRefresh: () =>
-                                  _bloc.add(GetConsumerRequestsEvent()),
-                              imagePath: ImagePaths.emptyProject,
-                            ),
+                                    text: S.of(context).noRequestsFound,
+                                    isRefreshable: true,
+                                    onRefresh: () =>
+                                        _bloc.add(GetConsumerRequestsEvent()),
+                                    imagePath: ImagePaths.emptyProject,
+                                  ),
                           ),
                         ),
                       if (_isOld && _requestsOld.isNotEmpty ||
@@ -241,19 +235,19 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                     height: 16.h,
                     child: _isLoading
                         ? Container(
-                      width: 32.w,
-                      height: 32.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                    )
+                            width: 32.w,
+                            height: 32.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          )
                         : SvgPicture.asset(
-                      ImagePaths.filter,
-                      color: ColorSchemes.primary,
-                      width: 16.w,
-                      height: 16.h,
-                    ),
+                            ImagePaths.filter,
+                            color: ColorSchemes.primary,
+                            width: 16.w,
+                            height: 16.h,
+                          ),
                   ),
                 ),
                 border: OutlineInputBorder(
@@ -308,7 +302,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     }
 
     final filtered =
-    (_isOld ? _tempRequestsOld : _tempRequestsRecent).where((element) {
+        (_isOld ? _tempRequestsOld : _tempRequestsRecent).where((element) {
       final requestNumber = element.requestNumber.toString().toLowerCase();
       final requestType = element.requestType.toLowerCase();
       final branchName = element.branch.branchName.toLowerCase();
@@ -331,11 +325,12 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     });
   }
 
-  Widget _statusTab(BuildContext context,
-      String label, {
-        bool isActive = false,
-        required void Function() onTap,
-      }) {
+  Widget _statusTab(
+    BuildContext context,
+    String label, {
+    bool isActive = false,
+    required void Function() onTap,
+  }) {
     return Expanded(
       child: InkWell(
         onTap: onTap,
@@ -438,12 +433,11 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () =>
-                        _openMap(
-                          request.branch.location.coordinates.first,
-                          request.branch.location.coordinates.last,
-                          request.Id,
-                        ),
+                    onTap: () => _openMap(
+                      request.branch.location.coordinates.first,
+                      request.branch.location.coordinates.last,
+                      request.Id,
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -468,7 +462,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
                 // const SizedBox(width: 8),
                 Container(
                   padding:
-                  const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   decoration: BoxDecoration(
                     color: _isLoading
                         ? Colors.grey.shade300
@@ -493,9 +487,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
               child: CustomButtonWidget(
                 backgroundColor: ColorSchemes.primary,
                 borderColor: ColorSchemes.primary,
-                text: S
-                    .of(context)
-                    .sendPriceOffer,
+                text: S.of(context).sendPriceOffer,
                 textColor: Colors.white,
                 onTap: () => _acceptRequest(context, request),
               ),
@@ -535,63 +527,42 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) =>
-            MapSearchScreen(
-              initialLatitude: first,
-              initialLongitude: last,
-              onLocationSelected: (lat, lng, address) {
-                setState(() {});
-              },
-            ),
+        builder: (_) => MapSearchScreen(
+          initialLatitude: first,
+          initialLongitude: last,
+          onLocationSelected: (lat, lng, address) {
+            setState(() {});
+          },
+        ),
       ),
     );
   }
 
   String _getTitle(String requestType) {
     if (RequestType.FireExtinguisher.name == requestType) {
-      return S
-          .of(context)
-          .fireSystems;
+      return S.of(context).fireSystems;
     } else if (RequestType.MaintenanceContract.name == requestType) {
-      return S
-          .of(context)
-          .maintenanceContracts;
+      return S.of(context).maintenanceContracts;
     } else {
-      return S
-          .of(context)
-          .instantLicense;
+      return S.of(context).instantLicense;
     }
   }
 
   String _getStatus(String status) {
     if (status.toLowerCase() == "pending") {
-      return S
-          .of(context)
-          .pending;
+      return S.of(context).pending;
     } else if (status.toLowerCase() == "accepted") {
-      return S
-          .of(context)
-          .accepted;
+      return S.of(context).accepted;
     } else if (status.toLowerCase() == "rejected") {
-      return S
-          .of(context)
-          .rejected;
+      return S.of(context).rejected;
     } else if (status.toLowerCase() == "cancelled") {
-      return S
-          .of(context)
-          .cancelled;
+      return S.of(context).cancelled;
     } else if (status.toLowerCase() == "active") {
-      return S
-          .of(context)
-          .active;
+      return S.of(context).active;
     } else if (status.toLowerCase() == "inProgress") {
-      return S
-          .of(context)
-          .inProgress;
+      return S.of(context).inProgress;
     } else {
-      return S
-          .of(context)
-          .rejected;
+      return S.of(context).rejected;
     }
   }
 }

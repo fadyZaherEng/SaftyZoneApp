@@ -6,9 +6,6 @@ import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
-import 'package:safety_zone/src/presentation/screens/map_search/map_search_screen.dart';
-import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
-import 'package:safety_zone/src/presentation/widgets/custom_button_with_prefix_icon_widget.dart';
 
 class PricesNeedEscalationScreen extends BaseStatefulWidget {
   const PricesNeedEscalationScreen({super.key});

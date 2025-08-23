@@ -29,7 +29,7 @@ class _NotificationsSwitchButtonWidgetState
             child: Transform.scale(
               scale: 0.7,
               child: CupertinoSwitch(
-                activeColor: ColorSchemes.primary,
+                activeTrackColor: ColorSchemes.primary,
                 value: widget.value,
                 onChanged: (value) {
                   widget.onTap(value);

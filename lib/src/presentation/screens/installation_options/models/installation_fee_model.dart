@@ -108,20 +108,20 @@ class ItemDetail {
       alarmType: json['alarmType'] ?? '',
       subCategory: json['subCategory'] ?? '',
       createdAt:
-      DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
+          DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
       updatedAt:
-      DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
+          DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
     );
   }
 }
 
-class ItemName  extends Equatable{
+class ItemName extends Equatable {
   final String en;
   final String ar;
 
   const ItemName({
-     this.en="",
-     this.ar="",
+    this.en = "",
+    this.ar = "",
   });
 
   @override

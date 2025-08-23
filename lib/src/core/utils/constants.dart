@@ -6,6 +6,4 @@ class Constants {
   static const FontWeight fontWeightSemiBold = FontWeight.w600;
   static const FontWeight fontWeightBold = FontWeight.w700;
   static const String kGoogleApiKey = "AIzaSyA4LqOxrIrI4oZXDAU1vWMUGoE5xuWTY5s";
-
-
 }

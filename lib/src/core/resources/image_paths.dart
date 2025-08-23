@@ -148,4 +148,4 @@ class ImagePaths {
   static String riskManagement = "assets/images/risk-management.svg";
   static String fireExtinguishers = "assets/images/fire-extinguishers.svg";
   static String systemError = "assets/images/error.png";
- }
+}

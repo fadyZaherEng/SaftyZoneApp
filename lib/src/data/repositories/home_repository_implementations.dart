@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:retrofit/dio.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/maintainance_reports.dart';
@@ -13,7 +12,6 @@ import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remot
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_request_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_requests.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop.dart';
-import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_schedule_jop_details.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_second_and_third_schedule.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/entity/remote_send_price.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/home_api_services.dart';

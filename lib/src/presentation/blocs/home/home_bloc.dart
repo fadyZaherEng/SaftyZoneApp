@@ -6,8 +6,6 @@ import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/enums.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/request_bulk.dart';
-import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/schedule_jop_request.dart';
-import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/home/requests.dart';
 import 'package:safety_zone/src/domain/usecase/get_user_login_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/get_consumer_requests_use_case.dart';

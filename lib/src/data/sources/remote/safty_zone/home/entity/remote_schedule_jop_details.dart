@@ -116,8 +116,7 @@ class ItemId {
     this.subCategory,
   });
 
-  factory ItemId.fromJson(Map<String, dynamic> json) =>
-      _$ItemIdFromJson(json);
+  factory ItemId.fromJson(Map<String, dynamic> json) => _$ItemIdFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemIdToJson(this);
 }
@@ -175,8 +174,7 @@ class Branch {
     this.address,
   });
 
-  factory Branch.fromJson(Map<String, dynamic> json) =>
-      _$BranchFromJson(json);
+  factory Branch.fromJson(Map<String, dynamic> json) => _$BranchFromJson(json);
 
   Map<String, dynamic> toJson() => _$BranchToJson(this);
 }

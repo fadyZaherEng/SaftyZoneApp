@@ -10,11 +10,11 @@ class GreetingSection extends StatefulWidget {
   final String fullName;
 
   const GreetingSection({
-    Key? key,
+    super.key,
     required this.s,
     required this.isLoading,
     required this.fullName,
-  }) : super(key: key);
+  });
 
   @override
   State<GreetingSection> createState() => _GreetingSectionState();
@@ -94,18 +94,18 @@ class _GreetingSectionState extends State<GreetingSection>
               angle: _rotationAnimation.value,
               child: widget.isLoading
                   ? Container(
-                width: 32.w,
-                height: 32.h,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-              )
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    )
                   : SvgPicture.asset(
-                ImagePaths.hello,
-                width: 48.w,
-                height: 48.h,
-              ),
+                      ImagePaths.hello,
+                      width: 48.w,
+                      height: 48.h,
+                    ),
             );
           },
         ),

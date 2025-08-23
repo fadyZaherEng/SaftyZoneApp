@@ -42,20 +42,14 @@ class _CompleteInfoViewState extends State<CompleteInfoView> {
 
     final authResponse = await CheckAuthUseCase(injector())();
 
-    if (authResponse != null) {
-      final onboarding = authResponse.data?.onboarding;
-      setState(() {
-        _employeesCompleted = onboarding?.employees ?? false;
-        _installationFeesCompleted = onboarding?.installationFess ?? false;
-        _termsCompleted = onboarding?.termsAndConditions ?? false;
-        _isLoading = false;
-      });
-    } else {
-      setState(() {
-        _isLoading = false;
-      });
+    final onboarding = authResponse.data?.onboarding;
+    setState(() {
+      _employeesCompleted = onboarding?.employees ?? false;
+      _installationFeesCompleted = onboarding?.installationFess ?? false;
+      _termsCompleted = onboarding?.termsAndConditions ?? false;
+      _isLoading = false;
+    });
     }
-  }
 
   @override
   Widget build(BuildContext context) {

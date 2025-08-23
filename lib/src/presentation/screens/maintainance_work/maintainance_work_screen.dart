@@ -39,7 +39,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
   bool _isAll = true;
   final ScrollController _scrollController = ScrollController();
   bool _isFetchingMore = false;
-  int _limit = 10;
+  final int _limit = 10;
   int _page = 1;
   bool _hasMore = true; // لو في صفحات لسة متبقية
 

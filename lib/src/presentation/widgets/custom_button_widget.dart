@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/utils/constants.dart';
-import 'package:safety_zone/generated/l10n.dart';
 
 class CustomButtonWidget extends StatelessWidget {
   final void Function() onTap;

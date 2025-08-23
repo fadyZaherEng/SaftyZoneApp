@@ -12,10 +12,12 @@ class RemoteMaintainanceItemPricesOffer {
     this.totalPrice,
   });
 
-  factory RemoteMaintainanceItemPricesOffer.fromJson(Map<String, dynamic> json) =>
+  factory RemoteMaintainanceItemPricesOffer.fromJson(
+          Map<String, dynamic> json) =>
       _$RemoteMaintainanceItemPricesOfferFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RemoteMaintainanceItemPricesOfferToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$RemoteMaintainanceItemPricesOfferToJson(this);
 }
 
 @JsonSerializable()
@@ -28,8 +30,7 @@ class Result {
     this.item,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) =>
-      _$ResultFromJson(json);
+  factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$ResultToJson(this);
 }
@@ -46,8 +47,7 @@ class Item {
     this.quantity,
   });
 
-  factory Item.fromJson(Map<String, dynamic> json) =>
-      _$ItemFromJson(json);
+  factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemToJson(this);
 }

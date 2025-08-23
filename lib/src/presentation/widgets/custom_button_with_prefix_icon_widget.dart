@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/utils/constants.dart';
@@ -42,21 +42,21 @@ class CustomButtonWithPrefixIconWidget extends StatelessWidget {
       width: width,
       child: ElevatedButton(
         style: ButtonStyle(
-          textStyle: MaterialStateProperty.all<TextStyle>(
+          textStyle: WidgetStateProperty.all<TextStyle>(
             Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: textColor,
                   letterSpacing: 0.24,
                   fontWeight: fontWeight,
                 ),
           ),
-          elevation: MaterialStateProperty.all<double>(0),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          elevation: WidgetStateProperty.all<double>(0),
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(buttonBorderRadius),
             ),
           ),
-          backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
-          side: MaterialStateProperty.all<BorderSide>(
+          backgroundColor: WidgetStateProperty.all<Color>(backgroundColor),
+          side: WidgetStateProperty.all<BorderSide>(
             BorderSide(
               color: borderColor,
               width: borderWidth,

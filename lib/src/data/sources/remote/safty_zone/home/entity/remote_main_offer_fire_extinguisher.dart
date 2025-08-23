@@ -29,5 +29,6 @@ class RemoteMainOfferFireExtinguisher {
   factory RemoteMainOfferFireExtinguisher.fromJson(Map<String, dynamic> json) =>
       _$RemoteMainOfferFireExtinguisherFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RemoteMainOfferFireExtinguisherToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$RemoteMainOfferFireExtinguisherToJson(this);
 }

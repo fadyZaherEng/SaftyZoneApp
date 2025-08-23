@@ -73,8 +73,8 @@ class ItemOffer {
     this.quantity = 0,
   });
 
-  factory ItemOffer.fromJson(Map<String, dynamic> json) => _$ItemOfferFromJson(json);
+  factory ItemOffer.fromJson(Map<String, dynamic> json) =>
+      _$ItemOfferFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemOfferToJson(this);
 }
-

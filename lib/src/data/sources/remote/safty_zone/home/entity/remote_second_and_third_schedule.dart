@@ -51,8 +51,7 @@ class Data {
     this.expireAt,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) =>
-      _$DataFromJson(json);
+  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataToJson(this);
 }
@@ -93,8 +92,7 @@ class ItemId {
     this.subCategory,
   });
 
-  factory ItemId.fromJson(Map<String, dynamic> json) =>
-      _$ItemIdFromJson(json);
+  factory ItemId.fromJson(Map<String, dynamic> json) => _$ItemIdFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemIdToJson(this);
 }

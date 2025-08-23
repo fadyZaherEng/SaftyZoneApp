@@ -67,15 +67,11 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
       _ => RegExp(r'^[0-9]{9}$'),
     };
 
-    setState(() =>
-    _errorMessagePhone =
-    pattern.hasMatch(value) ? null : S
-        .of(context)
-        .invalidPhoneNumber);
+    setState(() => _errorMessagePhone =
+        pattern.hasMatch(value) ? null : S.of(context).invalidPhoneNumber);
   }
 
-  String _getHintText() =>
-      switch (_selectedCountry.code) {
+  String _getHintText() => switch (_selectedCountry.code) {
         'SA' => '5XXXXXXXX',
         'EG' => '10XXXXXXXX',
         'AE' => '5XXXXXXXX',
@@ -85,9 +81,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<AddEmployeeCubit>();
-    final state = context
-        .watch<AddEmployeeCubit>()
-        .state;
+    final state = context.watch<AddEmployeeCubit>().state;
     final dark = THelperFunctions.isDarkMode(context);
 
     return SingleChildScrollView(
@@ -109,9 +103,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        S
-                            .of(context)
-                            .fullName,
+                        S.of(context).fullName,
                         style: TextStyle(
                           color: const Color(0xFF333333),
                           fontWeight: FontWeight.w500,
@@ -122,28 +114,22 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                       SizedBox(height: 8.h),
                       _buildInput(
                           errorMessage: _errorMessageFullName,
-                          label: S
-                              .of(context)
-                              .enterFullName,
+                          label: S.of(context).enterFullName,
                           controller: _fullNameController,
                           validator: (v) =>
-                          v == null || v.isEmpty ? 'Required' : null,
+                              v == null || v.isEmpty ? 'Required' : null,
                           onChanged: (value) {
                             setState(() {
                               _errorMessageFullName =
-                              value == null || value.isEmpty
-                                  ? S
-                                  .of(context)
-                                  .thisFieldIsRequired
-                                  : null;
+                                  value.isEmpty
+                                      ? S.of(context).thisFieldIsRequired
+                                      : null;
                             });
                             _onChanged(cubit);
                           }),
                       SizedBox(height: 16.h),
                       Text(
-                        S
-                            .of(context)
-                            .jopTitle,
+                        S.of(context).jopTitle,
                         style: TextStyle(
                           color: const Color(0xFF333333),
                           fontWeight: FontWeight.w500,
@@ -154,28 +140,22 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                       SizedBox(height: 8.h),
                       _buildInput(
                           errorMessage: _errorMessageJobTitle,
-                          label: S
-                              .of(context)
-                              .enterJopTitle,
+                          label: S.of(context).enterJopTitle,
                           controller: _jobTitleController,
                           validator: (v) =>
-                          v == null || v.isEmpty ? 'Required' : null,
+                              v == null || v.isEmpty ? 'Required' : null,
                           onChanged: (value) {
                             setState(() {
                               _errorMessageJobTitle =
-                              value == null || value.isEmpty
-                                  ? S
-                                  .of(context)
-                                  .thisFieldIsRequired
-                                  : null;
+                                  value.isEmpty
+                                      ? S.of(context).thisFieldIsRequired
+                                      : null;
                             });
                             _onChanged(cubit);
                           }),
                       SizedBox(height: 16.h),
                       Text(
-                        S
-                            .of(context)
-                            .phoneNumber,
+                        S.of(context).phoneNumber,
                         style: TextStyle(
                           color: const Color(0xFF333333),
                           fontWeight: FontWeight.w500,
@@ -192,11 +172,9 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                         onChanged: (value) {
                           setState(() {
                             _errorMessagePhone =
-                            value == null || value.length < 8
-                                ? S
-                                .of(context)
-                                .invalidPhoneNumber
-                                : null;
+                                value.length < 8
+                                    ? S.of(context).invalidPhoneNumber
+                                    : null;
                           });
                           _onChanged(cubit);
                         },
@@ -204,9 +182,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                         decoration: InputDecoration(
                           hintText: _getHintText(),
                           errorText: _errorMessagePhone,
-                          labelText: S
-                              .of(context)
-                              .enterPhoneNumber,
+                          labelText: S.of(context).enterPhoneNumber,
                           labelStyle: TextStyle(
                             color: Colors.grey,
                             fontWeight: FontWeight.w500,
@@ -224,9 +200,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return S
-                                .of(context)
-                                .invalidPhoneNumber;
+                            return S.of(context).invalidPhoneNumber;
                           }
                           return null;
                         },
@@ -234,9 +208,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
 
                       SizedBox(height: 16.h),
                       Text(
-                        S
-                            .of(context)
-                            .uploadPhoto,
+                        S.of(context).uploadPhoto,
                         style: TextStyle(
                           color: const Color(0xFF333333),
                           fontWeight: FontWeight.w500,
@@ -262,9 +234,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                         children: [
                           Expanded(
                             child: _buildButton(
-                              label: S
-                                  .of(context)
-                                  .previous,
+                              label: S.of(context).previous,
                               enabled: false,
                               color: const Color(0xFFCCCCCC),
                               textColor: Colors.white,
@@ -274,18 +244,16 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                           SizedBox(width: 16.w),
                           Expanded(
                             child: _buildButton(
-                              label: S
-                                  .of(context)
-                                  .next,
+                              label: S.of(context).next,
                               enabled: state.canGoNext,
                               color: const Color(0xFFA50000),
                               textColor: Colors.white,
                               onTap: state.canGoNext
                                   ? () {
-                                if (_formKey.currentState!.validate()) {
-                                  cubit.nextStep();
-                                }
-                              }
+                                      if (_formKey.currentState!.validate()) {
+                                        cubit.nextStep();
+                                      }
+                                    }
                                   : null,
                             ),
                           ),
@@ -309,9 +277,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
               },
               icon: Icon(Icons.add_circle, color: Color(0xFF1C3D80)),
               label: Text(
-                S
-                    .of(context)
-                    .addAnotherEmployee,
+                S.of(context).addAnotherEmployee,
                 style: TextStyle(
                   color: Color(0xFF1C3D80),
                   fontWeight: FontWeight.w600,
@@ -436,15 +402,9 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
             onSecondaryAction: () {
               Navigator.pop(context);
             },
-            primaryText: S
-                .of(context)
-                .ok,
-            secondaryText: S
-                .of(context)
-                .cancel,
-            text: S
-                .of(context)
-                .youShouldHaveCameraPermission,
+            primaryText: S.of(context).ok,
+            secondaryText: S.of(context).cancel,
+            text: S.of(context).youShouldHaveCameraPermission,
           );
         }
       },
@@ -469,15 +429,9 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
             onSecondaryAction: () {
               Navigator.pop(context);
             },
-            primaryText: S
-                .of(context)
-                .ok,
-            secondaryText: S
-                .of(context)
-                .cancel,
-            text: S
-                .of(context)
-                .youShouldHaveCameraPermission,
+            primaryText: S.of(context).ok,
+            secondaryText: S.of(context).cancel,
+            text: S.of(context).youShouldHaveCameraPermission,
           );
         }
       },
@@ -503,8 +457,10 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
     );
   }
 
-  Future<void> _pickDocument(ImageSource? result,
-      AddEmployeeCubit cubit,) async {
+  Future<void> _pickDocument(
+    ImageSource? result,
+    AddEmployeeCubit cubit,
+  ) async {
     ImagePicker picker = ImagePicker();
     try {
       if (result != null) {
@@ -528,9 +484,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
       if (mounted) {
         showSnackBar(
           context: context,
-          message: S
-              .of(context)
-              .imagePickError,
+          message: S.of(context).imagePickError,
           color: ColorSchemes.warning,
           icon: ImagePaths.error,
         );
@@ -557,9 +511,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
             ),
           ),
           Text(
-            S
-                .of(context)
-                .upload,
+            S.of(context).upload,
             style: TextStyle(
               color: const Color(0xFFA50000),
               fontWeight: FontWeight.w500,
@@ -591,33 +543,32 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
     void showZoomDialog(ImageProvider imageProvider) {
       showDialog(
         context: context,
-        builder: (_) =>
-            Dialog(
-              backgroundColor: Colors.black,
-              insetPadding: EdgeInsets.all(16),
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12.r),
-                    child: PhotoView(
-                      imageProvider: imageProvider,
-                      backgroundDecoration:
+        builder: (_) => Dialog(
+          backgroundColor: Colors.black,
+          insetPadding: EdgeInsets.all(16),
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12.r),
+                child: PhotoView(
+                  imageProvider: imageProvider,
+                  backgroundDecoration:
                       const BoxDecoration(color: Colors.black),
-                      loadingBuilder: (context, event) =>
+                  loadingBuilder: (context, event) =>
                       const Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: IconButton(
-                      icon: const Icon(Icons.close, color: Colors.white),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  )
-                ],
+                ),
               ),
-            ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: Colors.white),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              )
+            ],
+          ),
+        ),
       );
     }
 
@@ -646,9 +597,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
       return buildImageView(FileImage(file));
     } else if (path != null &&
         path.isNotEmpty &&
-        Uri
-            .tryParse(path)
-            ?.isAbsolute == true) {
+        Uri.tryParse(path)?.isAbsolute == true) {
       return buildImageView(NetworkImage(path));
     }
 

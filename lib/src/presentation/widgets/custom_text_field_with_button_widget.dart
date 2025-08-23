@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
-import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/constants.dart';
-import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 
 class CustomTextFieldWithButtonWidget extends StatefulWidget {
@@ -18,7 +16,7 @@ class CustomTextFieldWithButtonWidget extends StatefulWidget {
   final FontWeight fontWeight;
 
   const CustomTextFieldWithButtonWidget({
-    Key? key,
+    super.key,
     required this.controller,
     required this.labelTitle,
     required this.onChange,
@@ -29,7 +27,7 @@ class CustomTextFieldWithButtonWidget extends StatefulWidget {
     this.textInputType = TextInputType.text,
     this.buttonBorderRadius = 12.0,
     this.fontWeight = Constants.fontWeightSemiBold,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomTextFieldWithButtonWidget> createState() =>
@@ -74,7 +72,7 @@ class _CustomTextFieldWithButtonWidgetState
                 widget.buttonOnTap();
               },
               fontWeight: widget.fontWeight,
-              backgroundColor:ColorSchemes.primary,
+              backgroundColor: ColorSchemes.primary,
             ),
           ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 15),

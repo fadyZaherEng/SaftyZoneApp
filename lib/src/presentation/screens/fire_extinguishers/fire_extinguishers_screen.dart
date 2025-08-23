@@ -376,8 +376,8 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                                 imagePath: e.value.itemId?.image ??
                                     ImagePaths.firePng2,
                                 title: (GetLanguageUseCase(injector())() == 'en'
-                                        ? e.value?.itemId?.itemName?.en
-                                        : e.value?.itemId?.itemName?.ar) ??
+                                        ? e.value.itemId?.itemName?.en
+                                        : e.value.itemId?.itemName?.ar) ??
                                     s.powder6Kg,
                                 receivedCount: 0,
                                 clientCount: e.value.receivedQuantity ?? 0,

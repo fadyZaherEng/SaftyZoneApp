@@ -136,7 +136,7 @@ extension RemoteItemsListExtension on List<RemoteItems> {
 class RemoteItemId {
   @JsonKey(name: '_id')
   final String? Id;
-  final ItemName  itemName;
+  final ItemName itemName;
   final String? type;
 
   const RemoteItemId({
@@ -150,7 +150,6 @@ class RemoteItemId {
 
   Map<String, dynamic> toJson() => _$RemoteItemIdToJson(this);
 }
-
 
 extension RemoteItemIdExtension on RemoteItemId {
   ItemId mapToDomain() {

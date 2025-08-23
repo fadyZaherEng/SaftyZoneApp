@@ -361,7 +361,7 @@ class _NotificationsScreenState extends BaseState<NotificationsScreen> {
                   fontSize: 13.sp,
                 ),
               ),
-               Transform.rotate(
+              Transform.rotate(
                 angle: 3.14 * 90 / 180,
                 child: SvgPicture.asset(
                   ImagePaths.dots,

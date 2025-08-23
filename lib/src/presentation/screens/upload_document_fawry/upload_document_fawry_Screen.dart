@@ -442,12 +442,12 @@ class _UploadDocumentFawryScreenState
             ),
             const SizedBox(height: 16),
             _buildQuantitySection(
-              title: s.extinguishingItems,
+              title: s.fireSystems,
               items: model.data?.consumerRequest?.fireExtinguisherItem ?? [],
             ),
             const SizedBox(height: 16),
             _buildQuantitySection(
-              title: s.fireSystems,
+              title: s.extinguishingItems,
               items: model.data?.consumerRequest?.fireSystemItem ?? [],
             ),
           ],
@@ -599,7 +599,11 @@ class _UploadDocumentFawryScreenState
                 Chip(
                   label: Text(
                     _getStatus(request.status),
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
                   ),
                   backgroundColor: ColorSchemes.secondary,
                 ),

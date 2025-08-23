@@ -49,6 +49,4 @@ abstract class AuthenticationRepository {
   });
   Future<DataState<List<RemoteGenerateUrl>>> generateImageUrl();
   Future<DataState<List<RemoteGenerateUrl>>> generateFileUrl();
-
-
 }

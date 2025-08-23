@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 
-
 class TBottomSheetTheme {
   TBottomSheetTheme._();
 

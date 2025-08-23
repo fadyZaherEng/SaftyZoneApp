@@ -55,8 +55,7 @@ class Data {
     this.consumerRequest,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) =>
-      _$DataFromJson(json);
+  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataToJson(this);
 }
@@ -78,8 +77,7 @@ class Branch {
     this.address,
   });
 
-  factory Branch.fromJson(Map<String, dynamic> json) =>
-      _$BranchFromJson(json);
+  factory Branch.fromJson(Map<String, dynamic> json) => _$BranchFromJson(json);
 
   Map<String, dynamic> toJson() => _$BranchToJson(this);
 }
@@ -165,7 +163,7 @@ class AlarmItems {
     this.itemId,
     this.quantity,
     this.Id,
-    this.malfunctionsNumber=0,
+    this.malfunctionsNumber = 0,
   });
 
   factory AlarmItems.fromJson(Map<String, dynamic> json) =>
@@ -200,14 +198,13 @@ class ItemId {
 
   const ItemId({
     this.Id,
-    this.itemName=const ItemName(en: '', ar: ''),
+    this.itemName = const ItemName(en: '', ar: ''),
     this.image,
     this.type,
     this.subCategory,
   });
 
-  factory ItemId.fromJson(Map<String, dynamic> json) =>
-      _$ItemIdFromJson(json);
+  factory ItemId.fromJson(Map<String, dynamic> json) => _$ItemIdFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemIdToJson(this);
 }

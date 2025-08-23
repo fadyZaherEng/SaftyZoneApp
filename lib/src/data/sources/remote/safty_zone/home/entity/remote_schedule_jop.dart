@@ -50,8 +50,9 @@ class RemoteScheduleJop {
 
   Map<String, dynamic> toJson() => _$RemoteScheduleJopToJson(this);
 }
+
 @JsonSerializable()
-class RemoteConsumer{
+class RemoteConsumer {
   @JsonKey(name: '_id')
   final String? id;
   final String? phoneNumber;
@@ -59,7 +60,8 @@ class RemoteConsumer{
     this.id = "",
     this.phoneNumber = "",
   });
-  factory RemoteConsumer.fromJson(Map<String, dynamic> json) => _$RemoteConsumerFromJson(json);
+  factory RemoteConsumer.fromJson(Map<String, dynamic> json) =>
+      _$RemoteConsumerFromJson(json);
   Map<String, dynamic> toJson() => _$RemoteConsumerToJson(this);
 }
 

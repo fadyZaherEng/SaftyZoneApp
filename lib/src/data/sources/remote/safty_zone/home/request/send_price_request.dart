@@ -28,8 +28,7 @@ class SendPriceRequest {
 
   Map<String, dynamic> toJson() => _$SendPriceRequestToJson(this);
   @override
-  String toString()
-  {
+  String toString() {
     return 'SendPriceRequest{consumerRequest: $consumerRequest, responsibleEmployee: $responsibleEmployee, price: $price, item: $item, is_Primary: $is_Primary}';
   }
 }
@@ -49,8 +48,8 @@ class Item {
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemToJson(this);
+  @override
   toString() {
     return 'Item{ItemId: $ItemId, price: $price, quantity: $quantity}';
   }
 }
-

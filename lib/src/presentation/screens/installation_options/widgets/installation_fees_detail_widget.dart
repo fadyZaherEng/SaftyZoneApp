@@ -46,7 +46,6 @@ class _InstallationFeesDetailContent extends StatelessWidget {
   final List<SystemType> selectedSystems;
 
   const _InstallationFeesDetailContent({
-    super.key,
     this.title,
     required this.selectedSystems,
   });
