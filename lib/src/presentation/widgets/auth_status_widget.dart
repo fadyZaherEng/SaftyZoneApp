@@ -66,19 +66,19 @@ class _AuthStatusWidgetState extends State<AuthStatusWidget> {
             ],
           ),
           ...[
-          const SizedBox(height: 4),
-          Text(
-            'Token: ${token.length > 20 ? "${token.substring(0, 20)}..." : token}',
-            style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
-          ),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              'Token: ${token.length > 20 ? "${token.substring(0, 20)}..." : token}',
+              style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
+            ),
+          ],
           ...[
-          const SizedBox(height: 4),
-          Text(
-            'Status: $userStatus',
-            style: const TextStyle(fontSize: 12),
-          ),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              'Status: $userStatus',
+              style: const TextStyle(fontSize: 12),
+            ),
+          ],
         ],
       ),
     );

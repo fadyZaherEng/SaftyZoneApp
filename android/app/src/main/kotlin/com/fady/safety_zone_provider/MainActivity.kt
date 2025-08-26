@@ -1,4 +1,4 @@
-package com.example.safety_zone_provider
+package com.fady.safety_zone_provider
 
 import io.flutter.embedding.android.FlutterActivity
 

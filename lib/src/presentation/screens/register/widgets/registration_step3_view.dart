@@ -559,14 +559,15 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
       ..termsChecked = _termsChecked
       ..latitude ??= 24.71255509881504
       ..longitude ??= 46.67422581464052;
-    print("la: ${widget.vendorData.latitude}, lng: ${widget.vendorData.longitude}");
+    print(
+        "la: ${widget.vendorData.latitude}, lng: ${widget.vendorData.longitude}");
 
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) => Center(
         child: SpinKitDoubleBounce(
-          color:ColorSchemes.primary,
+          color: ColorSchemes.primary,
         ),
       ),
     );

@@ -120,10 +120,9 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                               v == null || v.isEmpty ? 'Required' : null,
                           onChanged: (value) {
                             setState(() {
-                              _errorMessageFullName =
-                                  value.isEmpty
-                                      ? S.of(context).thisFieldIsRequired
-                                      : null;
+                              _errorMessageFullName = value.isEmpty
+                                  ? S.of(context).thisFieldIsRequired
+                                  : null;
                             });
                             _onChanged(cubit);
                           }),
@@ -146,10 +145,9 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                               v == null || v.isEmpty ? 'Required' : null,
                           onChanged: (value) {
                             setState(() {
-                              _errorMessageJobTitle =
-                                  value.isEmpty
-                                      ? S.of(context).thisFieldIsRequired
-                                      : null;
+                              _errorMessageJobTitle = value.isEmpty
+                                  ? S.of(context).thisFieldIsRequired
+                                  : null;
                             });
                             _onChanged(cubit);
                           }),
@@ -171,10 +169,9 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                         keyboardType: TextInputType.phone,
                         onChanged: (value) {
                           setState(() {
-                            _errorMessagePhone =
-                                value.length < 8
-                                    ? S.of(context).invalidPhoneNumber
-                                    : null;
+                            _errorMessagePhone = value.length < 8
+                                ? S.of(context).invalidPhoneNumber
+                                : null;
                           });
                           _onChanged(cubit);
                         },

@@ -49,7 +49,7 @@ class _CompleteInfoViewState extends State<CompleteInfoView> {
       _termsCompleted = onboarding?.termsAndConditions ?? false;
       _isLoading = false;
     });
-    }
+  }
 
   @override
   Widget build(BuildContext context) {

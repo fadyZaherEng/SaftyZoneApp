@@ -200,6 +200,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
               totalPrice: tempItems[index].price,
             );
           }).toList();
+          Navigator.pop(context);
         } else if (state is GetSecondAndThirdScreenScheduleErrorState) {
           _showValidationError(state.message, false);
           hideLoading();
@@ -239,8 +240,9 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
           _isSecondPage = true;
           _isFirstPage = false;
           _isThirdPage = false;
-          _bloc.add(GetSecondAndThirdScreenScheduleEvent(
-              id: addRecieve.data?.Id ?? ""));
+          _bloc.add(
+            GetSecondAndThirdScreenScheduleEvent(id: addRecieve.data?.Id ?? ""),
+          );
           Navigator.pop(context);
         }
       },
