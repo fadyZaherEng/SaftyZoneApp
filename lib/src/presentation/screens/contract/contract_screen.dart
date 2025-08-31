@@ -61,12 +61,19 @@ class ContractCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset('assets/images/logo.png', height: 40),
-                const SizedBox(width: 4),
-                const Spacer(),
+                Image.asset(
+                  'assets/images/logo.png',
+                  height: 70,
+                  width: 70,
+                ),
+                const SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -85,20 +92,14 @@ class ContractCard extends StatelessWidget {
                         fontSize: 14.sp,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: _buildTextField(
-                        S.of(context).quantityPay,
-                        TextEditingController(),
-                      ),
-                    ),
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 24),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Icon(
                   Icons.location_on,
@@ -116,9 +117,9 @@ class ContractCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 24),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               decoration: BoxDecoration(
                 color: Color(0xFFD9D7D7).withOpacity(0.3),
                 borderRadius: BorderRadius.circular(8),
@@ -128,9 +129,23 @@ class ContractCard extends StatelessWidget {
                 ),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      "address",
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                   Expanded(
                     flex: 2,
                     child: CustomButtonWidget(
@@ -159,26 +174,17 @@ class ContractCard extends StatelessWidget {
                       },
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      "address",
-                      textAlign: TextAlign.start,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
             const SizedBox(height: 16),
+            Divider(color: Colors.grey.shade300, thickness: 1),
+            const SizedBox(height: 16),
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const  SizedBox(width: 8),
                 Text(
                   s.printContract,
                   style: TextStyle(
@@ -200,7 +206,10 @@ class ContractCard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const  SizedBox(width: 8),
                 Text(
                   s.printReport,
                   style: TextStyle(
@@ -220,7 +229,7 @@ class ContractCard extends StatelessWidget {
                 const SizedBox(width: 8),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             CustomButtonWidget(
               backgroundColor: ColorSchemes.primary,
               text: s.renewContract,
@@ -235,6 +244,8 @@ class ContractCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Checkbox(value: false, onChanged: (v) {}),
                 const Spacer(),
@@ -246,61 +257,12 @@ class ContractCard extends StatelessWidget {
                     fontSize: 14.sp,
                   ),
                 ),
+                const SizedBox(width: 8),
               ],
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildTextField(String label, TextEditingController controller) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontWeight: FontWeight.normal,
-            fontSize: 12.sp,
-            color: ColorSchemes.black,
-          ),
-        ),
-        const SizedBox(width: 8),
-        SizedBox(
-          width: 80,
-          height: 34,
-          child: TextFormField(
-            controller: controller,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFDDDDDD)),
-                borderRadius: BorderRadius.all(Radius.circular(0)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFA50000)),
-                borderRadius: BorderRadius.all(Radius.circular(0)),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFA50000)),
-                borderRadius: BorderRadius.all(Radius.circular(0)),
-              ),
-              filled: true,
-              fillColor: ColorSchemes.white,
-              contentPadding: EdgeInsets.symmetric(
-                vertical: 10,
-              ),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFDDDDDD)),
-                borderRadius: BorderRadius.all(Radius.circular(0)),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

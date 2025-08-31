@@ -32,3 +32,7 @@ final class InstallationFeeBulkErrorState extends HomeState {
 
   InstallationFeeBulkErrorState(this.message);
 }
+class InstallationFeeTempState extends HomeState {
+  final Map<String, String> fees; // id -> price
+  InstallationFeeTempState(this.fees);
+}

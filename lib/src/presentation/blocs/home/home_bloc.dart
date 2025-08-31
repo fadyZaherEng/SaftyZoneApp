@@ -14,9 +14,7 @@ import 'package:safety_zone/src/domain/usecase/home/schedule_all_jop_use_case.da
 import 'package:safety_zone/src/domain/usecase/home/schedule_jop_inprogress_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/home/schedule_jop_maintaince_use_case.dart';
 import 'package:safety_zone/src/presentation/screens/home/home_screen.dart';
-
 part 'home_event.dart';
-
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
@@ -45,6 +43,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) : super(HomeInitial()) {
     on<GetHomeDashboardEvent>(_onGetHomeDashboardEvent);
     on<InstallationFeeBulkEvent>(_onInstallationFeeBulkEvent);
+    on<SaveTemporaryInstallationFeeEvent>((event, emit) {
+      final currentState = state is InstallationFeeTempState
+          ? (state as InstallationFeeTempState).fees
+          : {};
+
+      final updated = Map<String, String>.from(currentState);
+      updated[event.id] = event.price;
+
+      emit(InstallationFeeTempState(updated));
+    });
+
+
   }
 
   FutureOr<void> _onGetHomeDashboardEvent(

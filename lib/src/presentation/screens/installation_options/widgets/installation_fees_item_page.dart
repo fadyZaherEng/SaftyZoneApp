@@ -40,7 +40,7 @@ class _InstallationFeesItemPageState
   final Map<String, List<TextEditingController>> _priceControllers = {};
   final Map<String, bool> _isExpanded = {};
   final Map<String, bool> _isSelected = {};
-  final Map<String, bool> _isSaving = {}; // Track saving state per item
+  final Map<String, bool> _isSaving = {};
   final InstallationFeeService _installationFeeService =
       InstallationFeeService();
 
@@ -83,7 +83,7 @@ class _InstallationFeesItemPageState
             icon: ImagePaths.success,
           );
           hideLoading();
-          widget.onNext(); // Proceed to next page after saving
+          widget.onNext();
         } else if (state is InstallationFeeBulkErrorState) {
           hideLoading();
           showSnackBar(
@@ -92,6 +92,17 @@ class _InstallationFeesItemPageState
             color: Colors.red,
             icon: ImagePaths.error,
           );
+        }else if  (state is InstallationFeeTempState) {
+          // Update local state based on temporary fees
+          setState(() {
+            state.fees.forEach((id, price) {
+              final controllers = _priceControllers[id];
+              if (controllers != null && controllers.isNotEmpty) {
+                controllers[0].text = price.toString();
+                _isSelected[id] = true;
+              }
+            });
+          });
         }
       },
       builder: (context, state) {
@@ -101,7 +112,6 @@ class _InstallationFeesItemPageState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header with instructions (removed icon as requested)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -125,8 +135,6 @@ class _InstallationFeesItemPageState
                 ),
 
                 SizedBox(height: 24.h),
-
-                // Content area
                 Expanded(
                   child: widget.isLoading
                       ? const Center(
@@ -179,10 +187,7 @@ class _InstallationFeesItemPageState
                   height: 56.h,
                   child: ElevatedButton(
                     onPressed: _hasValidPrices()
-                        ? () {
-                            debugPrint('Next button pressed');
-                            _saveAllInstallationFees();
-                          }
+                        ? () => _saveAllInstallationFees()
                         : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _hasValidPrices()
@@ -217,7 +222,6 @@ class _InstallationFeesItemPageState
 
   @override
   void dispose() {
-    // Dispose all controllers
     for (var controllers in _priceControllers.values) {
       for (var controller in controllers) {
         controller.dispose();
@@ -226,35 +230,94 @@ class _InstallationFeesItemPageState
     super.dispose();
   }
 
+  // void _initializeControllers() {
+  //   for (var item in widget.items) {
+  //     final id = (item['id'] ?? item['_id'])?.toString() ?? '';
+  //     if (id.isEmpty) continue;
+  //     _priceControllers[id] = [TextEditingController()];
+  //     _isExpanded[id] = false;
+  //     _isSelected[id] = false;
+  //     _isSaving[id] = false;
+  //   }
+  // }
+  // void _initializeControllers() {
+  //   for (var item in widget.items) {
+  //     final id = (item['id'] ?? item['_id'])?.toString() ?? '';
+  //     if (id.isEmpty) continue;
+  //
+  //     if (!_priceControllers.containsKey(id)) {
+  //       _priceControllers[id] = [TextEditingController()];
+  //       _isExpanded[id] = false;
+  //       _isSelected[id] = false;
+  //       _isSaving[id] = false;
+  //     }
+  //   }
+  // }
+  // void _initializeControllers() {
+  //   final tempState = _homeBloc.state;
+  //   Map<String, double> savedFees = {};
+  //   if (tempState is InstallationFeeTempState) {
+  //     savedFees = tempState.fees;
+  //   }
+  //
+  //   for (var item in widget.items) {
+  //     final id = (item['id'] ?? item['_id'])?.toString() ?? '';
+  //     if (id.isEmpty) continue;
+  //
+  //     if (!_priceControllers.containsKey(id)) {
+  //       final controller = TextEditingController();
+  //       if (savedFees.containsKey(id)) {
+  //         controller.text = savedFees[id]!.toString();
+  //       }
+  //       _priceControllers[id] = [controller];
+  //       _isExpanded[id] = false;
+  //       _isSelected[id] = savedFees.containsKey(id);
+  //       _isSaving[id] = false;
+  //     }
+  //   }
+  // }
   void _initializeControllers() {
+    Map<String, String> savedFees = {};
+    if (_homeBloc.state is InstallationFeeTempState) {
+      savedFees = (_homeBloc.state as InstallationFeeTempState).fees;
+    }
+
     for (var item in widget.items) {
       final id = (item['id'] ?? item['_id'])?.toString() ?? '';
       if (id.isEmpty) continue;
-      _priceControllers[id] = [TextEditingController()];
-      _isExpanded[id] = false;
-      _isSelected[id] = false;
-      _isSaving[id] = false;
+
+      if (!_priceControllers.containsKey(id)) {
+        final controller = TextEditingController();
+        if (savedFees.containsKey(id)) {
+          controller.text = savedFees[id] ?? '';
+        }
+        _priceControllers[id] = [controller];
+        _isExpanded[id] = false;
+        _isSelected[id] = savedFees.containsKey(id);
+        _isSaving[id] = false;
+      }
     }
   }
+
 
   Future<void> _saveItemInController(Map<String, dynamic> item) async {
     final id = (item['id'] ?? item['_id'])?.toString() ?? '';
     if (id.isEmpty) {
-      debugPrint('No controllers found for item: $id');
+       debugPrint('No controllers found for item: $id');
       _isSelected[id] = false;
       _isSaving[id] = false;
       _priceControllers[id] = [TextEditingController()];
-      setState(() {});
-      return;
+       setState(() {});
+       return;
     }
     final controllers = _priceControllers[id];
     if (controllers == null || controllers.isEmpty) {
-      debugPrint('No controllers found for item: $id');
+       debugPrint('No controllers found for item: $id');
       _isSelected[id] = false;
       _isSaving[id] = false;
       _priceControllers[id] = [TextEditingController()];
-      setState(() {});
-      return;
+       setState(() {});
+       return;
     }
 
     final priceText = controllers[0].text.trim();
@@ -285,7 +348,6 @@ class _InstallationFeesItemPageState
 
     setState(() {
       _isSelected[id] = true;
-      // _isExpanded[id] = false;
     });
   }
 
@@ -329,15 +391,32 @@ class _InstallationFeesItemPageState
     }
   }
 
+  // bool _hasValidPrices() {
+  //   // If there are no items, allow proceeding to next page
+  //   if (widget.items.isEmpty) {
+  //     return true;
+  //   }
+  //
+  //   // Check if at least one item is selected
+  //   bool hasSelected = _isSelected.values.any((selected) => selected);
+  //   return hasSelected;
+  // }
   bool _hasValidPrices() {
-    // If there are no items, allow proceeding to next page
+    // لو مفيش عناصر، نسمح يكمل عادي
     if (widget.items.isEmpty) {
       return true;
     }
 
-    // Check if at least one item is selected
-    bool hasSelected = _isSelected.values.any((selected) => selected);
-    return hasSelected;
+    // لازم كل العناصر يكون لها سعر صحيح ومتخزن
+    for (var id in _priceControllers.keys) {
+      final controllers = _priceControllers[id];
+      if (controllers == null || controllers.isEmpty) return false;
+
+      final priceText = controllers[0].text.trim();
+      final price = double.tryParse(priceText);
+      if (price == null || price <= 0) return false;
+    }
+    return true;
   }
 
   void _toggleExpanded(String? itemId) {
@@ -366,26 +445,20 @@ class _InstallationFeesItemPageState
           ),
           child: Column(
             children: [
-              // Main item row with checkbox
               InkWell(
-                onTap: () {
-                  _toggleExpanded(id);
-                  // _saveItemInController(item);
-                },
+                onTap: () => _toggleExpanded(id),
                 borderRadius: BorderRadius.circular(12.r),
                 child: Padding(
                   padding: EdgeInsets.all(16.w),
                   child: Row(
                     children: [
-                      // Checkbox - show saved state but allow interaction
                       SizedBox(
                         width: 24.w,
                         height: 24.w,
                         child: Container(
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? const Color(
-                                    0xFF4CAF50) // Green for saved items
+                                ? const Color(0xFF4CAF50)
                                 : Colors.transparent,
                             border: isSelected
                                 ? null
@@ -410,13 +483,8 @@ class _InstallationFeesItemPageState
                       Expanded(
                         child: Text(
                           (GetLanguageUseCase(injector())() == 'en'
-                                  ? item['itemName']['en']
-                                  : item['itemName']['ar']) +
-                              ((item['subCategory'] != null &&
-                                      (item['subCategory'] as String)
-                                          .isNotEmpty)
-                                  ? ' (${item['subCategory']})'
-                                  : ''),
+                              ? item['itemName']['en']
+                              : item['itemName']['ar']),
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
@@ -506,10 +574,36 @@ class _InstallationFeesItemPageState
                                           horizontal: 12.w, vertical: 12.h),
                                     ),
                                     onChanged: (value) {
-                                      // _saveItemInController(item);
-                                      setState(() {}); // Refresh button state
+                                      setState(() {});
                                       _saveItemInController(item);
+
+                                      final id = (item['id'] ?? item['_id'])?.toString() ?? '';
+                                      if (value.isNotEmpty) {
+                                        _homeBloc.add(SaveTemporaryInstallationFeeEvent(
+                                          id: id,
+                                          price: value, // نخزن String مش double
+                                        ));
+                                      }
                                     },
+
+                                    // onChanged: (value) {
+                                    //   setState(() {}); // عشان الزرار Next يتحدث
+                                    //   _saveItemInController(item);
+                                    //
+                                    //   final id = (item['id'] ?? item['_id'])?.toString() ?? '';
+                                    //   final price = double.tryParse(value);
+                                    //   if (price != null && price > 0) {
+                                    //     _homeBloc.add(SaveTemporaryInstallationFeeEvent(
+                                    //       id: id,
+                                    //       price: price,
+                                    //     ));
+                                    //   }
+                                    // },
+                                    // onChanged: (value) {
+                                    //   // _saveItemInController(item);
+                                    //   setState(() {}); // Refresh button state
+                                    //   _saveItemInController(item);
+                                    // },
                                   ),
                                 ],
                               ),
@@ -542,12 +636,12 @@ class _InstallationFeesItemPageState
                                   SizedBox(height: 8.h),
                                   TextField(
                                     controller: controllers.isNotEmpty
-                                        ? controllers[
-                                            0] // Use first controller for standard fee when alarmType is not loop
+                                        ? controllers[0]
                                         : null,
                                     keyboardType:
                                         const TextInputType.numberWithOptions(
-                                            decimal: true),
+                                      decimal: true,
+                                    ),
                                     decoration: InputDecoration(
                                       hintText: 'ex. 30 R.S',
                                       hintStyle: TextStyle(
@@ -570,7 +664,6 @@ class _InstallationFeesItemPageState
                                           horizontal: 12.w, vertical: 12.h),
                                     ),
                                     onChanged: (value) {
-                                      // _saveItemInController(item);
                                       setState(() {}); // Refresh button state
                                       _saveItemInController(item);
                                     },

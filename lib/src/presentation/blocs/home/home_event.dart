@@ -10,3 +10,12 @@ class InstallationFeeBulkEvent extends HomeEvent {
 
   InstallationFeeBulkEvent({required this.request});
 }
+class SaveTemporaryInstallationFeeEvent extends HomeEvent {
+  final String id;
+  final String price; // خليها String
+
+  SaveTemporaryInstallationFeeEvent({
+    required this.id,
+    required this.price,
+  });
+}

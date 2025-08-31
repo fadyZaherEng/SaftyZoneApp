@@ -10,6 +10,7 @@ import 'package:safety_zone/src/domain/usecase/clear_local_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
+import 'package:safety_zone/src/presentation/screens/register/vendor_registration_screen.dart';
 import 'package:safety_zone/src/presentation/screens/reports/reports_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
 
@@ -66,7 +67,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
             context,
             ImagePaths.information,
             s.basicInformation,
-            onTap: () {},
+            onTap: () async {
+              // Handle logout
+              await ClearLocalDataUseCase(injector())();
+              await SetRememberMeUseCase(injector())(false);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => VendorRegistrationScreen(),
+                ),
+              );
+            },
           ),
           _drawerItem(
             context,

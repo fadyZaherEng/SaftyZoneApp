@@ -66,10 +66,11 @@ class ContractCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset('assets/images/logo.png', height: 40),
-                const SizedBox(width: 4),
-                const Spacer(),
+                Image.asset('assets/images/logo.png', height: 70, width: 70),
+                const SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -110,8 +111,10 @@ class ContractCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: ColorSchemes.primary,
                     borderRadius: BorderRadius.circular(8),
@@ -130,7 +133,10 @@ class ContractCard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 10,
+              ),
               decoration: BoxDecoration(
                 color: ColorSchemes.primary,
                 borderRadius: BorderRadius.circular(8),
