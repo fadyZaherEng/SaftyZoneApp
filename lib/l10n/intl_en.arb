@@ -551,7 +551,8 @@
   "commercialRegistration": "Commercial Registration",
   "branchEmployee": "Branch Employee",
   "createdAt": "Created At",
-  "steps": "Step"
+  "steps": "Step",
+  "nameMustBeAtMost9Characters": "Number of characters must be at most 9 digits"
 
 }
 

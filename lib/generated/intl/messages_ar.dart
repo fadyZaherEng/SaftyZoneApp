@@ -456,6 +456,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "moderate": MessageLookupByLibrary.simpleMessage("معتدل"),
         "monday": MessageLookupByLibrary.simpleMessage("الاثنين"),
         "name": MessageLookupByLibrary.simpleMessage("الاسم"),
+        "nameMustBeAtMost9Characters": MessageLookupByLibrary.simpleMessage(
+            "يجب ألا يزيد الرقم عن 9 ارقام"),
         "navigate_to_maintenance_reports": MessageLookupByLibrary.simpleMessage(
             "يرجى الانتقال إلى صفحة \"التقارير التي تتطلب الصيانة\" لتقديم سعر الإصلاح إلى العميل."),
         "need_spare_parts": MessageLookupByLibrary.simpleMessage(

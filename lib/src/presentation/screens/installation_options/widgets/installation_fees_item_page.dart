@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
@@ -14,12 +16,39 @@ import 'package:safety_zone/src/presentation/blocs/home/home_bloc.dart';
 import '../models/installation_fee_model.dart';
 import '../services/installation_fee_service.dart';
 
+class InstallationFeesApi {
+  final Dio _dio;
+
+  InstallationFeesApi(this._dio);
+
+  /// Get installation fees for items
+  Future<List<Map<String, dynamic>>> getInstallationFees({
+    required String supCategory,
+  }) async {
+    try {
+      final response = await _dio.get(
+        '/api/provider/installation-fees/$supCategory',
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final data = response.data as List;
+        return data.map((e) => e as Map<String, dynamic>).toList();
+      } else {
+        throw Exception('Failed to fetch installation fees');
+      }
+    } catch (e) {
+      throw Exception('Error fetching installation fees: $e');
+    }
+  }
+}
+
 class InstallationFeesItemPage extends BaseStatefulWidget {
   final SystemComponent component;
   final List<Map<String, dynamic>> items;
   final bool isLoading;
   final VoidCallback onNext;
   final bool isLastPage;
+  final String systemComponentCode;
 
   const InstallationFeesItemPage({
     super.key,
@@ -28,6 +57,7 @@ class InstallationFeesItemPage extends BaseStatefulWidget {
     required this.isLoading,
     required this.onNext,
     required this.isLastPage,
+    required this.systemComponentCode,
   });
 
   @override
@@ -45,9 +75,25 @@ class _InstallationFeesItemPageState
       InstallationFeeService();
 
   HomeBloc get _homeBloc => BlocProvider.of<HomeBloc>(context);
+  final api = InstallationFeesApi(injector<Dio>());
+
+  List<Map<String, dynamic>> fees = [];
+
+  void loadFees() async {
+    try {
+      fees = await api.getInstallationFees(
+        supCategory: widget.component.code,
+      );
+      print("Installation Fees: $fees");
+    } catch (e) {
+      print("Error: $e");
+    }
+    setState(() {});
+  }
 
   @override
   void initState() {
+    loadFees();
     super.initState();
     _initializeControllers();
 
@@ -58,6 +104,14 @@ class _InstallationFeesItemPageState
           widget.onNext();
         }
       });
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant InstallationFeesItemPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.items != widget.items) {
+      loadFees();
     }
   }
 
@@ -92,7 +146,7 @@ class _InstallationFeesItemPageState
             color: Colors.red,
             icon: ImagePaths.error,
           );
-        }else if  (state is InstallationFeeTempState) {
+        } else if (state is InstallationFeeTempState) {
           // Update local state based on temporary fees
           setState(() {
             state.fees.forEach((id, price) {
@@ -106,6 +160,10 @@ class _InstallationFeesItemPageState
         }
       },
       builder: (context, state) {
+        if (fees.isEmpty) {
+          return const Center(
+              child: SpinKitDoubleBounce(color: Color(0xFF8B0000)));
+        }
         return SafeArea(
           child: Padding(
             padding: EdgeInsets.all(16.w),
@@ -230,52 +288,6 @@ class _InstallationFeesItemPageState
     super.dispose();
   }
 
-  // void _initializeControllers() {
-  //   for (var item in widget.items) {
-  //     final id = (item['id'] ?? item['_id'])?.toString() ?? '';
-  //     if (id.isEmpty) continue;
-  //     _priceControllers[id] = [TextEditingController()];
-  //     _isExpanded[id] = false;
-  //     _isSelected[id] = false;
-  //     _isSaving[id] = false;
-  //   }
-  // }
-  // void _initializeControllers() {
-  //   for (var item in widget.items) {
-  //     final id = (item['id'] ?? item['_id'])?.toString() ?? '';
-  //     if (id.isEmpty) continue;
-  //
-  //     if (!_priceControllers.containsKey(id)) {
-  //       _priceControllers[id] = [TextEditingController()];
-  //       _isExpanded[id] = false;
-  //       _isSelected[id] = false;
-  //       _isSaving[id] = false;
-  //     }
-  //   }
-  // }
-  // void _initializeControllers() {
-  //   final tempState = _homeBloc.state;
-  //   Map<String, double> savedFees = {};
-  //   if (tempState is InstallationFeeTempState) {
-  //     savedFees = tempState.fees;
-  //   }
-  //
-  //   for (var item in widget.items) {
-  //     final id = (item['id'] ?? item['_id'])?.toString() ?? '';
-  //     if (id.isEmpty) continue;
-  //
-  //     if (!_priceControllers.containsKey(id)) {
-  //       final controller = TextEditingController();
-  //       if (savedFees.containsKey(id)) {
-  //         controller.text = savedFees[id]!.toString();
-  //       }
-  //       _priceControllers[id] = [controller];
-  //       _isExpanded[id] = false;
-  //       _isSelected[id] = savedFees.containsKey(id);
-  //       _isSaving[id] = false;
-  //     }
-  //   }
-  // }
   void _initializeControllers() {
     Map<String, String> savedFees = {};
     if (_homeBloc.state is InstallationFeeTempState) {
@@ -297,27 +309,27 @@ class _InstallationFeesItemPageState
         _isSaving[id] = false;
       }
     }
+    setState(() {});
   }
-
 
   Future<void> _saveItemInController(Map<String, dynamic> item) async {
     final id = (item['id'] ?? item['_id'])?.toString() ?? '';
     if (id.isEmpty) {
-       debugPrint('No controllers found for item: $id');
+      debugPrint('No controllers found for item: $id');
       _isSelected[id] = false;
       _isSaving[id] = false;
       _priceControllers[id] = [TextEditingController()];
-       setState(() {});
-       return;
+      setState(() {});
+      return;
     }
     final controllers = _priceControllers[id];
     if (controllers == null || controllers.isEmpty) {
-       debugPrint('No controllers found for item: $id');
+      debugPrint('No controllers found for item: $id');
       _isSelected[id] = false;
       _isSaving[id] = false;
       _priceControllers[id] = [TextEditingController()];
-       setState(() {});
-       return;
+      setState(() {});
+      return;
     }
 
     final priceText = controllers[0].text.trim();
@@ -391,16 +403,6 @@ class _InstallationFeesItemPageState
     }
   }
 
-  // bool _hasValidPrices() {
-  //   // If there are no items, allow proceeding to next page
-  //   if (widget.items.isEmpty) {
-  //     return true;
-  //   }
-  //
-  //   // Check if at least one item is selected
-  //   bool hasSelected = _isSelected.values.any((selected) => selected);
-  //   return hasSelected;
-  // }
   bool _hasValidPrices() {
     // لو مفيش عناصر، نسمح يكمل عادي
     if (widget.items.isEmpty) {
@@ -435,7 +437,24 @@ class _InstallationFeesItemPageState
         final isSelected = _isSelected[id] ?? false;
         final isExpanded = _isExpanded[id] ?? false;
         final controllers = _priceControllers[id] ?? [];
-
+        //TODO: Update price from fees if available
+        // ✅ Update price from API fees if available
+        print("lengthhhhhhhhhhhhhhhhhhhhhhhhhhhh ${fees.length}");
+        final feeData = fees.cast<Map<String, dynamic>>().firstWhere(
+              (fee) =>
+                  fee['item'] != null &&
+                  (fee['item']['_id']?.toString() ?? '') == id,
+              orElse: () => <String, dynamic>{},
+            );
+        if (feeData.isNotEmpty && controllers.isNotEmpty) {
+          final feePrice = (feeData['price'] ?? 0).toString();
+          if (feePrice.isNotEmpty &&
+              feePrice != '0' &&
+              controllers[0].text.isEmpty) {
+            controllers[0].text = feePrice;
+            _isSelected[id] = true;
+          }
+        }
         return Container(
           margin: EdgeInsets.only(bottom: 16.h),
           decoration: BoxDecoration(
@@ -577,33 +596,17 @@ class _InstallationFeesItemPageState
                                       setState(() {});
                                       _saveItemInController(item);
 
-                                      final id = (item['id'] ?? item['_id'])?.toString() ?? '';
+                                      final id = (item['id'] ?? item['_id'])
+                                              ?.toString() ??
+                                          '';
                                       if (value.isNotEmpty) {
-                                        _homeBloc.add(SaveTemporaryInstallationFeeEvent(
+                                        _homeBloc.add(
+                                            SaveTemporaryInstallationFeeEvent(
                                           id: id,
                                           price: value, // نخزن String مش double
                                         ));
                                       }
                                     },
-
-                                    // onChanged: (value) {
-                                    //   setState(() {}); // عشان الزرار Next يتحدث
-                                    //   _saveItemInController(item);
-                                    //
-                                    //   final id = (item['id'] ?? item['_id'])?.toString() ?? '';
-                                    //   final price = double.tryParse(value);
-                                    //   if (price != null && price > 0) {
-                                    //     _homeBloc.add(SaveTemporaryInstallationFeeEvent(
-                                    //       id: id,
-                                    //       price: price,
-                                    //     ));
-                                    //   }
-                                    // },
-                                    // onChanged: (value) {
-                                    //   // _saveItemInController(item);
-                                    //   setState(() {}); // Refresh button state
-                                    //   _saveItemInController(item);
-                                    // },
                                   ),
                                 ],
                               ),
@@ -611,7 +614,6 @@ class _InstallationFeesItemPageState
                           ],
                         ),
                       ] else ...[
-                        // Show only Standard Installation Fee for other types
                         Row(
                           children: [
                             SvgPicture.asset(

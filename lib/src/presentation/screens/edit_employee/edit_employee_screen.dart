@@ -57,8 +57,12 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(25.r),
@@ -96,8 +100,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                           SizedBox(height: 4.h),
                           Row(
                             children: [
-                              Icon(Icons.phone,
-                                  color: Colors.black54, size: 16.sp),
+                              Icon(Icons.phone, color: Colors.black54, size: 16.sp),
                               SizedBox(width: 4.w),
                               Expanded(
                                 child: Text(
@@ -116,20 +119,23 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                       ),
                     ),
                     SizedBox(width: 8.w),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16.r),
-                      ),
-                      child: Text(
-                        emp['permission'] ?? '',
-                        style: TextStyle(
-                          color: Color(0xFF8C0000),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13.sp,
-                          fontFamily: 'SF Pro',
+                    Flexible(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16.r),
+                        ),
+                        child: Text(
+                          (emp['permission'] as List?)?.join(', ') ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 4,
+                          style: TextStyle(
+                            color: Color(0xFF8C0000),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13.sp,
+                            fontFamily: 'SF Pro',
+                          ),
                         ),
                       ),
                     ),
@@ -138,37 +144,37 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                 SizedBox(height: 12.h),
                 Divider(),
                 SizedBox(height: 12.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      S.of(context).mission,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: ColorSchemes.black,
-                        fontFamily: 'SF Pro',
-                      ),
-                    ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                      decoration: BoxDecoration(
-                        color: ColorSchemes.secondary,
-                        borderRadius: BorderRadius.circular(16.r),
-                      ),
-                      child: Text(
-                        "عقود صيانه",
-                        style: TextStyle(
-                          color: ColorSchemes.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13.sp,
-                          fontFamily: 'SF Pro',
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 12.h),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       S.of(context).mission,
+                //       style: TextStyle(
+                //         fontSize: 16.sp,
+                //         color: ColorSchemes.black,
+                //         fontFamily: 'SF Pro',
+                //       ),
+                //     ),
+                //     Container(
+                //       padding:
+                //           EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                //       decoration: BoxDecoration(
+                //         color: ColorSchemes.secondary,
+                //         borderRadius: BorderRadius.circular(16.r),
+                //       ),
+                //       child: Text(
+                //         "عقود صيانه",
+                //         style: TextStyle(
+                //           color: ColorSchemes.white,
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 13.sp,
+                //           fontFamily: 'SF Pro',
+                //         ),
+                //       ),
+                //     )
+                //   ],
+                // ),
+                // SizedBox(height: 12.h),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Row(

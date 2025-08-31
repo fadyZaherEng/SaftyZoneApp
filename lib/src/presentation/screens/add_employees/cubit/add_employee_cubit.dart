@@ -213,13 +213,13 @@ class AddEmployeeCubit extends Cubit<AddEmployeeState> {
       emit(state.copyWith(isLoading: false));
     }
   }
-
-  void reset() {
+  void resetAfterSave() {
     emit(AddEmployeeState(
       step: AddEmployeeStep.basicInfo,
       employee: Employee(fullName: '', jobTitle: '', phoneNumber: ''),
     ));
   }
+
 
   bool _validateBasicInfo(Employee emp) {
     return emp.fullName.isNotEmpty &&

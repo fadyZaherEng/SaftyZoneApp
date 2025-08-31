@@ -125,7 +125,8 @@ class AddEmployeeReview extends StatelessWidget {
                 SizedBox(height: 24.h),
                 Center(
                   child: TextButton.icon(
-                    onPressed: () => context.read<AddEmployeeCubit>().reset(),
+                    onPressed: () =>
+                        context.read<AddEmployeeCubit>().resetAfterSave(),
                     icon: Icon(Icons.add_circle, color: Color(0xFF1C3D80)),
                     label: Text(
                       S.of(context).addAnotherEmployee,
@@ -250,33 +251,33 @@ class AddEmployeeReview extends StatelessWidget {
           SizedBox(height: 16.h),
           Row(
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      S.of(context).functionalTitleRole,
-                      style: TextStyle(
-                        color: const Color(0xFF333333),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.sp,
-                        fontFamily: 'SF Pro',
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      emp.functionalTitle ?? '',
-                      style: TextStyle(
-                        color: const Color(0xFF666666),
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14.sp,
-                        fontFamily: 'SF Pro',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(width: 16.w),
+              // Expanded(
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text(
+              //         S.of(context).functionalTitleRole,
+              //         style: TextStyle(
+              //           color: const Color(0xFF333333),
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 14.sp,
+              //           fontFamily: 'SF Pro',
+              //         ),
+              //       ),
+              //       SizedBox(height: 4.h),
+              //       Text(
+              //         emp.functionalTitle ?? '',
+              //         style: TextStyle(
+              //           color: const Color(0xFF666666),
+              //           fontWeight: FontWeight.normal,
+              //           fontSize: 14.sp,
+              //           fontFamily: 'SF Pro',
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,24 +322,24 @@ class AddEmployeeReview extends StatelessWidget {
             ],
           ),
           SizedBox(height: 20.h),
-          Text(
-            S.of(context).notes,
-            style: TextStyle(
-              color: const Color(0xFF333333),
-              fontWeight: FontWeight.bold,
-              fontSize: 14.sp,
-              fontFamily: 'SF Pro',
-            ),
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            (emp.notes != null && emp.notes.isNotEmpty) ? emp.notes : '-',
-            style: TextStyle(
-              color: const Color(0xFF888888),
-              fontSize: 13.sp,
-              fontFamily: 'SF Pro',
-            ),
-          ),
+          // Text(
+          //   S.of(context).notes,
+          //   style: TextStyle(
+          //     color: const Color(0xFF333333),
+          //     fontWeight: FontWeight.bold,
+          //     fontSize: 14.sp,
+          //     fontFamily: 'SF Pro',
+          //   ),
+          // ),
+          // SizedBox(height: 4.h),
+          // Text(
+          //   (emp.notes != null && emp.notes.isNotEmpty) ? emp.notes : '-',
+          //   style: TextStyle(
+          //     color: const Color(0xFF888888),
+          //     fontSize: 13.sp,
+          //     fontFamily: 'SF Pro',
+          //   ),
+          // ),
         ],
       ),
     );

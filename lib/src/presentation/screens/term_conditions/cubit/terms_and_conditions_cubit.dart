@@ -283,6 +283,69 @@ class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
       return false;
     }
   }
+  Future<void> fetchTermsAndConditions() async {
+    emit(state.copyWith(loading: true));
+
+    try {
+      final token = await getToken();
+      if (token == null) {
+        emit(state.copyWith(loading: false));
+        return;
+      }
+
+      final url = Uri.parse('${APIKeys.baseUrl}/api/provider/terms-and-condition');
+      final response = await http.get(url, headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body)['data'];
+        print('Fetched terms and conditions: $data');
+
+        if (data == null) {
+          emit(state.copyWith(loading: false));
+          return;
+        }
+
+        final termsData = data['termsAndConditions'];
+        final workingTime = data['workingTime'];
+
+
+        emit(state.copyWith(
+          loading: false,
+          terms: termsData != null
+              ? List<String>.from(
+            (termsData['clauses'] as List).map((c) => c['text']),
+          )
+              : [],
+          selectedDays: workingTime != null
+              ? (workingTime['workingDays'] as List)
+              .map<int>((day) => daysOfWeek.indexOf(day['day']))
+              .toList()
+              : [],
+          startTime: workingTime != null
+              ? TimeOfDay(
+            hour: workingTime['workingDays'][0]['startHour'],
+            minute: workingTime['workingDays'][0]['startMinute'],
+          )
+              : null,
+          endTime: workingTime != null
+              ? TimeOfDay(
+            hour: workingTime['workingDays'][0]['endHour'],
+            minute: workingTime['workingDays'][0]['endMinute'],
+          )
+              : null,
+        ));
+
+      } else {
+        emit(state.copyWith(loading: false));
+      }
+    } catch (e) {
+      debugPrint("❌ Error fetchTermsAndConditions: $e");
+      emit(state.copyWith(loading: false));
+    }
+  }
 
   Future<String?> getToken() async {
     return GetTokenUseCase(injector())();
@@ -296,3 +359,4 @@ class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
     return super.close();
   }
 }
+

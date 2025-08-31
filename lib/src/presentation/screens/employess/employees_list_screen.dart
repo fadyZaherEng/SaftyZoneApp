@@ -40,6 +40,7 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
       },
     );
     if (response.statusCode == 200) {
+      print(response.body);
       final data = jsonDecode(response.body);
       return data['result'] as List<dynamic>;
     }
@@ -74,9 +75,10 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: 16.h),
+            SizedBox(height: 8.h),
             _buildSectionHeader(),
-            SizedBox(height: 16.h),
+            _buildAddAnotherButton(),
+            SizedBox(height: 8.h),
             Expanded(
               child: FutureBuilder<List<dynamic>>(
                 future: _employeesFuture,
@@ -90,8 +92,6 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                     children: [
                       ...employees.map((emp) => _buildEmployeeCard(emp)),
                       SizedBox(height: 16.h),
-                      _buildAddAnotherButton(),
-                      SizedBox(height: 24.h),
                     ],
                   );
                 },

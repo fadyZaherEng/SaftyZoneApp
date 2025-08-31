@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
@@ -34,13 +35,13 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
   String? _errorMessagePhone;
   String? _photoPath;
 
-  @override
-  void dispose() {
-    _fullNameController.dispose();
-    _jobTitleController.dispose();
-    _phoneController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _fullNameController.dispose();
+  //   _jobTitleController.dispose();
+  //   _phoneController.dispose();
+  //   super.dispose();
+  // }
 
   final List<Country> _countries = [
     Country(
@@ -57,6 +58,13 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
   void initState() {
     super.initState();
     _selectedCountry = _countries[0];
+
+    final employee = context.read<AddEmployeeCubit>().state.employee;
+    _fullNameController.text = employee.fullName;
+    _jobTitleController.text = employee.jobTitle;
+    _phoneController.text =
+        employee.phoneNumber.replaceFirst('+966', ''); // لو بتحفظ بالكود
+    _photoPath = employee.photoPath;
   }
 
   void _validatePhone(String value) {
@@ -83,6 +91,20 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
     final cubit = context.read<AddEmployeeCubit>();
     final state = context.watch<AddEmployeeCubit>().state;
     final dark = THelperFunctions.isDarkMode(context);
+    final employee = context.watch<AddEmployeeCubit>().state.employee;
+
+    if (_fullNameController.text.isEmpty && employee.fullName.isNotEmpty) {
+      _fullNameController.text = employee.fullName;
+    }
+    if (_jobTitleController.text.isEmpty && employee.jobTitle.isNotEmpty) {
+      _jobTitleController.text = employee.jobTitle;
+    }
+    if (_phoneController.text.isEmpty && employee.phoneNumber.isNotEmpty) {
+      _phoneController.text = employee.phoneNumber.replaceFirst('+966', '');
+    }
+    if (_photoPath == null && employee.photoPath.isNotEmpty) {
+      _photoPath = employee.photoPath;
+    }
 
     return SingleChildScrollView(
       child: Column(
@@ -116,13 +138,18 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                           errorMessage: _errorMessageFullName,
                           label: S.of(context).enterFullName,
                           controller: _fullNameController,
-                          validator: (v) =>
-                              v == null || v.isEmpty ? 'Required' : null,
+                          validator: (v) => v == null || v.isEmpty
+                              ? S.of(context).thisFieldIsRequired
+                              : null,
                           onChanged: (value) {
                             setState(() {
                               _errorMessageFullName = value.isEmpty
                                   ? S.of(context).thisFieldIsRequired
-                                  : null;
+                                  : value.length > 9
+                                      ? S
+                                          .of(context)
+                                          .nameMustBeAtMost9Characters
+                                      : null;
                             });
                             _onChanged(cubit);
                           }),
@@ -141,8 +168,9 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                           errorMessage: _errorMessageJobTitle,
                           label: S.of(context).enterJopTitle,
                           controller: _jobTitleController,
-                          validator: (v) =>
-                              v == null || v.isEmpty ? 'Required' : null,
+                          validator: (v) => v == null || v.isEmpty
+                              ? S.of(context).thisFieldIsRequired
+                              : null,
                           onChanged: (value) {
                             setState(() {
                               _errorMessageJobTitle = value.isEmpty
@@ -165,8 +193,16 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
 
                       /// Phone Input
                       TextFormField(
+                        maxLength: 9,
+                        // الحد الأقصى
                         controller: _phoneController,
                         keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          // أرقام فقط
+                          LengthLimitingTextInputFormatter(9),
+                          // ما يقبلش أكتر من 9
+                        ],
                         onChanged: (value) {
                           setState(() {
                             _errorMessagePhone = value.length < 8
@@ -266,7 +302,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
           Center(
             child: TextButton.icon(
               onPressed: () {
-                cubit.reset();
+                cubit.resetAfterSave();
                 _fullNameController.clear();
                 _jobTitleController.clear();
                 _phoneController.clear();
@@ -526,7 +562,7 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                 padding: EdgeInsets.only(right: 12.w),
                 child: CircleAvatar(
                   radius: 18,
-                  backgroundImage: FileImage(File(_photoPath!)),
+                  backgroundImage:_isNetwork(_photoPath) ? NetworkImage(_photoPath!) : FileImage(File(_photoPath!)),
                 ),
               ),
             ),
@@ -627,5 +663,9 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
       phoneNumber: _phoneController.text,
       photoPath: _photoPath,
     );
+  }
+
+  bool _isNetwork(String? photoPath) {
+    return Uri.tryParse(photoPath ?? '')?.isAbsolute ?? false;
   }
 }

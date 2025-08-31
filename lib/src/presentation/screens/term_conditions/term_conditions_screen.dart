@@ -20,7 +20,9 @@ class _TermConditionsScreenState extends State<TermConditionsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TermsAndConditionsCubit()..fetchEmployees(),
+      create: (_) => TermsAndConditionsCubit()
+        ..fetchEmployees()
+        ..fetchTermsAndConditions(),
       child: BlocBuilder<TermsAndConditionsCubit, TermsAndConditionsState>(
         builder: (context, state) {
           final cubit = context.read<TermsAndConditionsCubit>();

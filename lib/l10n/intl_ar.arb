@@ -552,6 +552,7 @@
   "commercialRegistration": "السجل التجاري",
   "branchEmployee": "موظف الفرع",
   "createdAt": "تم الإنشاء في",
-  "steps": "الخطوه"
+  "steps": "الخطوه",
+  "nameMustBeAtMost9Characters": "يجب ألا يزيد الرقم عن 9 ارقام"
 
 }

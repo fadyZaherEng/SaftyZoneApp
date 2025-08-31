@@ -34,6 +34,14 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
   List<String> _selectedTaskCodes = [];
 
   @override
+  void initState() {
+    super.initState();
+    final employee = context.read<AddEmployeeCubit>().state.employee;
+    _functionalTitleController.text = employee.functionalTitle ?? '';
+    _selectedTaskCodes = List.from(employee.tasks);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final cubit = context.read<AddEmployeeCubit>();
     return SingleChildScrollView(
@@ -42,22 +50,22 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              S.of(context).assignJobRole,
-              style: TextStyle(
-                color: const Color(0xFF333333),
-                fontWeight: FontWeight.bold,
-                fontSize: 18.sp,
-                fontFamily: 'SF Pro',
-              ),
-            ),
-            SizedBox(height: 20.h),
-            _buildInput(
-              label: S.of(context).functionalTitleRole,
-              controller: _functionalTitleController,
-              hint: S.of(context).functionalTitleHint,
-              onChanged: (_) => _onChanged(cubit),
-            ),
+            // Text(
+            //   S.of(context).assignJobRole,
+            //   style: TextStyle(
+            //     color: const Color(0xFF333333),
+            //     fontWeight: FontWeight.bold,
+            //     fontSize: 18.sp,
+            //     fontFamily: 'SF Pro',
+            //   ),
+            // ),
+            // SizedBox(height: 20.h),
+            // _buildInput(
+            //   label: S.of(context).functionalTitleRole,
+            //   controller: _functionalTitleController,
+            //   hint: S.of(context).functionalTitleHint,
+            //   onChanged: (_) => _onChanged(cubit),
+            // ),
             SizedBox(height: 20.h),
             Text(
               S.of(context).tasksSelection,
@@ -140,7 +148,7 @@ class _AddEmployeeAssignRoleState extends State<AddEmployeeAssignRole> {
             Center(
               child: TextButton.icon(
                 onPressed: () {
-                  cubit.reset();
+                  // cubit.reset();
                   _functionalTitleController.clear();
                   setState(() => _selectedTaskCodes = []);
                 },

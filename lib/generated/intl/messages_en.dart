@@ -478,6 +478,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "moderate": MessageLookupByLibrary.simpleMessage("Moderate"),
         "monday": MessageLookupByLibrary.simpleMessage("Monday"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
+        "nameMustBeAtMost9Characters": MessageLookupByLibrary.simpleMessage(
+            "Number of characters must be at most 9 digits"),
         "navigate_to_maintenance_reports": MessageLookupByLibrary.simpleMessage(
             "Please go to the \'Reports Requiring Maintenance\' page to provide a repair estimate to the customer."),
         "need_spare_parts": MessageLookupByLibrary.simpleMessage(

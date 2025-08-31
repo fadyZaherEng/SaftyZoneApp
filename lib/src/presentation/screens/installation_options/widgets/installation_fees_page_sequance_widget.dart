@@ -55,7 +55,9 @@ class _InstallationFeesPageSequanceWidgetState
       _isLoading[component.id] = true;
       try {
         final result = await service.getInstallationFeesBySystemComponent(
-            component.code, widget.systemType.name);
+          component.code,
+          widget.systemType.name,
+        );
         if (result['success']) {
           final items = (result['data'] as List).cast<Map<String, dynamic>>();
           _componentItems[component.id] = items;
@@ -262,6 +264,7 @@ class _InstallationFeesPageSequanceWidgetState
                   isLoading: isLoading,
                   onNext: _goToNextPage,
                   isLastPage: index == widget.components.length - 1,
+                  systemComponentCode: widget.systemType.name,
                 );
               },
             ),

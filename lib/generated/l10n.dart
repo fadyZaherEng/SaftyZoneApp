@@ -5563,6 +5563,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Number of characters must be at most 9 digits`
+  String get nameMustBeAtMost9Characters {
+    return Intl.message(
+      'Number of characters must be at most 9 digits',
+      name: 'nameMustBeAtMost9Characters',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
