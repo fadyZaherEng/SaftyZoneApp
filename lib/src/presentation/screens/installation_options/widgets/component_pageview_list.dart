@@ -8,7 +8,12 @@ import 'package:safety_zone/src/presentation/screens/installation_options/widget
 import 'package:provider/provider.dart';
 
 class ComponentPageViewList extends StatefulWidget {
-  const ComponentPageViewList({super.key});
+  final bool isUpdateMode;
+
+  const ComponentPageViewList({
+    super.key,
+    required this.isUpdateMode,
+  });
 
   @override
   State<ComponentPageViewList> createState() => _ComponentPageViewListState();
@@ -138,6 +143,7 @@ class _ComponentPageViewListState extends State<ComponentPageViewList> {
           systemName: systemName,
           systemType: currentSystemType,
           selectedSystems: provider.selectedSystemTypes,
+          isUpdateMode: widget.isUpdateMode,
         ),
       ),
     );

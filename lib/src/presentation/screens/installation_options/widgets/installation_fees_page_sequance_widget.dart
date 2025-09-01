@@ -13,6 +13,7 @@ class InstallationFeesPageSequanceWidget extends StatefulWidget {
   final String systemName;
   final SystemType systemType;
   final List<SystemType> selectedSystems;
+  final bool isUpdateMode;
 
   const InstallationFeesPageSequanceWidget({
     super.key,
@@ -20,6 +21,7 @@ class InstallationFeesPageSequanceWidget extends StatefulWidget {
     required this.systemName,
     required this.systemType,
     required this.selectedSystems,
+    required this.isUpdateMode,
   });
 
   @override
@@ -126,6 +128,7 @@ class _InstallationFeesPageSequanceWidgetState
             systemName: nextSystemName,
             systemType: nextSystemType,
             selectedSystems: widget.selectedSystems,
+            isUpdateMode: widget.isUpdateMode,
           ),
         ),
       );
@@ -265,6 +268,7 @@ class _InstallationFeesPageSequanceWidgetState
                   onNext: _goToNextPage,
                   isLastPage: index == widget.components.length - 1,
                   systemComponentCode: widget.systemType.name,
+                  isUpdateMode: widget.isUpdateMode,
                 );
               },
             ),

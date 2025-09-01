@@ -10,6 +10,7 @@ import 'package:safety_zone/src/domain/usecase/clear_local_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
+import 'package:safety_zone/src/presentation/screens/installation_options/installation_options_screen.dart';
 import 'package:safety_zone/src/presentation/screens/register/vendor_registration_screen.dart';
 import 'package:safety_zone/src/presentation/screens/reports/reports_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
@@ -112,10 +113,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ImagePaths.request,
             s.installationTasks,
             onTap: () async {
-              await Navigator.pushNamed(
+              Navigator.push(
                 context,
-                Routes.installationFees,
-              ).then((value) {});
+                MaterialPageRoute(
+                  builder: (_) => InstallationOptionsScreen(
+                    isUpdateMode: true,
+                  ),
+                ),
+              );
             },
           ),
           _drawerItem(

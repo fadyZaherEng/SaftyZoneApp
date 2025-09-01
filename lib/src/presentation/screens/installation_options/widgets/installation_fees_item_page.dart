@@ -40,6 +40,25 @@ class InstallationFeesApi {
       throw Exception('Error fetching installation fees: $e');
     }
   }
+
+  Future<Map<String, dynamic>> updateInstallationFees({
+    required List<Map<String, dynamic>> updates,
+  }) async {
+    try {
+      final response = await _dio.put(
+        '/api/provider/installation-fees/update-prices',
+        data: {"updates": updates},
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        return response.data as Map<String, dynamic>;
+      } else {
+        throw Exception('Failed to update installation fees');
+      }
+    } catch (e) {
+      throw Exception('Error updating installation fees: $e');
+    }
+  }
 }
 
 class InstallationFeesItemPage extends BaseStatefulWidget {
@@ -49,6 +68,7 @@ class InstallationFeesItemPage extends BaseStatefulWidget {
   final VoidCallback onNext;
   final bool isLastPage;
   final String systemComponentCode;
+  final bool isUpdateMode;
 
   const InstallationFeesItemPage({
     super.key,
@@ -58,6 +78,7 @@ class InstallationFeesItemPage extends BaseStatefulWidget {
     required this.onNext,
     required this.isLastPage,
     required this.systemComponentCode,
+    this.isUpdateMode = false,
   });
 
   @override
@@ -245,7 +266,9 @@ class _InstallationFeesItemPageState
                   height: 56.h,
                   child: ElevatedButton(
                     onPressed: _hasValidPrices()
-                        ? () => _saveAllInstallationFees()
+                        ? () => widget.isUpdateMode
+                            ? _updateAllInstallationFees()
+                            : _saveAllInstallationFees()
                         : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _hasValidPrices()
@@ -397,6 +420,72 @@ class _InstallationFeesItemPageState
       showSnackBar(
         context: context,
         message: 'Error: ${e.toString()}',
+        color: Colors.red,
+        icon: ImagePaths.error,
+      );
+    }
+  }
+
+  Future<void> _updateAllInstallationFees() async {
+    final List<Map<String, dynamic>> updates = [];
+
+    for (final fee in fees) {
+      final outerId = fee['_id']?.toString() ?? ''; // الـ id الخارجي
+      final innerId = fee['item']?['_id']?.toString() ?? '';
+
+      // هات الكنترولر بالـ innerId
+      final controllers = _priceControllers[innerId];
+      if (controllers != null && controllers.isNotEmpty) {
+        final priceText = controllers[0].text.trim();
+        final newPrice = double.tryParse(priceText);
+
+        if (newPrice != null && newPrice > 0) {
+          final oldPrice = (fee['price'] ?? 0).toDouble();
+
+          // الشرط هنا بيشيك على الاتنين (السعر + الـ id)
+          if (newPrice != oldPrice && fee['item']?['_id']?.toString() == innerId) {
+            updates.add({"_id": outerId, "price": newPrice.toInt()});
+          }
+        }
+      }
+    }
+
+    if (updates.isEmpty) {
+      showSnackBar(
+        context: context,
+        message: "No changes detected",
+        color: Colors.orange,
+        icon: ImagePaths.warning,
+      );
+      return;
+    }
+
+    try {
+      showLoading();
+      final result = await api.updateInstallationFees(updates: updates);
+      hideLoading();
+
+      if (result["success"] == true) {
+        showSnackBar(
+          context: context,
+          message: result["message"] ?? "Updated successfully",
+          color: ColorSchemes.success,
+          icon: ImagePaths.success,
+        );
+        widget.onNext(); // move to next page
+      } else {
+        showSnackBar(
+          context: context,
+          message: result["message"] ?? "Failed to update",
+          color: Colors.red,
+          icon: ImagePaths.error,
+        );
+      }
+    } catch (e) {
+      hideLoading();
+      showSnackBar(
+        context: context,
+        message: 'Error: $e',
         color: Colors.red,
         icon: ImagePaths.error,
       );

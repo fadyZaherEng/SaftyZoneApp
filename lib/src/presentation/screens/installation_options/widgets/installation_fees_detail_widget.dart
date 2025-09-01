@@ -11,11 +11,13 @@ import 'package:provider/provider.dart';
 class InstallationFeesDetailContent extends StatefulWidget {
   final String? title;
   final List<SystemType> selectedSystems;
+  final bool isUpdateMode;
 
   const InstallationFeesDetailContent({
     super.key,
     this.title,
     required this.selectedSystems,
+    required this.isUpdateMode,
   });
 
   @override
@@ -36,6 +38,7 @@ class _InstallationFeesDetailContentState
       child: _InstallationFeesDetailContent(
         title: widget.title,
         selectedSystems: widget.selectedSystems,
+        isUpdateMode: widget.isUpdateMode,
       ),
     );
   }
@@ -44,10 +47,12 @@ class _InstallationFeesDetailContentState
 class _InstallationFeesDetailContent extends StatelessWidget {
   final String? title;
   final List<SystemType> selectedSystems;
+  final bool isUpdateMode;
 
   const _InstallationFeesDetailContent({
     this.title,
     required this.selectedSystems,
+    required this.isUpdateMode,
   });
 
   @override
@@ -121,7 +126,7 @@ class _InstallationFeesDetailContent extends StatelessWidget {
                 // Component selection list or system type selector
                 Expanded(
                   child: provider.currentSystemType != null
-                      ? const ComponentPageViewList()
+                      ? ComponentPageViewList(isUpdateMode: isUpdateMode)
                       : SystemTypeSelector(
                           selectedSystems: selectedSystems,
                         ),

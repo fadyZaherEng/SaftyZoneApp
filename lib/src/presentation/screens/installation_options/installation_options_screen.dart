@@ -11,7 +11,9 @@ import 'package:safety_zone/src/presentation/screens/installation_options/widget
 import 'package:safety_zone/src/presentation/screens/installation_options/widgets/installation_fees_page_sequance_widget.dart';
 
 class InstallationOptionsScreen extends StatefulWidget {
-  const InstallationOptionsScreen({super.key});
+  final bool isUpdateMode;
+
+  const InstallationOptionsScreen({super.key, this.isUpdateMode = false});
 
   @override
   State<InstallationOptionsScreen> createState() =>
@@ -225,10 +227,12 @@ class _InstallationOptionsScreenState extends State<InstallationOptionsScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => InstallationFeesDetailContent(
-              selectedSystems: selectedSystems,
-              title: _isEarlyWarningSelected
-                  ? S.of(context).earlyWarningSystemFees
-                  : S.of(context).fireSuppressionSystemFees),
+            selectedSystems: selectedSystems,
+            title: _isEarlyWarningSelected
+                ? S.of(context).earlyWarningSystemFees
+                : S.of(context).fireSuppressionSystemFees,
+            isUpdateMode: widget.isUpdateMode,
+          ),
         ),
       );
     }
@@ -252,6 +256,7 @@ class _InstallationOptionsScreenState extends State<InstallationOptionsScreen> {
           systemName: earlyWarningSystemName,
           systemType: SystemType.earlyWarning,
           selectedSystems: selectedSystems,
+          isUpdateMode: widget.isUpdateMode,
         ),
       ),
     );
