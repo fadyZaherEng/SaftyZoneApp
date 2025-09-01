@@ -321,7 +321,7 @@ class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
               : [],
           selectedDays: workingTime != null
               ? (workingTime['workingDays'] as List)
-              .map<int>((day) => daysOfWeek.indexOf(day['day']))
+              .map<int>((day) => daysOfWeek.indexOf(_getDayString(day['day'])))
               .toList()
               : [],
           startTime: workingTime != null
@@ -357,6 +357,27 @@ class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
     trainingController.dispose();
     addTermController.dispose();
     return super.close();
+  }
+
+  String _getDayString(day) {
+    switch (day.toLowerCase()) {
+      case 'saturday':
+        return S.current.saturday;
+      case 'sunday':
+        return S.current.sunday;
+      case 'monday':
+        return S.current.monday;
+      case 'tuesday':
+        return S.current.tuesday;
+      case 'wednesday':
+        return S.current.wednesday;
+      case 'thursday':
+        return S.current.thursday;
+      case 'friday':
+        return S.current.friday;
+      default:
+        return day;
+    }
   }
 }
 
