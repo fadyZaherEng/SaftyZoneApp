@@ -300,32 +300,34 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                       height: 32.h,
                       color: isColor ? Color(0XFF133769) : null,
                     ),
-              const SizedBox(height: 8),
-              Center(
-                child: Text(
-                  item.label,
-                  style: TextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                    color: ColorSchemes.primary,
+              if (!_isLoading) const SizedBox(height: 8),
+              if (!_isLoading)
+                Center(
+                  child: Text(
+                    item.label,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: ColorSchemes.primary,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Center(
-                child: Text(
-                  item.value,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: ColorSchemes.black,
+              if (!_isLoading) const SizedBox(height: 4),
+              if (!_isLoading)
+                Center(
+                  child: Text(
+                    item.value,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                      color: ColorSchemes.black,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 8),
+              if (!_isLoading) const SizedBox(height: 8),
             ],
           ),
         ),

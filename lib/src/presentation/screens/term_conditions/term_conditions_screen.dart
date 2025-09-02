@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
@@ -10,7 +11,12 @@ import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/presentation/screens/term_conditions/cubit/terms_and_conditions_cubit.dart';
 
 class TermConditionsScreen extends StatefulWidget {
-  const TermConditionsScreen({super.key});
+  final bool isUpdateMode;
+
+  const TermConditionsScreen({
+    super.key,
+    this.isUpdateMode = false,
+  });
 
   @override
   State<TermConditionsScreen> createState() => _TermConditionsScreenState();
@@ -52,7 +58,7 @@ class _TermConditionsScreenState extends State<TermConditionsScreen> {
                     Builder(
                       builder: (context) {
                         if (state.employeesLoading) {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(child: SpinKitDoubleBounce(color: ColorSchemes.primary));
                         } else if (state.employeesError != null) {
                           return Text(
                             'Failed to load employees',
@@ -298,8 +304,18 @@ class _TermConditionsScreenState extends State<TermConditionsScreen> {
                       child: ElevatedButton(
                         onPressed: state.isValid && !state.loading
                             ? () async {
-                                await cubit.submit();
+                                if (widget.isUpdateMode) {
+                                  await cubit.updateTermsAndConditions();
+                                } else {
+                                  await cubit.submit();
+                                }
                                 Navigator.pop(context, true);
+                                showSnackBar(
+                                  context: context,
+                                  message: S.of(context).success,
+                                  color: ColorSchemes.success,
+                                  icon: ImagePaths.success,
+                                );
                               }
                             : null,
                         style: ElevatedButton.styleFrom(

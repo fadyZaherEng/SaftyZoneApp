@@ -13,6 +13,7 @@ import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
 import 'package:safety_zone/src/presentation/screens/installation_options/installation_options_screen.dart';
 import 'package:safety_zone/src/presentation/screens/register/vendor_registration_screen.dart';
 import 'package:safety_zone/src/presentation/screens/reports/reports_screen.dart';
+import 'package:safety_zone/src/presentation/screens/term_conditions/term_conditions_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -140,10 +141,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
             s.termsAndConditions,
             isColor: true,
             onTap: () async {
-              await Navigator.pushNamed(
-                context,
-                Routes.termConditionsScreen,
-              ).then((value) {});
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => TermConditionsScreen(
+                      isUpdateMode: true,
+                    ),
+                  ));
             },
           ),
           _drawerItem(
@@ -167,31 +171,84 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
           //change language
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   s.changeLanguage,
                   style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.normal,
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                ),
-                Checkbox(
-                  value: GetLanguageUseCase(injector())() == 'en',
-                  onChanged: (value) {
-                    setState(() => _isEnglish = value!);
-                    SetLanguageUseCase(injector())(_isEnglish ? 'en' : 'ar');
-                    RestartWidget.restartApp(context);
-                  },
-                ),
-                Text(
-                  s.english,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            SetLanguageUseCase(injector())('en');
+                            RestartWidget.restartApp(context);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                              color: GetLanguageUseCase(injector())() == 'en'
+                                  ? ColorSchemes.primary
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Center(
+                              child: Text(
+                                s.english,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      GetLanguageUseCase(injector())() == 'en'
+                                          ? Colors.white
+                                          : Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            SetLanguageUseCase(injector())('ar');
+                            RestartWidget.restartApp(context);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                              color: GetLanguageUseCase(injector())() == 'ar'
+                                  ? ColorSchemes.primary
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Center(
+                              child: Text(
+                                s.arabic,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      GetLanguageUseCase(injector())() == 'ar'
+                                          ? Colors.white
+                                          : Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

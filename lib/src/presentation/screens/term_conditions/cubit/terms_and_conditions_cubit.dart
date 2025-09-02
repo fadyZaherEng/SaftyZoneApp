@@ -1,6 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
+import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
 import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart';
@@ -283,6 +286,61 @@ class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
       return false;
     }
   }
+
+  Future<bool> updateTermsAndConditions() async {
+    emit(state.copyWith(loading: true));
+    try {
+      final token = await getToken();
+      if (token == null || state.selectedEmployee == null) {
+        emit(state.copyWith(loading: false));
+        return false;
+      }
+
+      final url =
+          Uri.parse('${APIKeys.baseUrl}/api/provider/terms-and-condition');
+
+      final start = state.startTime;
+      final end = state.endTime;
+
+      final body = json.encode({
+        "employee": state.selectedEmployee!.Id,
+        "clauses": state.terms.map((t) => {"text": t}).toList(),
+        "workingDays": state.selectedDays
+            .map((i) => {
+                  "day": daysOfWeek[i], // هيجيلك بالاسم الانجليزي زي Monday
+                  "startHour": start?.hour ?? 0,
+                  "startMinute": start?.minute ?? 0,
+                  "endHour": end?.hour ?? 0,
+                  "endMinute": end?.minute ?? 0,
+                })
+            .toList(),
+      });
+
+      final resp = await http.put(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      );
+
+      emit(state.copyWith(loading: false));
+
+      if (resp.statusCode == 200 || resp.statusCode == 201) {
+        debugPrint("✅ Update Success: ${resp.body}");
+        return true;
+      } else {
+        debugPrint("❌ Update Failed: ${resp.body}");
+        return false;
+      }
+    } catch (e) {
+      debugPrint("❌ Error updateTermsAndConditions: $e");
+      emit(state.copyWith(loading: false));
+      return false;
+    }
+  }
+
   Future<void> fetchTermsAndConditions() async {
     emit(state.copyWith(loading: true));
 
@@ -293,7 +351,8 @@ class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
         return;
       }
 
-      final url = Uri.parse('${APIKeys.baseUrl}/api/provider/terms-and-condition');
+      final url =
+          Uri.parse('${APIKeys.baseUrl}/api/provider/terms-and-condition');
       final response = await http.get(url, headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
@@ -310,8 +369,15 @@ class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
 
         final termsData = data['termsAndConditions'];
         final workingTime = data['workingTime'];
-
-
+        Employee? selectedEmp;
+        if (termsData != null && termsData['employee'] != null) {
+          final empId = termsData['employee']['_id'];
+          // دور في لستة الموظفين اللي عندك
+          selectedEmp = state.employees.firstWhere(
+                (emp) => emp.Id == empId,
+            orElse: () => Employee.fromJsonTerms(termsData['employee']),
+          );
+        }
         emit(state.copyWith(
           loading: false,
           terms: termsData != null
@@ -321,7 +387,8 @@ class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
               : [],
           selectedDays: workingTime != null
               ? (workingTime['workingDays'] as List)
-              .map<int>((day) => daysOfWeek.indexOf(_getDayString(day['day'])))
+              .map<int>(
+                  (day) => daysOfWeek.indexOf(_getDayString(day['day'])))
               .toList()
               : [],
           startTime: workingTime != null
@@ -336,8 +403,35 @@ class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
             minute: workingTime['workingDays'][0]['endMinute'],
           )
               : null,
+          selectedEmployee: selectedEmp, // ✅ الموظف يتعرض في الـ Dropdown
         ));
 
+        // emit(state.copyWith(
+        //   loading: false,
+        //   terms: termsData != null
+        //       ? List<String>.from(
+        //           (termsData['clauses'] as List).map((c) => c['text']),
+        //         )
+        //       : [],
+        //   selectedDays: workingTime != null
+        //       ? (workingTime['workingDays'] as List)
+        //           .map<int>(
+        //               (day) => daysOfWeek.indexOf(_getDayString(day['day'])))
+        //           .toList()
+        //       : [],
+        //   startTime: workingTime != null
+        //       ? TimeOfDay(
+        //           hour: workingTime['workingDays'][0]['startHour'],
+        //           minute: workingTime['workingDays'][0]['startMinute'],
+        //         )
+        //       : null,
+        //   endTime: workingTime != null
+        //       ? TimeOfDay(
+        //           hour: workingTime['workingDays'][0]['endHour'],
+        //           minute: workingTime['workingDays'][0]['endMinute'],
+        //         )
+        //       : null,
+        // ));
       } else {
         emit(state.copyWith(loading: false));
       }
@@ -380,4 +474,3 @@ class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
     }
   }
 }
-

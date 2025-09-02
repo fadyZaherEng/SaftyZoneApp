@@ -443,7 +443,8 @@ class _InstallationFeesItemPageState
           final oldPrice = (fee['price'] ?? 0).toDouble();
 
           // الشرط هنا بيشيك على الاتنين (السعر + الـ id)
-          if (newPrice != oldPrice && fee['item']?['_id']?.toString() == innerId) {
+          if (newPrice != oldPrice &&
+              fee['item']?['_id']?.toString() == innerId) {
             updates.add({"_id": outerId, "price": newPrice.toInt()});
           }
         }
@@ -682,6 +683,7 @@ class _InstallationFeesItemPageState
                                           horizontal: 12.w, vertical: 12.h),
                                     ),
                                     onChanged: (value) {
+                                      if (value.isEmpty) return;
                                       setState(() {});
                                       _saveItemInController(item);
 
@@ -755,6 +757,7 @@ class _InstallationFeesItemPageState
                                           horizontal: 12.w, vertical: 12.h),
                                     ),
                                     onChanged: (value) {
+                                      if (value.isEmpty) return;
                                       setState(() {}); // Refresh button state
                                       _saveItemInController(item);
                                     },
