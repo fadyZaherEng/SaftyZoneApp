@@ -552,7 +552,8 @@
   "branchEmployee": "Branch Employee",
   "createdAt": "Created At",
   "steps": "Step",
-  "nameMustBeAtMost9Characters": "Number of characters must be at most 9 digits"
+  "nameMustBeAtMost9Characters": "Number of characters must be at most 9 digits",
+  "updatePriceOffer": "Update Price Offer"
 
 }
 

@@ -1001,7 +1001,9 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
       context,
       Routes.uploadDocumentFawryScreen,
       arguments: {'request': request},
-    );
+    ).then((value) {
+      _fetchData(isRefresh: true);
+    });
   }
 
   void _goToLocation(BuildContext context, ScheduleJop request) async {
@@ -1369,7 +1371,9 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
         'isSecondPage': false,
         'isThirdPage': false,
       },
-    );
+    ).then((value) {
+      _fetchData(isRefresh: true);
+    });
   }
 
   bool _showQuotation(String step) {
@@ -1398,7 +1402,9 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
         'isSecondPage': true,
         'isThirdPage': false,
       },
-    );
+    ).then((value) {
+      _fetchData(isRefresh: true);
+    });
   }
 
   showDeliverExtinguishersDialog(BuildContext context, ScheduleJop request) {
@@ -1411,7 +1417,9 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
         'isSecondPage': false,
         'isThirdPage': true,
       },
-    );
+    ).then((value) {
+      _fetchData(isRefresh: true);
+    });
   }
 
   String _getStatus(String status) {
@@ -1439,6 +1447,8 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
       arguments: {
         'scheduleJop': request,
       },
-    );
+    ).then((value) {
+      _fetchData(isRefresh: true);
+    });
   }
 }

@@ -33,6 +33,102 @@ extension RemoteRequestDetailsExtension on RemoteRequestDetails {
 }
 
 @JsonSerializable()
+class RemoteItemsPrice {
+  @JsonKey(name: '_id')
+  final String Id;
+  final ItemName itemName;
+  final String type;
+  final int price;
+  final int quantity;
+
+  const RemoteItemsPrice({
+    this.Id = "",
+    this.itemName = const ItemName(),
+    this.type = "",
+    this.price = 0,
+    this.quantity = 0,
+  });
+
+  factory RemoteItemsPrice.fromJson(Map<String, dynamic> json) =>
+      _$RemoteItemsPriceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RemoteItemsPriceToJson(this);
+}
+
+@JsonSerializable()
+class RemoteOffers {
+  @JsonKey(name: '_id')
+  final String Id;
+  final String provider;
+  final int price;
+  final String status;
+  final int createdAt;
+  final List<RemoteItemsPrice> item;
+  final int discount;
+  final bool is_Primary;
+  final int offerNumber;
+  final int visitPrice;
+  final int emergencyVisitPrice;
+  final String billURL;
+  final int installationPrice;
+  final int itemSupplyPrice;
+
+  const RemoteOffers({
+    this.Id = "",
+    this.provider = "",
+    this.price = 0,
+    this.status = "",
+    this.createdAt = 0,
+    this.item = const [],
+    this.discount = 0,
+    this.is_Primary = false,
+    this.offerNumber = 0,
+    this.visitPrice = 0,
+    this.emergencyVisitPrice = 0,
+    this.billURL = "",
+    this.installationPrice = 0,
+    this.itemSupplyPrice = 0,
+  });
+
+  factory RemoteOffers.fromJson(Map<String, dynamic> json) =>
+      _$RemoteOffersFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RemoteOffersToJson(this);
+}
+extension RemoteItemsPriceExtension on RemoteItemsPrice {
+  ItemsPrice mapToDomain() {
+    return ItemsPrice(
+      Id: Id,
+      itemName: itemName,
+      type: type,
+      price: price,
+      quantity: quantity,
+    );
+  }
+}
+
+extension RemoteOffersExtension on RemoteOffers {
+  Offers mapToDomain() {
+    return Offers(
+      Id: Id,
+      provider: provider,
+      price: price,
+      status: status,
+      createdAt: createdAt,
+      item: item.map((e) => e.mapToDomain()).toList(),
+      discount: discount,
+      is_Primary: is_Primary,
+      offerNumber: offerNumber,
+      visitPrice: visitPrice,
+      emergencyVisitPrice: emergencyVisitPrice,
+      billURL: billURL,
+      installationPrice: installationPrice,
+      itemSupplyPrice: itemSupplyPrice,
+    );
+  }
+}
+
+@JsonSerializable()
 class RemoteResult {
   @JsonKey(name: '_id')
   final String? Id;
@@ -49,6 +145,7 @@ class RemoteResult {
   final List<RemoteItems>? alarmItems;
   final List<RemoteItems>? fireExtinguisherItem;
   final List<RemoteItems>? fireSystemItem;
+  final List<RemoteOffers>? offers;
 
   const RemoteResult({
     this.Id = "",
@@ -65,6 +162,7 @@ class RemoteResult {
     this.fireSystemItem = const [],
     this.numberOfVisits = 0,
     this.duration = 0,
+    this.offers = const [],
   });
 
   factory RemoteResult.fromJson(Map<String, dynamic> json) =>
@@ -91,6 +189,8 @@ extension RemoteResultExtension on RemoteResult {
       fireSystemItem:
           fireSystemItem?.map((e) => e.mapToDomain()).toList() ?? [],
       numberOfVisits: numberOfVisits ?? 0,
+      duration: duration ?? 0,
+      offers: offers?.map((e) => e.mapToDomain()).toList() ?? [],
     );
   }
 }

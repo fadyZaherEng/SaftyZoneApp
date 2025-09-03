@@ -6,6 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/core/utils/update_price.dart';
+import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart';
@@ -21,10 +23,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class RequestDetailsExtinguishersScreen extends BaseStatefulWidget {
   final String requestId;
+  final bool isUpdate;
 
   const RequestDetailsExtinguishersScreen({
     super.key,
     required this.requestId,
+    required this.isUpdate,
   });
 
   @override
@@ -81,6 +85,12 @@ class _RequestDetailsExtinguishersScreenState
         _isLoading = false;
         for (var element in model.result.fireExtinguisherItem) {
           _priceKiloController.add(TextEditingController());
+        }
+        if (widget.isUpdate) {
+          for (int i = 0; i < model.result.offers.first.item.length; i++) {
+            _priceKiloController[i].text =
+                model.result.offers.first.item[i].price.toString();
+          }
         }
       } else if (state is GetConsumerRequestDetailsErrorState) {
         _showValidationError(state.message, false);
@@ -686,8 +696,8 @@ class _RequestDetailsExtinguishersScreenState
             backgroundColor: ColorSchemes.primary,
             textColor: Colors.white,
             text: S.of(context).send,
-            onTap: () {
-              debugPrint('Saved Model: $model');
+            onTap: () async {
+              // debugPrint('Saved Model: $model');
               List<Item> items = [];
               int totalPrice = 0;
               for (int i = 0;
@@ -700,17 +710,40 @@ class _RequestDetailsExtinguishersScreenState
                 ));
                 totalPrice += int.parse(_priceKiloController[i].text) * 1;
               }
-              _bloc.add(
-                SendPriceOfferEvent(
-                  request: SendPriceRequest(
-                    consumerRequest: model.result.Id,
-                    responsibleEmployee: _selectedEmployee.Id,
-                    price: totalPrice,
-                    is_Primary: true,
-                    item: items,
+              if (widget.isUpdate) {
+                showLoading();
+                final result = await updateOffer(
+                  APIKeys.baseUrl,
+                  offerId: model.result.offers.first.Id,
+                  price: null,
+                  visitPrice: null,
+                  emergencyVisitPrice: null,
+                  items: items,
+                );
+
+                if (result != null) {
+                  print("Offer Updated: ${result['_id']}");
+                  _showValidationError(
+                      S.of(context).sendPriceOfferSuccess, true);
+                  hideLoading();
+                  Navigator.pop(context);
+                } else {
+                  hideLoading();
+                  print("Failed to update offer");
+                }
+              } else {
+                _bloc.add(
+                  SendPriceOfferEvent(
+                    request: SendPriceRequest(
+                      consumerRequest: model.result.Id,
+                      responsibleEmployee: _selectedEmployee.Id,
+                      price: totalPrice,
+                      is_Primary: true,
+                      item: items,
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             },
           ),
           const SizedBox(height: 32),

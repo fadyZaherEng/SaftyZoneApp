@@ -787,7 +787,14 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
         'isSecondPage': false,
         'isThirdPage': false,
       },
-    );
+    ).then((value) {
+      // Refresh the list after returning from the mission screen
+      _page = 1;
+      _hasMore = true;
+      _workingProgress.clear();
+      _tempWorkingProgress.clear();
+      _fetchData(isRefresh: true);
+    });
   }
 
   bool _showQuotation(String step) {
@@ -816,7 +823,14 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
         'isSecondPage': true,
         'isThirdPage': false,
       },
-    );
+    ).then((value) {
+      // Refresh the list after returning from the quotation screen
+      _page = 1;
+      _hasMore = true;
+      _workingProgress.clear();
+      _tempWorkingProgress.clear();
+      _fetchData(isRefresh: true);
+    });
   }
 
   showDeliverExtinguishersDialog(BuildContext context, ScheduleJop request) {
@@ -829,7 +843,14 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
         'isSecondPage': false,
         'isThirdPage': true,
       },
-    );
+    ).then((value) {
+      // Refresh the list after returning from the deliver extinguishers screen
+      _page = 1;
+      _hasMore = true;
+      _workingProgress.clear();
+      _tempWorkingProgress.clear();
+      _fetchData(isRefresh: true);
+    });
   }
 
   Widget _buildFawryRequestCard(
@@ -1262,7 +1283,14 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
       context,
       Routes.uploadDocumentFawryScreen,
       arguments: {'request': request},
-    );
+    ).then((value) {
+      // Refresh the list after returning from the upload document screen
+      _page = 1;
+      _hasMore = true;
+      _workingProgress.clear();
+      _tempWorkingProgress.clear();
+      _fetchData(isRefresh: true);
+    });
   }
 
   void _goToLocation(BuildContext context, ScheduleJop request) async {
@@ -1316,6 +1344,13 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
         'scheduleJop': request,
         "isRepair": false,
       },
-    );
+    ).then((value) {
+      // Refresh the list after returning from the generate report screen
+      _page = 1;
+      _hasMore = true;
+      _workingProgress.clear();
+      _tempWorkingProgress.clear();
+      _fetchData(isRefresh: true);
+    });
   }
 }

@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/core/utils/update_price.dart';
+import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart';
@@ -20,10 +22,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class RequestDetailsMaintainanceScreen extends BaseStatefulWidget {
   final String requestId;
+  final bool isUpdate;
 
   const RequestDetailsMaintainanceScreen({
     super.key,
     required this.requestId,
+    required this.isUpdate,
   });
 
   @override
@@ -79,6 +83,13 @@ class _RequestDetailsMaintainanceScreenState
           model = state.requestDetails;
         });
         _isLoading = false;
+        if (widget.isUpdate) {
+          _visitValueController.text =
+              state.requestDetails.result.offers.first.visitPrice.toString();
+          _emergencyVisitFeeController.text = state
+              .requestDetails.result.offers.first.emergencyVisitPrice
+              .toString();
+        }
       } else if (state is GetConsumerRequestDetailsErrorState) {
         _showValidationError(state.message, false);
         _isLoading = false;
@@ -986,23 +997,47 @@ class _RequestDetailsMaintainanceScreenState
             backgroundColor: ColorSchemes.primary,
             textColor: Colors.white,
             text: S.of(context).send,
-            onTap: () {
-              debugPrint('Saved Model: $model');
-              _bloc.add(
-                SendPriceOfferEvent(
-                  request: SendPriceRequest(
-                    consumerRequest: model.result.Id,
-                    responsibleEmployee: _selectedEmployee.Id,
-                    price: int.parse(_visitValueController.text) *
-                        model.result.numberOfVisits,
-                    visitPrice: int.parse(_visitValueController.text),
-                    emergencyVisitPrice:
-                        int.parse(_emergencyVisitFeeController.text),
-                    is_Primary: false,
-                    item: [],
+            onTap: () async {
+              // debugPrint('Saved Model: $model');
+              if (widget.isUpdate) {
+                showLoading();
+                final result = await updateOffer(
+                  APIKeys.baseUrl,
+                  offerId: model.result.offers.first.Id,
+                  price: null,
+                  visitPrice: int.parse(_visitValueController.text),
+                  emergencyVisitPrice:
+                      int.parse(_emergencyVisitFeeController.text),
+                  items: null,
+                );
+
+                if (result != null) {
+                  print("Offer Updated: ${result['_id']}");
+                  _showValidationError(
+                      S.of(context).sendPriceOfferSuccess, true);
+                  hideLoading();
+                  Navigator.pop(context);
+                } else {
+                  hideLoading();
+                  print("Failed to update offer");
+                }
+              } else {
+                _bloc.add(
+                  SendPriceOfferEvent(
+                    request: SendPriceRequest(
+                      consumerRequest: model.result.Id,
+                      responsibleEmployee: _selectedEmployee.Id,
+                      price: int.parse(_visitValueController.text) *
+                          model.result.numberOfVisits,
+                      visitPrice: int.parse(_visitValueController.text),
+                      emergencyVisitPrice:
+                          int.parse(_emergencyVisitFeeController.text),
+                      is_Primary: false,
+                      item: [],
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             },
           ),
           const SizedBox(height: 32),

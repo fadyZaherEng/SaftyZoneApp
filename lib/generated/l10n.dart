@@ -5573,6 +5573,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Update Price Offer`
+  String get updatePriceOffer {
+    return Intl.message(
+      'Update Price Offer',
+      name: 'updatePriceOffer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

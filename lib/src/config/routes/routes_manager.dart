@@ -145,6 +145,7 @@ class RoutesManager {
         final requestId = args?['requestId'] as String;
         return _materialRoute(RequestDetailsInstallationScreen(
           requestId: requestId,
+          isUpdate: args?['isUpdate'] as bool,
         ));
 
       case Routes.workingProgressScreen:
@@ -172,6 +173,7 @@ class RoutesManager {
         final requestId = args?['requestId'] as String;
         return _materialRoute(RequestDetailsMaintainanceScreen(
           requestId: requestId,
+          isUpdate: args?['isUpdate'] as bool,
         ));
 
       case Routes.requestDetailsExtinguishersScreen:
@@ -180,6 +182,7 @@ class RoutesManager {
         final requestId = args?['requestId'] as String;
         return _materialRoute(RequestDetailsExtinguishersScreen(
           requestId: requestId,
+          isUpdate: args?['isUpdate'] as bool,
         ));
 
       case Routes.pricesNeedEscalationScreen:

@@ -846,6 +846,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Until the maintenance visits are completed"),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
+        "updatePriceOffer":
+            MessageLookupByLibrary.simpleMessage("Update Price Offer"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "uploadDocument": MessageLookupByLibrary.simpleMessage("Upload"),
         "uploadDocumentHint": MessageLookupByLibrary.simpleMessage(

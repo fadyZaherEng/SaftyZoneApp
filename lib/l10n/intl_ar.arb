@@ -553,6 +553,7 @@
   "branchEmployee": "موظف الفرع",
   "createdAt": "تم الإنشاء في",
   "steps": "الخطوه",
-  "nameMustBeAtMost9Characters": "يجب ألا يزيد الرقم عن 9 ارقام"
+  "nameMustBeAtMost9Characters": "يجب ألا يزيد الرقم عن 9 ارقام",
+  "updatePriceOffer": "تحديث عرض السعر"
 
 }

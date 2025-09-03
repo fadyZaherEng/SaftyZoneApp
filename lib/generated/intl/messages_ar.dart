@@ -817,6 +817,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "تحتاج الى صلاحية المخزن للمتابعة"),
         "update": MessageLookupByLibrary.simpleMessage("تحديث"),
+        "updatePriceOffer":
+            MessageLookupByLibrary.simpleMessage("تحديث عرض السعر"),
         "upload": MessageLookupByLibrary.simpleMessage("تحميل"),
         "uploadDocument": MessageLookupByLibrary.simpleMessage("تحميل"),
         "uploadDocumentHint": MessageLookupByLibrary.simpleMessage(

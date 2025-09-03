@@ -25,6 +25,64 @@ Map<String, dynamic> _$RemoteRequestDetailsToJson(
       'termsAndConditions': instance.termsAndConditions,
     };
 
+RemoteItemsPrice _$RemoteItemsPriceFromJson(Map<String, dynamic> json) =>
+    RemoteItemsPrice(
+      Id: json['_id'] as String? ?? "",
+      itemName: json['itemName'] == null
+          ? const ItemName()
+          : ItemName.fromJson(json['itemName'] as Map<String, dynamic>),
+      type: json['type'] as String? ?? "",
+      price: (json['price'] as num?)?.toInt() ?? 0,
+      quantity: (json['quantity'] as num?)?.toInt() ?? 0,
+    );
+
+Map<String, dynamic> _$RemoteItemsPriceToJson(RemoteItemsPrice instance) =>
+    <String, dynamic>{
+      '_id': instance.Id,
+      'itemName': instance.itemName,
+      'type': instance.type,
+      'price': instance.price,
+      'quantity': instance.quantity,
+    };
+
+RemoteOffers _$RemoteOffersFromJson(Map<String, dynamic> json) => RemoteOffers(
+      Id: json['_id'] as String? ?? "",
+      provider: json['provider'] as String? ?? "",
+      price: (json['price'] as num?)?.toInt() ?? 0,
+      status: json['status'] as String? ?? "",
+      createdAt: (json['createdAt'] as num?)?.toInt() ?? 0,
+      item: (json['item'] as List<dynamic>?)
+              ?.map((e) => RemoteItemsPrice.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      discount: (json['discount'] as num?)?.toInt() ?? 0,
+      is_Primary: json['is_Primary'] as bool? ?? false,
+      offerNumber: (json['offerNumber'] as num?)?.toInt() ?? 0,
+      visitPrice: (json['visitPrice'] as num?)?.toInt() ?? 0,
+      emergencyVisitPrice: (json['emergencyVisitPrice'] as num?)?.toInt() ?? 0,
+      billURL: json['billURL'] as String? ?? "",
+      installationPrice: (json['installationPrice'] as num?)?.toInt() ?? 0,
+      itemSupplyPrice: (json['itemSupplyPrice'] as num?)?.toInt() ?? 0,
+    );
+
+Map<String, dynamic> _$RemoteOffersToJson(RemoteOffers instance) =>
+    <String, dynamic>{
+      '_id': instance.Id,
+      'provider': instance.provider,
+      'price': instance.price,
+      'status': instance.status,
+      'createdAt': instance.createdAt,
+      'item': instance.item,
+      'discount': instance.discount,
+      'is_Primary': instance.is_Primary,
+      'offerNumber': instance.offerNumber,
+      'visitPrice': instance.visitPrice,
+      'emergencyVisitPrice': instance.emergencyVisitPrice,
+      'billURL': instance.billURL,
+      'installationPrice': instance.installationPrice,
+      'itemSupplyPrice': instance.itemSupplyPrice,
+    };
+
 RemoteResult _$RemoteResultFromJson(Map<String, dynamic> json) => RemoteResult(
       Id: json['_id'] as String? ?? "",
       consumer: json['consumer'] as String? ?? "",
@@ -51,6 +109,10 @@ RemoteResult _$RemoteResultFromJson(Map<String, dynamic> json) => RemoteResult(
           const [],
       numberOfVisits: (json['numberOfVisits'] as num?)?.toInt() ?? 0,
       duration: (json['duration'] as num?)?.toInt() ?? 0,
+      offers: (json['offers'] as List<dynamic>?)
+              ?.map((e) => RemoteOffers.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$RemoteResultToJson(RemoteResult instance) =>
@@ -69,6 +131,7 @@ Map<String, dynamic> _$RemoteResultToJson(RemoteResult instance) =>
       'alarmItems': instance.alarmItems,
       'fireExtinguisherItem': instance.fireExtinguisherItem,
       'fireSystemItem': instance.fireSystemItem,
+      'offers': instance.offers,
     };
 
 RemoteItems _$RemoteItemsFromJson(Map<String, dynamic> json) => RemoteItems(

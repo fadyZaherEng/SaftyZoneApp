@@ -49,6 +49,21 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
   }
 
   @override
+  void didUpdateWidget(covariant RequestsScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.isAppBar != widget.isAppBar) {
+      setState(() {});
+      _bloc.add(GetConsumerRequestsEvent());
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc.add(GetConsumerRequestsEvent());
+  }
+
+  @override
   Widget baseBuild(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
@@ -487,7 +502,9 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
               child: CustomButtonWidget(
                 backgroundColor: ColorSchemes.primary,
                 borderColor: ColorSchemes.primary,
-                text: S.of(context).sendPriceOffer,
+                text: _isOld
+                    ? S.of(context).updatePriceOffer
+                    : S.of(context).sendPriceOffer,
                 textColor: Colors.white,
                 onTap: () => _acceptRequest(context, request),
               ),
@@ -504,20 +521,35 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
       Navigator.pushNamed(
         context,
         Routes.requestDetailsInstallationScreen,
-        arguments: {'requestId': request.Id},
-      );
+        arguments: {
+          'requestId': request.Id,
+          'isUpdate': _isOld,
+        },
+      ).then((value) {
+        _bloc.add(GetConsumerRequestsEvent());
+      });
     } else if (request.requestType == RequestType.MaintenanceContract.name) {
       Navigator.pushNamed(
         context,
         Routes.requestDetailsMaintainanceScreen,
-        arguments: {'requestId': request.Id},
-      );
+        arguments: {
+          'requestId': request.Id,
+          'isUpdate': _isOld,
+        },
+      ).then((value) {
+        _bloc.add(GetConsumerRequestsEvent());
+      });
     } else if (request.requestType == RequestType.FireExtinguisher.name) {
       Navigator.pushNamed(
         context,
         Routes.requestDetailsExtinguishersScreen,
-        arguments: {'requestId': request.Id},
-      );
+        arguments: {
+          'requestId': request.Id,
+          'isUpdate': _isOld,
+        },
+      ).then((value) {
+        _bloc.add(GetConsumerRequestsEvent());
+      });
     }
   }
 

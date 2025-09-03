@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:safety_zone/src/core/base/widget/base_stateful_widget.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/core/utils/update_price.dart';
+import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/request/send_price_request.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/auth/create_employee.dart';
@@ -20,10 +22,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class RequestDetailsInstallationScreen extends BaseStatefulWidget {
   final String requestId;
+  final bool isUpdate;
 
   const RequestDetailsInstallationScreen({
     super.key,
     required this.requestId,
+    required this.isUpdate,
   });
 
   @override
@@ -75,8 +79,14 @@ class _RequestDetailsInstallationScreenState
       } else if (state is GetConsumerRequestDetailsSuccessState) {
         setState(() {
           model = state.requestDetails;
+          print("Offers: ${model.result.offers}");
         });
         _isLoading = false;
+        if (widget.isUpdate) {
+          _priceController.text = model.result.offers.isNotEmpty
+              ? model.result.offers.first.price.toString()
+              : '';
+        }
       } else if (state is GetConsumerRequestDetailsErrorState) {
         _showValidationError(state.message, false);
         _isLoading = false;
@@ -766,25 +776,51 @@ class _RequestDetailsInstallationScreenState
             backgroundColor: ColorSchemes.primary,
             textColor: Colors.white,
             text: S.of(context).send,
-            onTap: () {
-              debugPrint('Saved Model: $model');
-              _bloc.add(
-                SendPriceOfferEvent(
-                  request: SendPriceRequest(
-                    consumerRequest: model.result.Id,
-                    responsibleEmployee: _selectedEmployee.Id,
-                    price: int.parse(_priceController.text),
-                    is_Primary: false,
-                    item: [
-                      // Item(
-                      //   ItemId: "",
-                      //   price: int.parse(_priceController.text),
-                      //   quantity: 1,
-                      // )
-                    ],
+            onTap: () async {
+              // debugPrint('Saved Model: $model');
+              if (widget.isUpdate) {
+                print("Updating existing offer with ID: ${model.result.offers.first.Id}");
+                showLoading();
+                final result = await updateOffer(
+                  APIKeys.baseUrl,
+                  offerId: model.result.offers.first.Id,
+                  price: int.parse(_priceController.text),
+                  visitPrice: null,
+                  emergencyVisitPrice: null,
+                  items: null,
+                );
+
+                if (result != null) {
+                  print("Offer Updated: ${result['_id']}");
+                  _showValidationError(
+                    S.of(context).sendPriceOfferSuccess,
+                    true,
+                  );
+                  hideLoading();
+                  Navigator.pop(context);
+                } else {
+                  hideLoading();
+                  print("Failed to update offer");
+                }
+              } else {
+                _bloc.add(
+                  SendPriceOfferEvent(
+                    request: SendPriceRequest(
+                      consumerRequest: model.result.Id,
+                      responsibleEmployee: _selectedEmployee.Id,
+                      price: int.parse(_priceController.text),
+                      is_Primary: false,
+                      item: [
+                        // Item(
+                        //   ItemId: "",
+                        //   price: int.parse(_priceController.text),
+                        //   quantity: 1,
+                        // )
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             },
           ),
           const SizedBox(height: 32),
