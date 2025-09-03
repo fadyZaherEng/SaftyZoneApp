@@ -171,17 +171,20 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
           //change language
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   s.changeLanguage,
                   style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
                 Container(
+                  height: 38,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(12),
@@ -195,7 +198,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             RestartWidget.restartApp(context);
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
                               color: GetLanguageUseCase(injector())() == 'en'
                                   ? ColorSchemes.primary
@@ -225,7 +227,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             RestartWidget.restartApp(context);
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
                               color: GetLanguageUseCase(injector())() == 'ar'
                                   ? ColorSchemes.primary
@@ -254,7 +255,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ],
             ),
           ),
-          const Spacer(),
           ListTile(
             leading: SvgPicture.asset(
               ImagePaths.logouts,
@@ -277,7 +277,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               );
             },
           ),
-          const Spacer(),
+          const SizedBox(height: 36),
           const Spacer(),
         ],
       ),
