@@ -20,7 +20,19 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
-  static String m0(value) => "${value}٪";
+  static String m0(address) => "العنوان: ${address}";
+
+  static String m1(name) => "الفرع: ${name}";
+
+  static String m2(name) => "المستفيد: ${name}";
+
+  static String m3(message) => "خطأ: ${message}";
+
+  static String m4(value) => "${value}٪";
+
+  static String m5(number) => "رقم الطلب: ${number}";
+
+  static String m6(name) => "المسؤول: ${name}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -37,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "أضف أي ملاحظات فنية بخصوص الصيانة أو حالة الموقع"),
         "additionalCost":
             MessageLookupByLibrary.simpleMessage("التكلفة الإجمالية"),
+        "address": m0,
         "addressedInstallationFee":
             MessageLookupByLibrary.simpleMessage("تكاليف التثبيت المعرفة"),
         "alarmBell": MessageLookupByLibrary.simpleMessage("صوت التنبيه"),
@@ -87,6 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("المعلومات الاساسية"),
         "bell_with_flasher":
             MessageLookupByLibrary.simpleMessage("جرس إنذار خارجي مع فلاش"),
+        "branch": m1,
         "branchEmployee": MessageLookupByLibrary.simpleMessage("موظف الفرع"),
         "broken_glass": MessageLookupByLibrary.simpleMessage("كاسر زجاج "),
         "camera": MessageLookupByLibrary.simpleMessage("الكاميرا"),
@@ -94,6 +108,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancelled": MessageLookupByLibrary.simpleMessage("ملغي"),
         "cannotReceiveRequestsMessage": MessageLookupByLibrary.simpleMessage(
             "لا يمكنك استقبال الطلبات حتى يتم استكمالها."),
+        "certificates": MessageLookupByLibrary.simpleMessage("الشهادات"),
+        "certificatesTitle":
+            MessageLookupByLibrary.simpleMessage("شهادات تركيب المعدات"),
         "changeDocument": MessageLookupByLibrary.simpleMessage("تغيير"),
         "changeLanguage": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
         "chooseNonRenewalReason":
@@ -143,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تأكيد الموقع"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("تأكيد كلمة المرور"),
+        "consumer": m2,
         "contactUs": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
         "continues": MessageLookupByLibrary.simpleMessage("متابعة"),
         "contractClauses": MessageLookupByLibrary.simpleMessage("بنود العقد"),
@@ -231,6 +249,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "emergency_exit": MessageLookupByLibrary.simpleMessage("مخرج الطوارئ"),
         "emergency_lights":
             MessageLookupByLibrary.simpleMessage("إنارة احتياطية"),
+        "employeeDeletedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تم حذف الموظف بنجاح"),
         "employeeSavedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم حفظ الموظف بنجاح"),
         "employees": MessageLookupByLibrary.simpleMessage("الموظفين"),
@@ -266,6 +286,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ادخل رقم الواتساب"),
         "enterYourNotes": MessageLookupByLibrary.simpleMessage("ادخل ملاحظاتك"),
         "error": MessageLookupByLibrary.simpleMessage("خطأ"),
+        "errorMessage": m3,
         "errorTitle": MessageLookupByLibrary.simpleMessage("خطأ"),
         "example3": MessageLookupByLibrary.simpleMessage("مثال 3 رس"),
         "example350": MessageLookupByLibrary.simpleMessage("مثال 350 رس"),
@@ -292,6 +313,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "feeAmount": MessageLookupByLibrary.simpleMessage("مبلغ الرسوم"),
         "feeDescriptionText": MessageLookupByLibrary.simpleMessage(
             "الرجاء إدخال الرسوم المحددة لكل نظام لحساب تكلفة الخدمة بدقة."),
+        "fileUnavailable":
+            MessageLookupByLibrary.simpleMessage("رابط الشهادة غير متاح"),
         "finalPrice": MessageLookupByLibrary.simpleMessage(
             "السعر النهائي (بعد الاستلام و الصيانة)"),
         "finish": MessageLookupByLibrary.simpleMessage("انهاء"),
@@ -402,6 +425,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "الطلب الذي لا يحتوي على فاتورة صادرة من مزود الخدمة لن يُعتمد، ويجب أن تحتوي الفاتورة على رقم الهوية وشعار"),
         "invoice_date": MessageLookupByLibrary.simpleMessage("تاريخ المطالبة"),
         "jopTitle": MessageLookupByLibrary.simpleMessage("الوظيفة"),
+        "loadingMessage":
+            MessageLookupByLibrary.simpleMessage("جاري التحميل..."),
         "locateMe": MessageLookupByLibrary.simpleMessage("تحديد الموقع"),
         "locationError": MessageLookupByLibrary.simpleMessage(
             "فشل في الحصول على الموقع الحالي. حاول مرة اخرى."),
@@ -471,6 +496,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "newRequests": MessageLookupByLibrary.simpleMessage("الطلبات الجديدة"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
         "no": MessageLookupByLibrary.simpleMessage("لا"),
+        "noCertificates":
+            MessageLookupByLibrary.simpleMessage("لا توجد شهادات"),
         "noComponentsSelected":
             MessageLookupByLibrary.simpleMessage("لم يتم اختيار اي مكونات"),
         "noEmployeesFound": MessageLookupByLibrary.simpleMessage(
@@ -501,6 +528,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),
         "oldPassword":
             MessageLookupByLibrary.simpleMessage("كلمة المرور القديمة"),
+        "openError":
+            MessageLookupByLibrary.simpleMessage("لا يمكن فتح رابط الشهادة"),
         "openMap": MessageLookupByLibrary.simpleMessage("فتح الخريطة"),
         "opps": MessageLookupByLibrary.simpleMessage("عذراً"),
         "optionalNotes":
@@ -572,7 +601,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("خدمات احترافية"),
         "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
         "progress": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
-        "progressPercentage": m0,
+        "progressPercentage": m4,
         "providerInfo": MessageLookupByLibrary.simpleMessage(
             "بيانات مزود الخدمة (الطرف الثاني)"),
         "providerName":
@@ -618,7 +647,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "report_title":
             MessageLookupByLibrary.simpleMessage("تقرير نظام الإنذار المبكر"),
         "reports": MessageLookupByLibrary.simpleMessage("التقارير"),
-        "requestNumber": MessageLookupByLibrary.simpleMessage("رقم الطلب"),
+        "requestNumber": m5,
         "requestServiceSubtitle": MessageLookupByLibrary.simpleMessage(
             "إدارة وتتبع جميع طلبات الخدمة الواردة بسهولة من شركاء العملاء."),
         "requestServiceTitle":
@@ -630,6 +659,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "resendCode": MessageLookupByLibrary.simpleMessage("اعادة ارسال الرمز"),
         "resendCodeIn":
             MessageLookupByLibrary.simpleMessage("اعادة ارسال الرمز في"),
+        "responsible": m6,
         "responsibleContractors":
             MessageLookupByLibrary.simpleMessage("مسؤولين العقد"),
         "responsibleEmployee":
@@ -807,7 +837,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "transferred": MessageLookupByLibrary.simpleMessage("تم التحويل"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة اخرى"),
         "tuesday": MessageLookupByLibrary.simpleMessage("الثلاثاء"),
-        "type": MessageLookupByLibrary.simpleMessage("نوع الطفاية"),
+        "type": MessageLookupByLibrary.simpleMessage("النوع: "),
         "typeOfActivity": MessageLookupByLibrary.simpleMessage("نوع النظام"),
         "uae": MessageLookupByLibrary.simpleMessage("الامارات"),
         "unRead": MessageLookupByLibrary.simpleMessage("غير مقروء"),

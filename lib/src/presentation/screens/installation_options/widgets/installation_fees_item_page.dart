@@ -452,12 +452,14 @@ class _InstallationFeesItemPageState
     }
 
     if (updates.isEmpty) {
-      showSnackBar(
-        context: context,
-        message: "No changes detected",
-        color: Colors.orange,
-        icon: ImagePaths.warning,
-      );
+      // showSnackBar(
+      //   context: context,
+      //   message: "No changes detected",
+      //   color: Colors.orange,
+      //   icon: ImagePaths.warning,
+      // );
+      // return;
+      widget.onNext(); // move to next page
       return;
     }
 

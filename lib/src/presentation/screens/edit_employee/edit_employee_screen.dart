@@ -1,9 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:safety_zone/generated/l10n.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
+import 'package:safety_zone/src/data/sources/remote/api_key.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
+import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 import 'package:safety_zone/src/presentation/screens/add_employees/add_employee_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
+import 'package:http/http.dart' as http;
 
 class EditEmployeeScreen extends StatefulWidget {
   final dynamic employee;
@@ -32,7 +39,9 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
           ),
         ),
       ),
-      body: _buildEmployeeCard(widget.employee),
+      body: isLoading
+          ? Center(child: SpinKitDoubleBounce(color: ColorSchemes.primary))
+          : _buildEmployeeCard(widget.employee),
     );
   }
 
@@ -100,7 +109,8 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                           SizedBox(height: 4.h),
                           Row(
                             children: [
-                              Icon(Icons.phone, color: Colors.black54, size: 16.sp),
+                              Icon(Icons.phone,
+                                  color: Colors.black54, size: 16.sp),
                               SizedBox(width: 4.w),
                               Expanded(
                                 child: Text(
@@ -121,7 +131,8 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                     SizedBox(width: 8.w),
                     Flexible(
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 12.w, vertical: 6.h),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(16.r),
@@ -195,7 +206,11 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => AddEmployeeScreen(),
+                                builder: (_) => AddEmployeeScreen(
+                                  isEditMode: true,
+                                  employeeId: emp['_id'],
+                                  employeeName: emp['fullName'],
+                                ),
                               ),
                             );
                           },
@@ -212,7 +227,14 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                             color: ColorSchemes.primary,
                             fontWeight: FontWeight.bold,
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            // Implement delete functionality here
+                            deleteEmployee(
+                              baseUrl: APIKeys.baseUrl,
+                              employeeId: emp['_id'],
+                              fullName: emp['fullName'],
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -224,5 +246,65 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
         ),
       ],
     );
+  }
+
+  bool isLoading = false;
+
+  Future<void> deleteEmployee({
+    required String baseUrl,
+    required String employeeId,
+    required String fullName,
+  }) async {
+    isLoading = true;
+    final url = Uri.parse('$baseUrl/api/provider/employee/$employeeId');
+
+    final body = {
+      "fullName": fullName,
+    };
+
+    debugPrint("\n===== [AddEmployeeCubit] Deleting employee =====");
+    debugPrint("URL: $url");
+    debugPrint("Body: ${jsonEncode(body)}");
+
+    try {
+      final response = await http.delete(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${GetTokenUseCase(injector())()}",
+        },
+        body: jsonEncode(body),
+      );
+
+      debugPrint("Status: ${response.statusCode}");
+      debugPrint(response.body);
+
+      if (response.statusCode == 200) {
+        final result = jsonDecode(response.body);
+
+        // هنا تقدر تاخد الـ OTP لو محتاجه
+        final otp = result['otp']?['code'];
+        debugPrint("OTP: $otp");
+        isLoading = false;
+        //delete success snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(S.of(context).employeeDeletedSuccessfully),
+            backgroundColor: Colors.green,
+          ),
+        );
+        Navigator.pop(context); // Close the edit screen
+
+        // emit(state.copyWith(isLoading: false, isDeleted: true));
+      } else {
+        // emit(state.copyWith(isLoading: false));
+      }
+    } catch (e, s) {
+      isLoading = false;
+      debugPrint("\n===== [AddEmployeeCubit] Delete Error =====");
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+      // emit(state.copyWith(isLoading: false));
+    }
   }
 }

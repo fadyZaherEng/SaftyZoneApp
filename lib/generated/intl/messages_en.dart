@@ -20,7 +20,19 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(value) => "${value}%";
+  static String m0(address) => "Address: ${address}";
+
+  static String m1(name) => "Branch: ${name}";
+
+  static String m2(name) => "Consumer: ${name}";
+
+  static String m3(message) => "Error: ${message}";
+
+  static String m4(value) => "${value}%";
+
+  static String m5(number) => "Request Number: ${number}";
+
+  static String m6(name) => "Responsible: ${name}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -37,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Add any technical notes or site condition"),
         "additionalCost":
             MessageLookupByLibrary.simpleMessage("Additional Cost"),
+        "address": m0,
         "addressedInstallationFee":
             MessageLookupByLibrary.simpleMessage("Addressed installation fee"),
         "alarmBell": MessageLookupByLibrary.simpleMessage("Alarm Bell"),
@@ -87,6 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Basic Information"),
         "bell_with_flasher": MessageLookupByLibrary.simpleMessage(
             "External Fire Alarm with Flasher"),
+        "branch": m1,
         "branchEmployee":
             MessageLookupByLibrary.simpleMessage("Branch Employee"),
         "broken_glass": MessageLookupByLibrary.simpleMessage("Broken Glass"),
@@ -95,6 +109,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
         "cannotReceiveRequestsMessage": MessageLookupByLibrary.simpleMessage(
             "You cannot receive requests until they are completed."),
+        "certificates": MessageLookupByLibrary.simpleMessage("Certificates"),
+        "certificatesTitle": MessageLookupByLibrary.simpleMessage(
+            "Certificates of Equipment Installations"),
         "changeDocument": MessageLookupByLibrary.simpleMessage("Change"),
         "changeLanguage":
             MessageLookupByLibrary.simpleMessage("Change Language"),
@@ -145,6 +162,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Confirm Location"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "consumer": m2,
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "continues": MessageLookupByLibrary.simpleMessage("Continue"),
         "contractClauses":
@@ -241,6 +259,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Emergency Exit"),
         "emergency_lights":
             MessageLookupByLibrary.simpleMessage("Emergency Lighting"),
+        "employeeDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Employee deleted successfully"),
         "employeeSavedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Employee saved successfully"),
         "employees": MessageLookupByLibrary.simpleMessage("Employees"),
@@ -279,6 +299,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterYourNotes":
             MessageLookupByLibrary.simpleMessage("Enter your notes"),
         "error": MessageLookupByLibrary.simpleMessage("Error"),
+        "errorMessage": m3,
         "errorTitle": MessageLookupByLibrary.simpleMessage("Error"),
         "example3": MessageLookupByLibrary.simpleMessage("Example: 3 SAR"),
         "example350": MessageLookupByLibrary.simpleMessage("Example: 350 SAR"),
@@ -307,6 +328,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "feeAmount": MessageLookupByLibrary.simpleMessage("Fee amount"),
         "feeDescriptionText": MessageLookupByLibrary.simpleMessage(
             "Please enter the specific fees for each system to accurately calculate the service cost."),
+        "fileUnavailable": MessageLookupByLibrary.simpleMessage(
+            "Certificate link is unavailable"),
         "finalPrice": MessageLookupByLibrary.simpleMessage(
             "Final Price (after pickup and maintenance)"),
         "finish": MessageLookupByLibrary.simpleMessage("Finish"),
@@ -422,6 +445,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Requests without an official invoice from the service provider will not be accepted. The invoice must include the ID number and logo."),
         "invoice_date": MessageLookupByLibrary.simpleMessage("Invoice Date"),
         "jopTitle": MessageLookupByLibrary.simpleMessage("Jop Title"),
+        "loadingMessage": MessageLookupByLibrary.simpleMessage("Loading..."),
         "locateMe": MessageLookupByLibrary.simpleMessage("Locate Me"),
         "locationError": MessageLookupByLibrary.simpleMessage(
             "Failed to get current location. Please try again."),
@@ -492,6 +516,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "newRequests": MessageLookupByLibrary.simpleMessage("New Requests"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
+        "noCertificates":
+            MessageLookupByLibrary.simpleMessage("No certificates found"),
         "noComponentsSelected":
             MessageLookupByLibrary.simpleMessage("No components selected"),
         "noEmployeesFound":
@@ -521,6 +547,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ofs": MessageLookupByLibrary.simpleMessage("of"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "oldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
+        "openError": MessageLookupByLibrary.simpleMessage(
+            "Cannot open certificate link"),
         "openMap": MessageLookupByLibrary.simpleMessage("Open Map"),
         "opps": MessageLookupByLibrary.simpleMessage("Opps!!"),
         "optionalNotes": MessageLookupByLibrary.simpleMessage("Optional notes"),
@@ -593,7 +621,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Professional Services"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "progress": MessageLookupByLibrary.simpleMessage("Progress"),
-        "progressPercentage": m0,
+        "progressPercentage": m4,
         "providerInfo": MessageLookupByLibrary.simpleMessage(
             "Service Provider Information (Second Party)"),
         "providerName":
@@ -642,7 +670,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "report_title":
             MessageLookupByLibrary.simpleMessage("Early Warning Report"),
         "reports": MessageLookupByLibrary.simpleMessage("Reports"),
-        "requestNumber": MessageLookupByLibrary.simpleMessage("Request No."),
+        "requestNumber": m5,
         "requestServiceSubtitle": MessageLookupByLibrary.simpleMessage(
             "Manage and track all service requests easily from customer partners."),
         "requestServiceTitle":
@@ -654,6 +682,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Number of not working"),
         "resendCode": MessageLookupByLibrary.simpleMessage("Resend Code"),
         "resendCodeIn": MessageLookupByLibrary.simpleMessage("Resend code in"),
+        "responsible": m6,
         "responsibleContractors":
             MessageLookupByLibrary.simpleMessage("Responsible Contractor"),
         "responsibleEmployee":
@@ -835,7 +864,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "transferred": MessageLookupByLibrary.simpleMessage("Transferred"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
         "tuesday": MessageLookupByLibrary.simpleMessage("Tuesday"),
-        "type": MessageLookupByLibrary.simpleMessage("Type"),
+        "type": MessageLookupByLibrary.simpleMessage("Type: "),
         "typeOfActivity":
             MessageLookupByLibrary.simpleMessage("Type of Activity"),
         "uae": MessageLookupByLibrary.simpleMessage("UAE"),

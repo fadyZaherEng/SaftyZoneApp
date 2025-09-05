@@ -1,5 +1,6 @@
 import 'package:safety_zone/src/core/utils/app_config.dart';
 import 'package:safety_zone/src/di/injector.dart';
+import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 import 'package:safety_zone/src/presentation/blocs/fire_extinguishers/fire_extinguishers_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/home/home_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/main/main_cubit.dart';
@@ -8,12 +9,21 @@ import 'package:safety_zone/src/presentation/blocs/term_conditions/term_conditio
 import 'package:safety_zone/src/presentation/blocs/theme/theme_cubit.dart';
 import 'package:safety_zone/src/presentation/blocs/upload_doc/upload_doc_bloc.dart';
 import 'package:safety_zone/src/presentation/blocs/working_progress/working_progress_bloc.dart';
+import 'package:safety_zone/src/presentation/screens/cetifications/certificates_screen.dart';
 
 Future<void> initializeBlocDependencies() async {
+  final apiService = CertificateInstallationApiService();
+  final getTokenUseCase = GetTokenUseCase(injector())();
+
   injector.registerFactory<MainCubit>(() => MainCubit(
         injector(),
         injector(),
       ));
+  injector.registerFactory<CertificateInstallationCubit>(
+      () => CertificateInstallationCubit(
+            apiService,
+            getTokenUseCase,
+          ));
   injector.registerFactory<AppConfig>(() => AppConfig());
   injector.registerFactory<FireExtinguishersBloc>(() => FireExtinguishersBloc(
         injector(),

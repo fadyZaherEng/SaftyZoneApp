@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,16 +11,29 @@ import 'package:safety_zone/src/core/utils/permission_service_handler.dart';
 import 'package:safety_zone/src/core/utils/show_action_dialog_widget.dart';
 import 'package:safety_zone/src/core/utils/show_bottom_sheet_upload_media.dart';
 import 'package:safety_zone/src/core/utils/show_snack_bar.dart';
+import 'package:safety_zone/src/data/sources/remote/api_key.dart';
+import 'package:safety_zone/src/di/data_layer_injector.dart';
 import 'package:safety_zone/src/domain/entities/country.dart';
 import 'package:safety_zone/generated/l10n.dart';
+import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 import 'package:safety_zone/src/presentation/widgets/custom_button_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_view/photo_view.dart';
 import '../cubit/add_employee_cubit.dart';
+import 'package:http/http.dart' as http;
 
 class AddEmployeeBasicInfo extends StatefulWidget {
-  const AddEmployeeBasicInfo({super.key});
+  final bool isEditMode;
+  final String? employeeId;
+  final String? employeeName;
+
+  const AddEmployeeBasicInfo({
+    super.key,
+    required this.isEditMode,
+    this.employeeId,
+    this.employeeName,
+  });
 
   @override
   State<AddEmployeeBasicInfo> createState() => _AddEmployeeBasicInfoState();
@@ -35,13 +49,28 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
   String? _errorMessagePhone;
   String? _photoPath;
 
-  // @override
-  // void dispose() {
-  //   _fullNameController.dispose();
-  //   _jobTitleController.dispose();
-  //   _phoneController.dispose();
-  //   super.dispose();
-  // }
+  Future<Employee?> fetchEmployeeDetails(String id) async {
+    final baseUrl = APIKeys.baseUrl;
+    final token = GetTokenUseCase(injector())();
+    final url = Uri.parse('$baseUrl/api/provider/employee/$id');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      print("✅ Employee Details: $data");
+      return Employee.fromJson(data);
+    } else {
+      print("❌ Failed to fetch employee details: ${response.body}");
+      return null;
+    }
+  }
 
   final List<Country> _countries = [
     Country(
@@ -65,6 +94,30 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
     _phoneController.text =
         employee.phoneNumber.replaceFirst('+966', ''); // لو بتحفظ بالكود
     _photoPath = employee.photoPath;
+    if (widget.isEditMode && widget.employeeId != null) {
+      fetchEmployeeDetails(widget.employeeId!).then((emp) {
+        if (emp != null) {
+          setState(() {
+            _fullNameController.text = emp.fullName;
+            _jobTitleController.text = emp.jobTitle;
+            _phoneController.text = emp.phoneNumber.replaceFirst('+966', '');
+            _photoPath = emp.profileImage;
+          });
+          context.read<AddEmployeeCubit>().updateBasicInfo(
+                fullName: emp.fullName,
+                jobTitle: emp.jobTitle,
+                phoneNumber: emp.phoneNumber.replaceFirst('+966', ''),
+                photoPath: emp.profileImage,
+              );
+          //update roles
+          context.read<AddEmployeeCubit>().updateRole(
+                tasks: emp.permission,
+                functionalTitle: "",
+                notes: "",
+              );
+        }
+      });
+    }
   }
 
   void _validatePhone(String value) {
@@ -562,7 +615,9 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
                 padding: EdgeInsets.only(right: 12.w),
                 child: CircleAvatar(
                   radius: 18,
-                  backgroundImage:_isNetwork(_photoPath) ? NetworkImage(_photoPath!) : FileImage(File(_photoPath!)),
+                  backgroundImage: _isNetwork(_photoPath)
+                      ? NetworkImage(_photoPath!)
+                      : FileImage(File(_photoPath!)),
                 ),
               ),
             ),
@@ -667,5 +722,91 @@ class _AddEmployeeBasicInfoState extends State<AddEmployeeBasicInfo> {
 
   bool _isNetwork(String? photoPath) {
     return Uri.tryParse(photoPath ?? '')?.isAbsolute ?? false;
+  }
+}
+
+class Employee {
+  final String id;
+  final String fullName;
+  final String phoneNumber;
+  final String profileImage;
+  final bool isDeleted;
+  final String jobTitle;
+  final int createdAt;
+  final String employeeType;
+  final List<String> permission;
+  final Company? company;
+
+  Employee({
+    required this.id,
+    required this.fullName,
+    required this.phoneNumber,
+    required this.profileImage,
+    required this.isDeleted,
+    required this.jobTitle,
+    required this.createdAt,
+    required this.employeeType,
+    required this.permission,
+    this.company,
+  });
+
+  factory Employee.fromJson(Map<String, dynamic> json) {
+    return Employee(
+      id: json['_id'] ?? '',
+      fullName: json['fullName'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      profileImage: json['profileImage'] ?? '',
+      isDeleted: json['isDeleted'] ?? false,
+      jobTitle: json['jobTitle'] ?? '',
+      createdAt: json['createdAt'] ?? 0,
+      employeeType: json['employeeType'] ?? '',
+      permission: List<String>.from(json['permission'] ?? []),
+      company:
+          json['company'] != null ? Company.fromJson(json['company']) : null,
+    );
+  }
+}
+
+class Company {
+  final String id;
+  final String companyName;
+  final String image;
+  final String email;
+  final String phoneNumber;
+  final String commercialRegistrationNumber;
+  final String facilityActivity;
+  final String address;
+  final bool isDeleted;
+  final bool isVerified;
+  final int createdAt;
+
+  Company({
+    required this.id,
+    required this.companyName,
+    required this.image,
+    required this.email,
+    required this.phoneNumber,
+    required this.commercialRegistrationNumber,
+    required this.facilityActivity,
+    required this.address,
+    required this.isDeleted,
+    required this.isVerified,
+    required this.createdAt,
+  });
+
+  factory Company.fromJson(Map<String, dynamic> json) {
+    return Company(
+      id: json['_id'] ?? '',
+      companyName: json['companyName'] ?? '',
+      image: json['image'] ?? '',
+      email: json['email'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      commercialRegistrationNumber: json['commercialRegistrationNumber'] ?? '',
+      facilityActivity: json['facilityActivity'] ?? '',
+      address: json['address'] ?? '',
+      isDeleted: json['isDeleted'] ?? false,
+      isVerified: json['isVerified'] ?? false,
+      createdAt: json['createdAt'] ?? 0,
+    );
   }
 }

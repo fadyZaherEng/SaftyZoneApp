@@ -614,12 +614,12 @@ class _RequestDetailsMaintainanceScreenState
             const SizedBox(height: 16),
             _buildQuantitySection(
               title: s.extinguishingItems,
-              items: model.result.fireExtinguisherItem,
+              items: model.result.fireSystemItem,
             ),
             const SizedBox(height: 24),
             _buildQuantitySection(
               title: s.fireExtinguishers,
-              items: model.result.fireSystemItem,
+              items: model.result.fireExtinguisherItem,
             ),
             const SizedBox(height: 24),
             SizedBox(

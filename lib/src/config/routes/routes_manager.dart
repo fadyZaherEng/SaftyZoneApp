@@ -93,7 +93,11 @@ class RoutesManager {
         return _materialRoute(const WelcomeScreen());
 
       case Routes.register:
-        return _materialRoute(const VendorRegistrationScreen());
+        Map<String, dynamic>? args =
+            routeSettings.arguments as Map<String, dynamic>?;
+        return _materialRoute(  VendorRegistrationScreen(
+          isEditMode: args?['isEditMode'] as bool? ?? false,
+        ));
       case Routes.login:
         return _materialRoute(const LoginScreen());
       case Routes.whatsappVerification:

@@ -213,6 +213,71 @@ class AddEmployeeCubit extends Cubit<AddEmployeeState> {
       emit(state.copyWith(isLoading: false));
     }
   }
+  Future<void> updateEmployee({
+    required String baseUrl,
+    required String employeeId,
+  }) async {
+    emit(state.copyWith(isLoading: true));
+    final emp = state.employee;
+
+    final endpoint = '$baseUrl/api/provider/employee/$employeeId';
+    final url = Uri.parse(endpoint);
+
+    // زي ما في الحفظ، هتظبط الـ permission
+    if (GetLanguageUseCase(injector())() == 'ar') {
+      for (int i = 0; i < emp.tasks.length; i++) {
+        if (_roleMappingAr.containsValue(emp.tasks[i])) {
+          final key = _roleMappingAr.entries
+              .firstWhere((element) => element.value == emp.tasks[i])
+              .key;
+          emp.tasks[i] = _roleMapping[key]!;
+        }
+      }
+    }
+
+    // نجهز الـ body
+    final data = <String, dynamic>{
+      "fullName": emp.fullName,
+      "phoneNumber": emp.phoneNumber,
+      "permission": emp.tasks.isNotEmpty ? emp.tasks.first : null,
+      "profileImage": emp.photoPath,
+      "jobTitle": emp.jobTitle,
+    };
+
+    // نشيل أي null عشان الـ API يقبل أي subset
+    data.removeWhere((key, value) => value == null || (value is String && value.isEmpty));
+
+    debugPrint("\n===== [UpdateEmployeeCubit] Sending employee data =====");
+    debugPrint(const JsonEncoder.withIndent('  ').convert(data));
+
+    try {
+      final response = await http.put(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${GetTokenUseCase(injector())()}",
+        },
+        body: jsonEncode(data),
+      );
+
+      debugPrint("\n===== [UpdateEmployeeCubit] Response =====");
+      debugPrint("Status: ${response.statusCode}");
+      debugPrint(const JsonEncoder.withIndent('  ')
+          .convert(jsonDecode(response.body)));
+
+      if (response.statusCode == 200) {
+        emit(state.copyWith(isLoading: false, isSaved: true));
+      } else {
+        emit(state.copyWith(isLoading: false));
+      }
+    } catch (e, s) {
+      debugPrint("\n===== [UpdateEmployeeCubit] Error =====");
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+      emit(state.copyWith(isLoading: false));
+    }
+  }
+
   void resetAfterSave() {
     emit(AddEmployeeState(
       step: AddEmployeeStep.basicInfo,

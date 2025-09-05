@@ -69,6 +69,31 @@ class VendorRegistrationModel {
       'bankAccountNumber': bankAccountNumber,
     };
   }
+  factory VendorRegistrationModel.fromJson(Map<String, dynamic> json) {
+    final location = json['location']?['coordinates'] as List?;
+    return VendorRegistrationModel(
+      companyName: json['companyName'],
+      commercialRegistrationNo: json['commercialRegistrationNumber'],
+      whatsappNumber: json['phoneNumber'],
+      email: json['email'],
+      commercialRegistrationDocumentPath:
+      json['commercialRegistration']?['filePath'],
+      commercialRegistrationExpiryDate: json['commercialRegistration']?['expiryDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+          json['commercialRegistration']['expiryDate'])
+          : null,
+      civilDefensePermitDocumentPath: json['civilDefensePermit']?['filePath'],
+      civilDefensePermitExpiryDate: json['civilDefensePermit']?['expiryDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+          json['civilDefensePermit']['expiryDate'])
+          : null,
+      address: json['address'],
+      latitude: location != null && location.length > 1 ? location[1] : null,
+      longitude: location != null && location.isNotEmpty ? location[0] : null,
+      bankName: json['bankName'],
+      bankAccountNumber: json['bankAccountNumber'],
+    );
+  }
 }
 
 class SystemFee {

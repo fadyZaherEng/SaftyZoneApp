@@ -485,16 +485,16 @@ class _RequestDetailsExtinguishersScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            _buildQuantitySection(
-              title: s.alarmItems,
-              items: model.result.alarmItems,
-            ),
-            const SizedBox(height: 16),
-            _buildQuantitySection(
-              title: s.extinguishingItems,
-              items: model.result.fireSystemItem,
-            ),
-            const SizedBox(height: 24),
+            // _buildQuantitySection(
+            //   title: s.alarmItems,
+            //   items: model.result.alarmItems,
+            // ),
+            // const SizedBox(height: 16),
+            // _buildQuantitySection(
+            //   title: s.extinguishingItems,
+            //   items: model.result.fireSystemItem,
+            // ),
+            // const SizedBox(height: 24),
             _buildQuantitySection(
               title: s.fireExtinguishers,
               items: model.result.fireExtinguisherItem,

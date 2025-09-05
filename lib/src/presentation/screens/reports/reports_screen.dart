@@ -23,7 +23,7 @@ class _ReportsScreenState extends BaseState<ReportsScreen> {
       appBar: AppBar(
         backgroundColor: ColorSchemes.primary,
         title: Text(
-          s.pricesNeedEscalation,
+          s.reports,
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,

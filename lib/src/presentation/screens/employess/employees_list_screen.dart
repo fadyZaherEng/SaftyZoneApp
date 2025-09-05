@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/data/sources/remote/api_key.dart';
@@ -84,7 +85,9 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                 future: _employeesFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(
+                        child:
+                            SpinKitDoubleBounce(color: ColorSchemes.primary));
                   }
                   final employees = snapshot.data ?? [];
                   return ListView(
@@ -178,7 +181,11 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
         await Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => EditEmployeeScreen(employee: emp)),
-        );
+        ).then((_) {
+          setState(() {
+            _employeesFuture = _fetchEmployees();
+          });
+        });
       },
       child: Container(
         width: 343.w,
@@ -278,7 +285,11 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
           await Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => const AddEmployeeScreen()),
-          );
+          ).then((_) {
+            setState(() {
+              _employeesFuture = _fetchEmployees();
+            });
+          });
         },
         icon: Container(
           width: 28.w,

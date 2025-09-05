@@ -12,7 +12,16 @@ import 'widgets/add_employee_assign_role.dart';
 import 'widgets/add_employee_review.dart';
 
 class AddEmployeeScreen extends StatelessWidget {
-  const AddEmployeeScreen({super.key});
+  final bool isEditMode;
+  final String? employeeId;
+  final String? employeeName;
+
+  const AddEmployeeScreen({
+    super.key,
+    this.isEditMode = false,
+    this.employeeId,
+    this.employeeName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -123,11 +132,18 @@ class AddEmployeeScreen extends StatelessWidget {
   Widget _buildStepContent(AddEmployeeStep step) {
     switch (step) {
       case AddEmployeeStep.basicInfo:
-        return const AddEmployeeBasicInfo();
+        return   AddEmployeeBasicInfo(
+          isEditMode: isEditMode,
+          employeeId: employeeId,
+          employeeName: employeeName,
+        );
       case AddEmployeeStep.assignRole:
         return const AddEmployeeAssignRole();
       case AddEmployeeStep.review:
-        return const AddEmployeeReview();
+        return   AddEmployeeReview(
+          isEditMode: isEditMode,
+          employeeId: employeeId,
+        );
     }
   }
 }

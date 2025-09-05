@@ -553,7 +553,21 @@
   "createdAt": "Created At",
   "steps": "Step",
   "nameMustBeAtMost9Characters": "Number of characters must be at most 9 digits",
-  "updatePriceOffer": "Update Price Offer"
+  "updatePriceOffer": "Update Price Offer",
+  "employeeDeletedSuccessfully": "Employee deleted successfully",
+  "certificates": "Certificates",
+  "certificatesTitle": "Certificates of Equipment Installations",
+  "noCertificates": "No certificates found",
+  "errorMessage": "Error: {message}",
+  "loadingMessage": "Loading...",
+  "consumer": "Consumer: {name}",
+  "branch": "Branch: {name}",
+  "address": "Address: {address}",
+  "responsible": "Responsible: {name}",
+  "requestNumber": "Request Number: {number}",
+  "type": "Type: ",
+  "openError": "Cannot open certificate link",
+  "fileUnavailable": "Certificate link is unavailable"
 
 }
 

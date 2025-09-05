@@ -25,7 +25,14 @@ Map<String, String> get _roleMappingAr => {
     };
 
 class AddEmployeeReview extends StatelessWidget {
-  const AddEmployeeReview({super.key});
+  final bool isEditMode;
+  final String? employeeId;
+
+  const AddEmployeeReview({
+    super.key,
+    required this.isEditMode,
+    required this.employeeId,
+  });
 
   Future<List<dynamic>> _fetchEmployees(BuildContext context) async {
     final baseUrl = APIKeys.baseUrl;
@@ -98,10 +105,17 @@ class AddEmployeeReview extends StatelessWidget {
                                 final baseUrl = APIKeys.baseUrl;
                                 final isFirst =
                                     await cubit.checkIsFirstEmployee(baseUrl);
-                                await cubit.saveEmployee(
-                                  isFirstEmployee: isFirst,
-                                  baseUrl: baseUrl,
-                                );
+                                if (isEditMode && employeeId != null) {
+                                  await cubit.updateEmployee(
+                                    baseUrl: baseUrl,
+                                    employeeId: employeeId!,
+                                  );
+                                } else {
+                                  await cubit.saveEmployee(
+                                    isFirstEmployee: isFirst,
+                                    baseUrl: baseUrl,
+                                  );
+                                }
                                 if (context.mounted && cubit.state.isSaved) {
                                   // Navigate to EmployeesListScreen
                                   await Navigator.pushReplacementNamed(
@@ -111,7 +125,7 @@ class AddEmployeeReview extends StatelessWidget {
                                 } else {
                                   showSnackBar(
                                     context: context,
-                                    message: S.of(context).missingData,
+                                    message: S.of(context).failedToSave,
                                     color: ColorSchemes.warning,
                                     icon: ImagePaths.error,
                                   );

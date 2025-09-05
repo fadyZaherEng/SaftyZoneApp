@@ -554,6 +554,20 @@
   "createdAt": "تم الإنشاء في",
   "steps": "الخطوه",
   "nameMustBeAtMost9Characters": "يجب ألا يزيد الرقم عن 9 ارقام",
-  "updatePriceOffer": "تحديث عرض السعر"
+  "updatePriceOffer": "تحديث عرض السعر",
+  "employeeDeletedSuccessfully": "تم حذف الموظف بنجاح",
+  "certificates": "الشهادات",
+  "certificatesTitle": "شهادات تركيب المعدات",
+  "noCertificates": "لا توجد شهادات",
+  "errorMessage": "خطأ: {message}",
+  "loadingMessage": "جاري التحميل...",
+  "consumer": "المستفيد: {name}",
+  "branch": "الفرع: {name}",
+  "address": "العنوان: {address}",
+  "responsible": "المسؤول: {name}",
+  "requestNumber": "رقم الطلب: {number}",
+  "type": "النوع: " ,
+  "openError": "لا يمكن فتح رابط الشهادة",
+  "fileUnavailable": "رابط الشهادة غير متاح"
 
 }

@@ -4334,13 +4334,13 @@ class S {
     );
   }
 
-  /// `Request No.`
-  String get requestNumber {
+  /// `Request Number: {number}`
+  String requestNumber(Object number) {
     return Intl.message(
-      'Request No.',
+      'Request Number: $number',
       name: 'requestNumber',
       desc: '',
-      args: [],
+      args: [number],
     );
   }
 
@@ -4414,10 +4414,10 @@ class S {
     );
   }
 
-  /// `Type`
+  /// `Type: `
   String get type {
     return Intl.message(
-      'Type',
+      'Type: ',
       name: 'type',
       desc: '',
       args: [],
@@ -5579,6 +5579,126 @@ class S {
     return Intl.message(
       'Update Price Offer',
       name: 'updatePriceOffer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Employee deleted successfully`
+  String get employeeDeletedSuccessfully {
+    return Intl.message(
+      'Employee deleted successfully',
+      name: 'employeeDeletedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Certificates`
+  String get certificates {
+    return Intl.message(
+      'Certificates',
+      name: 'certificates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Certificates of Equipment Installations`
+  String get certificatesTitle {
+    return Intl.message(
+      'Certificates of Equipment Installations',
+      name: 'certificatesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No certificates found`
+  String get noCertificates {
+    return Intl.message(
+      'No certificates found',
+      name: 'noCertificates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error: {message}`
+  String errorMessage(Object message) {
+    return Intl.message(
+      'Error: $message',
+      name: 'errorMessage',
+      desc: '',
+      args: [message],
+    );
+  }
+
+  /// `Loading...`
+  String get loadingMessage {
+    return Intl.message(
+      'Loading...',
+      name: 'loadingMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Consumer: {name}`
+  String consumer(Object name) {
+    return Intl.message(
+      'Consumer: $name',
+      name: 'consumer',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Branch: {name}`
+  String branch(Object name) {
+    return Intl.message(
+      'Branch: $name',
+      name: 'branch',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Address: {address}`
+  String address(Object address) {
+    return Intl.message(
+      'Address: $address',
+      name: 'address',
+      desc: '',
+      args: [address],
+    );
+  }
+
+  /// `Responsible: {name}`
+  String responsible(Object name) {
+    return Intl.message(
+      'Responsible: $name',
+      name: 'responsible',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Cannot open certificate link`
+  String get openError {
+    return Intl.message(
+      'Cannot open certificate link',
+      name: 'openError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Certificate link is unavailable`
+  String get fileUnavailable {
+    return Intl.message(
+      'Certificate link is unavailable',
+      name: 'fileUnavailable',
       desc: '',
       args: [],
     );
