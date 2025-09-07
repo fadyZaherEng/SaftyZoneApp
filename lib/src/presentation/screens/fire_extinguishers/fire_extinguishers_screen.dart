@@ -167,6 +167,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
               totalPrice: tempItems[index].price,
             );
           }).toList();
+          Navigator.pop(context);
         } else if (state is MainOfferFireExtinguishersErrorState) {
           _showValidationError(state.message, false);
           hideLoading();
@@ -200,8 +201,7 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
               totalPrice: tempItems[index].price,
             );
           }).toList();
-          Navigator.pop(context);
-        } else if (state is GetSecondAndThirdScreenScheduleErrorState) {
+         } else if (state is GetSecondAndThirdScreenScheduleErrorState) {
           _showValidationError(state.message, false);
           hideLoading();
         } else if (state is GetSecondAndThirdScreenScheduleSuccessState) {
@@ -515,7 +515,8 @@ class _FireExtinguishersScreenState extends BaseState<FireExtinguishersScreen> {
                                 _bloc.add(
                                   UpdateStatusToDeliverEvent(
                                     scheduleJopId: widget.scheduleJop.Id,
-                                    receiverId: addRecieve.data?.Id ?? "",
+                                    receiverId: widget.scheduleJop.receiveItem,
+                                    // addRecieve.data?.Id ?? "",
                                   ),
                                 );
                               },

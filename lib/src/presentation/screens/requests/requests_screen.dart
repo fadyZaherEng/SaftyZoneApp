@@ -63,6 +63,7 @@ class _RequestsScreenState extends BaseState<RequestsScreen> {
     _bloc.add(GetConsumerRequestsEvent());
   }
 
+
   @override
   Widget baseBuild(BuildContext context) {
     return RefreshIndicator(

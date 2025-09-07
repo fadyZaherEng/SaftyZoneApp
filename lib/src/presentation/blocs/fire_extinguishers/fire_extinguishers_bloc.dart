@@ -151,6 +151,8 @@ class FireExtinguishersBloc
   FutureOr<void> _updateStatusToDeliver(UpdateStatusToDeliverEvent event,
       Emitter<FireExtinguishersState> emit) async {
     emit(UpdateStatusToReceiveLoadingState());
+    print('event.scheduleJopId ${event.scheduleJopId}');
+    print('event.receiverId ${event.receiverId}');
     final result = await _updateReceiverDriverUseCase(
       request: UpdateRecieveRequest(
         scheduleJobId: event.scheduleJopId,

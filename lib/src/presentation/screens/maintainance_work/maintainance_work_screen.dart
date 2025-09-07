@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
 import 'package:safety_zone/src/config/theme/color_schemes.dart';
@@ -212,7 +213,8 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
                               ? const Padding(
                                   padding: EdgeInsets.all(16.0),
                                   child: Center(
-                                      child: CircularProgressIndicator()),
+                                      child: SpinKitDoubleBounce(
+                                          color: ColorSchemes.primary)),
                                 )
                               : const SizedBox.shrink();
                         }
@@ -806,7 +808,7 @@ class _MaintainanceWorkScreenState extends BaseState<MaintainanceWorkScreen> {
   }
 
   bool _showDeliverExtinguishers(String step) {
-    if (step == "accept-offer") {
+    if (step == "deliver") {//"accept-offer"
       return true;
     } else {
       return false;

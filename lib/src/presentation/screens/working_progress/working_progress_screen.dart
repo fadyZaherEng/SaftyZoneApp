@@ -1385,7 +1385,8 @@ class _WorkingProgressScreenState extends State<WorkingProgressScreen> {
   }
 
   bool _showDeliverExtinguishers(String step) {
-    if (step == "accept-offer") {
+    if (step == "deliver") {
+      //"accept-offer"
       return true;
     } else {
       return false;
