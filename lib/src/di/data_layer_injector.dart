@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:safety_zone/src/core/resources/shared_preferences_keys.dart';
 import 'package:safety_zone/src/core/utils/app_config.dart';
 import 'package:safety_zone/src/core/utils/network/interceptor.dart';
 import 'package:safety_zone/src/data/sources/remote/api_key.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/auth/auth_api_services.dart';
 import 'package:safety_zone/src/data/sources/remote/safty_zone/home/home_api_services.dart';
-import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:safety_zone/src/domain/usecase/get_token_use_case.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chucker_flutter/chucker_flutter.dart';
 
@@ -24,6 +25,7 @@ Future<void> initializeDataDependencies() async {
         'Bearer ${GetTokenUseCase(injector())()}'
     ..interceptors.add(CustomInterceptors())
     ..interceptors.add(ChuckerDioInterceptor())
+    ..interceptors.add(AuthInterceptor(injector()))
     ..interceptors.add(PrettyDioLogger(
       requestHeader: false,
       requestBody: true,
@@ -40,4 +42,21 @@ Future<void> initializeDataDependencies() async {
       () => AuthApiServices(injector()));
   injector.registerLazySingleton<HomeApiServices>(
       () => HomeApiServices(injector()));
+}
+
+class AuthInterceptor extends Interceptor {
+  final SharedPreferences prefs;
+
+  AuthInterceptor(this.prefs);
+
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    final token = GetTokenUseCase(injector())();
+    if (token.isNotEmpty) {
+      options.headers['Authorization'] = 'Bearer $token';
+    } else {
+      options.headers.remove('Authorization');
+    }
+    super.onRequest(options, handler);
+  }
 }

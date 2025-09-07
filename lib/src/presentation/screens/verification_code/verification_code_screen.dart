@@ -289,16 +289,17 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
       );
 
       if (response is DataSuccess) {
-        await SetTokenUseCase(injector())(response.data?.token ?? '');
+        await SetTokenUseCase(injector())(response.data?.token.trim() ?? '');
         await SetRememberMeUseCase(injector())(_isRememberMe);
         await SetAuthenticateUseCase(injector())(true);
-        DataState<CheckAuth> authResponse =
-            await CheckAuthUseCase(injector())();
+
         await SetUserVerificationDataUseCase(injector())(
             response.data ?? const VerifyOtp());
         await SetUserLoginDataUseCase(injector())(
           Login(phone: "+966$phoneNumber", code: code),
         );
+        DataState<CheckAuth> authResponse =
+            await CheckAuthUseCase(injector())();
         // _showError(S.of(context).verificationSuccessful, false);
         if (authResponse.data?.status == RegisterStatus.Home_Page.name) {
           Navigator.pushNamedAndRemoveUntil(

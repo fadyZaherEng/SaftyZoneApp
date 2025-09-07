@@ -116,7 +116,10 @@ class _RequestDetailsExtinguishersScreenState
           backgroundColor: ColorSchemes.red,
           elevation: 0,
           centerTitle: true,
-          title: Text(s.requests, style: const TextStyle(color: Colors.white)),
+          title: Text(
+            s.requests,
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12),

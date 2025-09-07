@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:safety_zone/src/config/routes/routes_manager.dart';
+import 'package:safety_zone/src/config/theme/color_schemes.dart';
 import 'package:safety_zone/src/core/resources/data_state.dart';
 import 'package:safety_zone/src/core/resources/image_paths.dart';
 import 'package:safety_zone/src/di/data_layer_injector.dart';
@@ -128,8 +130,8 @@ class _CompleteInformationViewState extends State<CompleteInformationView> {
         ),
         body: SafeArea(
           child: _isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(color: Color(0xFF990000)))
+              ?   Center(
+                  child: SpinKitDoubleBounce(color: ColorSchemes.primary))
               : _hasError
                   ? _buildErrorView()
                   : _buildContentView(),

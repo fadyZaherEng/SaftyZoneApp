@@ -80,4 +80,8 @@ class Location {
       _$LocationFromJson(json);
 
   Map<String, dynamic> toJson() => _$LocationToJson(this);
+  @override
+  String toString() {
+    return 'Location(type: $type, coordinates: $coordinates)';
+  }
 }

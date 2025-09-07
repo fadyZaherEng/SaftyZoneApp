@@ -466,12 +466,12 @@ class _TermConditionsScreenState extends State<TermConditionsScreen> {
                 ),
               ),
               Spacer(),
-              SvgPicture.asset(
-                ImagePaths.arrowDown,
-                color: ColorSchemes.red,
-                width: 24,
-                height: 24,
-              )
+              // SvgPicture.asset(
+              //   ImagePaths.arrowDown,
+              //   color: ColorSchemes.red,
+              //   width: 24,
+              //   height: 24,
+              // )
             ],
           ),
         ),

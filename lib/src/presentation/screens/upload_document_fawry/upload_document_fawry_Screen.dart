@@ -175,9 +175,10 @@ class _UploadDocumentFawryScreenState
                 onPressed: () => Navigator.pop(context),
               ),
             ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: SingleChildScrollView(
+            body: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -187,29 +188,19 @@ class _UploadDocumentFawryScreenState
                       child: _buildRequestCard(context, widget.request),
                     ),
                     const SizedBox(height: 12),
-                    if (_isLoading)
-                      Center(
-                        child: SpinKitDoubleBounce(
-                          color: ColorSchemes.primary,
-                        ),
-                      )
-                    else
-                      _buildTabBar(s),
-                    const SizedBox(height: 16),
-                    if (_isLoading)
-                      SizedBox(
-                        height: 250.h,
-                        child: Center(
-                          child: SpinKitDoubleBounce(
-                            color: ColorSchemes.primary,
-                          ),
-                        ),
-                      )
-                    else
-                      SizedBox(
-                        height: 250.h,
-                        child: _buildTabContent(s),
-                      ),
+                    SizedBox(height: 12),
+                    _isLoading
+                        ? Center(
+                            child: SpinKitDoubleBounce(
+                                color: ColorSchemes.primary))
+                        : _buildTabSection(s),
+                    // SizedBox(height: 16),
+                    // _isLoading
+                    //     ? Center(
+                    //         child: SpinKitDoubleBounce(
+                    //             color: ColorSchemes.primary))
+                    //     : _buildTabContent(s),
+
                     SizedBox(height: 16.h),
                     if (_isExpandedUpload)
                       Text(
@@ -224,6 +215,7 @@ class _UploadDocumentFawryScreenState
                       ),
                     if (_isExpandedUpload) const SizedBox(height: 8),
                     if (_isExpandedUpload) _buildDoc(context),
+                    if (_dotsOpen) const SizedBox(height: 90),
                     const SizedBox(height: 16),
                     // const Spacer(),
                     SizedBox(
@@ -249,6 +241,26 @@ class _UploadDocumentFawryScreenState
           ),
         );
       },
+    );
+  }
+
+  Widget _buildTabSection(S s) {
+    return Column(
+      children: [
+        _buildTabBar(s),
+        SizedBox(
+          height: _tabController.index == 1 ? 400.h : 100.h,
+          // 🔥 حدد ارتفاع مناسب حسب تصميمك
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildSiteInfoTab(s),
+              _buildQuantitiesTab(),
+              _buildTermsTab(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -278,16 +290,17 @@ class _UploadDocumentFawryScreenState
     );
   }
 
-  Widget _buildTabContent(S s) {
-    return TabBarView(
-      controller: _tabController,
-      children: [
-        _buildSiteInfoTab(s),
-        _buildQuantitiesTab(),
-        _buildTermsTab(),
-      ],
-    );
-  }
+  //
+  // Widget _buildTabContent(S s) {
+  //   return TabBarView(
+  //     controller: _tabController,
+  //     children: [
+  //       _buildSiteInfoTab(s),
+  //       _buildQuantitiesTab(),
+  //       _buildTermsTab(),
+  //     ],
+  //   );
+  // }
 
   Widget _buildSiteInfoTab(S s) {
     return Padding(
@@ -546,28 +559,36 @@ class _UploadDocumentFawryScreenState
                 ),
               ),
               const SizedBox(width: 8),
-              DropdownButton<employee.Employee>(
-                value: _selectedEmployee,
-                onChanged: (employee.Employee? value) {
-                  debugPrint('Selected Employee: ${value?.Id}');
-                  setState(() {
-                    _selectedEmployee = value ?? _selectedEmployee;
-                  });
-                },
-                items: _employees.map((emp) {
-                  return DropdownMenuItem(
-                    value: emp,
-                    child: Text(
-                      emp.fullName ?? '',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15.sp,
-                        color: ColorSchemes.black,
-                      ),
-                    ),
-                  );
-                }).toList(),
-                underline: const SizedBox(),
+              // DropdownButton<employee.Employee>(
+              //   value: _selectedEmployee,
+              //   onChanged: (employee.Employee? value) {
+              //     debugPrint('Selected Employee: ${value?.Id}');
+              //     setState(() {
+              //       _selectedEmployee = value ?? _selectedEmployee;
+              //     });
+              //   },
+              //   items: _employees.map((emp) {
+              //     return DropdownMenuItem(
+              //       value: emp,
+              //       child: Text(
+              //         emp.fullName ?? '',
+              //         style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 15.sp,
+              //           color: ColorSchemes.black,
+              //         ),
+              //       ),
+              //     );
+              //   }).toList(),
+              //   underline: const SizedBox(),
+              // ),
+              Text(
+                widget.request.responseEmployee.fullName ?? '',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15.sp,
+                  color: ColorSchemes.black,
+                ),
               ),
             ],
           ),
@@ -871,184 +892,181 @@ class _UploadDocumentFawryScreenState
   }
 
   _buildDoc(BuildContext context) {
-    return SizedBox(
-      height: 200.h,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          SizedBox(
-            width: double.infinity,
-            height: 80.h,
-            child: Card(
-              elevation: 2,
-              margin: const EdgeInsets.only(bottom: 12),
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        SizedBox(
+          width: double.infinity,
+          height: 80.h,
+          child: Card(
+            elevation: 2,
+            margin: const EdgeInsets.only(bottom: 12),
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 10,
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 10,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset(
-                      ImagePaths.pdf,
-                      width: 32.w,
-                      height: 32.h,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SvgPicture.asset(
+                    ImagePaths.pdf,
+                    width: 32.w,
+                    height: 32.h,
+                  ),
+                  const SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.request.type ==
+                                RequestType.InstallationCertificate.name
+                            ? S.of(context).instantLicenseForCompany
+                            : S.of(context).engineeringReportForCompany,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        fileSize ?? '',
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _dotsOpen = !_dotsOpen;
+                      });
+                    },
+                    icon: SvgPicture.asset(
+                      ImagePaths.dots,
+                      width: 24.w,
+                      height: 24.h,
                     ),
-                    const SizedBox(width: 8),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+        if (_dotsOpen)
+          Positioned(
+            left: GetLanguageUseCase(injector())() == 'ar' ? 50.w : null,
+            right: GetLanguageUseCase(injector())() == 'en' ? 50.w : null,
+            top: 40.h,
+            child: Material(
+              elevation: 5,
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ColorSchemes.white,
+                  border: Border.all(color: ColorSchemes.white),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 8,
+                      offset: const Offset(0, -2),
+                    )
+                  ],
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                    topLeft: Radius.circular(10),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 8),
+                    Row(
                       children: [
+                        const SizedBox(width: 4),
+                        SizedBox(
+                          height: 48.h,
+                          child: IconButton(
+                            onPressed: _pickPDFFile,
+                            icon: SvgPicture.asset(
+                              ImagePaths.edit,
+                              width: 24.w,
+                              height: 24.h,
+                              color: ColorSchemes.secondary,
+                              semanticsLabel: S.of(context).edit,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 4),
                         Text(
-                          widget.request.type ==
-                                  RequestType.InstallationCertificate.name
-                              ? S.of(context).instantLicenseForCompany
-                              : S.of(context).engineeringReportForCompany,
+                          S.of(context).edit,
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.normal,
+                            color: ColorSchemes.secondary,
                           ),
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          fileSize ?? '',
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
+                        const SizedBox(width: 8),
                       ],
                     ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _dotsOpen = !_dotsOpen;
-                        });
-                      },
-                      icon: SvgPicture.asset(
-                        ImagePaths.dots,
-                        width: 24.w,
-                        height: 24.h,
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      height: 48.h,
+                      child: InkWell(
+                        onTap: () {
+                          uploadDocBloc
+                              .add(DeleteDocEvent(docPath: imageFile ?? ''));
+                          setState(() {
+                            _dotsOpen = false;
+                            _isExpandedUpload = false;
+                            imageFile = null;
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 4),
+                            Container(
+                              width: 48.w,
+                              height: 48.h,
+                              alignment: Alignment.center,
+                              child: SvgPicture.asset(
+                                ImagePaths.delete,
+                                width: 24.w,
+                                height: 24.h,
+                                color: ColorSchemes.red,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              S.of(context).delete,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                color: ColorSchemes.red,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                          ],
+                        ),
                       ),
-                    )
+                    ),
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),
             ),
           ),
-          if (_dotsOpen)
-            Positioned(
-              left: GetLanguageUseCase(injector())() == 'ar' ? 50.w : null,
-              right: GetLanguageUseCase(injector())() == 'en' ? 50.w : null,
-              top: 40.h,
-              child: Material(
-                elevation: 5,
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: ColorSchemes.white,
-                    border: Border.all(color: ColorSchemes.white),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 8,
-                        offset: const Offset(0, -2),
-                      )
-                    ],
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                      topLeft: Radius.circular(10),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          const SizedBox(width: 4),
-                          SizedBox(
-                            height: 48.h,
-                            child: IconButton(
-                              onPressed: _pickPDFFile,
-                              icon: SvgPicture.asset(
-                                ImagePaths.edit,
-                                width: 24.w,
-                                height: 24.h,
-                                color: ColorSchemes.secondary,
-                                semanticsLabel: S.of(context).edit,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            S.of(context).edit,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.normal,
-                              color: ColorSchemes.secondary,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        height: 48.h,
-                        child: InkWell(
-                          onTap: () {
-                            uploadDocBloc
-                                .add(DeleteDocEvent(docPath: imageFile ?? ''));
-                            setState(() {
-                              _dotsOpen = false;
-                              _isExpandedUpload = false;
-                              imageFile = null;
-                            });
-                          },
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 4),
-                              Container(
-                                width: 48.w,
-                                height: 48.h,
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  ImagePaths.delete,
-                                  width: 24.w,
-                                  height: 24.h,
-                                  color: ColorSchemes.red,
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                S.of(context).delete,
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: ColorSchemes.red,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
+      ],
     );
   }
 }

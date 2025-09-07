@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,6 +82,7 @@ class RegistrationStep3View extends StatefulWidget {
 class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
   final _formKey = GlobalKey<FormState>();
   final _locationController = TextEditingController();
+
   // final _bankAccountNameController = TextEditingController();
   final _bankAccountNumberController = TextEditingController();
   String selectedBank = "";
@@ -587,8 +589,8 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
           phoneNumber: widget.vendorData.whatsappNumber ?? 'null',
           companyName: widget.vendorData.companyName ?? 'null',
           location: Location(type: 'Point', coordinates: [
+            widget.vendorData.longitude ?? 46.67422581464052,
             widget.vendorData.latitude ?? 24.71255509881504,
-            widget.vendorData.longitude ?? 46.67422581464052
           ]),
           civilDefensePermit: CivilDefensePermit(
             filePath: widget.vendorData.civilDefensePermitDocumentPath,
@@ -603,15 +605,23 @@ class _RegistrationStep3ViewState extends State<RegistrationStep3View> {
         ),
       );
       print("rrrrrrrrrrrrrrrrrr$response");
+      print("token: ${response.data?.token}");
+
       if (response is DataSuccess) {
-        SetTokenUseCase(injector())(response.data?.token ?? '');
+         await SetTokenUseCase(injector())(response.data?.token ?? '');
+
+        final dio = injector<Dio>();
+        dio.options.headers['Authorization'] =
+        'Bearer ${response.data?.token ?? ''}';
+
+        print("token: ${response.data?.token}");
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) =>
                 RegistrationSuccessView(vendorData: widget.vendorData),
           ),
-          (route) => false, // Remove all previous routes
+          (route) => false,
         );
       } else {
         _showValidationError(response.message ?? 'Registration failed', true);

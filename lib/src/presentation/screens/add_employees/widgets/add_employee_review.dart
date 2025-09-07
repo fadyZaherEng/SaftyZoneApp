@@ -208,9 +208,9 @@ class AddEmployeeReview extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 28,
-                backgroundImage: emp.photoPath != null
-                    ? FileImage(File(emp.photoPath))
-                    : NetworkImage(emp.photoPath ?? ''),
+                backgroundImage: _isNetwork(emp.photoPath)
+                    ? NetworkImage(emp.photoPath!)
+                    : FileImage(File(emp.photoPath!)),
                 backgroundColor: const Color(0xFFDDDDDD),
                 child: emp.photoPath == null
                     ? Icon(Icons.person, color: Colors.white, size: 32)
@@ -357,6 +357,10 @@ class AddEmployeeReview extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  bool _isNetwork(String? photoPath) {
+    return Uri.tryParse(photoPath ?? '')?.isAbsolute ?? false;
   }
 
   Widget _buildButton({

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,12 +12,17 @@ import 'package:safety_zone/src/domain/usecase/clear_local_data_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/get_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_language_use_case.dart';
 import 'package:safety_zone/src/domain/usecase/set_remember_me_use_case.dart';
+import 'package:safety_zone/src/domain/usecase/set_user_verification_data_use_case.dart';
 import 'package:safety_zone/src/presentation/screens/cetifications/certificates_screen.dart';
 import 'package:safety_zone/src/presentation/screens/installation_options/installation_options_screen.dart';
 import 'package:safety_zone/src/presentation/screens/register/vendor_registration_screen.dart';
 import 'package:safety_zone/src/presentation/screens/reports/reports_screen.dart';
 import 'package:safety_zone/src/presentation/screens/term_conditions/term_conditions_screen.dart';
 import 'package:safety_zone/src/presentation/widgets/restart_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../domain/entities/auth/verify_otp.dart';
+import '../../../../domain/usecase/set_token_use_case.dart';
 
 class CustomDrawer extends StatefulWidget {
   final EmployeeDetails employeeDetails;
@@ -54,7 +60,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress == null) return child;
                     return const Center(
-                        child: SpinKitDoubleBounce(color: ColorSchemes.primary));
+                        child:
+                            SpinKitDoubleBounce(color: ColorSchemes.primary));
                   },
                 ),
               ),
@@ -284,6 +291,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
               onTap: () async {
                 // Handle logout
                 await ClearLocalDataUseCase(injector())();
+                await SetTokenUseCase(injector())('');
+                final dio = injector<Dio>();
+                dio.options.headers['Authorization'] = '';
+
+                await SetUserVerificationDataUseCase(injector())(
+                    const VerifyOtp());
                 await SetRememberMeUseCase(injector())(false);
                 await Navigator.pushNamedAndRemoveUntil(
                   context,
@@ -293,7 +306,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               },
             ),
             const SizedBox(height: 50),
-           ],
+          ],
         ),
       ),
     );

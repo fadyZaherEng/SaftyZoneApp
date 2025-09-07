@@ -7,7 +7,7 @@ import '../../../../domain/entities/vendor_registration_model.dart';
 import 'complete_information_view.dart';
 import 'dart:math' as math;
 
-class RegistrationSuccessView extends StatelessWidget {
+class RegistrationSuccessView extends StatefulWidget {
   final VendorRegistrationModel vendorData;
 
   const RegistrationSuccessView({
@@ -15,6 +15,11 @@ class RegistrationSuccessView extends StatelessWidget {
     required this.vendorData,
   });
 
+  @override
+  State<RegistrationSuccessView> createState() => _RegistrationSuccessViewState();
+}
+
+class _RegistrationSuccessViewState extends State<RegistrationSuccessView> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -128,11 +133,12 @@ class RegistrationSuccessView extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
+                        setState(() {});
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                CompleteInformationView(vendorData: vendorData),
+                                CompleteInformationView(vendorData: widget.vendorData),
                           ),
                           (route) => false,
                         );

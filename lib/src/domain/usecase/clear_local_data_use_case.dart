@@ -18,6 +18,7 @@ class ClearLocalDataUseCase {
       // Clear specific keys if needed
       await prefs.remove('remember_me');
       await prefs.remove('auth_token');
+      await prefs.remove('token');
       await prefs.remove('employee_details');
       await prefs.remove('reports');
       await prefs.remove('language');

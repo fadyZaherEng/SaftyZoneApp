@@ -828,15 +828,16 @@ class _RequestDetailsInstallationScreenState
       ),
     );
   }
-
-  void _showValidationError(String locationSelected, bool bool) {
+  void _showValidationError(String locationSelected, bool success) {
+    if (!mounted) return; // widget اتشال خلاص
     showSnackBar(
       context: context,
       message: locationSelected,
-      color: !bool ? ColorSchemes.warning : ColorSchemes.success,
-      icon: !bool ? ImagePaths.error : ImagePaths.success,
+      color: success ? ColorSchemes.success : ColorSchemes.warning,
+      icon: success ? ImagePaths.success : ImagePaths.error,
     );
   }
+
 
   String _systemType(String systemType) {
     if (systemType.toLowerCase() == "zone") {

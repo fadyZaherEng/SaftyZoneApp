@@ -100,24 +100,25 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                 },
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 24.h, left: 16.w, right: 16.w),
-              child: SizedBox(
-                width: 343.w,
-                child: CustomButtonWidget(
-                  textColor: ColorSchemes.white,
-                  onTap: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      Routes.completeInfo,
-                      (route) => false,
-                    );
-                  },
-                  backgroundColor: ColorSchemes.red,
-                  text: S.of(context).next,
+            if (false)
+              Padding(
+                padding: EdgeInsets.only(bottom: 24.h, left: 16.w, right: 16.w),
+                child: SizedBox(
+                  width: 343.w,
+                  child: CustomButtonWidget(
+                    textColor: ColorSchemes.white,
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        Routes.completeInfo,
+                        (route) => false,
+                      );
+                    },
+                    backgroundColor: ColorSchemes.red,
+                    text: S.of(context).next,
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),
